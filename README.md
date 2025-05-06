@@ -15,6 +15,10 @@ The platform makes it easy to document affected components, risk statements, rec
 
 ---
 
+## Setup
+Start by running ```npm install``` in the root directory to install all dependencies.
+
+
 ### Contributors
 [Son](https://vdburg.site/)
 [Sven](https://snevver.nl/)
