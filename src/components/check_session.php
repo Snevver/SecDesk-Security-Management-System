@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-// Initialize the response array
-$response = [];
-
-// Check if user is logged in
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    $response['logged_in'] = true;
-    $response['email'] = $_SESSION['email'];
-    $response['role'] = $_SESSION['role'];
-    $response['role_id'] = $_SESSION['role_id'];
-} else {
-    $response['logged_in'] = false;
-    $response['message'] = 'User not logged in';
-}
-
+// Set JSON content type
 header('Content-Type: application/json');
-echo json_encode($response);
-exit;
+
+// Check for active session
+if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION['logged_in'])) {
+    echo json_encode([
+        'logged_in' => true,
+        'email' => $_SESSION['email'],
+        'role' => $_SESSION['role'] ?? 'unknown',
+        'user_id' => $_SESSION['user_id']
+    ]);
+} else {
+    echo json_encode([
+        'logged_in' => false
+    ]);
+}
+?>

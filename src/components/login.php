@@ -3,6 +3,10 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// Log the request details
+file_put_contents("php://stdout", "Login request received\n");
+file_put_contents("php://stdout", "Request method: " . $_SERVER['REQUEST_METHOD'] . "\n");
+
 function send_json_response($data, $status_code = 200) {
     http_response_code($status_code);
     header('Content-Type: application/json');
@@ -11,28 +15,37 @@ function send_json_response($data, $status_code = 200) {
 }
 
 try {
+    // Log the execution flow
+    file_put_contents("php://stdout", "Starting login process\n");
+    
+    $raw_data = file_get_contents('php://input');
+    file_put_contents("php://stdout", "Raw data: " . $raw_data . "\n");
+    
+    $data = json_decode($raw_data, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        file_put_contents("php://stderr", "JSON Error: " . json_last_error_msg() . "\n");
+        send_json_response(['error' => 'Invalid JSON: ' . json_last_error_msg()], 400);
+    }
+    
+    // Connect to the database
     $db_file = __DIR__ . '/../../database/db.php';
+
+    // Error handling
     if (!file_exists($db_file)) {
+        file_put_contents("php://stderr", "Database file not found at: " . $db_file . "\n");
         throw new Exception("Database connection file not found");
     }
     require_once $db_file;
     
-    if (!isset($db) || !$db) {
-        throw new Exception("Database connection failed: " . (isset($db) ? pg_last_error() : "Connection variable not set"));
-    }
+    // Get PDO connection
+    $pdo = getPDO();
     
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         send_json_response(['error' => 'Method not allowed'], 405);
     }
     
-    $raw_data = file_get_contents('php://input');
     if (empty($raw_data)) {
         send_json_response(['error' => 'No data received'], 400);
-    }
-    
-    $data = json_decode($raw_data, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        send_json_response(['error' => 'Invalid JSON: ' . json_last_error_msg()], 400);
     }
     
     if (empty($data['email']) || empty($data['password'])) {
@@ -42,32 +55,26 @@ try {
     $email = $data['email'];
     $password = $data['password'];
     
-    $query = "SELECT id, email, password, role_id FROM users WHERE email = $1";
-    $result = pg_query_params($db, $query, [$email]);
+    // Using PDO for queries - verify credentials against database
+    $stmt = $pdo->prepare("SELECT id, email, password, role_id FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    $user = $stmt->fetch();
     
-    if (!$result) {
-        throw new Exception("Database query failed: " . pg_last_error($db));
-    }
-    
-    if (pg_num_rows($result) === 0) {
+    if (!$user) {
         send_json_response(['error' => 'Invalid credentials'], 401);
+        exit;
     }
-    
-    $user = pg_fetch_assoc($result);
     
     if ($password !== $user['password']) {
         send_json_response(['error' => 'Invalid credentials'], 401);
+        exit;
     }
     
-    // Get role name from the database
-    $role_query = "SELECT name FROM roles WHERE id = $1";
-    $role_result = pg_query_params($db, $role_query, [$user['role_id']]);
-    $role_name = 'Unknown';
-    
-    if ($role_result && pg_num_rows($role_result) > 0) {
-        $role_data = pg_fetch_assoc($role_result);
-        $role_name = $role_data['name'];
-    }
+    // Get role name from the database using PDO
+    $role_stmt = $pdo->prepare("SELECT name FROM roles WHERE id = :role_id");
+    $role_stmt->execute(['role_id' => $user['role_id']]);
+    $role = $role_stmt->fetch();
+    $role_name = $role ? $role['name'] : 'Unknown';
     
     session_start();
     $_SESSION['user_id'] = $user['id'];
@@ -84,7 +91,7 @@ try {
     ]);
     
 } catch (Exception $e) {
-    error_log("Login error: " . $e->getMessage());
+    file_put_contents("php://stderr", "Login error: " . $e->getMessage() . "\n");
     
     send_json_response([
         'error' => 'Server error: ' . $e->getMessage(),
