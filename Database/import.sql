@@ -8,9 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    is_customer BOOLEAN DEFAULT FALSE,
-    is_sec_desk BOOLEAN DEFAULT FALSE,
-    is_admin BOOLEAN DEFAULT FALSE,
+    role_id INTEGER NOT NULL,
     creation_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -68,15 +66,28 @@ CREATE TABLE IF NOT EXISTS user_notes (
 );
 
 
+-- The roles table will store all information about the roles. Each role is linked to a user.
+CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT NOT NULL
+);
+
+
 
 -- Create a test user with each role
 INSERT INTO users (
         email,
         password,
-        is_customer,
-        is_sec_desk,
-        is_admin
+        role_id
     )
-VALUES ('admin@example.com', 'admin', FALSE, FALSE, TRUE),
-       ('customer@example.com', 'customer', TRUE, FALSE, FALSE),
-       ('secdesk@example.com', 'secdesk', FALSE, TRUE, FALSE);
+VALUES ('admin@example.com', 'admin', 3),
+       ('customer@example.com', 'customer', 1),
+       ('secdesk@example.com', 'secdesk', 2);
+
+
+-- Create roles
+INSERT INTO roles (name, description)
+VALUES ('customer', 'Customer role with limited access to the application.'),
+       ('secdesk', 'Secdesk role with access to all tests and vulnerabilities, but cannot delete them.'),
+       ('admin', 'Admin role with full access to the application, including the ability to create new users and delete tests and vulnerabilities.');
