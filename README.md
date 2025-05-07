@@ -15,9 +15,46 @@ This web application makes it easy to document affected components, risk stateme
 
 ## 🔧 Setup
 
-Start by running `npm install` in the root directory to install all dependencies.
+### Prerequisites
 
-This application uses postgress. If you use Apache, you will need to turn on the "pgsql" extension. You can do this by going to the php.ini config file of Apache and uncommenting the line `extension=pgsql`
+You need a few things to be able to run this application locally:
+
+1. **PHP 7.4+** with the following extensions:
+
+    - PDO (enabled by default)
+
+2. **Database** - Configuration details in the Database section below
+
+3. **Web Server** (Apache/Nginx) configured to serve the project
+
+### Database Configuration
+
+1. Create a `.env` file in the `Database` directory
+
+2. Use the following format for your `.env` file:
+
+    ```
+    HOST=your-db-host.com
+    PORT=your_db_port
+    DBNAME=your_database
+    USER=your_username
+    PASSWORD="your_password"
+    ```
+
+    Note: Remember to use quotes around any values with special characters.
+
+3. Run the database setup script:
+    ```
+    php Database/import.sql
+    ```
+
+### Sample Users
+
+The setup script creates the following accounts in the database:
+
+-   Admin: admin@example.com / admin
+-   Customer: customer@example.com / customer
+-   SecDesk: secdesk@example.com / secdesk
 
 ## ⚙️ Dependencies
 
