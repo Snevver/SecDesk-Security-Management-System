@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /SecDesk-project/public/
+    
+    # Allow direct access to real files
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+    
+    # Allow direct access to real directories
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # Route all API requests through index.php
+    RewriteRule ^api/ index.php [L]
+    
+    # Route all component requests
+    RewriteRule ^src/components/ index.php [L]
+    
+    # Route login requests
+    RewriteRule ^login$ index.php [L]
+    
+    # Route all other requests to index.php
+    RewriteRule . index.php [L]
+</IfModule>
