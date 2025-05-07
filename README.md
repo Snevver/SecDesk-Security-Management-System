@@ -20,6 +20,7 @@ The platform makes it easy to document affected components, risk statements, rec
 ## Setup
 
 Start by running ``npm install`` in the root directory to install all dependencies.
+After that, if you haven't already, add or uncomment the line ```extension=pgsql``` to your php.ini file to enable the PostgreSQL extension.
 
 ### Contributors
 
