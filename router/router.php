@@ -14,8 +14,10 @@ $routes = [
     // Home page
     ['get', '/^(index\.php)?$|^$|^SecDesk-project\/public\/?$/', 'IndexController', 'index'],
     
-    // Login
-    ['post', '/^login\/?$|^SecDesk-project\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
+    // Authentication routes
+    ['post', '/^login\/?$|^SecDesk-project\/login\/?$|^SecDesk-project\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
+    ['get', '/^logout\/?$|^SecDesk-project\/logout\/?$|^SecDesk-project\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
+    ['get', '/^isLoggedIn\/?$|^SecDesk-project\/isLoggedIn\/?$|^SecDesk-project\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
 ];
 
 // Disable CORS errors

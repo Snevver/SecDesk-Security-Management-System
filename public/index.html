@@ -4,29 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        .error-log {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: monospace;
-            white-space: pre-wrap;
-        }
-    
-        .error-message {
-            color: #ff0000;
-            margin: 10px 0;
-        }
-    </style>
 </head>
 <body>
     <h1>Login</h1>
     
-    <div id="debug" class="error-log" style="display:none;"></div>
-    <div id="error-message" class="error-message"></div>
+    <div id="debug" style="display:none;"></div>
+    <div id="error-message"></div>
     
     <form action="" method="POST" id="login-form">
         <label for="email">Email:</label>
@@ -61,10 +44,8 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            debugLog('Sending login request...');
-
-            // Try with the component login endpoint
-            fetch('../src/components/login.php', {
+            // Send login request to the server
+            fetch(`login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -94,7 +75,6 @@
                     } catch (e) {
                         debugLog(`JSON parse error: ${e.message} - Text: ${text.substring(0, 100)}`);
 
-                        // If we see "PDO Connection failed" or similar database error
                         if (text.includes('Connection failed') || text.includes('PDO')) {
                             throw new Error('Database connection issue. Please try again later.');
                         }
@@ -106,6 +86,14 @@
             .then(data => {
                 debugLog(`Parsed data: ${JSON.stringify(data)}`);
                 if (data.success) {
+                    // Store user information in session storage for use in dashboard
+                    if (data.email) {
+                        sessionStorage.setItem('userEmail', data.email);
+                    }
+                    if (data.role) {
+                        sessionStorage.setItem('userRole', data.role);
+                    }
+                    
                     debugLog(`Login successful, redirecting to: ${data.redirect}`);
                     window.location.href = data.redirect;
                 } else {

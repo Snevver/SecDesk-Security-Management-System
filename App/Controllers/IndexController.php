@@ -1,6 +1,6 @@
 <?php
 
-namespace DeepDiveAPI\resources;
+namespace App\Controllers\IndexController;
 
 class IndexController 
 {

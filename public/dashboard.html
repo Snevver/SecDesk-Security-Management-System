@@ -6,60 +6,103 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <h1>Welcome to the SecDesk-Security-Management-System dashboard</h1>
-    
-    <div id="user-info">
-        <!-- User info will be displayed here -->
+    <div>
+        <div>
+            <h1>SecDesk Dashboard</h1>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <div>
+            <h2>Logged in as <span id="user-email"></span></h2>
+            <p>Role: <span id="user-role">Standard</span></p>
+        </div>
+        <div id="debug" style="display:none;"></div>
     </div>
-    
-    <button id="logout-btn">Logout</button>
 
     <script>
+        // Debug logging function
+        function debugLog(message) {
+            const debugEl = document.getElementById('debug');
+            debugEl.style.display = 'block';
+            debugEl.innerHTML += message + '<br>';
+            console.log(message);
+        }
+            
         // Check if user is logged in
-        fetch('../src/components/check_session.php')
-            .then(response => {
-                return response.text().then(text => {
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        console.error('JSON Parse Error:', e);
-                        console.log('Raw server response:', text);
-                        return { logged_in: false, error: true };
-                    }
-                });
-            })
-            .then(data => {
-                if (!data.logged_in) {
+            function checkLoginStatus() {
+                debugLog('Checking login status...');
+
+                // Add withCredentials to make sure cookies are sent
+                fetch('isLoggedIn', {
+                    credentials: 'same-origin'
+                })
+                    .then(response => {
+                    debugLog(`Response status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                debugLog(`Login check response: ${JSON.stringify(data)}`);
+
+                if (!data.success) {
+                    debugLog('User not logged in, redirecting to login page');
                     window.location.href = 'index.html';
                 } else {
-                    document.getElementById('user-info').innerHTML = `
-                        <p>
-                            Logged in as ${data.email || 'Unknown user'}
-                        </p>
-                        <p>
-                            User role: ${data.role || 'Unknown role'}
-                        </p>
-                    `;
+                    debugLog('User is logged in');
+
+                    // First try to get data from the session response
+                    if (data.email) {
+                        document.getElementById('user-email').textContent = data.email;
+                    }
+
+                    if (data.role) {
+                        document.getElementById('user-role').textContent = data.role;
+                    }
+
+                    // Fallback to sessionStorage if needed
+                    if (!data.email) {
+                        const userEmail = sessionStorage.getItem('userEmail');
+                        if (userEmail) {
+                            document.getElementById('user-email').textContent = userEmail;
+                        }
+                    }
+
+                    if (!data.role) {
+                        const userRole = sessionStorage.getItem('userRole');
+                        if (userRole) {
+                            document.getElementById('user-role').textContent = userRole;
+                        }
+                    }
                 }
             })
-            .catch(error => {
-                console.error('Session check error:', error);
-                window.location.href = 'index.html';
-
+                .catch(error => {
+                debugLog('Error checking login status: ' + error.message);
             });
-            
+        }
+
         // Handle logout
         document.getElementById('logout-btn').addEventListener('click', function() {
-            fetch('../src/components/logout.php')
-                .then(() => {
+            debugLog('Logging out...');
+
+            fetch('logout')
+                .then(response => response.json())
+                .then(data => {
+                    debugLog('Logout response: ' + JSON.stringify(data));
+
+                    // Clear session storage
+                    sessionStorage.removeItem('userEmail');
+                    sessionStorage.removeItem('userRole');
+
+                    // Redirect to login page
                     window.location.href = 'index.html';
                 })
                 .catch(error => {
-                    console.error('Logout error:', error);
-                    alert('Error during logout. Redirecting to login page.');
+                    debugLog('Error during logout: ' + error.message);
+                    // Still redirect to login page in case of error
                     window.location.href = 'index.html';
                 });
         });
+
+    // Check login status when page loads
+    window.addEventListener('DOMContentLoaded', checkLoginStatus);
     </script>
 </body>
 </html>

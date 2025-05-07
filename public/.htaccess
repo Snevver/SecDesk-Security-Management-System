@@ -13,11 +13,10 @@
     # Route all API requests through index.php
     RewriteRule ^api/ index.php [L]
     
-    # Route all component requests
-    RewriteRule ^src/components/ index.php [L]
-    
-    # Route login requests
+    # Route authentication requests
     RewriteRule ^login$ index.php [L]
+    RewriteRule ^logout$ index.php [L]
+    RewriteRule ^isLoggedIn$ index.php [L]
     
     # Route all other requests to index.php
     RewriteRule . index.php [L]
