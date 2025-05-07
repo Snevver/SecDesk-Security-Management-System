@@ -84,7 +84,10 @@ exit();
 function callRoute(string $resource, string $method, array|null $arguments) {
     header('Content-Type: application/json');
     try {
-        $resourceClassPath = "DeepDiveAPI\\resources\\{$resource}";
+        // Fix namespace path for controllers
+        if ($resource === 'AuthenticatorController') {
+            $resourceClassPath = "App\\Controllers\\AuthenticationController\\{$resource}";
+        }
         
         // Debug output to see what's happening
         file_put_contents("php://stdout", "Attempting to load class: $resourceClassPath\n");
