@@ -1,11 +1,13 @@
-# SecDesk Project
+# SecDesk Security Management System
+
 ---
 
 This is a project developed for SecDesk, aimed at improving the presentation of vulnerabilities found in customer applications.
 
 ## Overview
 
-The SecDesk project provides:
+The SecDesk Security Management System provides:
+
 - A centralized database for storing accounts and penetration test results
 - Different access levels for customers, SecDesk workers, and administrators
 - A detailed overview for each vulnerabilities per target that a customer can view.
@@ -16,10 +18,11 @@ The platform makes it easy to document affected components, risk statements, rec
 ---
 
 ## Setup
-Start by running ```npm install``` in the root directory to install all dependencies.
 
+Start by running ``npm install`` in the root directory to install all dependencies.
 
 ### Contributors
+
 [Son](https://vdburg.site/)
 [Sven](https://snevver.nl/)
 [Doncan]()
