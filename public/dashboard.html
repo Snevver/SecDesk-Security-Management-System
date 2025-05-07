@@ -29,25 +29,19 @@
             
         // Check if user is logged in
             function checkLoginStatus() {
-                debugLog('Checking login status...');
-
                 // Add withCredentials to make sure cookies are sent
                 fetch('isLoggedIn', {
                     credentials: 'same-origin'
                 })
                     .then(response => {
-                    debugLog(`Response status: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                debugLog(`Login check response: ${JSON.stringify(data)}`);
 
                 if (!data.success) {
                     debugLog('User not logged in, redirecting to login page');
                     window.location.href = 'index.html';
                 } else {
-                    debugLog('User is logged in');
-
                     // First try to get data from the session response
                     if (data.email) {
                         document.getElementById('user-email').textContent = data.email;
