@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /SecDesk-project/public/
+    RewriteBase /SecDesk-Security-Management-System/public/
     
     # Allow direct access to real files
     RewriteCond %{REQUEST_FILENAME} -f

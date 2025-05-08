@@ -12,12 +12,12 @@ require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
 // request method, path(regex), resource, method
 $routes = [
     // Home page
-    ['get', '/^(index\.php)?$|^$|^SecDesk-project\/public\/?$/', 'IndexController', 'index'],
+    ['get', '/^(index\.php)?$|^$|^SecDesk-Security-Management-System\/public\/?$/', 'IndexController', 'index'],
     
     // Authentication routes
-    ['post', '/^login\/?$|^SecDesk-project\/login\/?$|^SecDesk-project\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
-    ['get', '/^logout\/?$|^SecDesk-project\/logout\/?$|^SecDesk-project\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
-    ['get', '/^isLoggedIn\/?$|^SecDesk-project\/isLoggedIn\/?$|^SecDesk-project\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
+    ['post', '/^login\/?$|^SecDesk-Security-Management-System\/login\/?$|^SecDesk-Security-Management-System\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
+    ['get', '/^logout\/?$|^SecDesk-Security-Management-System\/logout\/?$|^SecDesk-Security-Management-System\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
+    ['get', '/^isLoggedIn\/?$|^SecDesk-Security-Management-System\/isLoggedIn\/?$|^SecDesk-Security-Management-System\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
 ];
 
 // Disable CORS errors
