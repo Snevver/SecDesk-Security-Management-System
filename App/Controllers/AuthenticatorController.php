@@ -68,6 +68,18 @@ class AuthenticatorController
                     file_put_contents("php://stdout", "Session ID: " . session_id() . "\n");
                     file_put_contents("php://stdout", "Session after login: " . print_r($_SESSION, true) . "\n");
                     
+                    // Redirect to the appropriate dashboard based on role
+                    if ($role_name === 'admin' || $role_name === 'secdesk') {
+                        $_SESSION['redirect'] = 'adminDashboard.html';
+                    } else if ($role_name === 'customer') {
+                        $_SESSION['redirect'] = 'index.html';
+                    } else {
+                        return [
+                            'status' => 401,
+                            'data' => ['success' => false, 'error' => 'Unknown role']
+                        ];
+                    }
+
                     return [
                         'status' => 200,
                         'data' => [
@@ -75,7 +87,7 @@ class AuthenticatorController
                             'message' => 'Login successful',
                             'email' => $user['email'],
                             'role' => $role_name,
-                            'redirect' => 'dashboard.html'
+                            'redirect' => $_SESSION['redirect']
                         ]
                     ];
                 } else {
