@@ -1,0 +1,288 @@
+
+
+{
+	"info": {
+		"_postman_id": "af3d5b70-8ebd-4c1e-98e7-42f4f7a3e76d",
+		"name": "SecDesk Security Management System",
+		"description": "API collection for SecDesk Security Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"description": "Authentication-related endpoints",
+			"item": [
+				{
+					"name": "Login (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password3\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"login"
+							]
+						},
+						"description": "Login and get a session cookie"
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Customer)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"alice@example.com\",\n    \"password\": \"alice123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"login"
+							]
+						},
+						"description": "Login as a customer"
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Pentester)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"pentester@example.com\",\n    \"password\": \"pentester\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"login"
+							]
+						},
+						"description": "Login as a pentester"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Login Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/isLoggedIn",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"isLoggedIn"
+							]
+						},
+						"description": "Check if the user is logged in"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"logout"
+							]
+						},
+						"description": "Log out the current user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Tests",
+			"description": "Endpoints for managing user tests",
+			"item": [
+				{
+					"name": "Get Customer Tests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/getCustomersTests",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"getCustomersTests"
+							]
+						},
+						"description": "Get all tests for the logged-in customer"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Test Targets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/getTargets?id=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"getTargets"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get all targets for a specific test"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"description": "Admin-specific endpoints",
+			"item": [
+				{
+					"name": "Get Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/getCustomers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								"getCustomers"
+							]
+						},
+						"description": "Get all customers (admin only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System",
+			"description": "System-related endpoints",
+			"item": [
+				{
+					"name": "Home Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/SecDesk-Security-Management-System/public/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"SecDesk-Security-Management-System",
+								"public",
+								""
+							]
+						},
+						"description": "Get the home page"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "noauth"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost/SecDesk-Security-Management-System/public",
+			"type": "string"
+		}
+	]
+}
