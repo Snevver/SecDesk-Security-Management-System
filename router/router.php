@@ -8,12 +8,14 @@ require_once __DIR__ . '/../Database/db.php';
 // Include the Controllers
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
 require_once __DIR__ . '/../App/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/../App/Controllers/IndexController.php';
 
 // Register routes
 // request method, path(regex), resource, method
 $routes = [
     // Home page
     ['get', '/^(index\.php)?$|^$|^SecDesk-Security-Management-System\/public\/?$/', 'IndexController', 'index'],
+    ['get', '/^getCustomersTestss\/?$|^SecDesk-Security-Management-System\/getCustomersTestss\/?$|^SecDesk-Security-Management-System\/public\/getCustomersTests\/?$/i', 'IndexController', 'getCustomersTests'],
     
     // Authentication routes
     ['post', '/^login\/?$|^SecDesk-Security-Management-System\/login\/?$|^SecDesk-Security-Management-System\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
@@ -93,6 +95,8 @@ function callRoute(string $resource, string $method, array|null $arguments) {
             $resourceClassPath = "App\\Controllers\\AuthenticationController";
         } elseif ($resource === 'AdminDashboardController') {
             $resourceClassPath = "App\\Controllers\\AdminDashboardController";
+        } elseif ($resource === 'IndexController') {
+            $resourceClassPath = "App\\Controllers\\IndexController";
         } else {
             throw new \Exception("Resource not found: $resource");
         }

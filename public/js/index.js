@@ -1,78 +1,146 @@
-// Debug logging function
-function debugLog(message) {
-    const debugEl = document.getElementById('debug');
-    debugEl.style.display = 'block';
-    debugEl.innerHTML += message + '<br>';
-    console.log(message);
+// Helper function for debugging
+function debugLog(message, obj = null) {
+    const debugOutput = document.getElementById('debug-output');
+    if (debugOutput) {
+        debugOutput.style.display = 'block';
+        if (obj) {
+            debugOutput.textContent += message + ': ' + JSON.stringify(obj, null, 2) + '\n\n';
+        } else {
+            debugOutput.textContent += message + '\n';
+        }
+    }
+    console.log(message, obj || '');
 }
-    
+
 // Check if user is logged in
 function checkLoginStatus() {
+    // debugLog('Checking login status...');
+    
     // Add withCredentials to make sure cookies are sent
     fetch('isLoggedIn', {
         credentials: 'same-origin'
     })
         .then(response => {
-        return response.json();
-    })
-    .then(data => {
-
-    if (!data.success) {
-        debugLog('User not logged in, redirecting to login page');
-        window.location.href = 'login.html';
-    } else {
-        // First try to get data from the session response
-        if (data.email) {
-            document.getElementById('user-email').textContent = data.email;
-        }
-
-        if (data.role) {
-            document.getElementById('user-role').textContent = data.role;
-        }
-
-        // Fallback to sessionStorage if needed
-        if (!data.email) {
-            const userEmail = sessionStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('user-email').textContent = userEmail;
-            }
-        }
-
-        if (!data.role) {
-            const userRole = sessionStorage.getItem('userRole');
-            if (userRole) {
-                document.getElementById('user-role').textContent = userRole;
-            }
-        }
-        
-    }})
-        .catch(error => {
-        debugLog('Error checking login status: ' + error.message);
-    });
-}
-
-// Handle logout
-document.getElementById('logout-btn').addEventListener('click', function() {
-    debugLog('Logging out...');
-
-    fetch('logout')
-        .then(response => response.json())
+            // debugLog('Login status response received', response);
+            return response.json();
+        })
         .then(data => {
-            debugLog('Logout response: ' + JSON.stringify(data));
+            // debugLog('Login status data', data);
+            
+            if (!data.success) {
+                // debugLog('User not logged in, redirecting to login page');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // debugLog('User is logged in, updating UI');
+            
+            // First try to get data from the session response
+            const userEmailEl = document.getElementById('user-email');
+            const userRoleEl = document.getElementById('user-role');
+            const userIdEl = document.getElementById('user-id');
+            
+            if (userEmailEl && data.email) {
+                userEmailEl.textContent = data.email;
+            }
 
-            // Clear session storage
-            sessionStorage.removeItem('userEmail');
-            sessionStorage.removeItem('userRole');
+            if (userRoleEl && data.role) {
+                userRoleEl.textContent = data.role;
+            }
 
-            // Redirect to login page
-            window.location.href = 'index.html';
+            if (userIdEl && data.user_id) {
+                userIdEl.textContent = data.user_id;
+            }
+
+            // Fallback to sessionStorage if needed
+            if (userEmailEl && !data.email) {
+                const userEmail = sessionStorage.getItem('userEmail');
+                if (userEmail) {
+                    userEmailEl.textContent = userEmail;
+                }
+            }
+
+            if (userRoleEl && !data.role) {
+                const userRole = sessionStorage.getItem('userRole');
+                if (userRole) {
+                    userRoleEl.textContent = userRole;
+                }
+            }
+            
+            // If the user is logged in, fetch the users tests
+            fetchCustomersTests();
         })
         .catch(error => {
-            debugLog('Error during logout: ' + error.message);
-            // Still redirect to login page in case of error
-            window.location.href = 'index.html';
+            debugLog('Error checking login status: ' + error.message);
+            // Redirect to login page on error as a safety measure
+            window.location.href = 'login.html';
         });
-});
+}
 
-// Check login status when page loads
-window.addEventListener('DOMContentLoaded', checkLoginStatus);
+// Fetch test data after confirming login
+function fetchCustomersTests() {
+    // debugLog('Fetching tests...');
+    
+    fetch('getCustomersTests', {
+        credentials: 'same-origin',
+    })
+        .then((response) => {
+            // debugLog('Tests API response received', response);
+            return response.json();
+        })
+        .then((data) => {
+            // debugLog('Tests data received', data);
+            
+            const testListElement = document.getElementById('test-list');
+            
+            if (!testListElement) {
+                // debugLog('Test list element not found');
+                return;
+            }
+            
+            // Clear loading message
+            testListElement.classList.remove('loading');
+            
+            // Check if data exists
+            if (!data) {
+                testListElement.innerHTML = '<p>No data received.</p>';
+                return;
+            }
+            
+            // Extract tests from the data
+            let tests;
+            tests = data;
+            
+            // debugLog('Extracted tests', tests);
+            
+            if (tests.length === 0) {
+                testListElement.innerHTML = '<p>No tests found.</p>';
+                return;
+            }
+        
+            let html = '<ul>';
+            tests.forEach((test) => {                
+                html += `<li>
+                            <strong>Test Name:</strong> ${test.test_name || 'Not found'} <br>
+                            <strong>Description:</strong> ${test.test_description || 'Not found'}
+                        </li>`;
+            });
+            html += '</ul>';
+        
+            testListElement.innerHTML = html;
+        })
+        .catch((error) => {
+            // debugLog('Error fetching tests: ' + error.message);
+            
+            const testListElement = document.getElementById('test-list');
+            if (testListElement) {
+                testListElement.classList.remove('loading');
+                testListElement.innerHTML = '<p>Error loading tests: ' + error.message + '</p>';
+            }
+        });
+}
+
+// When loading the page, check if the user is logged in
+document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+});

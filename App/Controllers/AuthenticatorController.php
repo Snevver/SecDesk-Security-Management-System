@@ -165,7 +165,8 @@ class AuthenticatorController
                     'success' => true, 
                     'message' => 'User is logged in',
                     'email' => $_SESSION['email'] ?? 'Unknown',
-                    'role' => $_SESSION['role'] ?? 'Unknown'
+                    'role' => $_SESSION['role'] ?? 'Unknown',
+                    'user_id' => $_SESSION['user_id'] ?? 'Unknown',
                 ]
             ];
         } else {

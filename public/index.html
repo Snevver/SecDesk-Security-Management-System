@@ -7,17 +7,20 @@
 </head>
 <body>
     <div>
-        <div>
-            <h1>SecDesk Dashboard</h1>
-            <button id="logout-btn">Logout</button>
+        <div id="user-info">
+            <div>Logged in as <span id="user-email">Loading...</span></div>
+            <div>User Role: <span id="user-role">Loading...</span></div>
+            <div>User ID: <span id="user-id">Loading...</span></div>
         </div>
-        <div>
-            <h2>Logged in as <span id="user-email"></span></h2>
-            <p>Role: <span id="user-role">Standard</span></p>
-        </div>
-        <div id="debug" style="display:none;"></div>
+        
+        <h2>Your Tests</h2>
+        <div id="test-list">Loading tests...</div>
+        
+        <button id="logout-btn">Logout</button>
+        <div id="debug-output"></div>
     </div>
 
     <script src="js/index.js"></script>
+    <script src="js/logout.js"></script>
 </body>
 </html>

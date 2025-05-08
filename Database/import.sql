@@ -1,16 +1,13 @@
 -- This file contains the SQL commands to create the database and the tables for the application in Supabase
 
--- First, create the roles table since it's referenced by the users table
+-- The roles table will store all information about the roles. Each role has a unique ID, a name and a description.
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     description TEXT NOT NULL
 );
 
--- This table will store all information about the users. There is a difference between the rights of customers, secdesks workers and admins.
--- Customers can only see their own tests and vulnerabilities.
--- Secdesks can see all tests and vulnerabilities, but they cannot delete them. They can only mark them as solved.
--- Admins can see all tests and vulnerabilities, and they can delete them. They can also create new users with customer, secdesk worker and admin rights.
+-- This table will store all information about the users.
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -20,25 +17,29 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT
 );
 
--- The target table will store all information about the targets. Each target is linked to a user (customer), who ownes the target.
--- Each target exists of multiple vulnerabilities. Those are stored in the vulnerabilities table.
-CREATE TABLE IF NOT EXISTS target (
+-- The tests table will store all information about the tests. Each test is linked to a single user.
+CREATE TABLE IF NOT EXISTS tests (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     test_name VARCHAR(255) NOT NULL,
-    status VARCHAR(50) NOT NULL,
     test_description TEXT NOT NULL,
     test_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- The vulnerabilities table will store all information about the vulnerabilities. Each vulnerability is linked to a target.
--- Each vulnerability contains information about the affected entity, risk statement, affected component, residual risk, classification, identified controls, CVSS score, likelihood, CVSSv3 code, location, vulnerabilities description and recommendations.
--- These pieces of information are filled in by the secdesk worker who is working on the target.
--- The vulnerabilities table also contains a solved column, which is set to true when the vulnerability is solved. This is done by the secdesk worker.
-CREATE TABLE IF NOT EXISTS vulnerabilities (
+-- The targets table will store all information about the targets. Each target is linked to a specific test.
+CREATE TABLE IF NOT EXISTS targets (
     id SERIAL PRIMARY KEY,
     test_id INTEGER NOT NULL,
+    target_name VARCHAR(255) NOT NULL,
+    target_description TEXT NOT NULL,
+    FOREIGN KEY (test_id) REFERENCES tests(id) ON DELETE CASCADE
+);
+
+-- The vulnerabilities table will store all information about the vulnerabilities. Each vulnerability is linked to a specific target.
+CREATE TABLE IF NOT EXISTS vulnerabilities (
+    id SERIAL PRIMARY KEY,
+    target_id INTEGER NOT NULL,
     affected_entity VARCHAR(255) NOT NULL,
     risk_statement TEXT NOT NULL,
     affected_component VARCHAR(255) NOT NULL,
@@ -53,75 +54,78 @@ CREATE TABLE IF NOT EXISTS vulnerabilities (
     recommendations TEXT NOT NULL,
     solved BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (test_id) REFERENCES target(id) ON DELETE CASCADE
+    FOREIGN KEY (target_id) REFERENCES targets(id) ON DELETE CASCADE
 );
 
--- The notes table will store notes that the customer can fill in for each vulnerability.
--- This table is linked to the vulnerabilities table. Each note is linked to a vulnerability.
--- The notes table contains information about the note text and the date it was created.
-CREATE TABLE IF NOT EXISTS user_notes (
-    id SERIAL PRIMARY KEY,
-    vulnerability_id INTEGER NOT NULL,
-    note_text TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (vulnerability_id) REFERENCES vulnerabilities(id) ON DELETE CASCADE
-);
+-- Per default, the database will be created with the following roles:
+-- 1. customer: Regular user with limited access to the system.
+-- 2. pentester: User with access to all users tests and view results.
+-- 3. admin: User with full access to the system, including user and test management.
+INSERT INTO roles (id, name, description) VALUES (1, 'customer', 'Customers have limited access to the application.'), (2, 'pentester', 'Pentesters have alot more priviledges, but are not almighty.' ), (3, 'admin', 'Admins have full access to the application.' );
 
--- Create roles first
-INSERT INTO roles (name, description)
-VALUES 
-    ('customer', 'Customer role with limited access to the application.'),
-    ('secdesk', 'Secdesk role with access to all tests and vulnerabilities, but cannot delete them.'),
-    ('admin', 'Admin role with full access to the application, including the ability to create new users and delete tests and vulnerabilities.');
-
--- Create test users with each role
-INSERT INTO users (
-    email,
-    password,
-    role_id
-)
-VALUES 
-    ('admin@example.com', 'admin', 3),
-    ('customer@example.com', 'customer', 1),
-    ('secdesk@example.com', 'secdesk', 2);
-
--- Add more customers
+-- One admin account is created by default.
 INSERT INTO users (email, password, role_id)
-VALUES 
-    ('customer1@example.com', 'password1', 1),
-    ('customer2@example.com', 'password2', 1),
-    ('customer3@example.com', 'password3', 1),
-    ('customer4@example.com', 'password4', 1),
-    ('customer5@example.com', 'password5', 1);
+VALUES ('email@placeholder.com', 'password', 3);
 
--- Add targets for customers
-INSERT INTO target (user_id, test_name, status, test_description)
-VALUES 
-    (2, 'Website Security Test', 'In Progress', 'Testing the security of the customer''s website.'),
-    (3, 'API Penetration Test', 'Completed', 'Penetration testing of the customer''s API endpoints.'),
-    (4, 'Mobile App Security Test', 'Pending', 'Security testing for the customer''s mobile application.'),
-    (5, 'Network Vulnerability Assessment', 'In Progress', 'Assessing vulnerabilities in the customer''s network.'),
-    (6, 'Cloud Security Audit', 'Completed', 'Auditing the security of the customer''s cloud infrastructure.');
+--
+-- From here on, we will insert dummy data into the tables. This data is not real and is only for testing purposes.
+--
 
--- Add vulnerabilities for targets
+-- Users
+INSERT INTO users (email, password, role_id) VALUES 
+    ('pentester@example.com', 'pentester', 2),
+    ('admin@example.com', 'password3', 3),
+    ('alice@example.com', 'alice123', 1),
+    ('bob@example.com', 'bob123', 1),
+    ('carol@example.com', 'carol123', 1),
+    ('dave@example.com', 'dave123', 1),
+    ('eve@example.com', 'eve123', 1);
+
+
+-- Tests
+INSERT INTO tests (user_id, test_name, test_description) VALUES 
+    (3, 'Web App Test', 'Testing a web application for security issues.'),
+    (4, 'E-Commerce Security Review', 'Audit of online store security.'),
+    (5, 'Healthcare System Audit', 'Security testing for hospital software.'),
+    (6, 'Online Banking PenTest', 'Penetration test of banking platform.'),
+    (7, 'Educational Portal Review', 'Review of security in LMS system.');
+
+-- Targets
+INSERT INTO targets (test_id, target_name, target_description) VALUES 
+    (1, 'Login Page', 'The login page of the web application.'),
+    (1, 'Dashboard', 'The dashboard users see after logging in.'),
+    (2, 'Web Shop', 'Front-end of the e-commerce site.'),
+    (2, 'Payment Gateway', 'Integration with payment processor.'),
+    (3, 'Patient Portal', 'Web portal for patients to manage appointments.'),
+    (4, 'Medical Database', 'Stores sensitive patient data.'),
+    (5, 'Login System', 'Authentication and session management.'),
+    (5, 'Transaction Engine', 'Handles all financial transfers.');
+
+-- Vulnerabilities
 INSERT INTO vulnerabilities (
-    test_id, 
-    affected_entity, 
-    risk_statement, 
-    affected_component, 
-    residual_risk, 
-    classification, 
-    identified_controls, 
-    cvss_score, 
-    likelihood, 
-    cvssv3_code, 
-    location, 
-    vulnerabilities_description, 
-    recommendations
-)
-VALUES 
-    (1, 'Web Server', 'Sensitive data exposure', 'SSL Configuration', 'High', 'Confidentiality', 'Enable HTTPS and enforce strong ciphers', 7.5, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N', '/login', 'The login page does not enforce HTTPS, exposing sensitive data.', 'Enforce HTTPS and use strong SSL/TLS configurations.'),
-    (2, 'API Gateway', 'Broken authentication', 'Token Validation', 'Medium', 'Integrity', 'Implement token expiration and validation', 6.8, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N', '/api/auth', 'The API does not validate tokens properly, allowing unauthorized access.', 'Implement proper token validation and expiration.'),
-    (3, 'Mobile App', 'Insecure data storage', 'Local Storage', 'High', 'Confidentiality', 'Encrypt sensitive data before storing', 8.2, 'High', 'CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N', '/user/data', 'Sensitive user data is stored in plaintext on the device.', 'Encrypt all sensitive data before storing it locally.'),
-    (4, 'Network', 'Open ports', 'Firewall Configuration', 'Medium', 'Availability', 'Restrict access to unnecessary ports', 5.3, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H', '192.168.1.1', 'Several unnecessary ports are open, increasing the attack surface.', 'Close all unnecessary ports and enforce strict firewall rules.'),
-    (5, 'Cloud Storage', 'Misconfigured permissions', 'Bucket Policy', 'High', 'Confidentiality', 'Restrict public access to sensitive buckets', 9.1, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N', '/cloud/bucket', 'Sensitive data is publicly accessible due to misconfigured permissions.', 'Restrict public access and enforce least privilege policies.');
+  target_id, affected_entity, risk_statement, affected_component,
+  residual_risk, classification, identified_controls, cvss_score, 
+  likelihood, cvssv3_code, location, vulnerabilities_description, recommendations
+) VALUES 
+    (1, 'Username Field', 'Potential for brute force attack.', 'Authentication', 'High', 'Confidentiality', 'Rate limiting, account lockout.', 7.5, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N', '/login', 'Login endpoint is susceptible to brute force attacks.', 'Implement CAPTCHA and account lockout policies.'),
+    (1, 'Session Token', 'Session token can be guessed.', 'Session Management', 'High', 'Integrity', 'Use strong random tokens.', 8.2, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N', '/dashboard', 'Session tokens are predictable.', 'Use cryptographically secure random session tokens.'),
+    (1, 'Login Form', 'SQL Injection', 'Input Field', 'High', 'Integrity', 'Use parameterized queries', 9.1, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H', '/login', 'Form allows injection of SQL commands.', 'Sanitize and validate all inputs.'),
+    (2, 'Product Page', 'Cross-Site Scripting (XSS)', 'Script Injection', 'Medium', 'Confidentiality', 'Escape output content', 6.4, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N', '/product?id=1', 'User input rendered without escaping.', 'Escape HTML in user output.'),
+    (2, 'Callback URL', 'Unvalidated Redirects', 'Redirect Logic', 'Medium', 'Integrity', 'Validate redirect destinations', 5.3, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N', '/callback', 'Redirects can be manipulated.', 'Use a whitelist for redirects.'),
+    (2, 'API Auth', 'Missing Rate Limiting', 'Login Endpoint', 'High', 'Availability', 'Add rate limits to endpoints', 7.2, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H', '/api/auth', 'No rate limit allows brute force.', 'Implement request throttling.'),
+    (3, 'Appointment Viewer', 'Broken Access Control', 'Role Permissions', 'High', 'Confidentiality', 'Check role before page access', 8.5, 'High', 'CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N', '/appointments', 'Patients can view other records.', 'Enforce permission checks.'),
+    (3, 'Messages', 'Stored XSS', 'Message Renderer', 'Medium', 'Confidentiality', 'Sanitize user input on save', 6.7, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N', '/messages', 'Malicious scripts saved in chat.', 'Escape stored user data.'),
+    (3, 'Backup System', 'Unencrypted Backup Files', 'Storage', 'High', 'Confidentiality', 'Encrypt backups at rest', 7.9, 'High', 'CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N', '/backup', 'Backup files stored unencrypted.', 'Encrypt backup volumes.'),
+    (4, 'DB Admin Panel', 'Default Credentials', 'Admin UI', 'Critical', 'Integrity', 'Change default passwords', 9.0, 'Critical', 'CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:H/A:H', '/admin', 'Login uses default admin/admin.', 'Enforce credential rotation.'),
+    (4, 'Login Field', 'Credential Stuffing Risk', 'Username Field', 'Medium', 'Confidentiality', 'Add CAPTCHA or 2FA', 6.0, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N', '/login', 'No bot prevention measures.', 'Add CAPTCHA, lockout, 2FA.'),
+    (4, 'JWT Tokens', 'No Expiration', 'Auth Tokens', 'High', 'Confidentiality', 'Set token expiry', 8.0, 'High', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N', '/api/token', 'Tokens never expire.', 'Expire tokens and rotate regularly.'),
+    (5, 'Transfer Logic', 'Logic Flaw in Transfers', 'Transfer Flow', 'Critical', 'Integrity', 'Add transaction verification', 9.2, 'Critical', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H', '/transfer', 'Logic allows unauthorized fund movement.', 'Verify all transfer intents.'),
+    (5, 'Logs', 'Sensitive Info in Logs', 'Logging System', 'Medium', 'Confidentiality', 'Avoid logging PII', 5.9, 'Medium', 'CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N', '/logs', 'Logs contain card numbers.', 'Redact or exclude sensitive data.'),
+    (6, 'Assignment Uploader', 'Unrestricted File Upload', 'Uploader', 'High', 'Integrity', 'Check MIME type and extension', 8.2, 'High', 'CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:H/A:N', '/upload', 'Any file can be uploaded.', 'Restrict uploads to safe file types.'),
+    (6, 'Dashboard Widgets', 'Clickjacking', 'UI Layer', 'Medium', 'Confidentiality', 'Use frame-busting headers', 6.0, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N', '/dashboard', 'App can be embedded in iframe.', 'Set X-Frame-Options headers.'),
+    (6, 'Grade API', 'Insecure Direct Object Reference', 'API Access', 'High', 'Integrity', 'Use access tokens per student', 7.8, 'High', 'CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N', '/api/grades', 'Grades can be accessed by modifying ID.', 'Enforce secure ID referencing.'),
+    (7, 'Grade Export', 'Unencrypted Export', 'Download Feature', 'Medium', 'Confidentiality', 'Export files should be encrypted', 6.1, 'Medium', 'CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:N/A:N', '/export', 'Exports are stored unencrypted.', 'Encrypt exported files before delivery.'),
+    (7, 'Mobile Token Storage', 'Plaintext Tokens in Storage', 'Local Storage', 'High', 'Confidentiality', 'Use secure storage mechanisms', 8.3, 'High', 'CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N', '/app/config', 'Tokens stored in plaintext on device.', 'Store in encrypted keychain.'),
+    (8, 'API Sync', 'Insecure API Sync', 'Network Requests', 'Medium', 'Confidentiality', 'Use TLS and validate certs', 6.5, 'Medium', 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N', '/api/sync', 'API sync over plain HTTP.', 'Use HTTPS with valid certs.'),
+    (8, 'Sensor Firmware', 'Hardcoded Credentials', 'Sensor Auth', 'High', 'Confidentiality', 'Use secure provisioning', 8.7, 'High', 'CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H', '/sensor/config', 'Firmware uses hardcoded passwords.', 'Use device-specific keys.'),
+    (8, 'Wireless Comm', 'No Encryption in Transmission', 'Radio Protocol', 'Critical', 'Confidentiality', 'Encrypt wireless messages', 9.5, 'Critical', 'CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N', '/sensor/radio', 'All messages in plain text.', 'Encrypt communication over radio.');
