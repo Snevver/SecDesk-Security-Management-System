@@ -5,8 +5,9 @@ namespace DeepDiveAPI;
 // Include database connection
 require_once __DIR__ . '/../Database/db.php';
 
-// Include the AuthenticatorController
+// Include the Controllers
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
+require_once __DIR__ . '/../App/Controllers/AdminDashboardController.php';
 
 // Register routes
 // request method, path(regex), resource, method
@@ -18,6 +19,9 @@ $routes = [
     ['post', '/^login\/?$|^SecDesk-Security-Management-System\/login\/?$|^SecDesk-Security-Management-System\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
     ['get', '/^logout\/?$|^SecDesk-Security-Management-System\/logout\/?$|^SecDesk-Security-Management-System\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
     ['get', '/^isLoggedIn\/?$|^SecDesk-Security-Management-System\/isLoggedIn\/?$|^SecDesk-Security-Management-System\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
+
+    // AdminDashboard routes
+    ['get', '/^getCustomers\/?$|^SecDesk-Security-Management-System\/getCustomers\/?$|^SecDesk-Security-Management-System\/public\/getCustomers\/?$/i', 'AdminDashboardController', 'getCustomers'],
 ];
 
 // Disable CORS errors
@@ -84,19 +88,26 @@ exit();
 function callRoute(string $resource, string $method, array|null $arguments) {
     header('Content-Type: application/json');
     try {
-        // Fix namespace path for controllers
+        // Get the resource class path based on the resource name
         if ($resource === 'AuthenticatorController') {
-            $resourceClassPath = "App\\Controllers\\AuthenticationController\\{$resource}";
+            $resourceClassPath = "App\\Controllers\\AuthenticationController";
+        } elseif ($resource === 'AdminDashboardController') {
+            $resourceClassPath = "App\\Controllers\\AdminDashboardController";
+        } else {
+            throw new \Exception("Resource not found: $resource");
         }
         
+        // Construct the full class name
+        $fullClassName = "$resourceClassPath\\$resource";
+        
         // Debug output to see what's happening
-        file_put_contents("php://stdout", "Attempting to load class: $resourceClassPath\n");
+        file_put_contents("php://stdout", "Attempting to load class: $fullClassName\n");
         
         // Use the PDO connection from db.php
-        $resource = new $resourceClassPath(getPDO());
+        $resourceInstance = new $fullClassName(getPDO());
         $result = is_null($arguments) ?
-            $resource->$method() :
-            $resource->$method(...$arguments);
+            $resourceInstance->$method() :
+            $resourceInstance->$method(...$arguments);
         
         // Debug output to see the result
         file_put_contents("php://stdout", "Method result: " . json_encode($result) . "\n");
@@ -104,18 +115,14 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         http_response_code($result['status']);
         if (!empty($result['data'])) {
             echo json_encode($result['data']);
+        } else {
+            echo json_encode(['success' => true]);
         }
     } catch (\PDOException $e) {
         // Log the error
         file_put_contents("php://stderr", $e->getMessage() . "\n");
-        // Handle database exceptions specifically
-        if ($e->getCode() == "23000") {
-            http_response_code(409); // Conflict - indicates a duplicate entry issue
-            echo json_encode(['error' => 'Duplicate entry: The resource already exists.']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-        }
+        http_response_code(500);
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     } catch (\Exception $e) {
         // Log the error with more details
         file_put_contents("php://stderr", "Error: " . $e->getMessage() . "\n");
