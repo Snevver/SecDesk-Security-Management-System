@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file handles:
+ * - Fetching all users from the database
+ */
+
 namespace App\Controllers\AdminDashboardController;
 
 class AdminDashboardController

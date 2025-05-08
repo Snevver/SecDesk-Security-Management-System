@@ -1,3 +1,8 @@
+/**
+ * This script handles:
+ * - User login functionality using the login() function in the AuthenticationController.
+ */
+
 // Function to log debug info
 function debugLog(message) {
     const debugEl = document.getElementById('debug');

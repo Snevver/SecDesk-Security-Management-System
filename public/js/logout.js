@@ -1,3 +1,8 @@
+/**
+ * This script handles:
+ *  - User logout functionality using the logout() function in the AuthenticationController.
+ */
+
 // Set up logout handler
 function setupLogout() {
     const logoutBtn = document.getElementById('logout-btn');

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file handles:
+ * - User login
+ * - User logout
+ * - Check if user is logged in
+ */
+
 namespace App\Controllers\AuthenticationController;
 
 class AuthenticatorController

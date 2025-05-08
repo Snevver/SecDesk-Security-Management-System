@@ -9,6 +9,7 @@ require_once __DIR__ . '/../Database/db.php';
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
 require_once __DIR__ . '/../App/Controllers/AdminDashboardController.php';
 require_once __DIR__ . '/../App/Controllers/IndexController.php';
+require_once __DIR__ . '/../App/Controllers/TargetController.php';
 
 // Register routes
 // request method, path(regex), resource, method
@@ -24,6 +25,10 @@ $routes = [
 
     // AdminDashboard routes
     ['get', '/^getCustomers\/?$|^SecDesk-Security-Management-System\/getCustomers\/?$|^SecDesk-Security-Management-System\/public\/getCustomers\/?$/i', 'AdminDashboardController', 'getCustomers'],
+
+    // Targets
+    ['get', '/^getTargets\/?$|^SecDesk-Security-Management-System\/getTargets\/?$|^SecDesk-Security-Management-System\/public\/getTargets\/?$/i', 'TargetController', 'getTargets'],
+
 ];
 
 // Disable CORS errors
@@ -93,12 +98,19 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         // Get the resource class path based on the resource name
         if ($resource === 'AuthenticatorController') {
             $resourceClassPath = "App\\Controllers\\AuthenticationController";
+
         } elseif ($resource === 'AdminDashboardController') {
             $resourceClassPath = "App\\Controllers\\AdminDashboardController";
+
         } elseif ($resource === 'IndexController') {
             $resourceClassPath = "App\\Controllers\\IndexController";
+
+        } elseif ($resource === 'TargetController') {
+            $resourceClassPath = "App\\Controllers\\TargetController";
+
         } else {
             throw new \Exception("Resource not found: $resource");
+
         }
         
         // Construct the full class name
