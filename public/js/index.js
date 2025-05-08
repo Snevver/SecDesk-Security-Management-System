@@ -82,7 +82,7 @@ function fetchCustomersTests() {
 document.addEventListener('DOMContentLoaded', function () {
     // Check login and then fetch customer tests
     checkLoginStatus(fetchCustomersTests);
-    
+
     // Add click listeners to test items
     const testList = document.getElementById('test-list');
     if (testList) {
@@ -96,3 +96,28 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// Horizontal scrolling on stats cards
+const scrollContainer = document.getElementById("horizontalScroll");
+
+let isScrolling = false;
+
+scrollContainer.addEventListener("wheel", function (e) {
+  if (isScrolling) return;
+
+  e.preventDefault();
+  isScrolling = true;
+
+  const scrollTo = e.deltaY > 0
+    ? scrollContainer.scrollWidth - scrollContainer.clientWidth // scroll to end
+    : 0; // scroll to start
+
+  scrollContainer.scrollTo({
+    left: scrollTo,
+    behavior: 'smooth'
+  });
+
+  setTimeout(() => {
+    isScrolling = false;
+  }, 600); // Adjust to match animation speed
+}, { passive: false });

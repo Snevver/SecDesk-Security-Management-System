@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
+
 <body>
-    <header>
+    <header id="mainHeader">
         <img src="images/secdesk-logo.png" alt="SecDesk Logo" class="logo">
     </header>
 
@@ -17,19 +19,22 @@
 
     <main class="container-fluid">
         <section class="row" id="loginSection">
-            <div class="col-12 col-xl-6 d-flex flex-column justify-content-center align-items-center" id="loginContainer">
+            <div class="col-12 col-xl-6 d-flex flex-column justify-content-center align-items-center"
+                id="loginContainer">
                 <img src="images/sms-simple.png" alt="SecDesk Logo" class="sms mb-4">
                 <form id="login-form">
                     <div class="form-group mb-4">
-                      <label for="email">Email address</label>
-                      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                            placeholder="Enter email">
                     </div>
                     <div class="form-group mb-4">
-                      <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password">
                     </div>
                     <button type="submit" id="login" class="btn">Login</button>
-                  </form>
+                </form>
             </div>
 
             <div id="loginRight" class="col-6 d-flex flex-column justify-content-center align-items-center">
@@ -40,4 +45,5 @@
 
     <script src="js/login.js"></script>
 </body>
+
 </html>
