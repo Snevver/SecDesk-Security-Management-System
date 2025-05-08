@@ -1,9 +1,9 @@
 <?php
 
-namespace DeepDiveAPI;
+namespace SSMSRouter;
 
 // Include database connection
-require_once __DIR__ . '/../Database/db.php';
+require_once __DIR__ . '/../database/db.php';
 
 // Include the Controllers
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
@@ -14,21 +14,25 @@ require_once __DIR__ . '/../App/Controllers/TargetController.php';
 // Register routes
 // request method, path(regex), resource, method
 $routes = [
-    // Home page
-    ['get', '/^(index\.php)?$|^$|^SecDesk-Security-Management-System\/public\/?$/', 'IndexController', 'index'],
-    ['get', '/^getCustomersTestss\/?$|^SecDesk-Security-Management-System\/getCustomersTestss\/?$|^SecDesk-Security-Management-System\/public\/getCustomersTests\/?$/i', 'IndexController', 'getCustomersTests'],
+    // Home page routes
+    ['get', 'index.php', 'IndexController', 'index'],
+    ['get', '', 'IndexController', 'index'],
+    ['get', 'SecDesk-Security-Management-System/public', 'IndexController', 'index'],
+    ['get', 'getCustomersTests', 'IndexController', 'getCustomersTests'],
     
     // Authentication routes
-    ['post', '/^login\/?$|^SecDesk-Security-Management-System\/login\/?$|^SecDesk-Security-Management-System\/public\/login\/?$/i', 'AuthenticatorController', 'login'],
-    ['get', '/^logout\/?$|^SecDesk-Security-Management-System\/logout\/?$|^SecDesk-Security-Management-System\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
-    ['get', '/^isLoggedIn\/?$|^SecDesk-Security-Management-System\/isLoggedIn\/?$|^SecDesk-Security-Management-System\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
+    ['post', 'login', 'AuthenticatorController', 'login'],
+    ['get', 'logout', 'AuthenticatorController', 'logout'],
+    ['get', 'isLoggedIn', 'AuthenticatorController', 'isLoggedIn'],
 
     // EmployeeDashboard routes
-    ['get', '/^getCustomers\/?$|^SecDesk-Security-Management-System\/getCustomers\/?$|^SecDesk-Security-Management-System\/public\/getCustomers\/?$/i', 'EmployeeDashboardController', 'getCustomers'],
+    ['get', 'getCustomers', 'EmployeeDashboardController', 'getCustomers'],
 
     // Targets
-    ['get', '/^getTargets\/?$|^SecDesk-Security-Management-System\/getTargets\/?$|^SecDesk-Security-Management-System\/public\/getTargets\/?$/i', 'TargetController', 'getTargets'],
+    ['get', 'getTargets', 'TargetController', 'getTargets'],
 
+    // Route with parameter
+    ['get', 'getTarget', 'TargetController', 'getTarget', true],
 ];
 
 // Disable CORS errors
@@ -57,32 +61,56 @@ file_put_contents("php://stdout", "Full URI: " . $_SERVER['REQUEST_URI'] . "\n")
 file_put_contents("php://stdout", "Parsed path: " . $urlPath . "\n");
 file_put_contents("php://stdout", "Method: " . $methodName . "\n");
 
-// Check if we need to handle the home route specially
-if (empty($urlPath) || $urlPath == 'index.php') {
-    file_put_contents("php://stdout", "Handling home route\n");
-    require_once __DIR__ . '/../public/index.html';
-    exit();
-}
-
 // Log the request
 file_put_contents("php://stdout", "Requesting  $urlPath with method $methodName\n");
 
+// Check if the URL path matches any of the defined routes
 foreach ($routes as $route) {
     $routeMethod = $route[0];
     $routePath = $route[1];
     $resource = $route[2];
     $method = $route[3];
+    $hasParam = isset($route[4]) ? $route[4] : false;
     
-    // continue if the method or path don't match
-    if ($methodName != $routeMethod || preg_match($routePath, $urlPath, $matches) === 0) {
+    // Clean the URL path
+    $cleanPath = trim(strtok($urlPath, '?'), '/');
+    
+    // Extract the path and any ID
+    $pathParts = explode('/', $cleanPath);
+    $basePath = $pathParts[0];
+    $id = isset($pathParts[1]) ? $pathParts[1] : null;
+    
+    $pathMatches = false;
+    
+    if ($hasParam) {
+        // For parameterized routes, only match the base part
+        $pathMatches = ($basePath === $routePath) && $id !== null;
+    } else {
+        // For exact routes, match the whole path
+        $pathMatches = ($cleanPath === $routePath);
+    }
+    
+    // Also check alternate paths with the project prefix
+    if (!$pathMatches) {
+        $prefixedPath = 'SecDesk-Security-Management-System/public/' . $routePath;
+        $prefixedPath2 = 'SecDesk-Security-Management-System/' . $routePath;
+        
+        if ($hasParam && $id !== null) {
+            $pathMatches = (strpos($cleanPath, $prefixedPath) === 0) || 
+                           (strpos($cleanPath, $prefixedPath2) === 0);
+        } else {
+            $pathMatches = ($cleanPath === $prefixedPath) || 
+                           ($cleanPath === $prefixedPath2);
+        }
+    }
+    
+    if ($methodName !== $routeMethod || !$pathMatches) {
         continue;
     }
-
-    $arguments = parseArguments($matches);
-
+    
+    // Route matched, call the controller method
+    $arguments = $hasParam && $id !== null ? [$id] : null;
     callRoute($resource, $method, $arguments);
-
-    // If no route is found, the client will receive a 404 response
     exit();
 }
 
@@ -99,8 +127,8 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         if ($resource === 'AuthenticatorController') {
             $resourceClassPath = "App\\Controllers\\AuthenticationController";
 
-        } elseif ($resource === 'EmployeeController') {
-            $resourceClassPath = "App\\Controllers\\EmployeeController";
+        } elseif ($resource === 'EmployeeDashboardController') {
+            $resourceClassPath = "App\\Controllers\\EmployeeDashboardController";
 
         } elseif ($resource === 'IndexController') {
             $resourceClassPath = "App\\Controllers\\IndexController";
