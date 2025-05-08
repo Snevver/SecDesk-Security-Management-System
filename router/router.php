@@ -7,7 +7,7 @@ require_once __DIR__ . '/../Database/db.php';
 
 // Include the Controllers
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
-require_once __DIR__ . '/../App/Controllers/AdminDashboardController.php';
+require_once __DIR__ . '/../App/Controllers/EmployeeDashboardController.php';
 require_once __DIR__ . '/../App/Controllers/IndexController.php';
 require_once __DIR__ . '/../App/Controllers/TargetController.php';
 
@@ -23,8 +23,8 @@ $routes = [
     ['get', '/^logout\/?$|^SecDesk-Security-Management-System\/logout\/?$|^SecDesk-Security-Management-System\/public\/logout\/?$/i', 'AuthenticatorController', 'logout'],
     ['get', '/^isLoggedIn\/?$|^SecDesk-Security-Management-System\/isLoggedIn\/?$|^SecDesk-Security-Management-System\/public\/isLoggedIn\/?$/i', 'AuthenticatorController', 'isLoggedIn'],
 
-    // AdminDashboard routes
-    ['get', '/^getCustomers\/?$|^SecDesk-Security-Management-System\/getCustomers\/?$|^SecDesk-Security-Management-System\/public\/getCustomers\/?$/i', 'AdminDashboardController', 'getCustomers'],
+    // EmployeeDashboard routes
+    ['get', '/^getCustomers\/?$|^SecDesk-Security-Management-System\/getCustomers\/?$|^SecDesk-Security-Management-System\/public\/getCustomers\/?$/i', 'EmployeeDashboardController', 'getCustomers'],
 
     // Targets
     ['get', '/^getTargets\/?$|^SecDesk-Security-Management-System\/getTargets\/?$|^SecDesk-Security-Management-System\/public\/getTargets\/?$/i', 'TargetController', 'getTargets'],
@@ -99,8 +99,8 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         if ($resource === 'AuthenticatorController') {
             $resourceClassPath = "App\\Controllers\\AuthenticationController";
 
-        } elseif ($resource === 'AdminDashboardController') {
-            $resourceClassPath = "App\\Controllers\\AdminDashboardController";
+        } elseif ($resource === 'EmployeeController') {
+            $resourceClassPath = "App\\Controllers\\EmployeeController";
 
         } elseif ($resource === 'IndexController') {
             $resourceClassPath = "App\\Controllers\\IndexController";

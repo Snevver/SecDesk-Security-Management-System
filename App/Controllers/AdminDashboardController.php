@@ -5,9 +5,9 @@
  * - Fetching all users from the database
  */
 
-namespace App\Controllers\AdminDashboardController;
+namespace App\Controllers\EmployeeDashboardController;
 
-class AdminDashboardController
+class EmployeeDashboardController
 {
     // Properties
     private \PDO $pdo;

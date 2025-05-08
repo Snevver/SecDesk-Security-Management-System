@@ -76,8 +76,8 @@ class AuthenticatorController
                     file_put_contents("php://stdout", "Session after login: " . print_r($_SESSION, true) . "\n");
                     
                     // Redirect to the appropriate dashboard based on role
-                    if ($role_name === 'admin' || $role_name === 'secdesk') {
-                        $_SESSION['redirect'] = 'adminDashboard.html';
+                    if ($role_name === 'admin' || $role_name === 'employee') {
+                        $_SESSION['redirect'] = 'employeeDashboard.html';
                     } else if ($role_name === 'customer') {
                         $_SESSION['redirect'] = 'index.html';
                     } else {

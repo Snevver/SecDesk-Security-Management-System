@@ -30,3 +30,7 @@ composer.lock
 # Testing
 /coverage
 /phpunit.xml
+
+# Package files
+/package-lock.json
+/package.json
