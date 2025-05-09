@@ -44,8 +44,14 @@ You need a few things to be able to run this application locally:
     Note: Remember to use quotes around any values with special characters.
 
 3. Run the database setup script:
+
     ```
     php Database/import.sql
+    ```
+
+4. Install any dependencies. You can do this with NPM by navigating to the root folder of the project and running:
+    ```
+    npm install
     ```
 
 ### Sample Users
@@ -58,9 +64,9 @@ The setup script creates the following accounts in the database:
 
 ## ⚙️ Dependencies
 
-This project does not have any dependencies that need to be installed seperately from cloning the repository at the moment.
+This project requires the BootstrapCSS and PopperJS packages to function. Refer to the 🔧 Setup section for information on how to install these packages.
 
-## 📄 Transfer info
+## 📄 Transfer information
 
 This application is currently being hosted using the [Mijndomein](https://www.mijndomein.nl/) webhosting service, and the database is being hosted using [Supabase](https://supabase.com/). If you would like to host the database yourself, run the queries in import.sql to set up the tables. Do note that a new database will not include any user accounts that were stored in the previous database.
 
