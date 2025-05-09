@@ -1,6 +1,6 @@
 # SecDesk Security Management System
 
-This project is a web application developed for SecDesk, aimed at improving the presentation of vulnerabilities found in the infrastructure of clients.
+This project is a web application developed for SecDesk, aimed at improving the presentation of vulnerabilities found in the infrastructure of the digital environments of clients.
 
 ## 📖 Overview
 
@@ -29,7 +29,7 @@ You need a few things to be able to run this application locally:
 
 ### Database Configuration
 
-1. Create a `.env` file in the `Database` directory
+1. Create a `.env` file in the `Database` directory if this file does not already exist
 
 2. Use the following format for your `.env` file:
 
@@ -64,11 +64,18 @@ The setup script creates the following accounts in the database:
 
 ## ⚙️ Dependencies
 
-This project requires the BootstrapCSS and PopperJS packages to function. Refer to the 🔧 Setup section for information on how to install these packages.
+This project requires these packages in order to function:
+
+-   BootstrapCSS
+-   PopperJS
+
+Refer to the 🔧 Setup section for information on how to install these packages.
 
 ## 📄 Transfer information
 
 This application is currently being hosted using the [Mijndomein](https://www.mijndomein.nl/) webhosting service, and the database is being hosted using [Supabase](https://supabase.com/). If you would like to host the database yourself, run the queries in import.sql to set up the tables. Do note that a new database will not include any user accounts that were stored in the previous database.
+
+If we are still hosting the application online (both the application itself and the database) and you would like us to take it down so you can host it yourself, please contact us at one of the email adresses listed in the 🧑‍💻 Authors section.
 
 ## 🧑‍💻 Authors
 
@@ -78,11 +85,15 @@ Son is a full-stack web developer and was the SCRUM master during this project. 
 
 [Website](https://vdburg.site/) | [GitHub](https://github.com/Penguin-09) | [LinkedIn](https://www.linkedin.com/in/son-bram/)
 
+email: son@vdburg.site
+
 ### Sven Hoeksema
 
 Sven is a back-end developer and was in charge of managing the database during this project. He wrote a large part of the back-end code.
 
-[Website](https://snevver.nl/) | [GitHub](https://github.com/Snevver) | [LinkedIn](https://www.linkedin.com/in/sven-hoeksema/)
+[Website](https://snevver.nl/) | [GitHub](https://github.com/Snevver) | [LinkedIn](https://www.linkedin.com/in/sven-hoeksema/) | 
+
+email: svenhoeksema@hotmail.com
 
 ### Doncan Dayan
 
