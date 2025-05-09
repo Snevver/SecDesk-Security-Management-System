@@ -26,15 +26,12 @@ class IndexController
      */
     public function index()
     {
-        // Serve the index.html file
         $indexPath = __DIR__ . '/../../public/index.html';
         
         if (file_exists($indexPath)) {
-            $content = file_get_contents($indexPath);
-            return [
-                'status' => 200,
-                'data' => ['content' => $content, 'type' => 'html']
-            ];
+            header('Content-Type: text/html');
+            echo file_get_contents($indexPath);
+            exit;
         } else {
             return [
                 'status' => 500,
