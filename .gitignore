@@ -30,3 +30,9 @@ composer.lock
 # Testing
 /coverage
 /phpunit.xml
+
+# Environment files
+/database/.env
+
+# .sql files
+*.sql
