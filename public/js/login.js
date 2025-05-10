@@ -37,7 +37,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         })
     })
     .then(response => {
-        // debugLog(`Response status: ${response.status}`);
+        debugLog(`Response status: ${response.status}`);
         return response.text().then(text => {
             if(text.length === 0) {
                 // debugLog('Empty response from server');
@@ -46,7 +46,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
 
             // First check if the response is HTML (error page)
             if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
-                // debugLog('Received HTML response instead of JSON');
+                debugLog('Received HTML response instead of JSON');
                 throw new Error('Server returned HTML instead of JSON');
             }
 
@@ -54,7 +54,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
                 debugLog(`Response text: ${text.substring(0, 100)}...`);
                 return JSON.parse(text);
             } catch (e) {
-                // debugLog(`JSON parse error: ${e.message} - Text: ${text.substring(0, 100)}`);
+                debugLog(`JSON parse error: ${e.message} - Text: ${text.substring(0, 100)}`);
 
                 if (text.includes('Connection failed') || text.includes('PDO')) {
                     throw new Error('Database connection issue. Please try again later.');
