@@ -38,15 +38,17 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     })
     .then(response => {
         debugLog(`Response status: ${response.status}`);
+        debugLog(`Content-Type: ${response.headers.get('Content-Type')}`);
         return response.text().then(text => {
             if(text.length === 0) {
                 // debugLog('Empty response from server');
                 throw new Error('Empty response from server');
             }
 
-            // First check if the response is HTML (error page)
+            // First check if the response is HTML
             if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
                 debugLog('Received HTML response instead of JSON');
+                debugLog('HTML content (first 300 chars): ' + text.substring(0, 300)); 
                 throw new Error('Server returned HTML instead of JSON');
             }
 
