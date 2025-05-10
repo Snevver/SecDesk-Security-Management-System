@@ -63,9 +63,8 @@ document.getElementById('login-form').addEventListener('submit', function(event)
                 throw new Error('Invalid response from server: ' + text.substring(0, 100));
             }
         });
-    })
-    .then(data => {
-        // debugLog(`Parsed data: ${JSON.stringify(data)}`);
+    })    .then(data => {
+        debugLog(`Parsed data: ${JSON.stringify(data)}`);
         if (data.success) {
             // Store user information in session storage for use in dashboard
             if (data.email) {
@@ -75,16 +74,16 @@ document.getElementById('login-form').addEventListener('submit', function(event)
                 sessionStorage.setItem('userRole', data.role);
             }
             
-            // debugLog(`Login successful, redirecting to: ${data.redirect}`);
+            debugLog(`Login successful, redirecting to: ${data.redirect}`);
             window.location.href = data.redirect;
         } else {
             const errorMsg = data.error || 'Login failed. Please try again.';
-            // debugLog(`Login failed: ${errorMsg}`);
-            // showError(errorMsg);
+            debugLog(`Login failed: ${errorMsg}`);
+            showError(errorMsg);
         }
     })
     .catch(error => {
-        // debugLog(`Error: ${error.message}`);
-        // showError(error.message || 'An error occurred. Please try again.');
+        debugLog(`Error: ${error.message}`);
+        showError(error.message || 'An error occurred. Please try again.');
     });
 });
