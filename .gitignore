@@ -36,3 +36,5 @@ composer.lock
 
 # .sql files
 *.sql
+
+improvements.md
