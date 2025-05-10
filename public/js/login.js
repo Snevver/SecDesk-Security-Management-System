@@ -37,16 +37,16 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         })
     })
     .then(response => {
-        // debugLog(`Response status: ${response.status}`);
+        debugLog(`Response status: ${response.status}`);
         return response.text().then(text => {
             if(text.length === 0) {
-                // debugLog('Empty response from server');
+                debugLog('Empty response from server');
                 throw new Error('Empty response from server');
             }
 
             // First check if the response is HTML (error page)
             if (text.trim().startsWith('<!DOCTYPE html>') || text.trim().startsWith('<html')) {
-                // debugLog('Received HTML response instead of JSON');
+                debugLog('Received HTML response instead of JSON');
                 throw new Error('Server returned HTML instead of JSON');
             }
 
@@ -54,7 +54,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
                 debugLog(`Response text: ${text.substring(0, 100)}...`);
                 return JSON.parse(text);
             } catch (e) {
-                // debugLog(`JSON parse error: ${e.message} - Text: ${text.substring(0, 100)}`);
+                debugLog(`JSON parse error: ${e.message} - Text: ${text.substring(0, 100)}`);
 
                 if (text.includes('Connection failed') || text.includes('PDO')) {
                     throw new Error('Database connection issue. Please try again later.');
@@ -65,7 +65,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         });
     })
     .then(data => {
-        // debugLog(`Parsed data: ${JSON.stringify(data)}`);
+        debugLog(`Parsed data: ${JSON.stringify(data)}`);
         if (data.success) {
             // Store user information in session storage for use in dashboard
             if (data.email) {
@@ -75,16 +75,16 @@ document.getElementById('login-form').addEventListener('submit', function(event)
                 sessionStorage.setItem('userRole', data.role);
             }
             
-            // debugLog(`Login successful, redirecting to: ${data.redirect}`);
+            debugLog(`Login successful, redirecting to: ${data.redirect}`);
             window.location.href = data.redirect;
         } else {
             const errorMsg = data.error || 'Login failed. Please try again.';
-            // debugLog(`Login failed: ${errorMsg}`);
-            // showError(errorMsg);
+            debugLog(`Login failed: ${errorMsg}`);
+            showError(errorMsg);
         }
     })
     .catch(error => {
-        // debugLog(`Error: ${error.message}`);
-        // showError(error.message || 'An error occurred. Please try again.');
+        debugLog(`Error: ${error.message}`);
+        showError(error.message || 'An error occurred. Please try again.');
     });
 });
