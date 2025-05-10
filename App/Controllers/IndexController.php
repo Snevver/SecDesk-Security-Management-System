@@ -5,7 +5,7 @@
  * - Serving the index.html file
  * - Fetching the user's tests from the database
  */
-namespace App\Controllers\IndexController;
+namespace App\Controllers;
 
 use PDO;
 

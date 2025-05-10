@@ -7,7 +7,7 @@
  * - Check if user is logged in
  */
 
-namespace App\Controllers\AuthenticationController;
+namespace App\Controllers;
 
 class AuthenticatorController
 {

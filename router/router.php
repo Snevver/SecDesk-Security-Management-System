@@ -123,23 +123,8 @@ exit();
 function callRoute(string $resource, string $method, array|null $arguments) {
     header('Content-Type: application/json');
     try {
-        // Get the resource class path based on the resource name
-        if ($resource === 'AuthenticatorController') {
-            $resourceClassPath = "App\\Controllers\\AuthenticationController";
-
-        } elseif ($resource === 'EmployeeDashboardController') {
-            $resourceClassPath = "App\\Controllers\\EmployeeDashboardController";
-
-        } elseif ($resource === 'IndexController') {
-            $resourceClassPath = "App\\Controllers\\IndexController";
-
-        } elseif ($resource === 'TargetController') {
-            $resourceClassPath = "App\\Controllers\\TargetController";
-
-        } else {
-            throw new \Exception("Resource not found: $resource");
-
-        }
+        // All controllers now share the same namespace
+        $resourceClassPath = "App\\Controllers";
         
         // Construct the full class name
         $fullClassName = "$resourceClassPath\\$resource";

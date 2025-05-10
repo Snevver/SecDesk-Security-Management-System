@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controllers\BaseController;
+namespace App\Controllers;
 
 class BaseController 
 {

@@ -4,7 +4,7 @@
  * This file handles:
  * - Fetching the given tests targets from the database
  */
-namespace App\Controllers\TargetController;
+namespace App\Controllers;
 
 use PDO;
 

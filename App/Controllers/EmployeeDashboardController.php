@@ -5,7 +5,7 @@
  * - Fetching all users from the database
  */
 
-namespace App\Controllers\EmployeeDashboardController;
+namespace App\Controllers;
 
 class EmployeeDashboardController
 {
