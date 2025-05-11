@@ -38,10 +38,14 @@ $routes = [
 // Disable CORS errors
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Always set JSON content type for all API responses
+header('Content-Type: application/json');
 
 // handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header("Access-Control-Allow-Headers: Content-Type");
+    http_response_code(200);
     exit();
 }
 
@@ -115,13 +119,11 @@ foreach ($routes as $route) {
 }
 
 // If no route is found, the client will receive a 404 response
-header('Content-Type: application/json');
 http_response_code(404);
-echo json_encode(['error' => 'Not found']);
+echo json_encode(['success' => false, 'error' => 'Not found', 'path' => $urlPath]);
 exit();
 
 function callRoute(string $resource, string $method, array|null $arguments) {
-    header('Content-Type: application/json');
     try {
         // All controllers now share the same namespace
         $resourceClassPath = "App\\Controllers";
@@ -151,14 +153,24 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         // Log the error
         file_put_contents("php://stderr", $e->getMessage() . "\n");
         http_response_code(500);
-        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'Database error', 
+            'details' => $e->getMessage(),
+            'code' => $e->getCode()
+        ]);
     } catch (\Exception $e) {
         // Log the error with more details
         file_put_contents("php://stderr", "Error: " . $e->getMessage() . "\n");
         file_put_contents("php://stderr", "Class: " . get_class($e) . "\n");
         file_put_contents("php://stderr", "Trace: " . $e->getTraceAsString() . "\n");
         http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
+        echo json_encode([
+            'success' => false, 
+            'error' => 'Server error', 
+            'details' => $e->getMessage(),
+            'type' => get_class($e)
+        ]);
     }
 }
 
