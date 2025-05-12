@@ -1,5 +1,16 @@
 <?php
 
+$uri = strtok($_SERVER['REQUEST_URI'], '?');	
+
+if (!str_starts_with($uri, '/')) {
+    // If the URI does not start with a '/', prepend it
+    $uri = '/' . $uri;
+}
+if (is_file(__DIR__ . $uri)) {
+    // If the request is for a file, serve it directly
+    return false;
+}
+
 /**
  * Most of this code is written by AI to help with error handling and logging.
  */
