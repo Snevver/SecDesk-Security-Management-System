@@ -35,6 +35,6 @@ composer.lock
 /database/.env
 
 # .sql files
-*.sql
+# *.sql
 
 improvements.md
