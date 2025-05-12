@@ -151,7 +151,7 @@ class AuthenticatorController
 
     /**
      * Check if user is logged in
-     * @return array
+     * @return array containing user data or error message
      */
     public function isLoggedIn()
     {

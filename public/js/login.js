@@ -21,17 +21,18 @@ document
     .getElementById("login-form")
     .addEventListener("submit", function (event) {
         event.preventDefault();
-        document.getElementById("debug").innerHTML = "";
-        document.getElementById("error-message").textContent = "";
+        document.getElementById('debug').innerHTML = '';
+        document.getElementById('error-message').textContent = '';
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-        // Send login request to the server
-        fetch(`login`, {
-            method: "POST",
+        // Added a more detailed fetch URL
+        fetch(`/SecDesk-Security-Management-System/public/login`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
             },
             body: JSON.stringify({
                 email: email,
@@ -41,25 +42,37 @@ document
             .then((response) => {
                 debugLog(`Response status: ${response.status}`);
                 debugLog(
-                    `Content-Type: ${response.headers.get("Content-Type")}`
+                    `Content-Type: ${response.headers.get('Content-Type')}`,
                 );
+
+                // Add additional logging for debugging
+                debugLog(`Response URL: ${response.url}`);
+
                 return response.text().then((text) => {
+                    // Log the raw response for debugging
+                    debugLog(
+                        `Raw response (first 500 chars): ${text.substring(
+                            0,
+                            500,
+                        )}`,
+                    );
+
                     if (text.length === 0) {
-                        debugLog("Empty response from server");
-                        throw new Error("Empty response from server");
+                        debugLog('Empty response from server');
+                        throw new Error('Empty response from server');
                     }
 
                     // First check if the response is HTML
                     if (
-                        text.trim().startsWith("<!DOCTYPE html>") ||
-                        text.trim().startsWith("<html")
+                        text.trim().startsWith('<!DOCTYPE html>') ||
+                        text.trim().startsWith('<html')
                     ) {
-                        debugLog("Received HTML response instead of JSON");
                         debugLog(
-                            "HTML content (first 300 chars): " +
-                                text.substring(0, 300)
+                            'Received HTML instead of JSON - this may indicate a routing issue',
                         );
-                        throw new Error("Server returned HTML instead of JSON");
+                        throw new Error(
+                            'Server returned HTML instead of JSON. This may indicate that the API endpoint is incorrect or the server is not processing the request properly.',
+                        );
                     }
 
                     try {
@@ -69,21 +82,21 @@ document
                         debugLog(
                             `JSON parse error: ${
                                 e.message
-                            } - Text: ${text.substring(0, 100)}`
+                            } - Text: ${text.substring(0, 100)}`,
                         );
 
                         if (
-                            text.includes("Connection failed") ||
-                            text.includes("PDO")
+                            text.includes('Connection failed') ||
+                            text.includes('PDO')
                         ) {
                             throw new Error(
-                                "Database connection issue. Please try again later."
+                                'Database connection issue. Please try again later.',
                             );
                         }
 
                         throw new Error(
-                            "Invalid response from server: " +
-                                text.substring(0, 100)
+                            'Invalid response from server: ' +
+                                text.substring(0, 100),
                         );
                     }
                 });
@@ -93,19 +106,19 @@ document
                 if (data.success) {
                     // Store user information in session storage for use in dashboard
                     if (data.email) {
-                        sessionStorage.setItem("userEmail", data.email);
+                        sessionStorage.setItem('userEmail', data.email);
                     }
                     if (data.role) {
-                        sessionStorage.setItem("userRole", data.role);
+                        sessionStorage.setItem('userRole', data.role);
                     }
 
                     debugLog(
-                        `Login successful, redirecting to: ${data.redirect}`
+                        `Login successful, redirecting to: ${data.redirect}`,
                     );
                     window.location.href = data.redirect;
                 } else {
                     const errorMsg =
-                        data.error || "Login failed. Please try again.";
+                        data.error || 'Login failed. Please try again.';
                     debugLog(`Login failed: ${errorMsg}`);
                     showError(errorMsg);
                 }
@@ -113,7 +126,7 @@ document
             .catch((error) => {
                 debugLog(`Error: ${error.message}`);
                 showError(
-                    error.message || "An error occurred. Please try again."
+                    error.message || 'An error occurred. Please try again.',
                 );
             });
     });
