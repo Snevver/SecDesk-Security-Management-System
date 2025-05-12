@@ -13,7 +13,7 @@ function checkLoginStatus(callback) {
         .then((data) => {
             if (!data.success) {
                 // User is not logged in, redirect to login page
-                window.location.href = 'login.html';
+                window.location.href = 'login';
                 return;
             }
 
@@ -27,7 +27,7 @@ function checkLoginStatus(callback) {
         })
         .catch((error) => {
             console.error('Error checking login status:', error);
-            window.location.href = 'login.html';
+            window.location.href = 'login';
         });
 }
 

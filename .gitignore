@@ -38,3 +38,5 @@ composer.lock
 # *.sql
 
 improvements.md
+
+composer.lock

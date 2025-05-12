@@ -1,0 +1,12 @@
+{
+    "name": "sven/sec-desk-security-management-system",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ssms\\": "libraries/Ssms/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}

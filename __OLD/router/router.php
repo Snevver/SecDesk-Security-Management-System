@@ -3,7 +3,7 @@
 namespace SSMSRouter;
 
 // Include database connection
-require_once __DIR__ . '/../database/db.php';
+require_once __DIR__ . '/../includes/db.php';
 
 // Include the Controllers
 require_once __DIR__ . '/../App/Controllers/AuthenticatorController.php';
@@ -11,19 +11,20 @@ require_once __DIR__ . '/../App/Controllers/EmployeeDashboardController.php';
 require_once __DIR__ . '/../App/Controllers/IndexController.php';
 require_once __DIR__ . '/../App/Controllers/TargetController.php';
 
+use Ssms\d
+
 // Register routes
 // request method, path(regex), resource, method
 $routes = [
     // Home page routes
-    ['get', 'index.php', 'IndexController', 'index'],
-    ['get', '', 'IndexController', 'index'],
-    ['get', 'SecDesk-Security-Management-System/public', 'IndexController', 'index'],
-    ['get', 'getCustomersTests', 'IndexController', 'getCustomersTests'],
+    ['get', '/', 'IndexController', 'index'],
+
+    ['get', '/getCustomersTests', 'IndexController', 'getCustomersTests'],
     
     // Authentication routes
-    ['post', 'login', 'AuthenticatorController', 'login'],
-    ['get', 'logout', 'AuthenticatorController', 'logout'],
-    ['get', 'isLoggedIn', 'AuthenticatorController', 'isLoggedIn'],
+    ['post', '/login', 'AuthenticatorController', 'login'],
+    ['get', '/logout', 'AuthenticatorController', 'logout'],
+    ['get', '/isLoggedIn', 'AuthenticatorController', 'isLoggedIn'],
 
     // EmployeeDashboard routes
     ['get', 'getCustomers', 'EmployeeDashboardController', 'getCustomers'],
@@ -135,7 +136,7 @@ function callRoute(string $resource, string $method, array|null $arguments) {
         file_put_contents("php://stdout", "Attempting to load class: $fullClassName\n");
         
         // Use the PDO connection from db.php
-        $resourceInstance = new $fullClassName(getPDO());
+        $resourceInstance = new $fullClassName(Db::getInstance());
         $result = is_null($arguments) ?
             $resourceInstance->$method() :
             $resourceInstance->$method(...$arguments);

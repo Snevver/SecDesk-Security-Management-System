@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controllers;
+namespace Ssms\Controllers;
 
 class BaseController 
 {

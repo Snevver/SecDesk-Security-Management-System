@@ -1,0 +1,297 @@
+<?php
+// Define environment - check if we're in development based on server name or define your own logic
+$isDevelopment = ($_SERVER['SERVER_NAME'] ?? 'localhost') === 'localhost' || 
+                 ($_SERVER['SERVER_NAME'] ?? '') === '127.0.0.1' ||
+                 (strpos($_SERVER['SERVER_NAME'] ?? '', '.local') !== false);
+// Force showing details always for debugging purposes
+$showDetails = true;
+
+// Get error info
+$statusCode = $e->statusCode ?? 500;
+$errorMessage = $e->getMessage() ?? 'An unexpected error occurred';
+$errorFile = $e->getFile() ?? '';
+$errorLine = $e->getLine() ?? '';
+$errorTrace = $e->getTraceAsString() ?? '';
+
+// Map status codes to friendly messages
+$statusMessages = [
+    400 => 'Bad Request',
+    401 => 'Unauthorized',
+    403 => 'Forbidden',
+    404 => 'Not Found',
+    500 => 'Internal Server Error',
+    503 => 'Service Unavailable'
+];
+
+$friendlyTitle = isset($statusMessages[$statusCode]) ? 
+    "$statusCode - {$statusMessages[$statusCode]}" : 
+    "$statusCode - Error";
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - SecDesk Security Management System</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #e63946;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #e9ecef;
+            --dark-gray: #495057;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .error-container {
+            flex: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            max-height: 60px;
+        }
+        
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 0.5rem;
+        }
+        
+        .error-message {
+            background-color: var(--light-gray);
+            padding: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-details {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            overflow: auto;
+        }
+          .error-details pre {
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            background-color: #f0f0f0;
+            padding: 0.75rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        
+        .error-details details {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            padding: 0.5rem;
+        }
+        
+        .error-details details summary {
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem;
+            background-color: #f8f8f8;
+        }
+        
+        .error-details details[open] summary {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .error-details h4 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: var(--dark-gray);
+        }
+        
+        .action-buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-secondary {
+            background-color: var(--dark-gray);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/images/secdesk-logo.png" alt="SecDesk Logo" class="logo">
+    </header>
+    
+    <div class="error-container">
+        <h1><?= htmlspecialchars($friendlyTitle) ?></h1>
+        
+        <div class="error-message">
+            <p><strong>Error:</strong> <?= htmlspecialchars($errorMessage) ?></p>
+        </div>
+          <?php if ($showDetails): ?>
+            <div class="error-details">
+                <p><strong>File:</strong> <?= htmlspecialchars($errorFile) ?></p>
+                <p><strong>Line:</strong> <?= htmlspecialchars((string)$errorLine) ?></p>
+                
+                <details>
+                    <summary>Stack Trace</summary>
+                    <pre><?= htmlspecialchars($errorTrace) ?></pre>
+                </details>
+                  <details>
+                    <summary>Full Exception Object</summary>
+                    <pre><?= htmlspecialchars(print_r($e, true)) ?></pre>
+                </details>
+                
+                <details open>
+                    <summary>Debug Info</summary>
+                    <p><strong>Current URL:</strong> <?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'unknown') ?></p>
+                    <p><strong>Request Method:</strong> <?= htmlspecialchars($_SERVER['REQUEST_METHOD'] ?? 'unknown') ?></p>
+                    <p><strong>Server Software:</strong> <?= htmlspecialchars($_SERVER['SERVER_SOFTWARE'] ?? 'unknown') ?></p>
+                    <p><strong>Script Filename:</strong> <?= htmlspecialchars($_SERVER['SCRIPT_FILENAME'] ?? 'unknown') ?></p>
+                    <p><strong>Document Root:</strong> <?= htmlspecialchars($_SERVER['DOCUMENT_ROOT'] ?? 'unknown') ?></p>
+                    <p><strong>APP_ROOT Constant:</strong> <?= htmlspecialchars(defined('APP_ROOT') ? APP_ROOT : 'Not defined') ?></p>
+                    <p><strong>DIR_VIEWS Constant:</strong> <?= htmlspecialchars(defined('DIR_VIEWS') ? DIR_VIEWS : 'Not defined') ?></p>
+                </details>
+                  <details open>
+                    <summary>Routing Debug Info</summary>
+                    <p><strong>Requested URL:</strong> <?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? 'unknown') ?></p>
+                    <p><strong>Request Method:</strong> <?= htmlspecialchars($_SERVER['REQUEST_METHOD'] ?? 'unknown') ?></p>
+                    <p><strong>Server Software:</strong> <?= htmlspecialchars($_SERVER['SERVER_SOFTWARE'] ?? 'unknown') ?></p>
+                    <p><strong>Script Filename:</strong> <?= htmlspecialchars($_SERVER['SCRIPT_FILENAME'] ?? 'unknown') ?></p>
+                    <p><strong>Document Root:</strong> <?= htmlspecialchars($_SERVER['DOCUMENT_ROOT'] ?? 'unknown') ?></p>
+                    
+                    <?php 
+                    // Get the index.php file that contains the router switch statement
+                    $indexFile = APP_ROOT . '/public/index.php';
+                    ?>
+                    <p><strong>Index Router Location:</strong> <?= htmlspecialchars($indexFile) ?></p>
+                    
+                    <?php if (file_exists($indexFile)): ?>
+                    <details open>
+                        <summary>Available Routes</summary>
+                        <?php 
+                        // Extract the switch/case routing from index.php
+                        try {
+                            $indexContent = file_get_contents($indexFile);
+                            
+                            // Extract the switch statement
+                            if (preg_match('/switch\s*\(\$uri\)\s*{(.*?)}/s', $indexContent, $matches)) {
+                                $switchContent = $matches[1];
+                                
+                                // Extract all case statements
+                                preg_match_all('/case\s+[\'"]([^\'"]+)[\'"]:/', $switchContent, $caseMatches);
+                                
+                                if (!empty($caseMatches[1])) {
+                                    echo '<p><strong>Available Routes:</strong></p>';
+                                    echo '<ul>';
+                                    foreach ($caseMatches[1] as $route) {
+                                        echo '<li>' . htmlspecialchars($route) . '</li>';
+                                    }
+                                    echo '</ul>';
+                                } else {
+                                    echo '<p>Could not extract case statements from switch.</p>';
+                                }
+                            } else {
+                                echo '<p>Could not extract switch statement from index.php.</p>';
+                            }
+                        } catch (Exception $e) {
+                            echo '<p>Error reading index.php file: ' . htmlspecialchars($e->getMessage()) . '</p>';
+                        }
+                        ?>
+                    </details>
+                    <?php endif; ?>
+                </details>
+                
+                <?php if (method_exists($e, 'getPrevious') && $e->getPrevious()): ?>
+                <details>
+                    <summary>Previous Exception</summary>
+                    <pre><?= htmlspecialchars(print_r($e->getPrevious(), true)) ?></pre>
+                </details>
+                <?php endif; ?>
+                
+                <details>
+                    <summary>Request Information</summary>
+                    <h4>GET Parameters</h4>
+                    <pre><?= htmlspecialchars(print_r($_GET, true)) ?></pre>
+                    
+                    <h4>POST Parameters</h4>
+                    <pre><?= htmlspecialchars(print_r($_POST, true)) ?></pre>
+                    
+                    <h4>Server Information</h4>
+                    <pre><?= htmlspecialchars(print_r($_SERVER, true)) ?></pre>
+                    
+                    <h4>Session Information</h4>
+                    <pre><?= htmlspecialchars(print_r($_SESSION ?? [], true)) ?></pre>
+                    
+                    <h4>Cookies</h4>
+                    <pre><?= htmlspecialchars(print_r($_COOKIE, true)) ?></pre>
+                </details>
+            </div>
+            <p class="warning-note">--------------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+        <?php endif; ?>
+        
+        <div class="action-buttons">
+            <a href="/" class="btn">Return to Home</a>
+            <button class="btn btn-secondary" onclick="window.history.back()">Go Back</button>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; <?= date('Y') ?> SecDesk Security Management System
+    </footer>
+</body>
+</html>

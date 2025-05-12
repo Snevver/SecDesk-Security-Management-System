@@ -13,7 +13,7 @@ function fetchTargets() {
         return;
     }
 
-    fetch(`getTargets?id=${test_id}`, {
+    fetch(`/api/targets?id=${test_id}`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())
