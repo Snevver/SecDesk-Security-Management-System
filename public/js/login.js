@@ -25,14 +25,12 @@ document
         document.getElementById('error-message').textContent = '';
 
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Added a more detailed fetch URL
-        fetch(`/SecDesk-Security-Management-System/public/login`, {
+        const password = document.getElementById('password').value; // Fixed fetch URL to match server expectations
+        fetch(`/login.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json',
+                Accept: 'application/json, text/plain, */*', // Accept more response types
             },
             body: JSON.stringify({
                 email: email,
