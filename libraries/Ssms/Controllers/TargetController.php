@@ -1,19 +1,13 @@
 <?php
 
-/**
- * This file handles:
- * - Fetching the given tests targets from the database
- */
 namespace Ssms\Controllers;
 
 use PDO;
 
 class TargetController 
 {
-    // Properties
     private PDO $pdo;
 
-    // Constructor
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;

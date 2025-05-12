@@ -1,13 +1,6 @@
-/**
- * This script handles:
- * - Fetching and displaying the logged in users tests from the database.
- * - Redirecting to the targets.html page when a test is clicked and passing the test ID as a parameter.
- */
+// Get the base URL of the application
+const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
 
-// Base URL of the application
-const BASE_URL = '/SecDesk-Security-Management-System/public';
-
-// Helper function for debugging
 function debugLog(message, obj = null) {
     const debugOutput = document.getElementById('debug-output');
     if (debugOutput) {
@@ -21,9 +14,11 @@ function debugLog(message, obj = null) {
     console.log(message, obj || '');
 }
 
-// Fetch test data
+/**
+ * Function to fetch and display customer tests.
+ */
 function fetchCustomersTests() {
-    fetch(BASE_URL + '/tests', {
+    fetch(`${BASE_URL}/tests`, {
         credentials: 'same-origin',
     })
         .then((response) => {
@@ -54,6 +49,7 @@ function fetchCustomersTests() {
                 return;
             }
 
+            // Don this is for you to style :)
             let html = '<ul>';
             tests.forEach((test) => {
                 html += `<div id="test-${test.id}">
@@ -83,7 +79,7 @@ function fetchCustomersTests() {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function () {
-    // Check login and then fetch customer tests
+    // Fetch customer tests
     fetchCustomersTests();
 
     // Add click listeners to test items
@@ -92,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
         testList.addEventListener('click', function (event) {
             // Find the closest test div parent
             const testDiv = event.target.closest('[id^="test-"]');
+
+            // Redirect to the targets page if a test div is clicked and pass the test ID
             if (testDiv) {
                 const testId = testDiv.id.replace('test-', '');
                 window.location.href = `${BASE_URL}/targets.html?id=${testId}`;

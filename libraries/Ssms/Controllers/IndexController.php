@@ -1,20 +1,13 @@
 <?php
 
-/**
- * This file handles:
- * - Serving the index.html file
- * - Fetching the user's tests from the database
- */
 namespace Ssms\Controllers;
 
 use PDO;
 
 class IndexController 
 {
-    // Properties
     private PDO $pdo;
 
-    // Constructor
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;

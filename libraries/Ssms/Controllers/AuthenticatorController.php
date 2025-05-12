@@ -1,22 +1,13 @@
 <?php
 
-/**
- * This file handles:
- * - User login
- * - User logout
- * - Check if user is logged in
- */
-
 namespace Ssms\Controllers;
 
 use Ssms\Exceptions\HTTPException;
 
 class AuthenticatorController
 {
-    // Properties
     private \PDO $pdo;
 
-    // Constructor
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -32,8 +23,6 @@ class AuthenticatorController
             // Get the request body
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
-
-            file_put_contents("log.txt", "Login request data: " . print_r($data, true) . "\n");
 
             // Validate the request body
             if (!isset($data['email']) || !isset($data['password'])) {
@@ -56,25 +45,20 @@ class AuthenticatorController
                         session_start();
                     }
 
-                    // Set session variables
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['email'] = $user['email'];
-                    $_SESSION['logged_in'] = true;
-                    $_SESSION['role_id'] = (int)$user['role_id'];
-
                     // Get role name
                     $role_stmt = $this->pdo->prepare("SELECT name FROM roles WHERE id = :role_id");
                     $role_stmt->execute(['role_id' => $user['role_id']]);
                     $role = $role_stmt->fetch();
                     $role_name = $role ? $role['name'] : 'Unknown';
-
+                    
+                    // Set session variables
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['logged_in'] = true;
+                    $_SESSION['role_id'] = (int)$user['role_id'];
                     $_SESSION['role'] = $role_name;
 
-                    // Debug session info
-                    file_put_contents("php://stdout", "Session ID: " . session_id() . "\n");
-                    file_put_contents("php://stdout", "Session after login: " . print_r($_SESSION, true) . "\n");
-
-                    // Use proper paths with leading slash
+                    // Determine redirect URL based on role
                     if ($role_name === 'admin' || $role_name === 'employee') {
                         $_SESSION['redirect'] = '/employee-dashboard';
                     } else if ($role_name === 'customer') {
@@ -83,7 +67,6 @@ class AuthenticatorController
                         throw new HTTPException('Unknown role', 401);
                     }
                     
-                    file_put_contents("log.txt", "Login successful. User logged in: " . $user['email'] . "\n");
                     return [
                         'status' => 200,
                         'data' => [

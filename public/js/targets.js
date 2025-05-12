@@ -1,9 +1,9 @@
-/**
- * This script handles:
- * - Fetching and displaying the targets for a specific test from the database.
- */
+// Get base URL
+const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
 
-// Function to fetch targets from the database with the id in the URL
+/**
+ * Function to fetch and display targets of a test, given the ID.
+ */
 function fetchTargets() {
     const urlParams = new URLSearchParams(window.location.search);
     const test_id = urlParams.get('id');
@@ -13,7 +13,7 @@ function fetchTargets() {
         return;
     }
 
-    fetch(`/api/targets?id=${test_id}`, {
+    fetch(`${BASE_URL}/api/targets?id=${test_id}`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())
@@ -33,6 +33,7 @@ function fetchTargets() {
                 return;
             }
 
+            // Don this is for you to style :)
             let html = '<ul>';
             data.targets.forEach((target) => {
                 html += `<div id="target-${target.id}">
@@ -59,8 +60,6 @@ function fetchTargets() {
         });
 }
 
-// Initialize page
 document.addEventListener('DOMContentLoaded', function () {
-    // Check login and then fetch targets
-    checkLoginStatus(fetchTargets);
+    fetchTargets();
 });

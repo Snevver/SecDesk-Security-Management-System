@@ -8,39 +8,12 @@ function errorHandler($errno, $errstr, $errfile, $errline) {
     if (error_reporting() === 0) {
         return true;
     }
-    
-    // Log error details to server logs
-    file_put_contents("php://stderr", "PHP Error: [$errno] $errstr in $errfile on line $errline\n");
 
     throw new HTTPException($errstr, $errno, $errfile, $errline);
 }
 
 // Register our custom error handler
 set_error_handler('errorHandler', E_ALL);
-
-// // Similarly, handle uncaught exceptions
-// set_exception_handler(function($exception) {
-//     // Log exception to server logs
-//     file_put_contents("php://stderr", "Uncaught Exception: " . $exception->getMessage() . "\n");
-//     file_put_contents("php://stderr", "In file: " . $exception->getFile() . " on line " . $exception->getLine() . "\n");
-    
-//     // Set content type to JSON
-//     header('Content-Type: application/json');
-    
-//     // Create standardized error response
-//     $errorResponse = json_encode([
-//         'success' => false,
-//         'error' => 'Server exception occurred',
-//         'details' => $exception->getMessage(),
-//         'file' => basename($exception->getFile()),
-//         'line' => $exception->getLine()
-//     ]);
-    
-//     // Send response and exit
-//     http_response_code(500);
-//     echo $errorResponse;
-//     exit;
-// });
 
 // Handle fatal errors
 register_shutdown_function(function() {
@@ -59,24 +32,3 @@ register_shutdown_function(function() {
 
     }
 });
-
-// // Disable HTML error output
-// ini_set('display_errors', 0);
-// ini_set('display_startup_errors', 0);
-// // Still log errors to PHP error log
-// error_reporting(E_ALL);
-
-// // Configure session
-// ini_set('session.gc_maxlifetime', 3600);
-// session_save_path(sys_get_temp_dir());
-// ini_set('session.use_cookies', 1);
-// ini_set('session.use_only_cookies', 1);
-// ini_set('session.use_strict_mode', 1);
-
-// // Log request information
-// $requestUri = $_SERVER['REQUEST_URI'];
-// $requestMethod = $_SERVER['REQUEST_METHOD'];
-// file_put_contents("php://stdout", "Request received: $requestMethod $requestUri\n");
-
-// // Load the router for API requests
-// require_once __DIR__ . '/../router/router.php';

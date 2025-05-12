@@ -1,20 +1,13 @@
-/**
- * This script handles:
- * - Checking if the user is logged in (using the isLoggedIn() function in the AuthenticationController) and redirecting to the login page if not.
- * - Fetching and displaying user information in the UI.
- */
-
 // Get the base URL of the application
-const BASE_URL = '/SecDesk-Security-Management-System/public';
+const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
 
-// Common authentication functionality
+/**
+ * Function to check if the user is logged in. If not, redirect to the login page.
+ * @param {Function} callback - Optional callback function to execute after checking login status
+*/
 function checkLoginStatus(callback) {
-    console.log('Checking login status...');
-
-    console.log('BASE_URL:', BASE_URL);
-    console.log('Redirecting to:', BASE_URL + '/login');
-    
-    fetch(BASE_URL + '/isLoggedIn', {
+    // Fetch the login endpoint to check if the user is logged in, using the authentication controller
+    fetch(`${BASE_URL}/isLoggedIn`, {
         credentials: 'same-origin',
         headers: {
             'Accept': 'application/json'
@@ -23,26 +16,20 @@ function checkLoginStatus(callback) {
     .then((response) => {
         // Check if response is OK
         if (!response.ok) {
-            console.error('Response not OK:', response.status);
             throw new Error('Authentication check failed');
         }
         
         // Check content type to avoid HTML parsing errors
-        // const contentType = response.headers.get('Content-Type');
-        // if (!contentType || !contentType.includes('application/json')) {
-        //     console.error('Invalid content type:', contentType);
-        //     throw new Error('Invalid response format');
-        // }
+        const contentType = response.headers.get('Content-Type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new Error('Invalid response format. Expected JSON. Received: ' + contentType);
+        }
         
         return response.json();
     })
-    .then((data) => {
-        console.log('Login status data:', data);
-        
+    .then((data) => {        
         if (!data.success) {
-            console.log('User not logged in, redirecting to login page');
-            // Ensure the redirection uses BASE_URL
-            window.location.href = BASE_URL + '/login';
+            window.location.href = `${BASE_URL}/login`;
             return;
         }
 
@@ -61,7 +48,7 @@ function checkLoginStatus(callback) {
         // Only redirect if we're not already on the login page
         if (!window.location.pathname.includes('login')) {
             // Ensure the redirection uses BASE_URL
-            window.location.href = BASE_URL + '/login';
+            window.location.href = `${BASE_URL}/login`;
         }
     });
 }

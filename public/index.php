@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
+// Configure session with enhanced settings
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-
-// Still log errors to PHP error log
-error_reporting(E_ALL);
-
-// Configure session with enhanced settings
 ini_set('session.gc_maxlifetime', 3600);
-session_save_path(sys_get_temp_dir());
 ini_set('session.use_cookies', 1);
 ini_set('session.use_only_cookies', 1);
 ini_set('session.use_strict_mode', 1);
 ini_set('session.cookie_httponly', 1);
+
+session_save_path(sys_get_temp_dir());
+error_reporting(E_ALL);
 
 // Configure app
 define('APP_ROOT', realpath(__DIR__ . '/../') . DIRECTORY_SEPARATOR);
@@ -24,9 +22,11 @@ const DIR_CONTROLLERS = APP_ROOT . 'libraries\Ssms\Controllers' . DIRECTORY_SEPA
 const DIR_INCLUDES = APP_ROOT . 'includes' . DIRECTORY_SEPARATOR;
 const DIR_DATABASE = APP_ROOT . 'libraries\Ssms\Database' . DIRECTORY_SEPARATOR;
 
+// Include the autoload file and error handler
 require APP_ROOT . 'vendor/autoload.php';
 require_once DIR_INCLUDES . 'errorHandler.php';
 
+// Declare all the used namespaces
 use Ssms\Controllers\IndexController;
 use Ssms\Controllers\AuthenticatorController;
 use Ssms\Exceptions\HTTPException;
@@ -35,23 +35,18 @@ use Ssms\Controllers\EmployeeDashboardController;
 use Ssms\Controllers\TargetController;
 use Ssms\Database\Db;
 
-$uri = strtok($_SERVER['REQUEST_URI'], '?');
+// Get the endpoint of the URI and remove the query string
+$uri = strrchr(strtok($_SERVER['REQUEST_URI'], '?'), '/');
 
-// Debug log
-file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Request URI: " . $uri . "\n", FILE_APPEND);
-
+// Add a leading slash if not present
 if (!str_starts_with($uri, '/')) {
     $uri = '/' . $uri;
 }
 
+// If the URI is a file, return false
 if (is_file(__DIR__ . $uri)) {
     return false;
 }
-
-// Only get what comes after the public directory
-$uri = strrchr($uri, '/');
-
-file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Cleaned URI: " . $uri . "\n", FILE_APPEND);
 
 // Get the HTTP method
 $methodName = match ($_SERVER['REQUEST_METHOD']) {
@@ -60,9 +55,6 @@ $methodName = match ($_SERVER['REQUEST_METHOD']) {
     'DELETE' => 'delete',
     default => 'get',
 };
-
-// Debug log
-file_put_contents("logs.txt", date('Y-m-d H:i:s') . " HTTP Method: " . $_SERVER['REQUEST_METHOD'] . "\n", FILE_APPEND);
 
 // Disable CORS errors
 header("Access-Control-Allow-Origin: *");
@@ -83,34 +75,27 @@ function sendJsonResponse($data, $statusCode = 200) {
     exit;
 }
 
-file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Route: " . $uri . "\n", FILE_APPEND);
-
 // Determine the request
 try {
     switch ($uri) {
         case '/':
-            file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Index page requested\n", FILE_APPEND);
             header('Content-Type: text/html');
             include DIR_VIEWS . 'index.html';
             break;
         
         case '/employee-dashboard':
-            file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Employee dashboard requested\n", FILE_APPEND);
             include DIR_VIEWS . 'employee-dashboard.html';
             break;
 
         case '/login':
-            file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Login page requested\n", FILE_APPEND);
             include DIR_VIEWS . 'login.html';
             break;
         
         case '/targets':
-            file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Targets page requested\n", FILE_APPEND);
             include DIR_VIEWS . 'targets.html';
             break;
 
         case '/api/login':
-            // Ensure JSON response
             header('Content-Type: application/json');
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->login();
@@ -119,10 +104,7 @@ try {
         case '/logout':
             $c = new AuthenticatorController(Db::getInstance());
             $c->logout();
-
-            // Redirect to login page
-
-            header('Location: /SecDesk-Security-Management-System/public/login'); // We might to change this to a relative path, no idea how rn
+            header('Location: /SecDesk-Security-Management-System/public/login'); // We might to change this to a relative path, no idea how at the moment
             exit;
 
         case '/isLoggedIn':
@@ -160,18 +142,14 @@ try {
             break;
         
         default:
-            file_put_contents("logs.txt", date('Y-m-d H:i:s') . " Route not found: " . $uri . "\n", FILE_APPEND);
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
-    file_put_contents("logs.txt", date('Y-m-d H:i:s') . " HTTP Exception: " . $e->getMessage() . "\n", FILE_APPEND);
     $c = new ErrorController();
     $c($e);
 
 } catch (\Throwable $e) {
-    file_put_contents("logs.txt", date('Y-m-d H:i:s') . " General Exception: " . $e->getMessage() . "\n", FILE_APPEND);
     header('Content-Type: text/html');
     http_response_code(500);
     include DIR_VIEWS . 'error.html.php';
-    
 }

@@ -5,6 +5,10 @@ class Db extends \PDO
 {
     private static ?Db $instance = null;
 
+    /**
+     * Get the singleton instance of the Db class
+     * @return Db
+     */
     public static function getInstance(): Db
     {
         if (Db::$instance === null) {
@@ -24,6 +28,12 @@ class Db extends \PDO
         return Db::$instance;
     }
 
+    /**
+     * Db constructor.
+     * @param string $dsn
+     * @param string $username
+     * @param string $password
+     */
     public function __construct(string $dsn, string $username, string $password)
     {
         $options = [

@@ -1,13 +1,11 @@
+// Get the base URL of the application
+const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
+
 /**
- * This script handles:
- * - Fetching and displaying a list of customers from the server.
- * - Checking the logged in users role to check if they have access to the admin panel, if not, they get send to the index.html.
+ * Function to fetch and display customer data.
  */
-
-
-// Function to fetch customers
 function fetchCustomers() {
-    fetch('getCustomers', {
+    fetch(`${BASE_URL}/getCustomers`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())
@@ -43,7 +41,7 @@ function fetchCustomers() {
 
 // Function to check login status
 function checkLoginStatus(callback) {
-    fetch('isLoggedIn', {
+    fetch(`${BASE_URL}isLoggedIn`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())
