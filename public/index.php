@@ -117,10 +117,13 @@ try {
             sendJsonResponse($result['data'], $result['status']);
 
         case '/logout':
-            header('Content-Type: application/json');
             $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->logout();
-            sendJsonResponse($result['data'], $result['status']);
+            $c->logout();
+
+            // Redirect to login page
+
+            header('Location: /SecDesk-Security-Management-System/public/login'); // We might to change this to a relative path, no idea how rn
+            exit;
 
         case '/isLoggedIn':
             header('Content-Type: application/json');
@@ -146,7 +149,7 @@ try {
             $result = $c->getTargets();
             sendJsonResponse($result['data'], $result['status']);
 
-        case '/js/bootstrap.js':
+        case '/bootstrap.js':
             header('Content-Type: application/javascript');
             echo file_get_contents(APP_ROOT . '/node_modules/bootstrap/dist/js/bootstrap.bundle.js');
             break;
