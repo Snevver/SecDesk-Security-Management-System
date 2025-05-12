@@ -25,12 +25,12 @@ document
         document.getElementById('error-message').textContent = '';
 
         const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value; // Fixed fetch URL to match server expectations
-        fetch(`/login.php`, {
+        const password = document.getElementById('password').value;
+        fetch(`login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json, text/plain, */*', // Accept more response types
+                Accept: 'application/json, text/plain, */*',
             },
             body: JSON.stringify({
                 email: email,
