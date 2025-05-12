@@ -9,6 +9,8 @@
 
 namespace Ssms\Controllers;
 
+use Ssms\Exceptions\HTTPException;
+
 class AuthenticatorController
 {
     // Properties
@@ -31,21 +33,18 @@ class AuthenticatorController
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
 
-            file_put_contents("php://stdout", "Login request data: " . print_r($data, true) . "\n");
+            file_put_contents("log.txt", "Login request data: " . print_r($data, true) . "\n");
 
             // Validate the request body
             if (!isset($data['email']) || !isset($data['password'])) {
-                return [
-                    'status' => 400,
-                    'data' => ['success' => false, 'error' => 'Email and password required']
-                ];
+                throw new HTTPException('Email and password required', 400);
             }
 
             // Database authentication
             try {
                 // Test database connection first
                 $this->pdo->query("SELECT 1");
-                
+
                 // Authenticate the user with database using PDO
                 $stmt = $this->pdo->prepare("SELECT id, email, password, role_id FROM users WHERE email = :email");
                 $stmt->execute(['email' => $data['email']]);
@@ -56,13 +55,13 @@ class AuthenticatorController
                     if (session_status() === PHP_SESSION_NONE) {
                         session_start();
                     }
-                    
+
                     // Set session variables
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['logged_in'] = true;
                     $_SESSION['role_id'] = (int)$user['role_id'];
-                    
+
                     // Get role name
                     $role_stmt = $this->pdo->prepare("SELECT name FROM roles WHERE id = :role_id");
                     $role_stmt->execute(['role_id' => $user['role_id']]);
@@ -70,23 +69,21 @@ class AuthenticatorController
                     $role_name = $role ? $role['name'] : 'Unknown';
 
                     $_SESSION['role'] = $role_name;
-                    
+
                     // Debug session info
                     file_put_contents("php://stdout", "Session ID: " . session_id() . "\n");
                     file_put_contents("php://stdout", "Session after login: " . print_r($_SESSION, true) . "\n");
-                    
-                    // Redirect to the appropriate dashboard based on role
-                    if ($role_name === 'admin' || $role_name === 'employee') {
-                        $_SESSION['redirect'] = 'employeeDashboard.html';
-                    } else if ($role_name === 'customer') {
-                        $_SESSION['redirect'] = 'index.html';
-                    } else {
-                        return [
-                            'status' => 401,
-                            'data' => ['success' => false, 'error' => 'Unknown role']
-                        ];
-                    }
 
+                    // Use proper paths with leading slash
+                    if ($role_name === 'admin' || $role_name === 'employee') {
+                        $_SESSION['redirect'] = '/employee-dashboard';
+                    } else if ($role_name === 'customer') {
+                        $_SESSION['redirect'] = '/';
+                    } else {
+                        throw new HTTPException('Unknown role', 401);
+                    }
+                    
+                    file_put_contents("log.txt", "Login successful. User logged in: " . $user['email'] . "\n");
                     return [
                         'status' => 200,
                         'data' => [
@@ -98,26 +95,22 @@ class AuthenticatorController
                         ]
                     ];
                 } else {
-                    return [
-                        'status' => 401,
-                        'data' => ['success' => false, 'error' => 'Invalid credentials']
-                    ];
+                    throw new HTTPException('Invalid credentials', 401);
                 }
             } catch (\Exception $dbError) {
                 file_put_contents("php://stderr", "Database error in controller: " . $dbError->getMessage() . "\n");
-                
-                return [
-                    'status' => 500,
-                    'data' => [
-                        'success' => false, 
-                        'error' => 'Database connection error. Please try again later.',
-                        'details' => $dbError->getMessage()
-                    ]
-                ];
+                throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
             }
+        } catch (HTTPException $httpError) {
+            return [
+                'status' => $httpError->getCode(),
+                'data' => [
+                    'success' => false,
+                    'error' => $httpError->getMessage()
+                ]
+            ];
         } catch (\Exception $e) {
             file_put_contents("php://stderr", "General error in controller: " . $e->getMessage() . "\n");
-            
             return [
                 'status' => 500,
                 'data' => [

@@ -205,6 +205,7 @@ $friendlyTitle = isset($statusMessages[$statusCode]) ?
                     <p><strong>Document Root:</strong> <?= htmlspecialchars($_SERVER['DOCUMENT_ROOT'] ?? 'unknown') ?></p>
                     <p><strong>APP_ROOT Constant:</strong> <?= htmlspecialchars(defined('APP_ROOT') ? APP_ROOT : 'Not defined') ?></p>
                     <p><strong>DIR_VIEWS Constant:</strong> <?= htmlspecialchars(defined('DIR_VIEWS') ? DIR_VIEWS : 'Not defined') ?></p>
+                    <p><strong>DIR_CONTROLLERS Constant:</strong> <?= htmlspecialchars(defined('DIR_CONTROLLERS') ? DIR_CONTROLLERS : 'Not defined') ?></p>
                 </details>
                   <details open>
                     <summary>Routing Debug Info</summary>

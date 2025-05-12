@@ -4,6 +4,9 @@
  * - Redirecting to the targets.html page when a test is clicked and passing the test ID as a parameter.
  */
 
+// Base URL of the application
+const BASE_URL = '/SecDesk-Security-Management-System/public';
+
 // Helper function for debugging
 function debugLog(message, obj = null) {
     const debugOutput = document.getElementById('debug-output');
@@ -20,7 +23,7 @@ function debugLog(message, obj = null) {
 
 // Fetch test data
 function fetchCustomersTests() {
-    fetch('getCustomersTests', {
+    fetch(BASE_URL + '/tests', {
         credentials: 'same-origin',
     })
         .then((response) => {
@@ -81,7 +84,7 @@ function fetchCustomersTests() {
 // Initialize page
 document.addEventListener('DOMContentLoaded', function () {
     // Check login and then fetch customer tests
-    checkLoginStatus(fetchCustomersTests);
+    fetchCustomersTests();
 
     // Add click listeners to test items
     const testList = document.getElementById('test-list');
@@ -91,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const testDiv = event.target.closest('[id^="test-"]');
             if (testDiv) {
                 const testId = testDiv.id.replace('test-', '');
-                window.location.href = `targets.html?id=${testId}`;
+                window.location.href = `${BASE_URL}/targets.html?id=${testId}`;
             }
         });
     }

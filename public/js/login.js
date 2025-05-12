@@ -3,128 +3,127 @@
  * - User login functionality using the login() function in the AuthenticationController.
  */
 
+// Base URL of the application
+const BASE_URL = '/SecDesk-Security-Management-System/public';
+
 // Function to log debug info
 function debugLog(message) {
     const debugEl = document.getElementById("debug");
-    debugEl.style.display = "block";
-    debugEl.innerHTML += message + "<br>";
+    if (debugEl) {
+        debugEl.style.display = "block";
+        debugEl.innerHTML += message + "<br>";
+    }
     console.log(message);
 }
 
 // Function to display error message
 function showError(message) {
-    document.getElementById("error-message").textContent = message;
+    debugLog(`Error displayed to user: ${message}`);
+    const errorEl = document.getElementById('error-message');
+    if (errorEl) {
+        errorEl.textContent = message;
+    }
 }
 
 // Script to handle login
-document
-    .getElementById("login-form")
-    .addEventListener("submit", function (event) {
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+    
+    if (!loginForm) {
+        console.error('Login form not found');
+        return;
+    }
+    
+    loginForm.addEventListener('submit', function (event) {
+        debugLog('Login form submitted');
         event.preventDefault();
-        document.getElementById('debug').innerHTML = '';
-        document.getElementById('error-message').textContent = '';
+        
+        // Clear previous messages
+        const debugElement = document.getElementById('debug');
+        const errorElement = document.getElementById('error-message');
+        
+        if (debugElement) debugElement.innerHTML = '';
+        if (errorElement) errorElement.textContent = '';
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        fetch(`/api/login`, {
+        
+        debugLog(`Email entered: ${email}`);
+        debugLog(`Password length: ${password.length} characters`);
+
+        // Use base URL with path
+        fetch(`${BASE_URL}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json, text/plain, */*',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 email: email,
                 password: password,
             }),
         })
-            .then((response) => {
-                debugLog(`Response status: ${response.status}`);
-                debugLog(
-                    `Content-Type: ${response.headers.get('Content-Type')}`,
-                );
-
-                // Add additional logging for debugging
-                debugLog(`Response URL: ${response.url}`);
-
-                return response.text().then((text) => {
-                    // Log the raw response for debugging
-                    debugLog(
-                        `Raw response (first 500 chars): ${text.substring(
-                            0,
-                            500,
-                        )}`,
-                    );
-
-                    if (text.length === 0) {
-                        debugLog('Empty response from server');
-                        throw new Error('Empty response from server');
-                    }
-
-                    // First check if the response is HTML
-                    if (
-                        text.trim().startsWith('<!DOCTYPE html>') ||
-                        text.trim().startsWith('<html')
-                    ) {
-                        debugLog(
-                            'Received HTML instead of JSON - this may indicate a routing issue',
-                        );
-                        throw new Error(
-                            'Server returned HTML instead of JSON. This may indicate that the API endpoint is incorrect or the server is not processing the request properly.',
-                        );
-                    }
-
-                    try {
-                        debugLog(`Response text: ${text.substring(0, 100)}...`);
-                        return JSON.parse(text);
-                    } catch (e) {
-                        debugLog(
-                            `JSON parse error: ${
-                                e.message
-                            } - Text: ${text.substring(0, 100)}`,
-                        );
-
-                        if (
-                            text.includes('Connection failed') ||
-                            text.includes('PDO')
-                        ) {
-                            throw new Error(
-                                'Database connection issue. Please try again later.',
-                            );
-                        }
-
-                        throw new Error(
-                            'Invalid response from server: ' +
-                                text.substring(0, 100),
-                        );
-                    }
+        .then((response) => {
+            debugLog(`Response received with status: ${response.status}`);
+            
+            // Check for redirects
+            if (response.redirected) {
+                debugLog(`Redirect detected to: ${response.url}`);
+                window.location.href = response.url;
+                return Promise.reject(new Error('Redirected'));
+            }
+            
+            // Check content type
+            const contentType = response.headers.get('Content-Type');
+            debugLog(`Content-Type: ${contentType}`);
+            
+            if (!contentType || !contentType.includes('application/json')) {
+                debugLog('Expected JSON but got different content type');
+                return response.text().then(text => {
+                    debugLog(`Non-JSON response: ${text.substring(0, 100)}...`);
+                    throw new Error('Invalid response format');
                 });
-            })
-            .then((data) => {
-                debugLog(`Parsed data: ${JSON.stringify(data)}`);
-                if (data.success) {
-                    // Store user information in session storage for use in dashboard
-                    if (data.email) {
-                        sessionStorage.setItem('userEmail', data.email);
-                    }
-                    if (data.role) {
-                        sessionStorage.setItem('userRole', data.role);
-                    }
-
-                    debugLog(
-                        `Login successful, redirecting to: ${data.redirect}`,
-                    );
-                    window.location.href = data.redirect;
-                } else {
-                    const errorMsg =
-                        data.error || 'Login failed. Please try again.';
-                    debugLog(`Login failed: ${errorMsg}`);
-                    showError(errorMsg);
+            }
+            
+            return response.json();
+        })
+        .then((data) => {
+            debugLog(`Parsed data received: ${JSON.stringify(data)}`);
+            
+            if (data.success) {
+                debugLog(`Login successful for user: ${data.email}`);
+                
+                // Store session data BEFORE redirecting
+                if (data.email) {
+                    sessionStorage.setItem('userEmail', data.email);
+                    debugLog(`User email stored in session: ${data.email}`);
                 }
-            })
-            .catch((error) => {
-                debugLog(`Error: ${error.message}`);
-                showError(
-                    error.message || 'An error occurred. Please try again.',
-                );
-            });
+                
+                if (data.role) {
+                    sessionStorage.setItem('userRole', data.role);
+                    debugLog(`User role stored in session: ${data.role}`);
+                }
+
+                // Only redirect ONCE at the end
+                // Add BASE_URL to the redirect path if it's a relative path
+                let redirectPath = data.redirect || '/';
+                if (redirectPath.startsWith('/') && !redirectPath.startsWith('//')) {
+                    redirectPath = BASE_URL + redirectPath;
+                }
+                debugLog(`Redirecting to: ${redirectPath}`);
+                window.location.href = redirectPath;
+            } else {
+                const errorMsg = data.error || 'Login failed. Please try again.';
+                debugLog(`Login failed with error: ${errorMsg}`);
+                showError(errorMsg);
+            }
+        })
+        .catch((error) => {
+            // Only show error if not a redirect
+            if (error.message !== 'Redirected') {
+                debugLog(`Error caught in catch block: ${error.message}`);
+                showError(error.message || 'An error occurred. Please try again.');
+            }
+        });
     });
+});
