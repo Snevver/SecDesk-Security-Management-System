@@ -1,32 +1,23 @@
-// Get base URL
-const BASE_URL = window.location.origin + '/SecDesk-Security-Management-System/public';
-
 // Set up logout handler
 function setupLogout() {
     const logoutBtn = document.getElementById('logout-btn');
     
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function(event) {
-            // Prevent the default anchor behavior
-            event.preventDefault();
-            
-            fetch(`${BASE_URL}/logout`)
+
+            fetch(`/api/logout`)
                 .then(response => {
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Logout data:", data);
-                    // Clear session storage
-                    sessionStorage.removeItem('userEmail');
-                    sessionStorage.removeItem('userRole');
-                    sessionStorage.removeItem('userId');
+                    console.debug("Logout data:", data);
 
                     // Redirect to login page
-                    window.location.href = `${BASE_URL}/login`;
+                    window.location.href = `/login`;
                 })
                 .catch((error) => {
                     console.error('Logout error:', error);
-                    window.location.href = `${BASE_URL}/login`;
+                    window.location.href = `/login`;
                 });
         });
     } else {

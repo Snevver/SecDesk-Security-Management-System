@@ -1,6 +1,3 @@
-// Get base URL
-const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
-
 /**
  * Function to fetch and display targets of a test, given the ID.
  */
@@ -13,7 +10,7 @@ function fetchTargets() {
         return;
     }
 
-    fetch(`${BASE_URL}/api/targets?id=${test_id}`, {
+    fetch(`/api/targets?id=${test_id}`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())

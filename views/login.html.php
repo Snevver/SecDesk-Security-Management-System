@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <base href="/SecDesk-Security-Management-System/public/">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <?php include(DIR_VIEWS . 'partials/head.html.php'); ?>
 </head>
 
 <body>
@@ -44,7 +42,7 @@
         </section>
     </main>
 
-    <script src="../public/js/login.js"></script>
+    <script src="/js/login.js"></script>
 </body>
 
 </html>

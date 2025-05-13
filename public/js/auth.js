@@ -1,13 +1,9 @@
-// Get the base URL of the application
-const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
-
 /**
  * Function to check if the user is logged in. If not, redirect to the login page.
- * @param {Function} callback - Optional callback function to execute after checking login status
 */
-function checkLoginStatus(callback) {
+function checkLoginStatus() {
     // Fetch the login endpoint to check if the user is logged in, using the authentication controller
-    fetch(`${BASE_URL}/isLoggedIn`, {
+    fetch(`/api/check-login`, {
         credentials: 'same-origin',
         headers: {
             'Accept': 'application/json'
@@ -19,36 +15,25 @@ function checkLoginStatus(callback) {
             throw new Error('Authentication check failed');
         }
         
-        // Check content type to avoid HTML parsing errors
-        const contentType = response.headers.get('Content-Type');
-        if (!contentType || !contentType.includes('application/json')) {
-            throw new Error('Invalid response format. Expected JSON. Received: ' + contentType);
-        }
-        
         return response.json();
     })
     .then((data) => {        
         if (!data.success) {
-            window.location.href = `${BASE_URL}/login`;
+            window.location.href = `/login`;
             return;
         }
 
-        console.log('User is logged in:', data.email);
+        console.debug('User is logged in:', data.email);
         
         // User is logged in, update UI elements
         updateUserInfo(data);
-
-        // Execute the callback function if provided
-        if (typeof callback === 'function') {
-            callback(data);
-        }
     })
     .catch((error) => {
         console.error('Error checking login status:', error);
         // Only redirect if we're not already on the login page
         if (!window.location.pathname.includes('login')) {
             // Ensure the redirection uses BASE_URL
-            window.location.href = `${BASE_URL}/login`;
+            window.location.href = `/login`;
         }
     });
 }

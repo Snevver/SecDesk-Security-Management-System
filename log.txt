@@ -1,0 +1,867 @@
+[2025-05-13 10:14:53] [info] URI: /SecDesk-Security-Management-System/public/login
+[2025-05-13 10:15:38] [info] URI: /SecDesk-Security-Management-System/public/login
+[2025-05-13 10:33:51] [info] URI: get /
+[2025-05-13 10:34:17] [info] URI: get /
+[2025-05-13 10:34:23] [info] URI: get /
+[2025-05-13 10:34:34] [info] URI: get /
+[2025-05-13 10:35:09] [info] URI: get /
+[2025-05-13 10:35:33] [info] URI: get /
+[2025-05-13 10:36:15] [info] URI: get /
+[2025-05-13 10:36:20] [info] URI: get /
+[2025-05-13 10:36:20] [info] URI: get /
+[2025-05-13 10:36:20] [info] URI: get /
+[2025-05-13 10:41:16] [info] URI: get /js/bootstrap.js
+[2025-05-13 10:41:16] [Debug] Loading bootstrap.js
+[2025-05-13 10:41:17] [info] URI: get /favicon.ico
+[2025-05-13 10:45:04] [info] URI: get /
+[2025-05-13 10:45:04] [info] Loading index.html
+[2025-05-13 10:45:04] [info] URI: get /SecDesk-Security-Management-System/public/images/sms-simple.png
+[2025-05-13 10:45:04] [info] URI: get /SecDesk-Security-Management-System/public/images/secdesk-logo.png
+[2025-05-13 10:45:04] [info] URI: get /css/bootstrap.css
+[2025-05-13 10:45:04] [info] URI: get /SecDesk-Security-Management-System/public/images/logo-only.png
+[2025-05-13 10:45:04] [info] URI: get /public/js/index.js
+[2025-05-13 10:45:04] [info] URI: get /public/js/logout.js
+[2025-05-13 10:45:04] [info] URI: get /js/bootstrap.js
+[2025-05-13 10:45:04] [Debug] Loading bootstrap.js
+[2025-05-13 10:45:06] [info] URI: get //public/isLoggedIn
+[2025-05-13 10:45:06] [info] URI: get //public/login
+[2025-05-13 10:45:07] [info] URI: get /favicon.ico
+[2025-05-13 10:45:19] [info] URI: get /public/login
+[2025-05-13 10:47:08] [info] URI: get /login
+[2025-05-13 10:47:08] [info] URI: get /SecDesk-Security-Management-System/public/css/main.css
+[2025-05-13 10:47:08] [info] URI: get /SecDesk-Security-Management-System/public/images/login-image.png
+[2025-05-13 10:47:08] [info] URI: get /SecDesk-Security-Management-System/public/css/bootstrap.css
+[2025-05-13 10:47:08] [info] URI: get /SecDesk-Security-Management-System/public/images/sms-simple.png
+[2025-05-13 10:47:08] [info] URI: get /SecDesk-Security-Management-System/public/js/login.js
+k-logo.png
+[2025-05-13 10:47:13] [info] URI: get /logout
+[2025-05-13 10:47:14] [info] URI: get /login
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/css/main.css
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/css/bootstrap.css
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/js/login.js
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/images/login-image.png
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/images/secdesk-logo.png
+[2025-05-13 10:47:14] [info] URI: get /SecDesk-Security-Management-System/public/images/sms-simple.png
+[2025-05-13 10:47:20] [info] URI: get /logout
+[2025-05-13 10:47:20] [info] URI: get /login
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/css/main.css
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/css/bootstrap.css
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/images/sms-simple.png
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/images/secdesk-logo.png
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/js/login.js
+[2025-05-13 10:47:20] [info] URI: get /SecDesk-Security-Management-System/public/images/login-image.png
+[2025-05-13 10:52:42] [info] URI: get /login
+[2025-05-13 10:52:42] [info] URI: get /css/bootstrap.css
+[2025-05-13 10:52:42] [info] URI: get /js/bootstrap.js
+[2025-05-13 10:52:42] [Debug] Loading bootstrap.js
+[2025-05-13 10:52:42] [info] URI: get /public/js/login.js
+[2025-05-13 10:53:35] [info] URI: get /login
+[2025-05-13 10:53:35] [info] URI: get /css/bootstrap.css
+[2025-05-13 10:53:35] [info] URI: get /public/js/login.js
+[2025-05-13 10:53:35] [info] URI: get /js/bootstrap.js
+[2025-05-13 10:53:35] [Debug] Loading bootstrap.js
+[2025-05-13 10:53:42] [info] URI: get /css/bootstrap.css
+[2025-05-13 10:53:42] [info] URI: get /js/bootstrap.bundle.js.map
+[2025-05-13 10:53:42] [info] URI: get /css/bootstrap.css.map
+[2025-05-13 10:55:00] [info] URI: get /login
+[2025-05-13 10:55:00] [info] URI: get /css/bootstrap.css
+[2025-05-13 10:55:00] [info] URI: get /public/js/login.js
+[2025-05-13 10:55:00] [info] URI: get /js/bootstrap.js
+[2025-05-13 10:55:00] [Debug] Loading bootstrap.js
+[2025-05-13 10:55:00] [info] URI: get /css/bootstrap.css.map
+[2025-05-13 10:55:00] [info] URI: get /js/bootstrap.bundle.js.map
+[2025-05-13 10:59:29] [info] URI: GET /login
+[2025-05-13 10:59:29] [info] URI: GET /css/bootstrap.css
+[2025-05-13 10:59:29] [info] URI: GET /public/js/login.js
+[2025-05-13 10:59:29] [info] URI: GET /js/bootstrap.js
+[2025-05-13 10:59:29] [Debug] Loading bootstrap.js
+[2025-05-13 10:59:29] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 10:59:29] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 10:59:40] [info] URI: GET /login
+[2025-05-13 10:59:40] [info] URI: GET /css/bootstrap.css
+[2025-05-13 10:59:40] [info] URI: GET /public/js/login.js
+[2025-05-13 10:59:40] [info] URI: GET /js/bootstrap.js
+[2025-05-13 10:59:40] [Debug] Loading bootstrap.js
+[2025-05-13 10:59:40] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 10:59:40] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:02:49] [info] URI: GET /login
+[2025-05-13 11:02:49] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:02:49] [Debug] Loading bootstrap.js
+[2025-05-13 11:02:49] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:02:56] [info] URI: POST /api/login
+[2025-05-13 11:02:56] [info] Login request: /api/login
+[2025-05-13 11:06:03] [info] URI: GET /login
+[2025-05-13 11:06:03] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:06:03] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:06:03] [Debug] Loading bootstrap.js
+[2025-05-13 11:06:09] [info] URI: POST /api/login
+[2025-05-13 11:06:09] [info] Login result: 
+Array
+(
+    [status] => 200
+    [data] => Array
+        (
+            [success] => 1
+            [message] => Login successful
+            [email] => alice@example.com
+            [role] => customer
+            [redirect] => http://php.web/SecDesk-Security-Management-System/public/
+        )
+
+)
+
+[2025-05-13 11:07:33] [info] URI: GET /login
+[2025-05-13 11:07:33] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:07:33] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:07:33] [Debug] Loading bootstrap.js
+[2025-05-13 11:07:38] [info] URI: POST /api/login
+[2025-05-13 11:07:39] [info] Login result: 
+Array
+(
+    [status] => 200
+    [data] => Array
+        (
+            [success] => 1
+            [message] => Login successful
+            [email] => alice@example.com
+            [role] => customer
+            [redirect] => /
+        )
+
+)
+
+[2025-05-13 11:11:19] [info] URI: GET /login
+[2025-05-13 11:11:19] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:11:19] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:11:19] [Debug] Loading bootstrap.js
+[2025-05-13 11:11:28] [info] URI: POST /api/login
+[2025-05-13 11:11:29] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:15:37] [info] URI: GET /login
+[2025-05-13 11:15:37] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:15:37] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:15:37] [Debug] Loading bootstrap.js
+[2025-05-13 11:15:42] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:15:42] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:15:42] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:15:50] [info] URI: POST /api/login
+[2025-05-13 11:15:51] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:18:55] [info] URI: GET /login
+[2025-05-13 11:18:55] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:18:55] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:18:55] [Debug] Loading bootstrap.js
+[2025-05-13 11:18:55] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:18:55] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:19:01] [info] URI: POST /api/login
+[2025-05-13 11:19:02] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:19:50] [info] URI: GET /login
+[2025-05-13 11:19:50] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:19:50] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:19:50] [Debug] Loading bootstrap.js
+[2025-05-13 11:19:50] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:19:50] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:06] [info] URI: GET /login
+[2025-05-13 11:21:06] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:06] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:06] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:06] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:06] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:07] [info] URI: GET /login
+[2025-05-13 11:21:07] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:07] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:07] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:07] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:07] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:08] [info] URI: GET /login
+[2025-05-13 11:21:08] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:08] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:08] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:08] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:08] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:08] [info] URI: GET /login
+[2025-05-13 11:21:08] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:08] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:08] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:08] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:08] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:09] [info] URI: GET /login
+[2025-05-13 11:21:09] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:09] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:09] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:09] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:09] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:09] [info] URI: GET /login
+[2025-05-13 11:21:09] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:09] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:09] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:10] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:10] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:10] [info] URI: GET /login
+[2025-05-13 11:21:10] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:10] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:10] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:10] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:10] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:10] [info] URI: GET /login
+[2025-05-13 11:21:10] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:10] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:10] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:10] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:10] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:11] [info] URI: GET /login
+[2025-05-13 11:21:11] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:11] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:11] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:11] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:11] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:11] [info] URI: GET /login
+[2025-05-13 11:21:11] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:11] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:11] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:11] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:11] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:12] [info] URI: GET /login
+[2025-05-13 11:21:12] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:12] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:12] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:12] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:12] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:21:12] [info] URI: GET /login
+[2025-05-13 11:21:12] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:21:12] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:21:12] [Debug] Loading bootstrap.js
+[2025-05-13 11:21:12] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:21:12] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:16] [info] URI: GET /login
+[2025-05-13 11:23:16] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:16] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:16] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:16] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:16] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:17] [info] URI: GET /login
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:17] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:17] [info] URI: GET /login
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:17] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:17] [info] URI: GET /login
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:17] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:17] [info] URI: GET /login
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:17] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:17] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:17] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:18] [info] URI: GET /login
+[2025-05-13 11:23:18] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:18] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:18] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:18] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:18] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:18] [info] URI: GET /login
+[2025-05-13 11:23:18] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:18] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:18] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:18] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:18] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:18] [info] URI: GET /login
+[2025-05-13 11:23:18] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:18] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:18] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:19] [info] URI: GET /login
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:19] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:19] [info] URI: GET /login
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:19] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:19] [info] URI: GET /login
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:19] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:19] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:23:19] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:47] [info] URI: GET /login
+[2025-05-13 11:23:47] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:23:47] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:23:47] [Debug] Loading bootstrap.js
+[2025-05-13 11:23:47] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:23:47] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:24:21] [info] URI: GET /login
+[2025-05-13 11:24:21] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:24:21] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:24:21] [Debug] Loading bootstrap.js
+[2025-05-13 11:24:21] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:24:21] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:24:28] [info] URI: POST /api/login
+[2025-05-13 11:24:28] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:26:09] [info] URI: GET /login
+[2025-05-13 11:26:09] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:26:09] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:26:09] [Debug] Loading bootstrap.js
+[2025-05-13 11:26:09] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:26:09] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:26:15] [info] URI: POST /api/login
+[2025-05-13 11:26:16] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:29:20] [info] URI: GET /login
+[2025-05-13 11:29:20] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:29:20] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:29:20] [Debug] Loading bootstrap.js
+[2025-05-13 11:29:20] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:29:20] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:29:38] [info] URI: POST /api/login
+[2025-05-13 11:29:38] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:30:06] [info] URI: GET /login
+[2025-05-13 11:30:06] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:30:06] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:30:06] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:06] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:30:06] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:12] [info] URI: POST /api/login
+[2025-05-13 11:30:14] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:30:14] [info] URI: GET /undefined
+[2025-05-13 11:30:33] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:30:33] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:33] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:30:33] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:37] [info] URI: GET /login
+[2025-05-13 11:30:37] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:30:37] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:30:37] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:37] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:30:37] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:46] [info] URI: POST /api/login
+[2025-05-13 11:30:47] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:30:47] [info] URI: GET /
+[2025-05-13 11:30:47] [info] Loading index.html.php
+[2025-05-13 11:30:47] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:30:47] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:30:47] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:47] [info] URI: GET /isLoggedIn
+[2025-05-13 11:30:47] [info] URI: GET /tests
+[2025-05-13 11:30:47] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:47] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:30:48] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:48] [info] URI: GET /login
+[2025-05-13 11:30:48] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:30:48] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:30:48] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:48] [Debug] Loading bootstrap.js
+[2025-05-13 11:30:48] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:30:48] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:32:28] [info] URI: POST /api/login
+[2025-05-13 11:32:29] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:32:29] [info] URI: GET /
+[2025-05-13 11:32:29] [info] Loading index.html.php
+[2025-05-13 11:32:29] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:32:29] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:32:29] [Debug] Loading bootstrap.js
+[2025-05-13 11:32:29] [info] URI: GET /tests
+[2025-05-13 11:32:29] [info] URI: GET /isLoggedIn
+[2025-05-13 11:32:29] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:32:29] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:32:29] [Debug] Loading bootstrap.js
+[2025-05-13 11:32:29] [info] URI: GET /login
+[2025-05-13 11:32:29] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:32:29] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:32:29] [Debug] Loading bootstrap.js
+[2025-05-13 11:32:29] [Debug] Loading bootstrap.js
+[2025-05-13 11:32:30] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:32:30] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:40:12] [info] URI: GET /login
+[2025-05-13 11:40:12] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:40:12] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:40:12] [Debug] Loading bootstrap.js
+[2025-05-13 11:40:13] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:40:13] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:40:18] [info] URI: POST /api/login
+[2025-05-13 11:46:18] [info] URI: GET /login
+[2025-05-13 11:46:19] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:46:19] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:46:19] [Debug] Loading bootstrap.js
+[2025-05-13 11:46:19] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:46:19] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:46:25] [info] URI: POST /api/login
+[2025-05-13 11:49:42] [info] URI: GET /login
+[2025-05-13 11:49:42] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:49:42] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:49:42] [Debug] Loading bootstrap.js
+[2025-05-13 11:49:42] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:49:42] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:49:48] [info] URI: POST /api/login
+[2025-05-13 11:49:48] [info] Login attempt
+[2025-05-13 11:50:51] [info] URI: GET /login
+[2025-05-13 11:50:51] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:50:51] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:50:51] [Debug] Loading bootstrap.js
+[2025-05-13 11:50:51] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:50:51] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:50:57] [info] URI: POST /api/login
+[2025-05-13 11:50:57] [info] Login attempt
+[2025-05-13 11:50:57] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 11:51:39] [info] URI: GET /login
+[2025-05-13 11:51:39] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:51:39] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:51:39] [Debug] Loading bootstrap.js
+[2025-05-13 11:51:39] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:51:39] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:51:45] [info] URI: POST /api/login
+[2025-05-13 11:51:45] [info] Login attempt
+[2025-05-13 11:51:45] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 11:51:46] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:53:14] [info] URI: GET /login
+[2025-05-13 11:53:14] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:53:14] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:53:14] [Debug] Loading bootstrap.js
+[2025-05-13 11:53:14] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:53:14] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:53:21] [info] URI: POST /api/login
+[2025-05-13 11:53:21] [info] Login attempt
+[2025-05-13 11:53:22] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 11:53:22] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:53:22] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:53:22] [info] URI: GET /
+[2025-05-13 11:53:22] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:53:22] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:53:22] [Debug] Loading bootstrap.js
+[2025-05-13 11:53:22] [info] URI: GET /api/check-login
+[2025-05-13 11:53:22] [info] URI: GET /api/tests
+[2025-05-13 11:53:22] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:53:22] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:53:22] [info] URI: GET /login
+[2025-05-13 11:53:22] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:53:22] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:53:22] [Debug] Loading bootstrap.js
+[2025-05-13 11:53:22] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:53:22] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:56:23] [info] URI: GET /login
+[2025-05-13 11:56:23] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:56:23] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:56:23] [Debug] Loading bootstrap.js
+[2025-05-13 11:56:23] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:56:23] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:56:28] [info] URI: POST /api/login
+[2025-05-13 11:56:28] [info] Login attempt
+[2025-05-13 11:56:31] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 11:56:31] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:56:31] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:56:31] [info] URI: GET /
+[2025-05-13 11:56:31] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:56:31] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:56:31] [Debug] Loading bootstrap.js
+[2025-05-13 11:56:31] [info] URI: GET /api/check-login
+[2025-05-13 11:56:31] [info] Check login
+[2025-05-13 11:56:32] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:56:32] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:56:32] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:56:32] [info] User is logged in: alice@example.com
+[2025-05-13 11:56:32] [info] URI: GET /login
+[2025-05-13 11:56:32] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:56:32] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:56:32] [Debug] Loading bootstrap.js
+[2025-05-13 11:56:32] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:56:32] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:58:29] [info] URI: POST /api/login
+[2025-05-13 11:58:29] [info] Login attempt
+[2025-05-13 11:58:29] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 11:58:29] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:58:29] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 11:58:29] [info] URI: GET /
+[2025-05-13 11:58:29] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:58:29] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:58:29] [Debug] Loading bootstrap.js
+[2025-05-13 11:58:29] [info] URI: GET /api/check-login
+[2025-05-13 11:58:29] [info] Check login
+[2025-05-13 11:58:30] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:58:30] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:58:30] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:58:30] [info] User is logged in: alice@example.com
+[2025-05-13 11:59:47] [info] URI: GET /logout
+[2025-05-13 11:59:47] [info] URI: GET /login
+[2025-05-13 11:59:47] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:59:47] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:59:47] [Debug] Loading bootstrap.js
+[2025-05-13 11:59:47] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:59:47] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:59:55] [info] URI: GET /
+[2025-05-13 11:59:55] [info] URI: GET /css/bootstrap.css
+[2025-05-13 11:59:55] [info] URI: GET /js/bootstrap.js
+[2025-05-13 11:59:55] [Debug] Loading bootstrap.js
+[2025-05-13 11:59:55] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 11:59:55] [info] URI: GET /api/check-login
+[2025-05-13 11:59:55] [info] URI: GET /api/tests
+[2025-05-13 11:59:55] [info] Check login
+[2025-05-13 11:59:55] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 11:59:56] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 11:59:56] [info] User is logged in: alice@example.com
+[2025-05-13 12:01:38] [info] URI: GET /
+[2025-05-13 12:01:38] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:01:38] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:01:38] [Debug] Loading bootstrap.js
+[2025-05-13 12:01:39] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:01:39] [info] URI: GET /api/check-login
+[2025-05-13 12:01:39] [info] Check login
+[2025-05-13 12:01:39] [info] URI: GET /api/tests
+[2025-05-13 12:01:39] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:01:40] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 12:01:40] [info] User is logged in: alice@example.com
+[2025-05-13 12:01:46] [info] URI: GET /api/logout
+[2025-05-13 12:01:47] [info] URI: GET /login
+[2025-05-13 12:01:47] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:01:47] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:01:47] [Debug] Loading bootstrap.js
+[2025-05-13 12:01:47] [info] URI: GET /css/bootstrap.css.map
+map
+[2025-05-13 12:02:00] [info] URI: POST /api/login
+[2025-05-13 12:02:00] [info] Login attempt
+[2025-05-13 12:02:01] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 12:02:02] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+)
+
+[2025-05-13 12:02:02] [info] Login result: 
+{"success":true,"message":"Login successful","email":"alice@example.com","role":"customer","redirect":"\/"}
+[2025-05-13 12:02:02] [info] URI: GET /
+[2025-05-13 12:02:02] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:02:02] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:02:02] [Debug] Loading bootstrap.js
+[2025-05-13 12:02:02] [info] URI: GET /api/check-login
+[2025-05-13 12:02:02] [info] Check login
+[2025-05-13 12:02:02] [info] URI: GET /api/tests
+[2025-05-13 12:02:03] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:02:03] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:02:03] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 12:02:03] [info] User is logged in: alice@example.com
+[2025-05-13 12:02:10] [info] URI: GET /api/logout
+[2025-05-13 12:02:11] [info] URI: GET /login
+[2025-05-13 12:02:11] [info] URI: GET /login
+[2025-05-13 12:02:11] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:02:11] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:02:11] [Debug] Loading bootstrap.js
+[2025-05-13 12:02:11] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:02:11] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:02:15] [info] URI: GET /
+[2025-05-13 12:02:15] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:02:15] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:02:15] [Debug] Loading bootstrap.js
+[2025-05-13 12:02:15] [info] URI: GET /api/check-login
+[2025-05-13 12:02:15] [info] Check login
+[2025-05-13 12:02:15] [info] URI: GET /api/tests
+[2025-05-13 12:02:15] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:02:15] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:02:15] [info] Session variables: Array
+(
+)
+
+[2025-05-13 12:02:15] [info] URI: GET /login
+[2025-05-13 12:02:15] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:02:15] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:02:15] [Debug] Loading bootstrap.js
+[2025-05-13 12:02:15] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:02:15] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:03:38] [info] URI: POST /api/login
+[2025-05-13 12:03:38] [info] Login attempt
+[2025-05-13 12:03:38] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password123
+)
+
+[2025-05-13 12:03:38] [info] Login result: 
+{"success":false,"error":"Database connection error. Please try again later."}
+[2025-05-13 12:03:42] [info] URI: POST /api/login
+[2025-05-13 12:03:42] [info] Login attempt
+[2025-05-13 12:03:42] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password123
+)
+
+[2025-05-13 12:03:42] [info] Login result: 
+{"success":false,"error":"Database connection error. Please try again later."}
+[2025-05-13 12:03:43] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:03:43] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:03:43] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:03:48] [info] URI: POST /api/login
+[2025-05-13 12:03:48] [info] Login attempt
+[2025-05-13 12:03:49] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password123
+)
+
+[2025-05-13 12:03:49] [info] Login result: 
+{"success":false,"error":"Database connection error. Please try again later."}
+[2025-05-13 12:06:03] [info] URI: GET /login
+[2025-05-13 12:06:03] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:06:03] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:06:03] [Debug] Loading bootstrap.js
+[2025-05-13 12:06:03] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:06:03] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:06:10] [info] URI: POST /api/login
+[2025-05-13 12:06:10] [info] Login attempt
+[2025-05-13 12:06:10] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password3
+)
+
+[2025-05-13 12:06:10] [info] Session variables: Array
+(
+    [user_id] => 3
+    [email] => admin@example.com
+    [logged_in] => 1
+    [role_id] => 3
+    [role] => admin
+)
+
+[2025-05-13 12:06:10] [info] Redirecting to: /employee-dashboard
+[2025-05-13 12:06:10] [info] Login result: 
+{"success":true,"message":"Login successful","email":"admin@example.com","role":"admin","redirect":"\/employee-dashboard"}
+[2025-05-13 12:06:11] [info] URI: GET /employee-dashboard
+[2025-05-13 12:07:55] [info] URI: GET /js/bootstrap.bundle.js.map
+[2025-05-13 12:07:55] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:07:56] [info] URI: GET /css/bootstrap.css.map
+[2025-05-13 12:08:03] [info] URI: POST /api/login
+[2025-05-13 12:08:03] [info] Login attempt
+[2025-05-13 12:08:03] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password3
+)
+
+[2025-05-13 12:08:03] [info] Session variables: Array
+(
+    [user_id] => 3
+    [email] => admin@example.com
+    [logged_in] => 1
+    [role_id] => 3
+    [role] => admin
+    [redirect] => /employee-dashboard
+)
+
+[2025-05-13 12:08:03] [info] Redirecting to: /employee-dashboard
+[2025-05-13 12:08:03] [info] Login result: 
+{"success":true,"message":"Login successful","email":"admin@example.com","role":"admin","redirect":"\/employee-dashboard"}
+[2025-05-13 12:08:03] [info] URI: GET /employee-dashboard
+[2025-05-13 12:10:01] [info] URI: GET /employee-dashboard
+[2025-05-13 12:10:51] [info] URI: GET /employee-dashboard
+[2025-05-13 12:10:51] [info] URI: GET /api/customers
+[2025-05-13 12:10:51] [info] URI: GET /api/check-login
+[2025-05-13 12:10:51] [info] Check login
+[2025-05-13 12:10:51] [info] Session variables: Array
+(
+    [user_id] => 3
+    [email] => admin@example.com
+    [logged_in] => 1
+    [role_id] => 3
+    [role] => admin
+    [redirect] => /employee-dashboard
+)
+
+[2025-05-13 12:10:51] [info] User is logged in: admin@example.com
+[2025-05-13 12:11:02] [info] URI: GET /login
+[2025-05-13 12:11:02] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:11:02] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:11:02] [Debug] Loading bootstrap.js
+[2025-05-13 12:11:12] [info] URI: POST /api/login
+[2025-05-13 12:11:12] [info] Login attempt
+[2025-05-13 12:11:13] [info] Login request data: Array
+(
+    [email] => admin@example.com
+    [password] => password3
+)
+
+[2025-05-13 12:11:13] [info] Session variables: Array
+(
+    [user_id] => 3
+    [email] => admin@example.com
+    [logged_in] => 1
+    [role_id] => 3
+    [role] => admin
+    [redirect] => /employee-dashboard
+)
+
+[2025-05-13 12:11:13] [info] Redirecting to: /employee-dashboard
+[2025-05-13 12:11:13] [info] Login result: 
+{"success":true,"message":"Login successful","email":"admin@example.com","role":"admin","redirect":"\/employee-dashboard"}
+[2025-05-13 12:11:14] [info] URI: GET /employee-dashboard
+[2025-05-13 12:11:14] [info] URI: GET /api/check-login
+[2025-05-13 12:11:14] [info] Check login
+[2025-05-13 12:11:14] [info] URI: GET /api/customers
+[2025-05-13 12:11:14] [info] Session variables: Array
+(
+    [user_id] => 3
+    [email] => admin@example.com
+    [logged_in] => 1
+    [role_id] => 3
+    [role] => admin
+    [redirect] => /employee-dashboard
+)
+
+[2025-05-13 12:11:14] [info] User is logged in: admin@example.com
+[2025-05-13 12:17:34] [info] URI: GET /api/logout
+[2025-05-13 12:17:35] [info] URI: GET /login
+[2025-05-13 12:17:35] [info] URI: GET /login
+[2025-05-13 12:17:35] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:17:35] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:17:35] [Debug] Loading bootstrap.js
+[2025-05-13 12:17:39] [info] URI: GET /
+[2025-05-13 12:17:39] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:17:39] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:17:39] [Debug] Loading bootstrap.js
+[2025-05-13 12:17:39] [info] URI: GET /api/check-login
+[2025-05-13 12:17:39] [info] Check login
+[2025-05-13 12:17:39] [info] URI: GET /api/tests
+[2025-05-13 12:17:40] [info] Session variables: Array
+(
+)
+
+[2025-05-13 12:17:40] [info] URI: GET /login
+[2025-05-13 12:17:40] [info] URI: GET /css/bootstrap.css
+[2025-05-13 12:17:40] [info] URI: GET /js/bootstrap.js
+[2025-05-13 12:17:40] [Debug] Loading bootstrap.js

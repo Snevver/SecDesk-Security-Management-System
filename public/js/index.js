@@ -1,6 +1,3 @@
-// Get the base URL of the application
-const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
-
 function debugLog(message, obj = null) {
     const debugOutput = document.getElementById('debug-output');
     if (debugOutput) {
@@ -18,13 +15,14 @@ function debugLog(message, obj = null) {
  * Function to fetch and display customer tests.
  */
 function fetchCustomersTests() {
-    fetch(`${BASE_URL}/tests`, {
+    fetch(`/api/tests`, {
         credentials: 'same-origin',
     })
         .then((response) => {
             return response.json();
         })
         .then((data) => {
+            console.debug('Fetched tests:', data);
             const testListElement = document.getElementById('test-list');
 
             if (!testListElement) {
@@ -92,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Redirect to the targets page if a test div is clicked and pass the test ID
             if (testDiv) {
                 const testId = testDiv.id.replace('test-', '');
-                window.location.href = `${BASE_URL}/targets.html?id=${testId}`;
+                window.location.href = `/targets.html?id=${testId}`;
             }
         });
     }

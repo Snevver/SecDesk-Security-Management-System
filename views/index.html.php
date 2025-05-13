@@ -5,13 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <base href="/SecDesk-Security-Management-System/public/">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <script src="bootstrap.js" defer></script>
-  <!-- <script src="js/auth.js"></script> -->
+  <?php include(DIR_VIEWS . 'partials/head.html.php'); ?>
+  <script src="/js/auth.js"></script>
 </head>
 
 <body>
@@ -73,7 +68,7 @@
         </a>
         <ul class="dropdown-menu text-small shadow">
 
-          <li><a id="logout-btn" class="dropdown-item" href="javascript:void(0);">Sign out</a></li>
+          <li><button id="logout-btn" class="dropdown-item">Sign out</button></li>
         </ul>
       </div>
     </div>
@@ -113,8 +108,8 @@
   </div>
 
   
-  <script src="/public/js/index.js"></script>
-  <script src="/public/js/logout.js"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/logout.js"></script>
 </body>
 
 </html>

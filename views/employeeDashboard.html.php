@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="js/auth.js"></script>
+    <script src="/js/auth.js"></script>
 </head>
 
 <body>
@@ -22,8 +22,8 @@
 
         <button id="logout-btn">Logout</button>
 
-        <script src="js/employeeDashboard.js"></script>
-        <script src="js/logout.js"></script>
+        <script src="/js/employeeDashboard.js"></script>
+        <script src="/js/logout.js"></script>
     </div>
 </body>
 

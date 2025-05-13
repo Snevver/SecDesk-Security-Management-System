@@ -1,6 +1,3 @@
-// Get the base URL of the application
-const BASE_URL = window.location.origin + window.location.pathname.split('/public')[0] + '/public';
-
 function debugLog(message) {
     const debugEl = document.getElementById("debug");
     if (debugEl) {
@@ -17,10 +14,9 @@ function showError(message) {
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
+    console.debug('Page loaded');
     const loginForm = document.getElementById('login-form');
-    
     if (!loginForm) {
         console.error('Login form not found');
         return;
@@ -28,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loginForm.addEventListener('submit', function (event) {
         event.preventDefault();
+        console.debug('Button clicked, form submitted');
         
         // Clear previous messages
         const debugElement = document.getElementById('debug');
@@ -39,62 +36,35 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
+        console.debug('Retrieving form values:', { email, password });
+
         // Use base URL with path
-        fetch(`${BASE_URL}/api/login`, {
+        fetch(`/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
                 email: email,
                 password: password,
             }),
+            credentials: 'include'
         })
-        .then((response) => {            
-            // Check for redirects
-            if (response.redirected) {
-                window.location.href = response.url;
-                return Promise.reject(new Error('Redirected'));
-            }
-            
-            // Check content type
-            const contentType = response.headers.get('Content-Type');
-            
-            // if (!contentType || !contentType.includes('application/json')) {
-            //     return response.text().then(text => {
-            //         throw new Error('Invalid response format');
-            //     });
-            // }
-            
-            return response;
+        .then((rawResponse) => {
+            console.debug('Raw response:', rawResponse);
+            return rawResponse.json()
         })
-        .then((data) => {            
-            if (data.success) {                
-                // Store session data before redirecting
-                if (data.email) {
-                    sessionStorage.setItem('userEmail', data.email);
-                }
-                
-                if (data.role) {
-                    sessionStorage.setItem('userRole', data.role);
-                }
-
-                // Redirect to the specified path or default to home
-                let redirectPath = data.redirect || '/';
-                if (redirectPath.startsWith('/') && !redirectPath.startsWith('//')) {
-                    redirectPath = BASE_URL + redirectPath;
-                }
-
-                window.location.href = redirectPath;
-            } else {
-                // Im currently getting this error message from the server. Been stuck on this for a while. 
-                // The server is returning a 200 status code but the response is not JSON. 
-                // Rob the saviour will have to help me with this one.
-                const errorMsg = data.error || 'Login failed. Please try againn.';
-                showError(errorMsg);
+        .then((response) => {
+            console.debug('JSON response:', response);            
+            // Check for redirects. If the login was successful, it should go here.
+            if (response.redirect) {
+                window.location.href = response.redirect;
+                return Promise.reject(new Error('Redirect'));
             }
         })
         .catch((error) => {
+            console.error('Login error:', error);
             // Only show error if not a redirect
             if (error.message !== 'Redirected') {
                 showError(error.message || 'An error occurred. Please try again.');

@@ -23,7 +23,7 @@ const DIR_INCLUDES = APP_ROOT . 'includes' . DIRECTORY_SEPARATOR;
 const DIR_DATABASE = APP_ROOT . 'libraries\Ssms\Database' . DIRECTORY_SEPARATOR;
 
 // Include the autoload file and error handler
-require APP_ROOT . 'vendor/autoload.php';
+require_once APP_ROOT . 'vendor/autoload.php';
 require_once DIR_INCLUDES . 'errorHandler.php';
 
 // Declare all the used namespaces
@@ -34,27 +34,25 @@ use Ssms\Controllers\ErrorController;
 use Ssms\Controllers\EmployeeDashboardController;
 use Ssms\Controllers\TargetController;
 use Ssms\Database\Db;
+use Ssms\Logger;
 
-// Get the endpoint of the URI and remove the query string
-$uri = strrchr(strtok($_SERVER['REQUEST_URI'], '?'), '/');
-
-// Add a leading slash if not present
-if (!str_starts_with($uri, '/')) {
-    $uri = '/' . $uri;
-}
+$uri = strtok($_SERVER['REQUEST_URI'], '?');
 
 // If the URI is a file, return false
 if (is_file(__DIR__ . $uri)) {
+    Logger::write('info', "FILE: " . $uri);
     return false;
 }
 
 // Get the HTTP method
-$methodName = match ($_SERVER['REQUEST_METHOD']) {
+$methodName = strtoupper(match ($_SERVER['REQUEST_METHOD']) {
     'POST' => 'post',
     'PUT' => 'put',
     'DELETE' => 'delete',
     default => 'get',
-};
+});
+
+Logger::write('info', "URI: " . $methodName . ' ' . $uri);
 
 // Disable CORS errors
 header("Access-Control-Allow-Origin: *");
@@ -69,8 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Helper function to send JSON response
 function sendJsonResponse($data, $statusCode = 200) {
-    http_response_code($statusCode);
     header('Content-Type: application/json');
+    http_response_code($statusCode);
     echo json_encode($data);
     exit;
 }
@@ -79,64 +77,63 @@ function sendJsonResponse($data, $statusCode = 200) {
 try {
     switch ($uri) {
         case '/':
-            header('Content-Type: text/html');
-            include DIR_VIEWS . 'index.html';
+            include DIR_VIEWS . 'index.html.php';
             break;
         
         case '/employee-dashboard':
-            include DIR_VIEWS . 'employee-dashboard.html';
+            include DIR_VIEWS . 'employeeDashboard.html.php';
             break;
 
         case '/login':
-            include DIR_VIEWS . 'login.html';
+            include DIR_VIEWS . 'login.html.php';
             break;
         
         case '/targets':
-            include DIR_VIEWS . 'targets.html';
+            include DIR_VIEWS . 'targets.html.php';
             break;
 
         case '/api/login':
-            header('Content-Type: application/json');
+            Logger::write('info', "Login attempt");
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->login();
+            $jsonResult = json_encode($result['data']);
+            Logger::write('info', "Login result: " , $jsonResult);
             sendJsonResponse($result['data'], $result['status']);
 
-        case '/logout':
+        case '/api/logout':
             $c = new AuthenticatorController(Db::getInstance());
             $c->logout();
-            header('Location: /SecDesk-Security-Management-System/public/login'); // We might to change this to a relative path, no idea how at the moment
+            header('Location: /login');
             exit;
 
-        case '/isLoggedIn':
-            header('Content-Type: application/json');
+        case '/api/check-login':
+            Logger::write('info', "Check login");
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->isLoggedIn();
             sendJsonResponse($result['data'], $result['status']);
 
-        case '/customers':
-            header('Content-Type: application/json');
+        case '/api/customers':
             $c = new EmployeeDashboardController(Db::getInstance());
             $result = $c->getCustomers();
             sendJsonResponse($result['data'], $result['status']);
         
-        case '/tests':
-            header('Content-Type: application/json');
+        case '/api/tests':
             $c = new IndexController(Db::getInstance());
             $result = $c->getCustomersTests();
             sendJsonResponse($result['data'], $result['status']);
 
         case '/api/targets':
-            header('Content-Type: application/json');
             $c = new TargetController(Db::getInstance());
             $result = $c->getTargets();
             sendJsonResponse($result['data'], $result['status']);
 
-        case '/bootstrap.js':
+        case '/js/bootstrap.js':
+            Logger::write('Debug', "Loading bootstrap.js");
             header('Content-Type: application/javascript');
             echo file_get_contents(APP_ROOT . '/node_modules/bootstrap/dist/js/bootstrap.bundle.js');
             break;
         
-        case '/bootstrap.css':
+        case '/css/bootstrap.css':
             header('Content-Type: text/css');
             echo file_get_contents(APP_ROOT . '/node_modules/bootstrap/dist/css/bootstrap.css');
             break;

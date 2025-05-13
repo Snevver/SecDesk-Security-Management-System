@@ -3,6 +3,7 @@
 namespace Ssms\Controllers;
 
 use Ssms\Exceptions\HTTPException;
+use Ssms\Logger;
 
 class AuthenticatorController
 {
@@ -23,6 +24,8 @@ class AuthenticatorController
             // Get the request body
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
+            
+            Logger::write('info', "Login request data: " . print_r($data, true));
 
             // Validate the request body
             if (!isset($data['email']) || !isset($data['password'])) {
@@ -31,9 +34,6 @@ class AuthenticatorController
 
             // Database authentication
             try {
-                // Test database connection first
-                $this->pdo->query("SELECT 1");
-
                 // Authenticate the user with database using PDO
                 $stmt = $this->pdo->prepare("SELECT id, email, password, role_id FROM users WHERE email = :email");
                 $stmt->execute(['email' => $data['email']]);
@@ -58,6 +58,9 @@ class AuthenticatorController
                     $_SESSION['role_id'] = (int)$user['role_id'];
                     $_SESSION['role'] = $role_name;
 
+                    // log all session variables
+                    Logger::write('info', "Session variables: " . print_r($_SESSION, true));
+
                     // Determine redirect URL based on role
                     if ($role_name === 'admin' || $role_name === 'employee') {
                         $_SESSION['redirect'] = '/employee-dashboard';
@@ -66,6 +69,8 @@ class AuthenticatorController
                     } else {
                         throw new HTTPException('Unknown role', 401);
                     }
+
+                    Logger::write('info', "Redirecting to: " . $_SESSION['redirect']);
                     
                     return [
                         'status' => 200,
@@ -81,7 +86,7 @@ class AuthenticatorController
                     throw new HTTPException('Invalid credentials', 401);
                 }
             } catch (\Exception $dbError) {
-                file_put_contents("php://stderr", "Database error in controller: " . $dbError->getMessage() . "\n");
+                Logger::write('error', "Database error: " . $dbError->getMessage());
                 throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
             }
         } catch (HTTPException $httpError) {
@@ -137,19 +142,16 @@ class AuthenticatorController
         }
 
         // Debug session info
-        file_put_contents("php://stdout", "isLoggedIn - Session ID: " . session_id() . "\n");
-        file_put_contents("php://stdout", "Session content: " . print_r($_SESSION, true) . "\n");
+        Logger::write('info', "Session variables: " . print_r($_SESSION, true));
 
         // Check if user is logged in
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+            Logger::write('info', "User is logged in: " . $_SESSION['email']);
             return [
                 'status' => 200,
                 'data' => [
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'User is logged in',
-                    'email' => $_SESSION['email'] ?? 'Unknown',
-                    'role' => $_SESSION['role'] ?? 'Unknown',
-                    'user_id' => $_SESSION['user_id'] ?? 'Unknown',
                 ]
             ];
         } else {
