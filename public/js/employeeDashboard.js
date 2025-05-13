@@ -36,6 +36,36 @@ function fetchCustomers() {
         });
 }
 
+/**
+ * Function to fetch and display user information (email and role).
+ */
+function fetchUserInfo() {
+    fetch(`/api/check-login`, {
+        credentials: 'same-origin',
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const emailElement = document.getElementById('userEmail');
+            const roleElement = document.getElementById('userRole');
+
+            if (!data.success) {
+                emailElement.textContent = 'Unknown';
+                roleElement.textContent = 'Unknown';
+                return;
+            }
+
+            emailElement.textContent = data.user.email || 'Unknown';
+            roleElement.textContent = data.user.role || 'Unknown';
+        })
+        .catch(() => {
+            document.getElementById('userEmail').textContent = 'Unknown';
+            document.getElementById('userRole').textContent = 'Unknown';
+        });
+}
+
 // Initialize page
-document.addEventListener('DOMContentLoaded', () => fetchCustomers());
+document.addEventListener('DOMContentLoaded', () => {
+    fetchUserInfo();
+    fetchCustomers();
+});
 

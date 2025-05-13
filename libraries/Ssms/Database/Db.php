@@ -1,6 +1,8 @@
 <?php
 namespace Ssms\Database;
 
+use Ssms\Logger;
+
 class Db extends \PDO
 {
     private static ?Db $instance = null;
@@ -12,6 +14,8 @@ class Db extends \PDO
     public static function getInstance(): Db
     {
         if (Db::$instance === null) {
+            Logger::write('info', 'Creating new Db instance...');
+
             $env = parse_ini_file(DIR_DATABASE . '/.env');
             $dsn = sprintf(
                 'pgsql:host=%s;port=%s;dbname=%s',
@@ -21,8 +25,9 @@ class Db extends \PDO
             );
             $username = $env['USER'] ?? 'postgres';
             $password = $env['PASSWORD'] ?? '';
-            error_log("Constructed DSN: $dsn");
             Db::$instance = new Db($dsn, $username, $password);
+
+            Logger::write('info', 'Db instance created successfully.');
         }
 
         return Db::$instance;

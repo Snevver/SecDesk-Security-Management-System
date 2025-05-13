@@ -5,7 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <?php include(DIR_VIEWS . 'partials/head.html.php'); ?>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <script src="/js/bootstrap.js" defer></script>
   <script src="/js/auth.js"></script>
 </head>
 
@@ -17,7 +21,7 @@
 
   <div class="content-wrapper d-flex">
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
-      <a href="index.html" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
+      <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
         data-bs-placement="right">
         <img src="images/logo-only.png" alt="SecDesk Logo" class="logo-only">
       </a>

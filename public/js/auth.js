@@ -24,9 +24,6 @@ function checkLoginStatus() {
         }
 
         console.debug('User is logged in:', data.email);
-        
-        // User is logged in, update UI elements
-        updateUserInfo(data);
     })
     .catch((error) => {
         console.error('Error checking login status:', error);
@@ -36,33 +33,6 @@ function checkLoginStatus() {
             window.location.href = `/login`;
         }
     });
-}
-
-// Helper function to update user info in the UI
-function updateUserInfo(data) {
-    console.log('Updating UI with user info');
-    
-    // Update email display
-    const userEmailEl =
-        document.getElementById('user-email') ||
-        document.getElementById('admin-email');
-    if (userEmailEl) {
-        userEmailEl.textContent = data.email || 'Unknown';
-    }
-
-    // Update role display
-    const userRoleEl =
-        document.getElementById('user-role') ||
-        document.getElementById('admin-role');
-    if (userRoleEl) {
-        userRoleEl.textContent = data.role || 'Unknown';
-    }
-
-    // Update user ID display
-    const userIdEl = document.getElementById('user-id');
-    if (userIdEl) {
-        userIdEl.textContent = data.user_id || 'Unknown';
-    }
 }
 
 // Check login when the document is ready

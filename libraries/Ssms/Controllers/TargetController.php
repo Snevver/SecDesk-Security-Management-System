@@ -3,6 +3,7 @@
 namespace Ssms\Controllers;
 
 use PDO;
+use Ssms\Logger;
 
 class TargetController 
 {
@@ -25,6 +26,7 @@ class TargetController
 
         // Check if test_id is provided
         if (!isset($_GET['id'])) {
+            Logger::write('error', 'Test ID is not provided in the request');
             return [
                 'status' => 400,
                 'data' => ['success' => false, 'error' => 'Test ID is required']
@@ -40,11 +42,13 @@ class TargetController
             $stmt->execute();
             $targets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            Logger::write('info', 'Fetched targets for test ID ' . $test_id . ': ' . json_encode($targets));
             return [
                 'status' => 200,
                 'data' => ['success' => true, 'targets' => $targets]
             ];
         } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['error' => 'Database error: ' . $e->getMessage()]

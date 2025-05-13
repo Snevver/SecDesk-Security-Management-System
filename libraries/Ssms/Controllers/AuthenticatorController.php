@@ -24,8 +24,6 @@ class AuthenticatorController
             // Get the request body
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
-            
-            Logger::write('info', "Login request data: " . print_r($data, true));
 
             // Validate the request body
             if (!isset($data['email']) || !isset($data['password'])) {
@@ -58,9 +56,6 @@ class AuthenticatorController
                     $_SESSION['role_id'] = (int)$user['role_id'];
                     $_SESSION['role'] = $role_name;
 
-                    // log all session variables
-                    Logger::write('info', "Session variables: " . print_r($_SESSION, true));
-
                     // Determine redirect URL based on role
                     if ($role_name === 'admin' || $role_name === 'employee') {
                         $_SESSION['redirect'] = '/employee-dashboard';
@@ -70,7 +65,7 @@ class AuthenticatorController
                         throw new HTTPException('Unknown role', 401);
                     }
 
-                    Logger::write('info', "Redirecting to: " . $_SESSION['redirect']);
+                    Logger::write('info', "Login of " . $_SESSION['email'] . " successful! Redirecting user to " . $_SESSION['redirect']);
                     
                     return [
                         'status' => 200,
@@ -83,6 +78,7 @@ class AuthenticatorController
                         ]
                     ];
                 } else {
+                    Logger::write('error', "Login failed for " . $data['email'] . ": Invalid credentials");
                     throw new HTTPException('Invalid credentials', 401);
                 }
             } catch (\Exception $dbError) {
@@ -90,6 +86,7 @@ class AuthenticatorController
                 throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
             }
         } catch (HTTPException $httpError) {
+            Logger::write('error', "HTTP error: " . $httpError->getMessage());
             return [
                 'status' => $httpError->getCode(),
                 'data' => [
@@ -98,7 +95,7 @@ class AuthenticatorController
                 ]
             ];
         } catch (\Exception $e) {
-            file_put_contents("php://stderr", "General error in controller: " . $e->getMessage() . "\n");
+            Logger::write('error', "Unexpected error: " . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => [
@@ -121,9 +118,11 @@ class AuthenticatorController
             session_start();
         }
 
+        Logger::write('info', "Logging out user: " . $_SESSION['email']);
+
         // Destroy the session
         session_destroy();
-
+        
         return [
             'status' => 200,
             'data' => ['success' => true, 'message' => 'Logout successful']
@@ -146,7 +145,8 @@ class AuthenticatorController
 
         // Check if user is logged in
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-            Logger::write('info', "User is logged in: " . $_SESSION['email']);
+            Logger::write('info', $_SESSION['email'] . " is logged in!");
+
             return [
                 'status' => 200,
                 'data' => [
@@ -155,6 +155,7 @@ class AuthenticatorController
                 ]
             ];
         } else {
+            Logger::write('info', "User is not logged in!");
             return [
                 'status' => 401,
                 'data' => ['success' => false, 'message' => 'User is not logged in']

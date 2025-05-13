@@ -2,6 +2,8 @@
 
 namespace Ssms\Controllers;
 
+use Ssms\Logger;
+
 class EmployeeDashboardController
 {
     private \PDO $pdo;
@@ -22,16 +24,20 @@ class EmployeeDashboardController
             $stmt->execute();
             $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+            Logger::write('info', 'Fetched customers: ' . json_encode($users));
+
             return [
                 'status' => 200,
                 'data' => ['success' => true, 'users' => $users]
             ];
-        } catch (\PDOException $e) {        
+        } catch (\PDOException $e) { 
+            Logger::write('error', 'Database error: ' . $e->getMessage());       
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
             ];
-        } catch (\Exception $e) {        
+        } catch (\Exception $e) {   
+            Logger::write('error', 'System error: ' . $e->getMessage());     
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]

@@ -13,8 +13,8 @@
         <h1>Admin Dashboard</h1>
 
         <div>
-            <h2>Logged in as <span id="admin-email">Loading...</span></h2>
-            <h3>Role: <span id="admin-role">Loading...</span></h3>
+            <h2>Logged in as <span id="admin-email"><?=$_SESSION['email'] ?? "Unknown"?></span></h2>
+            <h3>Role: <span id="admin-role"><?=$_SESSION['role'] ?? "Unknown"?></span></h3>
         </div>
 
         <h3>Customer Overview:</h3>

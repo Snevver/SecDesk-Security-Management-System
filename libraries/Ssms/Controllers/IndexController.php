@@ -3,6 +3,7 @@
 namespace Ssms\Controllers;
 
 use PDO;
+use Ssms\Logger;
 
 class IndexController 
 {
@@ -25,6 +26,7 @@ class IndexController
 
         // Check if user_id is set in the session
         if (!isset($_SESSION['user_id'])) {
+            Logger::write('error', 'User ID is not set in the session');
             return [
                 'status' => 400,
                 'data' => ['error' => 'User ID is required']
@@ -39,11 +41,14 @@ class IndexController
             $stmt->execute();
             $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            Logger::write('info', 'Fetched tests for user ID ' . $user_id . ': ' . json_encode($tests));
+
             return [
                 'status' => 200,
                 'data' => $tests
             ];
         } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['error' => 'Database error: ' . $e->getMessage()]

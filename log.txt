@@ -865,3 +865,204 @@ map
 [2025-05-13 12:17:40] [info] URI: GET /css/bootstrap.css
 [2025-05-13 12:17:40] [info] URI: GET /js/bootstrap.js
 [2025-05-13 12:17:40] [Debug] Loading bootstrap.js
+[2025-05-13 13:33:32] [info] URI: GET /
+[2025-05-13 13:33:32] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:33:32] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:33:33] [info] URI: GET /api/check-login
+[2025-05-13 13:33:33] [info] URI: GET /api/tests
+[2025-05-13 13:33:33] [info] URI: GET /favicon.ico
+[2025-05-13 13:33:33] [info] Session variables: Array
+(
+)
+
+[2025-05-13 13:33:33] [info] URI: GET /login
+[2025-05-13 13:33:33] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:33:33] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:33:39] [info] URI: POST /api/login
+[2025-05-13 13:33:43] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 13:33:43] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+)
+
+[2025-05-13 13:33:43] [info] Redirecting to: /
+[2025-05-13 13:33:43] [info] URI: GET /
+[2025-05-13 13:33:43] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:33:43] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:33:43] [info] URI: GET /api/check-login
+[2025-05-13 13:33:43] [info] URI: GET /api/tests
+[2025-05-13 13:33:46] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:33:46] [info] User is logged in: alice@example.com
+[2025-05-13 13:34:01] [info] URI: GET /api/logout
+[2025-05-13 13:34:01] [info] URI: GET /login
+[2025-05-13 13:34:01] [info] URI: GET /login
+[2025-05-13 13:34:02] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:34:02] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:34:05] [info] URI: GET /
+[2025-05-13 13:34:05] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:34:05] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:34:05] [info] URI: GET /api/check-login
+[2025-05-13 13:34:05] [info] URI: GET /api/tests
+[2025-05-13 13:34:06] [info] Session variables: Array
+(
+)
+
+[2025-05-13 13:34:06] [info] URI: GET /login
+[2025-05-13 13:34:06] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:34:06] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:39:32] [info] URI: GET /login
+[2025-05-13 13:39:32] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:39:32] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:39:39] [info] URI: POST /api/login
+[2025-05-13 13:39:40] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 13:39:40] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+)
+
+[2025-05-13 13:39:40] [info] Redirecting to: /
+[2025-05-13 13:39:40] [info] URI: GET /
+[2025-05-13 13:39:40] [info] URI: GET /css/bootstrap.css
+[2025-05-13 13:39:40] [info] URI: GET /js/bootstrap.js
+[2025-05-13 13:39:40] [info] URI: GET /api/check-login
+[2025-05-13 13:39:40] [info] URI: GET /api/tests
+[2025-05-13 13:39:41] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:39:41] [info] User is logged in: alice@example.com
+[2025-05-13 13:47:03] [info] Request recieved: GET /
+[2025-05-13 13:47:03] [info] Redirecting Unknown user to /index
+[2025-05-13 13:47:03] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:47:03] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:47:04] [info] Request recieved: GET /api/check-login
+[2025-05-13 13:47:04] [info] Request recieved: GET /api/tests
+[2025-05-13 13:47:04] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:47:04] [info] User is logged in: alice@example.com
+[2025-05-13 13:47:12] [info] Request recieved: GET /
+[2025-05-13 13:47:12] [info] Redirecting Unknown user to /index
+[2025-05-13 13:47:12] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:47:12] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:47:12] [info] Request recieved: GET /api/check-login
+[2025-05-13 13:47:12] [info] Request recieved: GET /api/tests
+[2025-05-13 13:47:12] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:47:12] [info] User is logged in: alice@example.com
+[2025-05-13 13:47:52] [info] Request recieved: GET /
+[2025-05-13 13:47:52] [info] Redirecting Unknown user to /index
+[2025-05-13 13:47:52] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:47:52] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:47:52] [info] Request recieved: GET /api/check-login
+[2025-05-13 13:47:52] [info] Session variables: Array
+(
+)
+
+[2025-05-13 13:47:52] [info] Request recieved: GET /api/tests
+[2025-05-13 13:47:52] [info] Request recieved: GET /login
+[2025-05-13 13:47:52] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:47:52] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:48:17] [info] Request recieved: GET /login
+[2025-05-13 13:48:17] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:48:17] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:48:25] [info] Request recieved: POST /api/login
+[2025-05-13 13:48:25] [info] Login request data: Array
+(
+    [email] => alice@example.com
+    [password] => alice123
+)
+
+[2025-05-13 13:48:25] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:48:25] [info] Redirecting to: /
+[2025-05-13 13:48:25] [info] Request recieved: GET /
+[2025-05-13 13:48:25] [info] Redirecting 4 to /index
+[2025-05-13 13:48:25] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:48:25] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:48:25] [info] Request recieved: GET /api/tests
+[2025-05-13 13:48:26] [info] Request recieved: GET /api/check-login
+[2025-05-13 13:48:26] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:48:26] [info] User is logged in: alice@example.com
+[2025-05-13 13:48:47] [info] Request recieved: GET /
+[2025-05-13 13:48:47] [info] Redirecting alice@example.com to /index
+[2025-05-13 13:48:47] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-13 13:48:47] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-13 13:48:47] [info] Request recieved: GET /api/tests
+[2025-05-13 13:48:47] [info] Request recieved: GET /api/check-login
+[2025-05-13 13:48:47] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-13 13:48:47] [info] User is logged in: alice@example.com

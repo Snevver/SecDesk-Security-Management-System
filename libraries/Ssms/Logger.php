@@ -10,7 +10,16 @@ class Logger extends \Psr\Log\AbstractLogger
 
     public function log($level, $message, mixed $context = null): void
     {
-        $fh = fopen(APP_ROOT . 'log.txt', 'a');
+        // Determine the log file based on the log level
+        $logFile = match (strtolower($level)) {
+            'error' => APP_ROOT . 'logs/error_log.txt',
+            'warning' => APP_ROOT . 'logs/warning.log',
+            'info' => APP_ROOT . 'logs/info.log',
+            default => APP_ROOT . 'logs/log.txt',
+        };
+
+        // Open the appropriate log file
+        $fh = fopen($logFile, 'a');
 
         $timestamp = date('Y-m-d H:i:s');
         $formattedMessage = "[$timestamp] [$level] $message" . PHP_EOL;
@@ -31,7 +40,6 @@ class Logger extends \Psr\Log\AbstractLogger
 
     public static function __callStatic($name, $arguments)
     {
-        $logger = new self();
         Logger::log($name, ...$arguments);
     }
 }
