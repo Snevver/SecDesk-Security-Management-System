@@ -27,7 +27,7 @@ function fetchCustomersTests() {
         })
         .then((data) => {
             console.debug('Fetched tests:', data);
-            const testListElement = document.getElementById('test-list');
+            const testListElement = document.getElementById('testListContent');
 
             if (!testListElement) {
                 return;
@@ -53,7 +53,7 @@ function fetchCustomersTests() {
 
             let html = '<ul>';
             tests.forEach((test) => {
-                html += `<div id="test-${test.id}">
+                html += `<div id="test-${test.id}" class="border border-black rounded-md p-4 mb-4">
                             <li>
                                 <strong>Test Name:</strong> ${
                                     test.test_name || 'Not found'
@@ -69,7 +69,7 @@ function fetchCustomersTests() {
             testListElement.innerHTML = html;
         })
         .catch((error) => {
-            const testListElement = document.getElementById('test-list');
+            const testListElement = document.getElementById('testListContent');
             if (testListElement) {
                 testListElement.classList.remove('loading');
                 testListElement.innerHTML =
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchCustomersTests();
 
     // Add click listeners to test items
-    const testList = document.getElementById('test-list');
+    const testList = document.getElementById('testListContent');
     if (testList) {
         testList.addEventListener('click', function (event) {
             // Find the closest test div parent

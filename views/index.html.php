@@ -21,7 +21,7 @@
 
   <div class="content-wrapper d-flex">
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
-      <a href="index.html" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
+      <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
         data-bs-placement="right">
         <img src="images/logo-only.webp" alt="SecDesk Logo" class="logo-only">
       </a>
@@ -86,7 +86,7 @@
             </header>
 
             <div id="testList">
-
+              <div id="testListContent"></div>
             </div>
 
             <div id="horizontalScroll" class="overflow-auto" style="white-space: nowrap;">
@@ -111,8 +111,8 @@
     </main>
   </div>
 
-  <script src="js/index.js"></script>
-  <script src="js/logout.js"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/logout.js"></script>
 </body>
 
 
