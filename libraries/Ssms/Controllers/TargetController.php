@@ -15,27 +15,11 @@ class TargetController
     }
 
     /**
-     * Fetch the tests targets from the database
+     * Fetch the targets for a specific test ID
+     * @param int $test_id
      * @return array
      */
-    public function getTargets() {
-        // Start session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Check if test_id is provided
-        if (!isset($_GET['id'])) {
-            Logger::write('error', 'Test ID is not provided in the request');
-            return [
-                'status' => 400,
-                'data' => ['success' => false, 'error' => 'Test ID is required']
-            ];
-        }
-
-        $test_id = (int)$_GET['id'];
-
-        // Fetch the tests targets from the database
+    public function getTargetsById(int $test_id) {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM targets WHERE test_id = :test_id");
             $stmt->bindParam(':test_id', $test_id, PDO::PARAM_INT);
@@ -51,8 +35,8 @@ class TargetController
             Logger::write('error', 'Database error: ' . $e->getMessage());
             return [
                 'status' => 500,
-                'data' => ['error' => 'Database error: ' . $e->getMessage()]
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
             ];
         }
-    } 
+    }
 }

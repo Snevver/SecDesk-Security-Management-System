@@ -1,9 +1,13 @@
+/**
+ * Function to log debug messages.
+ */
 function debugLog(message, obj = null) {
     const debugOutput = document.getElementById('debug-output');
     if (debugOutput) {
         debugOutput.style.display = 'block';
         if (obj) {
-            debugOutput.textContent += message + ': ' + JSON.stringify(obj, null, 2) + '\n\n';
+            debugOutput.textContent +=
+                message + ': ' + JSON.stringify(obj, null, 2) + '\n\n';
         } else {
             debugOutput.textContent += message + '\n';
         }
@@ -47,7 +51,6 @@ function fetchCustomersTests() {
                 return;
             }
 
-            // Don this is for you to style :)
             let html = '<ul>';
             tests.forEach((test) => {
                 html += `<div id="test-${test.id}">
@@ -90,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Redirect to the targets page if a test div is clicked and pass the test ID
             if (testDiv) {
                 const testId = testDiv.id.replace('test-', '');
-                window.location.href = `/targets.html?id=${testId}`;
+                window.location.href = `/targets?id=${testId}`;
             }
         });
     }

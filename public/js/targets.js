@@ -1,16 +1,20 @@
-/**
- * Function to fetch and display targets of a test, given the ID.
- */
-function fetchTargets() {
+// Fetch and display targets
+document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const test_id = urlParams.get('id');
+    const testId = urlParams.get('id');
 
-    if (!test_id) {
-        console.error('No ID provided in the URL.');
+    if (!testId) {
+        document.getElementById('target-list').innerHTML =
+            '<p>No test ID provided.</p>';
         return;
     }
 
-    fetch(`/api/targets?id=${test_id}`, {
+    fetch(`/api/targets`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ test_id: testId }),
         credentials: 'same-origin',
     })
         .then((response) => response.json())
@@ -30,7 +34,6 @@ function fetchTargets() {
                 return;
             }
 
-            // Don this is for you to style :)
             let html = '<ul>';
             data.targets.forEach((target) => {
                 html += `<div id="target-${target.id}">
@@ -55,8 +58,4 @@ function fetchTargets() {
                     '<p>Error: ' + error.message + '</p>';
             }
         });
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    fetchTargets();
 });

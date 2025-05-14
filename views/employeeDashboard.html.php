@@ -18,7 +18,7 @@
         </div>
 
         <h3>Customer Overview:</h3>
-        <div id="userList"></div>
+        <div id="userList">Loading customers...</div>
 
         <button id="logout-btn">Logout</button>
 

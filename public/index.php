@@ -85,7 +85,18 @@ try {
             break;
         
         case '/targets':
-            Logger::write('info', "Redirecting " . ($_SESSION['email'] ?? "Unknown user") . " to /targets.html.php");
+            if (!isset($_GET['id'])) {
+                Logger::write('error', 'Test ID not provided in the URL');
+                http_response_code(400);
+                echo 'Test ID is required.';
+                exit();
+            }
+
+            $test_id = (int)$_GET['id'];
+            Logger::write('info', "Redirecting to targets.html.php for test ID $test_id");
+
+            // Pass the test ID to the targets.html.php file
+            $_GET['test_id'] = $test_id;
             include DIR_VIEWS . 'targets.html.php';
             break;
 
@@ -121,10 +132,28 @@ try {
             sendJsonResponse($result['data'], $result['status']);
 
         case '/api/targets':
-            Logger::write('info', 'Fetching targets...');
-            $c = new TargetController(Db::getInstance());
-            $result = $c->getTargets();
-            sendJsonResponse($result['data'], $result['status']);
+            if ($methodName === 'POST') {
+                // Decode the JSON input from the request body
+                $input = json_decode(file_get_contents('php://input'), true);
+
+                // Validate that test_id is provided
+                if (!isset($input['test_id'])) {
+                    Logger::write('error', 'Test ID not provided in the request body');
+                    sendJsonResponse(['success' => false, 'error' => 'Test ID is required'], 400);
+                }
+
+                $test_id = (int)$input['test_id'];
+                Logger::write('info', 'Fetching targets for test ID ' . $test_id);
+
+                // Fetch targets using the TargetController
+                $c = new TargetController(Db::getInstance());
+                $result = $c->getTargetsById($test_id);
+                sendJsonResponse($result['data'], $result['status']);
+            } else {
+                Logger::write('error', 'Invalid HTTP method for /api/targets');
+                sendJsonResponse(['success' => false, 'error' => 'Invalid HTTP method'], 405);
+            }
+            break;
 
         case '/js/bootstrap.js':
             header('Content-Type: application/javascript');
@@ -140,10 +169,12 @@ try {
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
+    Logger::write('error', 'HTTP error: ' . $e->getMessage());
     $c = new ErrorController();
     $c($e);
 
 } catch (\Throwable $e) {
+    Logger::write('error', 'Unhandled error: ' . $e->getMessage());
     header('Content-Type: text/html');
     http_response_code(500);
     include DIR_VIEWS . 'error.html.php';
