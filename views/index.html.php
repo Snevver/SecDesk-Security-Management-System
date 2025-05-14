@@ -15,15 +15,15 @@
 
 <body>
   <header id="mainHeader" class="d-flex justify-content-center align-items-center">
-    <img src="images/secdesk-logo.png" alt="SecDesk Logo" class="logo">
-    <img src="images/sms-simple.png" alt="SMS Logo" class="sms">
+    <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo">
+    <img src="images/sms-simple.webp" alt="SMS Logo" class="sms">
   </header>
 
   <div class="content-wrapper d-flex">
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
-      <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
+      <a href="index.html" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
         data-bs-placement="right">
-        <img src="images/logo-only.png" alt="SecDesk Logo" class="logo-only">
+        <img src="images/logo-only.webp" alt="SecDesk Logo" class="logo-only">
       </a>
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
         <li class="nav-item">
@@ -72,7 +72,7 @@
         </a>
         <ul class="dropdown-menu text-small shadow">
 
-          <li><button id="logout-btn" class="dropdown-item">Sign out</button></li>
+          <li><a id="logout-btn" class="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
     </div>
@@ -85,7 +85,9 @@
               <h1>Company's <span>Security Management System</span> Dashboard</h1>
             </header>
 
-            <div id="test-list"></div>
+            <div id="testList">
+
+            </div>
 
             <div id="horizontalScroll" class="overflow-auto" style="white-space: nowrap;">
               <div class="row g-4 m-0 flex-nowrap">
@@ -109,9 +111,9 @@
     </main>
   </div>
 
-  
-  <script src="/js/index.js"></script>
-  <script src="/js/logout.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/logout.js"></script>
 </body>
+
 
 </html>
