@@ -16,10 +16,9 @@ class Logger extends \Psr\Log\AbstractLogger
     {
         // Determine the log file based on the log level
         $logFile = match (strtolower($level)) {
-            'error' => APP_ROOT . 'logs/errorLog.txt',
-            'warning' => APP_ROOT . 'logs/warning.log',
+            'error' => APP_ROOT . 'logs/error.log',
             'info' => APP_ROOT . 'logs/info.log',
-            default => APP_ROOT . 'logs/log.txt',
+            default => APP_ROOT . 'logs/log.log',
         };
 
         // Open the appropriate log file
