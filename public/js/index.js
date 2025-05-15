@@ -26,7 +26,7 @@ function fetchCustomerTests() {
  * @param {object} tests Test data fetched from database
  * @returns {void}
  */
-function displayCustomerTests(tests) {
+function displayCustomerTests(data) {
     const testListElement = document.getElementById("testListContent");
 
     if (!testListElement) return;
@@ -47,19 +47,33 @@ function displayCustomerTests(tests) {
 
     let testList = "<ul>";
 
-    for (let test of data) {
-        testList += `<div id="test-${
-            test.id
-        }" class="border border-black rounded-md p-4 mb-4">
-                            <li>
-                                <strong>Test Name:</strong> ${
-                                    test.test_name || "Not found"
-                                } <br>
-                                <strong>Description:</strong> ${
-                                    test.test_description || "Not found"
-                                }
-                            </li>
-                        </div>`;
+    // Tests
+    for (let test of data.tests) {
+        testList += `<div id="test-${test.id}" class="border border-black rounded-md p-4 mb-4">
+                        <li>
+                            <strong>Test Name:</strong> 
+                            ${test.test_name || "Not found"} 
+                            <br>
+                            <strong>Description:</strong> 
+                            ${test.test_description || "Not found"}
+                        </li>
+                    </div>`;
+                    
+                    // Targets (this has to be in the dropdown)
+                    for (let target of test.targets) {
+                        testList += `<div id="target-${target.id}" class="border border-black rounded-md p-4 mb-4">
+                                        <li>
+                                            <strong>Target Name:</strong> 
+                                            ${target.target_name || "Not found"} 
+                                            <br>
+                                            <strong>Description:</strong> 
+                                            ${target.target_description || "Not found"}
+                                        </li>
+                                    </div>`;
+                    }
+
+
+
     }
 
     testList += "</ul>";
@@ -69,17 +83,3 @@ function displayCustomerTests(tests) {
 
 // Fetch customer tests
 fetchCustomerTests();
-
-// Add click listeners to test items
-document
-    .getElementById("testListContent")
-    .addEventListener("click", (event) => {
-        // Find the closest test div parent
-        const testDiv = event.target.closest('[id^="test-"]');
-
-        // Redirect to the targets page if a test div is clicked and pass the test ID
-        if (testDiv) {
-            const testId = testDiv.id.replace("test-", "");
-            window.location.href = `/targets?id=${testId}`;
-        }
-    });
