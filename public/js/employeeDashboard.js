@@ -3,41 +3,49 @@
 //======================================================================
 
 /**
- * Fetch and display customer data
+ * Fetch and customer data
  */
 function fetchCustomers() {
     fetch(`/api/customers`, {
         credentials: "same-origin",
     })
         .then((response) => response.json())
-        .then((data) => {
-            const userListElement = document.getElementById("userList");
+        .then((data) => displayCustomers(data))
+        .catch(
+            (error) =>
+                (document.getElementById("userList").innerHTML =
+                    "<p>Error: " + error.message + "</p>")
+        );
+}
 
-            if (!data.success) {
-                userListElement.innerHTML =
-                    "<p>Error loading users: " +
-                    (data.error || "Unknown error") +
-                    "</p>";
-                return;
-            }
+/**
+ * Display customer data on DOM
+ * @param {object} customers Customer data fetched from database
+ * @returns {void}
+ */
+function displayCustomers(customers) {
+    const userListElement = document.getElementById("userList");
 
-            if (!data.users || data.users.length === 0) {
-                userListElement.innerHTML = "<p>No users found.</p>";
-                return;
-            }
+    if (!customers.success) {
+        userListElement.innerHTML =
+            "<p>Error loading users: " +
+            (customers.error || "Unknown error") +
+            "</p>";
+        return;
+    }
 
-            let listElement = "<ul>";
-            data.users.forEach((user) => {
-                listElement += `<li>Email: ${user.email} <br> ID: ${user.id}</li>`;
-            });
-            listElement += "</ul>";
+    if (!customers.users || customers.users.length === 0) {
+        userListElement.innerHTML = "<p>No users found.</p>";
+        return;
+    }
 
-            userListElement.innerHTML = listElement;
-        })
-        .catch((error) => {
-            document.getElementById("userList").innerHTML =
-                "<p>Error: " + error.message + "</p>";
-        });
+    let listElement = "<ul>";
+    
+    for (let user of customers.users) listElement += `<li>Email: ${user.email} <br> ID: ${user.id}</li>`;
+
+    listElement += "</ul>";
+
+    userListElement.innerHTML = listElement;
 }
 
 /**

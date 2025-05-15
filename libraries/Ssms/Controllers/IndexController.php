@@ -1,7 +1,7 @@
 <?php
 
 //======================================================================
-// CUSTOMER DASHBOARD LOGIC
+// DASHBOARD CONTROLLER
 //======================================================================
 
 namespace Ssms\Controllers;
@@ -19,7 +19,7 @@ class IndexController
     }
 
     //-----------------------------------------------------
-    // Fetch User Tests From Database
+    // Fetch all customer data from the database
     //-----------------------------------------------------
     public function getCustomersTests() {
         // Start session if not already started
@@ -27,9 +27,8 @@ class IndexController
             session_start();
         }
 
-        // Check if the user id is set in the session
+        // Check if user_id is set in the session
         if (!isset($_SESSION['user_id'])) {
-            Logger::write('error', 'User ID is not set in the session');
             return [
                 'status' => 400,
                 'data' => ['error' => 'User ID is required']
@@ -39,7 +38,6 @@ class IndexController
         $user_id = (int)$_SESSION['user_id'];
 
         try {
-            // Get test data
             $stmt = $this->pdo->prepare("SELECT * FROM tests WHERE user_id = :user_id");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
@@ -47,12 +45,27 @@ class IndexController
 
             Logger::write('info', 'Fetched tests for user ID ' . $user_id . ': ' . json_encode($tests));
 
+            // Get target data for each test
+            foreach ($tests as &$test) {
+                $stmt = $this->pdo->prepare("SELECT * FROM targets WHERE test_id = :test_id");
+                $stmt->bindParam(':test_id', $test['id'], PDO::PARAM_INT);
+                $stmt->execute();
+                $targets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                Logger::write('info', 'Fetched targets for test ID ' . $test['id'] . ': ' . json_encode($targets));
+
+                // Add targets to the test data
+                $test['targets'] = $targets;
+            }
+
+            // Return the tests
             return [
+                'success' => true,
                 'status' => 200,
-                'data' => $tests
+                'data' => ['tests' => $tests]
             ];
+            
         } catch (\PDOException $e) {
-            Logger::write('error', 'Database error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['error' => 'Database error: ' . $e->getMessage()]

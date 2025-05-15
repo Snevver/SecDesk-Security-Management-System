@@ -29,7 +29,6 @@ use Ssms\Controllers\AuthenticatorController;
 use Ssms\Exceptions\HTTPException;
 use Ssms\Controllers\ErrorController;
 use Ssms\Controllers\EmployeeDashboardController;
-use Ssms\Controllers\TargetController;
 use Ssms\Database\Db;
 use Ssms\Logger;
 
@@ -165,31 +164,6 @@ try {
             $c = new IndexController(Db::getInstance());
             $result = $c->getCustomersTests();
             sendJsonResponse($result['data'], $result['status']);
-
-        // Route to targets API
-        case '/api/targets':
-            if ($methodName === 'POST') {
-                // Decode the JSON input from the request body
-                $input = json_decode(file_get_contents('php://input'), true);
-
-                // Validate that test_id is provided
-                if (!isset($input['test_id'])) {
-                    Logger::write('error', 'Test ID not provided in the request body');
-                    sendJsonResponse(['success' => false, 'error' => 'Test ID is required'], 400);
-                }
-
-                $test_id = (int)$input['test_id'];
-                Logger::write('info', 'Fetching targets for test ID ' . $test_id);
-
-                // Fetch targets using the TargetController
-                $c = new TargetController(Db::getInstance());
-                $result = $c->getTargetsById($test_id);
-                sendJsonResponse($result['data'], $result['status']);
-            } else {
-                Logger::write('error', 'Invalid HTTP method for /api/targets');
-                sendJsonResponse(['success' => false, 'error' => 'Invalid HTTP method'], 405);
-            }
-            break;
 
         // Route to Bootstrap Javascript
         case '/js/bootstrap.js':

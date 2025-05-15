@@ -1,7 +1,7 @@
 <?php
 
 //======================================================================
-// HANDLE LOG IN IN AND LOG OUT
+// LOG IN AND LOG OUT CONTROLLER
 //======================================================================
 
 namespace Ssms\Controllers;

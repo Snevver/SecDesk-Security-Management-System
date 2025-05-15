@@ -3,21 +3,8 @@
 //======================================================================
 
 /**
- * Log debug messages
- * @param {*} message The message to be displayed
- */
-function debugLog(message) {
-    const debugEl = document.getElementById("debug");
-    if (debugEl) {
-        debugEl.style.display = "block";
-        debugEl.innerHTML += message + "<br>";
-    }
-    console.log(message);
-}
-
-/**
  * Print error message on DOM
- * @param {*} message The message to be displayed
+ * @param {string} message The message to be displayed
  */
 function showError(message) {
     document.getElementById("error-message").textContent = message;
@@ -49,9 +36,7 @@ document.getElementById("login-form").addEventListener("submit", (event) => {
         }),
         credentials: "include",
     })
-        .then((rawResponse) => {
-            return rawResponse.json();
-        })
+        .then((rawResponse) => rawResponse.json())
         .then((response) => {
             // Check for redirects - If the login was successful, it should go here
             if (response.redirect) {

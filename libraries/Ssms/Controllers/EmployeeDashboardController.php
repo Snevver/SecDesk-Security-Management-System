@@ -1,7 +1,7 @@
 <?php
 
 //======================================================================
-// EMPLOYEE DASHBOARD LOGIC
+// EMPLOYEE DASHBOARD CONTROLLER
 //======================================================================
 
 namespace Ssms\Controllers;
