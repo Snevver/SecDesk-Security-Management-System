@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Targets</title>
     <script src="/js/auth.js"></script>
-    <script src="/js/printTargets.js" defer></script>
+    <script src="/js/targets.js" defer></script>
 </head>
 <body>
     <!-- Go back to dashboard button -->
