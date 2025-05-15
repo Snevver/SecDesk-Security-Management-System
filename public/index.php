@@ -142,6 +142,7 @@ try {
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
+    Logger::write('error', 'HTTP error: ' . $uri . " " . $e->getMessage());
     $c = new ErrorController();
     $c($e);
 
