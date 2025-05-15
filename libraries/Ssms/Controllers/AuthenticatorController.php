@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// HANDLE LOG IN IN AND LOG OUT
+//======================================================================
+
 namespace Ssms\Controllers;
 
 use Ssms\Exceptions\HTTPException;
@@ -14,10 +18,9 @@ class AuthenticatorController
         $this->pdo = $pdo;
     }
 
-    /**
-     * Handle user login
-     * @return array
-     */
+    //-----------------------------------------------------
+    // Handle user log in
+    //-----------------------------------------------------
     public function login()
     {
         try {
@@ -107,10 +110,9 @@ class AuthenticatorController
         }
     }
 
-    /**
-     * Handle user logout
-     * @return array
-     */
+    //-----------------------------------------------------
+    // Handle user log out
+    //-----------------------------------------------------
     public function logout()
     {
         // Start session if not already started
@@ -129,10 +131,9 @@ class AuthenticatorController
         ];
     }
 
-    /**
-     * Check if user is logged in
-     * @return array containing user data or error message
-     */
+    //-----------------------------------------------------
+    // Check if user is logged in
+    //-----------------------------------------------------
     public function isLoggedIn()
     {
         // Start session if not already started

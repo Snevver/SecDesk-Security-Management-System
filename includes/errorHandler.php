@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// LOG ERRORS TO ERROR LOG FILE
+//======================================================================
+
 use Ssms\Exceptions\HTTPException;
 
 // Set up JSON error handling
@@ -29,6 +33,5 @@ register_shutdown_function(function() {
         }
 
         include  DIR_VIEWS . 'error.html.php';
-
     }
 });

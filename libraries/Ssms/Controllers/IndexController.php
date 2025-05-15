@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// CUSTOMER DASHBOARD LOGIC
+//======================================================================
+
 namespace Ssms\Controllers;
 
 use PDO;
@@ -14,17 +18,16 @@ class IndexController
         $this->pdo = $pdo;
     }
 
-    /**
-     * Fetch the user's tests from the database
-     * @return array
-     */
+    //-----------------------------------------------------
+    // Fetch User Tests From Database
+    //-----------------------------------------------------
     public function getCustomersTests() {
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // Check if user_id is set in the session
+        // Check if the user id is set in the session
         if (!isset($_SESSION['user_id'])) {
             Logger::write('error', 'User ID is not set in the session');
             return [
@@ -36,6 +39,7 @@ class IndexController
         $user_id = (int)$_SESSION['user_id'];
 
         try {
+            // Get test data
             $stmt = $this->pdo->prepare("SELECT * FROM tests WHERE user_id = :user_id");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $stmt->execute();

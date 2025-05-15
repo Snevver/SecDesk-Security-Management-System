@@ -1,6 +1,9 @@
 <?php
 
-// Configure session with enhanced settings
+//======================================================================
+// CONFIGURE SESSION WITH ENHANCED SETTINGS
+//======================================================================
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 ini_set('session.gc_maxlifetime', 3600);

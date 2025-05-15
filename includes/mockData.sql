@@ -1,3 +1,5 @@
+-- This file contains mock data and is not to be used in production
+
 -- Users
 INSERT INTO users (email, password, role_id) VALUES 
     ('pentester@example.com', 'pentester', 2),

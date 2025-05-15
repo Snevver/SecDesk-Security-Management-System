@@ -1,4 +1,8 @@
 <?php
+//======================================================================
+// DATABASE CONNECTION
+//======================================================================
+
 namespace Ssms\Database;
 
 use Ssms\Logger;
@@ -7,10 +11,9 @@ class Db extends \PDO
 {
     private static ?Db $instance = null;
 
-    /**
-     * Get the singleton instance of the Db class
-     * @return Db
-     */
+    //-----------------------------------------------------
+    // Get The Singleton Instance Of The Database Class
+    //-----------------------------------------------------
     public static function getInstance(): Db
     {
         if (Db::$instance === null) {
@@ -33,12 +36,6 @@ class Db extends \PDO
         return Db::$instance;
     }
 
-    /**
-     * Db constructor.
-     * @param string $dsn
-     * @param string $username
-     * @param string $password
-     */
     public function __construct(string $dsn, string $username, string $password)
     {
         $options = [

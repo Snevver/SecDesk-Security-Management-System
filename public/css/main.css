@@ -11,8 +11,8 @@
 
 /* Logo font */
 @font-face {
-    font-family: 'Orbitron';
-    src: url('../fonts/Orbitron.ttf') format('truetype');
+    font-family: "Orbitron";
+    src: url("../fonts/Orbitron.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -20,8 +20,8 @@
 
 /* Paragraph font */
 @font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto.ttf') format('truetype');
+    font-family: "Roboto";
+    src: url("../fonts/Roboto.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -46,7 +46,7 @@ main {
 #loginWrapper {
     height: 90vh;
     width: 50%;
-    margin-top: 5%
+    margin-top: 5%;
 }
 
 .logo {
@@ -116,7 +116,6 @@ form {
     }
 }
 
-
 @media screen and (max-width: 768px) {
     #loginWrapper {
         height: 50%;
@@ -157,12 +156,7 @@ form {
     #contentHeader {
         display: none;
     }
-
-    .contentCard {
-        /* height: 10vh !important; */
-    }
 }
-
 
 @media screen and (max-width: 1200px) {
     #loginRight {
@@ -235,7 +229,7 @@ form {
 
 .contentCardText {
     color: white;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .highlight {
@@ -309,7 +303,7 @@ footer {
 #dashboardHeader {
     display: flex;
     justify-content: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     padding: 1%;
 }
 
@@ -331,7 +325,7 @@ h1 span {
 }
 
 .divTableHeading {
-    background-color: #EEE;
+    background-color: #eee;
     display: table-header-group;
 }
 
@@ -343,13 +337,13 @@ h1 span {
 }
 
 .divTableHeading {
-    background-color: #EEE;
+    background-color: #eee;
     display: table-header-group;
     font-weight: bold;
 }
 
 .divTableFoot {
-    background-color: #EEE;
+    background-color: #eee;
     display: table-footer-group;
     font-weight: bold;
 }

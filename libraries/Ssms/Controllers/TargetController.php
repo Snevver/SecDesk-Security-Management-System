@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// TARGETS PAGE LOGIC
+//======================================================================
+
 namespace Ssms\Controllers;
 
 use PDO;
@@ -14,11 +18,9 @@ class TargetController
         $this->pdo = $pdo;
     }
 
-    /**
-     * Fetch the targets for a specific test ID
-     * @param int $test_id
-     * @return array
-     */
+    //-----------------------------------------------------
+    // Get Target Data
+    //-----------------------------------------------------
     public function getTargetsById(int $test_id) {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM targets WHERE test_id = :test_id");

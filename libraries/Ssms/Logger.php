@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// PRINT LOGS IN LOG FILE
+//======================================================================
+
 declare(strict_types=1);
 
 namespace Ssms;
@@ -12,7 +16,7 @@ class Logger extends \Psr\Log\AbstractLogger
     {
         // Determine the log file based on the log level
         $logFile = match (strtolower($level)) {
-            'error' => APP_ROOT . 'logs/error_log.txt',
+            'error' => APP_ROOT . 'logs/errorLog.txt',
             'warning' => APP_ROOT . 'logs/warning.log',
             'info' => APP_ROOT . 'logs/info.log',
             default => APP_ROOT . 'logs/log.txt',

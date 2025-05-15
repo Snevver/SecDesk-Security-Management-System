@@ -1,0 +1,38 @@
+[2025-05-15 11:39:32] [info] Request recieved: GET /
+[2025-05-15 11:39:32] [info] Creating new Db instance...
+[2025-05-15 11:39:32] [info] Db instance created successfully.
+[2025-05-15 11:39:32] [info] Session variables: Array
+(
+)
+
+[2025-05-15 11:39:32] [info] User is not logged in!
+[2025-05-15 11:39:32] [info] User is not logged in, redirecting to /login.html.php
+[2025-05-15 11:39:33] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-15 11:39:33] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-15 11:39:41] [info] Request recieved: POST /api/login
+[2025-05-15 11:39:41] [info] Login request recieved
+[2025-05-15 11:39:41] [info] Creating new Db instance...
+[2025-05-15 11:39:41] [info] Db instance created successfully.
+[2025-05-15 11:39:41] [info] Login of alice@example.com successful! Redirecting user to /
+[2025-05-15 11:39:42] [info] Request recieved: GET /
+[2025-05-15 11:39:42] [info] Creating new Db instance...
+[2025-05-15 11:39:42] [info] Db instance created successfully.
+[2025-05-15 11:39:42] [info] Session variables: Array
+(
+    [user_id] => 4
+    [email] => alice@example.com
+    [logged_in] => 1
+    [role_id] => 1
+    [role] => customer
+    [redirect] => /
+)
+
+[2025-05-15 11:39:42] [info] alice@example.com is logged in!
+[2025-05-15 11:39:42] [info] User is logged in, redirecting to /index.html.php
+[2025-05-15 11:39:43] [info] Request recieved: GET /css/bootstrap.css
+[2025-05-15 11:39:43] [info] Request recieved: GET /js/bootstrap.js
+[2025-05-15 11:39:44] [info] Request recieved: GET /api/tests
+[2025-05-15 11:39:44] [info] Fetching tests...
+[2025-05-15 11:39:44] [info] Creating new Db instance...
+[2025-05-15 11:39:44] [info] Db instance created successfully.
+[2025-05-15 11:39:44] [info] Fetched tests for user ID 4: [{"id":2,"user_id":4,"test_name":"E-Commerce Security Review","test_description":"Audit of online store security.","test_date":"2025-05-08 11:03:40.735575+00"}]

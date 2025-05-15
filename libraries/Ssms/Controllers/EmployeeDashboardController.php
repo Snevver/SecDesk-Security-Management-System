@@ -1,5 +1,9 @@
 <?php
 
+//======================================================================
+// EMPLOYEE DASHBOARD LOGIC
+//======================================================================
+
 namespace Ssms\Controllers;
 
 use Ssms\Logger;
@@ -13,13 +17,12 @@ class EmployeeDashboardController
         $this->pdo = $pdo;
     }
 
-    /**
-     * Function to get all customers
-     * @return array
-     */
+    //-----------------------------------------------------
+    // Fetch All Customer Data From Database
+    //-----------------------------------------------------
     public function getCustomers() {
         try {       
-            // Fetch all users (only customers) from the database
+            // Fetch all customers from the database
             $stmt = $this->pdo->prepare("SELECT id, email FROM users where role_id = 1");
             $stmt->execute();
             $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
