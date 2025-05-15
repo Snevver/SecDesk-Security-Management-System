@@ -27,9 +27,7 @@ class Logger extends \Psr\Log\AbstractLogger
         $timestamp = date('Y-m-d H:i:s');
         $formattedMessage = "[$timestamp] [$level] $message" . PHP_EOL;
 
-        if (!is_null($context)) {
-            $formattedMessage .= print_r($context, true) . PHP_EOL;
-        }
+        if (!is_null($context)) $formattedMessage .= print_r($context, true) . PHP_EOL;
 
         fwrite($fh, $formattedMessage);
         fclose($fh);

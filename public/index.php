@@ -33,7 +33,7 @@ use Ssms\Database\Db;
 use Ssms\Logger;
 
 // Get the URI and remove the query string
-$uri = strtok($_SERVER['REQUEST_URI'], '?');
+$uri = strtok(filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL), '?');
 
 // If the URI is a file, return false
 if (is_file(__DIR__ . $uri)) {
@@ -95,6 +95,10 @@ try {
         case '/employee-dashboard':
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->isLoggedIn();
+
+            // Start the session
+            if (session_status() === PHP_SESSION_NONE) session_start();
+
             if ($result['data']['success'] && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
                 Logger::write('info', "User is logged in, redirecting to /employeeDashboard.html.php");
                 include DIR_VIEWS . 'employeeDashboard.html.php';
@@ -108,25 +112,11 @@ try {
 
         // Route to login page
         case '/login':
+            // Start the session
+            if (session_status() === PHP_SESSION_NONE) session_start();
+
             Logger::write('info', "Redirecting " . ($_SESSION['email'] ?? "Unknown user") . " to /login.html.php");
             include DIR_VIEWS . 'login.html.php';
-            break;
-
-        // Route to targets page
-        case '/targets':
-            if (!isset($_GET['id'])) {
-                Logger::write('error', 'Test ID not provided in the URL');
-                http_response_code(400);
-                echo 'Test ID is required.';
-                exit();
-            }
-
-            $test_id = (int)$_GET['id'];
-            Logger::write('info', "Redirecting to targets.html.php for test ID $test_id");
-
-            // Pass the test ID to the targets.html.php file
-            $_GET['test_id'] = $test_id;
-            include DIR_VIEWS . 'targets.html.php';
             break;
 
         // Route to logout API
@@ -143,6 +133,7 @@ try {
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->login();
             sendJsonResponse($result['data'], $result['status']);
+            break;
 
         // Route to login checking API
         case '/api/check-login':
@@ -150,6 +141,7 @@ try {
             $c = new AuthenticatorController(Db::getInstance());
             $result = $c->isLoggedIn();
             sendJsonResponse($result['data'], $result['status']);
+            break;
 
         // Route to customers API
         case '/api/customers':
@@ -157,6 +149,7 @@ try {
             $c = new EmployeeDashboardController(Db::getInstance());
             $result = $c->getCustomers();
             sendJsonResponse($result['data'], $result['status']);
+            break;
         
         // Route to tests API
         case '/api/tests':
@@ -164,6 +157,7 @@ try {
             $c = new IndexController(Db::getInstance());
             $result = $c->getCustomersTests();
             sendJsonResponse($result['data'], $result['status']);
+            break;
 
         // Route to Bootstrap Javascript
         case '/js/bootstrap.js':

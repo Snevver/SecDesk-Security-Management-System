@@ -54,14 +54,6 @@ You need a few things to be able to run this application locally:
     npm install
     ```
 
-### Sample Users
-
-The setup script creates the following accounts in the database:
-
--   Admin: admin@example.com / admin
--   Customer: customer@example.com / customer
--   SecDesk: secdesk@example.com / secdesk
-
 ## ⚙️ Dependencies
 
 This project requires these packages in order to function:
@@ -70,12 +62,6 @@ This project requires these packages in order to function:
 -   PopperJS
 
 Refer to the 🔧 Setup section for information on how to install these packages.
-
-## 📄 Transfer information
-
-This application is currently being hosted using the [Mijndomein](https://www.mijndomein.nl/) webhosting service, and the database is being hosted using [Supabase](https://supabase.com/). If you would like to host the database yourself, run the queries in import.sql to set up the tables. Do note that a new database will not include any user accounts that were stored in the previous database.
-
-If we are still hosting the application online (both the application itself and the database) and you would like us to take it down so you can host it yourself, please contact us at one of the email adresses listed in the 🧑‍💻 Authors section.
 
 ## 🧑‍💻 Authors
 

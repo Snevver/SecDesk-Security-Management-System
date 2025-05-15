@@ -1,5 +1,4 @@
 <?php
-
 //======================================================================
 // LOG IN AND LOG OUT CONTROLLER
 //======================================================================
@@ -29,9 +28,7 @@ class AuthenticatorController
             $data = json_decode($requestBody, true);
 
             // Validate the request body
-            if (!isset($data['email']) || !isset($data['password'])) {
-                throw new HTTPException('Email and password required', 400);
-            }
+            if (!isset($data['email']) || !isset($data['password'])) throw new HTTPException('Email and password required', 400);
 
             // Database authentication
             try {
@@ -42,9 +39,7 @@ class AuthenticatorController
 
                 if ($user && $data['password'] === $user['password']) {
                     // Make sure session is started
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start();
-                    }
+                    if (session_status() === PHP_SESSION_NONE) session_start();
 
                     // Get role name
                     $role_stmt = $this->pdo->prepare("SELECT name FROM roles WHERE id = :role_id");
@@ -116,9 +111,7 @@ class AuthenticatorController
     public function logout()
     {
         // Start session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
         Logger::write('info', "Logging out user: " . $_SESSION['email']);
 
@@ -137,15 +130,13 @@ class AuthenticatorController
     public function isLoggedIn()
     {
         // Start session if not already started
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
         // Debug session info
         Logger::write('info', "Session variables: " . print_r($_SESSION, true));
 
         // Check if user is logged in
-        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
             Logger::write('info', $_SESSION['email'] . " is logged in!");
 
             return [
