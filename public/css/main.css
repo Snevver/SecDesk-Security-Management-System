@@ -1,6 +1,6 @@
 /* COLORS  */
 :root {
-    --logo-colour: #5f44ff;
+    --logo-color: #5f44ff;
     --light-background-color: #e1dbf1;
     --dark-background-color: #181328;
     --button-color: #55e5a0;
@@ -11,8 +11,8 @@
 
 /* Logo font */
 @font-face {
-    font-family: "Orbitron";
-    src: url("../fonts/Orbitron.ttf") format("truetype");
+    font-family: 'Orbitron';
+    src: url('../fonts/Orbitron.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -20,8 +20,8 @@
 
 /* Paragraph font */
 @font-face {
-    font-family: "Roboto";
-    src: url("../fonts/Roboto.ttf") format("truetype");
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -41,24 +41,26 @@ main {
     width: 100%;
 }
 
+.btn {
+    background-color: var(--header-color) !important;
+}
+
+svg {
+    color: var(--header-color);
+}
+
 /* LOGIN PAGE */
 
 #loginWrapper {
     height: 90vh;
     width: 50%;
-    margin-top: 5%;
+    margin-left: 5%;
+    margin-top: 10vh;
 }
 
 .logo {
-    width: 150px;
     height: 50px;
-    padding: 0.5vh;
-    min-width: 150px;
-}
-
-.sms {
-    width: 225px;
-    height: 75px;
+    width: auto;
 }
 
 .mainframe {
@@ -83,37 +85,43 @@ main {
     height: 100%;
 }
 
-#loginWrapper {
-    margin-top: 10vh;
-}
-
 label {
     color: white;
 }
 
-form {
+/* form {
     width: 75%;
-}
+} */
 
 #login {
     background-color: var(--button-color);
     width: 100%;
 }
 
-#login:focus-visible {
-    outline: 2px solid var(--logo-colour);
+#login:focus-visible,
+input:focus {
+    outline: 2px solid var(--logo-color);
     outline-offset: 2px;
 }
 
-@media screen and (max-width: 375px) {
-    .sms {
-        width: 157.5px;
-        height: 52.5px;
+@media screen and (max-width: 1500px) {
+    .hide {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #loginRight {
+        display: none !important;
     }
 
-    #loginSection {
-        width: 95%;
+    #loginContainer {
+        width: 100%;
     }
+
+    /* h1 span {
+        display: none;
+    } */
 }
 
 @media screen and (max-width: 768px) {
@@ -156,25 +164,21 @@ form {
     #contentHeader {
         display: none;
     }
-}
 
-@media screen and (max-width: 1200px) {
-    #loginRight {
-        display: none !important;
+    .contentCard {
+        height: 25vh !important;
+        width: auto !important;
+        margin-top: 5% !important;
     }
 
-    #loginContainer {
-        width: 100%;
-    }
-
-    h1 span {
-        display: none;
+    #fadeCarousel {
+        height: 44vh !important;
     }
 }
 
-@media screen and (max-width: 1500px) {
-    .hide {
-        display: none !important;
+@media screen and (max-width: 375px) {
+    #loginSection {
+        width: 95%;
     }
 }
 
@@ -229,7 +233,7 @@ form {
 
 .contentCardText {
     color: white;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .highlight {
@@ -238,27 +242,9 @@ form {
 
 /* LOGIN CONTENT CAROUSEL */
 
-#fadeCarousel .carousel-inner,
-#fadeCarousel .carousel-item {
-    height: 100%;
-}
-
 .carousel-fade .carousel-item {
     opacity: 0;
     transition: opacity 1s ease-in-out;
-}
-
-.carousel-fade .carousel-item.active,
-.carousel-fade .carousel-item-next.carousel-item-start,
-.carousel-fade .carousel-item-prev.carousel-item-end {
-    opacity: 1;
-    z-index: 1;
-}
-
-.carousel-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* FOOTER */
@@ -280,17 +266,21 @@ footer {
     width: 4.5em;
 }
 
+.nav-pills .nav-link.active {
+    background-color: var(--light-background-color) !important;
+}
+
 #userDashboard {
-    height: 92vh;
-    width: 97%;
+    height: 94vh;
+    width: 98%;
     background-color: white;
-    border-radius: 18px 18px 0px 0px;
+    /* border-radius: 18px 18px 0px 0px; */
 }
 
 #testList {
     height: 54vh;
     width: 97%;
-    background-color: var(--light-background-color);
+    /* background-color: var(--light-background-color); */
     border-radius: 18px;
 }
 
@@ -298,56 +288,21 @@ footer {
     height: 25vh;
     background-color: var(--light-background-color);
     border-radius: 18px;
+    border: solid 3px var(--dark-background-color);
 }
 
 #dashboardHeader {
     display: flex;
     justify-content: center;
-    font-family: "Roboto", sans-serif;
-    padding: 1%;
+    font-family: 'Roboto', sans-serif;
 }
 
-h1 span {
-    color: var(--logo-colour);
+h1 span,
+.highlightPurple {
+    color: var(--logo-color);
 }
 
-/* DivTable */
-
-.divTable {
-    display: table;
-    width: 90vw;
-    padding: 0;
-    margin: 0% 5vw 2% 5vw;
-}
-
-.divTableRow {
-    display: table-row;
-}
-
-.divTableHeading {
-    background-color: #eee;
-    display: table-header-group;
-}
-
-.divTableCell,
-.divTableHead {
-    border: 1px solid #999999;
-    display: table-cell;
-    padding: 3px 10px;
-}
-
-.divTableHeading {
-    background-color: #eee;
-    display: table-header-group;
-    font-weight: bold;
-}
-
-.divTableFoot {
-    background-color: #eee;
-    display: table-footer-group;
-    font-weight: bold;
-}
-
-.divTableBody {
-    display: table-row-group;
+.my-large-text {
+    font-size: 2rem !important;
+    /* !important may be necessary to override Bootstrap */
 }
