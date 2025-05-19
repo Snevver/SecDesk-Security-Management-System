@@ -27,17 +27,12 @@ function fetchCustomerTests() {
  * @returns {void}
  */
 function displayCustomerTests(data) {
-    const testListElement = document.getElementById("testListContent");
+    const testListElement = document.getElementById("testlistAccordion");
 
     if (!testListElement) return;
 
     // Check if data exists
-    if (!data) {
-        testListElement.innerHTML = "<p>No data received.</p>";
-        return;
-    }
-
-    if (data.length === 0) {
+    if (!data || !data.tests || data.tests.length === 0) {
         testListElement.innerHTML = "<p>No tests found.</p>";
         return;
     }
@@ -45,41 +40,60 @@ function displayCustomerTests(data) {
     // Clear loading message
     testListElement.classList.remove("loading");
 
-    let testList = "<ul>";
+    let testList = "";
 
-    // Tests
     for (let test of data.tests) {
-        testList += `<div id="test-${test.id}" class="border border-black rounded-md p-4 mb-4">
-                        <li>
-                            <strong>Test Name:</strong> 
-                            ${test.test_name || "Not found"} 
-                            <br>
-                            <strong>Description:</strong> 
-                            ${test.test_description || "Not found"}
-                        </li>
-                    </div>`;
-                    
-                    // Targets (this has to be in the dropdown)
-                    for (let target of test.targets) {
-                        testList += `<div id="target-${target.id}" class="border border-black rounded-md p-4 mb-4">
-                                        <li>
-                                            <strong>Target Name:</strong> 
-                                            ${target.target_name || "Not found"} 
-                                            <br>
-                                            <strong>Description:</strong> 
-                                            ${target.target_description || "Not found"}
-                                        </li>
-                                    </div>`;
-                    }
+        const collapseId = `collapse-${test.id}`;
+        const headingId = `heading-${test.id}`;
+        const testDate = new Date(test.test_date).toLocaleDateString();
 
+        testList += `
+            <div class="accordion-item p-0 pb-3">
+                <h2 class="accordion-header" id="${headingId}">
+                    <button class="accordion-button accordion-color collapsed d-flex align-items-center justify-content-center" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#${collapseId}"
+                            aria-expanded="false"
+                            aria-controls="${collapseId}">
+                        <div>
+                            <div class="fw-bold">Test 1: ${test.test_name}</div>
+                            <small class="text-muted">Date: ${testDate}</small>
+                        </div>
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse"
+                     aria-labelledby="${headingId}"
+                     data-bs-parent="#testListAccordion">
+                    <div class="accordion-body">
+                        <p><strong>Description:</strong> ${test.test_description || "No Description"}</p>
+        `;
 
+        // Targets inside the accordion body
+        if (test.targets && test.targets.length > 0) {
+            testList += `<ul class="list-group">`;
+            for (let target of test.targets) {
+                testList += `
+                    <li class="list-group-item">
+                        <strong>Target Name:</strong> ${target.target_name || "Not found"}<br>
+                        <strong>Description:</strong> ${target.target_description || "Not found"}
+                    </li>
+                `;
+            }
+            testList += `</ul>`;
+        } else {
+            testList += `<p><em>No targets available.</em></p>`;
+        }
 
+        testList += `
+                    </div>
+                </div>
+            </div>
+        `;
     }
-
-    testList += "</ul>";
 
     testListElement.innerHTML = testList;
 }
 
+
 // Fetch customer tests
-fetchCustomerTests();
+// fetchCustomerTests();

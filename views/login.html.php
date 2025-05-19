@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <script src="/js/bootstrap.js" defer></script>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
+    <!-- Main header -->
     <header id="mainHeader" class="d-flex align-items-center">
         <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo">
     </header>
@@ -20,6 +21,7 @@
     <div id="debug" style="display: none;"></div>
     <div id="error-message"></div>
 
+    <!-- Login section -->
     <main id="loginMain" class="container-fluid p-0">
         <div id="mainFlexWrapper" class="d-flex justify-content-between align-items-start flex-wrap w-100">
             <div class="col-12 col-md-4 p-0 d-flex justify-content-center align-items-center">
@@ -27,8 +29,8 @@
                     <section id="loginSection" class="row m-0">
                         <div class="col-12 d-flex flex-column justify-content-center align-items-center"
                             id="loginContainer">
-                            <img src="images/sms-simple.webp" alt="SecDesk Logo" class="sms mb-4">
-                            <form id="login-form">
+                            <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-4">
+                            <form id="login-form" class="w-75">
                                 <div class="form-group mb-4">
                                     <label for="email">Email address</label>
                                     <input type="email" class="form-control" id="email" name="email"
@@ -46,10 +48,12 @@
                 </div>
             </div>
 
+            <!-- Content section -->
             <div class="col-12 col-md-8 p-0">
                 <div id="contentWrapper" class="d-flex justify-content-center align-items-center">
                     <section id="homeContent" class="row m-0 flex-column align-items-center">
 
+                        <!-- Content Header -->
                         <header id="contentHeader">
                             <div class=" col-12 m-0 p-0">
                                 <div class="row align-items-center">
@@ -67,9 +71,9 @@
 
                         <hr class="m-0" style="border-top: 1px solid #ccc;">
 
+                        <!-- Carousel -->
                         <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
                             data-bs-interval="5000">
-
                             <div class="carousel-indicators">
                                 <button type=" button" data-bs-target="#fadeCarousel" data-bs-slide-to="0"
                                     class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -82,15 +86,15 @@
                             </div>
 
                             <div class="carousel-inner h-100">
-
-                                <div class="carousel-item active">
+                                <!-- First slide -->
+                                <div class="carousel-item active d-flex justify-content-center align-items-center">
                                     <div class="row align-items-center homeContentCard">
-                                        <div class="col-12 col-sm-5 p-0">
+                                        <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
                                             <img src="images/contentcard-hackerman.webp" alt="Dashboard"
                                                 class="img-fluid contentCard">
                                         </div>
-                                        <div class="col-12 col-sm-7 p-0">
-                                            <div class="contentCardText d-flex flex-column">
+                                        <div class="col-12 col-sm-7 p-0 d-flex">
+                                            <div class="contentCardText d-flex flex-column text-align-center">
                                                 <h2><span class="highlight">Step One:</span> We'll hack you for
                                                     <span class="highlight">everything</span>
                                                     you're worth
@@ -101,13 +105,14 @@
                                     </div>
                                 </div>
 
-                                <div class="carousel-item">
+                                <!-- Second slide -->
+                                <div class="carousel-item d-flex justify-content-center align-items-center">
                                     <div class="row align-items-center homeContentCard">
-                                        <div class="col-md-5 p-0">
+                                        <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
                                             <img src="images/contentcard-report.webp" alt="Dashboard"
                                                 class="img-fluid contentCard">
                                         </div>
-                                        <div class="col-md-7 p-0">
+                                        <div class="col-12 col-sm-7  p-0">
                                             <div class="contentCardText d-flex flex-column">
                                                 <h2><span class="highlight">Step Two:</span> We'll put <span
                                                         class="highlight">special care</span> into
@@ -119,13 +124,14 @@
                                     </div>
                                 </div>
 
-                                <div class="carousel-item">
+                                <!-- Third slide -->
+                                <div class="carousel-item d-flex justify-content-center align-items-center">
                                     <div class="row align-items-center homeContentCard">
-                                        <div class="col-md-5 p-0">
+                                        <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
                                             <img src="images/contentcard-sms-grey.webp" alt="Dashboard"
                                                 class="img-fluid contentCard">
                                         </div>
-                                        <div class="col-md-7 p-0">
+                                        <div class="col-12 col-sm-7 p-0">
                                             <div class="contentCardText d-flex flex-column">
                                                 <h2><span class="highlight">Step Three:</span> Enter Secdesk's <span
                                                         class="highlight">Security
@@ -137,13 +143,14 @@
                                     </div>
                                 </div>
 
-                                <div class="carousel-item">
+                                <!-- Fourth slide -->
+                                <div class="carousel-item d-flex justify-content-center align-items-center">
                                     <div class="row align-items-center homeContentCard">
-                                        <div class="col-md-5 p-0">
+                                        <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
                                             <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard"
                                                 class="img-fluid contentCard">
                                         </div>
-                                        <div class="col-md-7 p-0">
+                                        <div class="col-12 col-sm-7 p-0">
                                             <div class="contentCardText d-flex flex-column">
                                                 <h2><span class="highlight">Step Four:</span> This is where <span
                                                         class="highlight">you</span> come in
@@ -166,6 +173,7 @@
         </div>
     </main>
 
+    <!-- Footer -->
     <div class="container-fluid">
         <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 border-top">
             <div class="col mb-3">

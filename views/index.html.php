@@ -10,14 +10,37 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <script src="/js/bootstrap.js" defer></script>
+  <script src="/js/auth.js"></script>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
-  <header id="mainHeader" class="d-flex justify-content-center align-items-center">
-    <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo">
-    <img src="images/sms-simple.webp" alt="SMS Logo" class="sms">
-  </header>
+  <!-- Main Header -->
+  <header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
+  <div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-align-center w-100">
+    <div class="d-none d-md-block">
+      <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-1">
+    </div>
+    <div class="h-100 d-flex align-items-center">
+      <h1 class="m-0 d-none d-lg-block text-center h-100">
+        <span>Security Management System</span>
 
+      </h1>
+
+      <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
+    </div>
+
+
+    <div class="d-none d-md-block" style="width: 181px;">
+    <h1>
+      <!-- Blokker's Dashboard -->
+    </h1>
+
+    </div>
+  </div>
+</header>
+
+  <!-- Sidebar -->
   <div class="content-wrapper d-flex">
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
       <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip"
@@ -36,7 +59,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Dashboard" data-bs-toggle="tooltip"
+          <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Statistics" data-bs-toggle="tooltip"
             data-bs-placement="right">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-bar-chart-line" viewBox="0 0 16 16">
@@ -46,7 +69,7 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Orders" data-bs-toggle="tooltip"
+          <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="tooltip"
             data-bs-placement="right">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear"
               viewBox="0 0 16 16">
@@ -58,37 +81,89 @@
           </a>
         </li>
       </ul>
-      <div class="dropdown dropend border-top">
-        <a href="#"
-          class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle"
-            viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-            <path fill-rule="evenodd"
-              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-          </svg>
-        </a>
-        <ul class="dropdown-menu text-small shadow">
 
-          <li><a id="logout-btn" class="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+        </svg>
+      </a>
+
+      <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="logoutModalLabel">
+                        You're logging out</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" aria-label="Close"
+                    class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                    <button id="logout-btn" type="button"
+                    class="btn btn-success" data-bs-dismiss="modal">Yes</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Dashboard -->
     <main class="d-flex justify-content-center align-items-end">
       <section id="userDashboard">
         <div class="container-fluid w-100 m-0">
           <div class="row d-flex text-align-center justify-content-center align-items-center">
-            <header id="dashboardHeader">
-              <h1>Company's <span>Security Management System</span> Dashboard</h1>
-            </header>
 
-            <div id="testList">
-              <div id="testListContent"></div>
+            <!-- Main content goes here -->
+            <section id="testList" class="container-fluid p-0">
+
+              <header id="testListHeader" class="mb-4 mt-4">
+                <div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
+                  <div class="d-none d-xxl-block" style="width: 428px;">
+
+                  </div>
+
+                  <h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
+
+                  <div class="d-xxl-flex d-none flex-wrap justify-content-center align-items-center">
+                    <form class="form-inline d-xl-flex me-4 d-none">
+                        <input class="form-control me-1" type="search"
+                        placeholder="Search" aria-label="Search">
+                        <button class="btn my-2 my-sm-0"
+                        type="submit">Search</button>
+                    </form>
+
+                    <div class="btn-group me-4 d-none d-xl-flex">
+                      <button type="button" class="btn btn-md dropdown-toggle"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      Sort by
+                      <span class="visually-hidden">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Date</a></li>
+                      <li><a class="dropdown-item" href="#">Completion</a></li>
+                      <li><a class="dropdown-item" href="#">A-Z</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+              </header>
+
+              <div id="testListAccordion" class="accordion row ms-3 me-3">
+
+
             </div>
+          </div>
+        </section>
 
-            <div id="horizontalScroll" class="overflow-auto" style="white-space: nowrap;">
+            <!-- Stat boxes beneath main content -->
+            <!-- <div id="horizontalScroll" class="overflow-auto" style="white-space: nowrap;">
               <div class="row g-4 m-0 flex-nowrap">
                 <div class="col-6 col-xl-3">
                   <div class="statBox"></div>
@@ -103,7 +178,7 @@
                   <div class="statBox"></div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </section>

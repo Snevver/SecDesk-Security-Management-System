@@ -1,3 +1,5 @@
+@import url(main.css);
+
 .sms {
     width: 112.5px;
     height: 37.5px;
@@ -6,4 +8,96 @@
 
 .logo {
     padding: 0;
+}
+
+#testListHeader {
+    background: linear-gradient(to top, var(--light-background-color), #f1f1f1) !important;
+    height: 8vh;
+    border-radius: 0.5rem;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#userDashboard {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* .accordion-button {
+    height: 12vh;
+    background-color: var(--light-background-color) !important;
+    color: black !important;
+    border: solid 3px var(--dark-background-color) !important;
+}
+
+.accordion-button:hover {
+    background-color: #6962ea81 !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none !important;
+    border-color: var(--header-color) !important;
+}
+
+.accordion-body,
+.list-group-item {
+    background-color: var(--light-background-color) !important;
+}
+
+.accordion-body,
+.list-group-item {
+    background-color: var(--light-background-color);
+}
+
+.list-group-item:nth-child(even) {
+    background-color: #c8c0dd !important;
+} */
+
+.accordion-item {
+    border: none !important;
+}
+
+.accordion-button {
+    height: 12vh;
+    background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
+    border: 2px solid #ccc !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.accordion-button:hover {
+    background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: #888 !important;
+}
+
+button.accordion-button:not(.collapsed) {
+    border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+
+.accordion-body {
+    border: 2px solid #ccc;
+    border-top: 0px;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+/* .accordion-body {
+    background: linear-gradient(to bottom, #ffffff, var(--light-background-color));
+}
+
+.list-group-item {
+    background-color: var(--light-background-color) !important;
+} */
+
+input:focus,
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem var(--header-color) !important;
+    /* outline-offset: 2px; */
 }
