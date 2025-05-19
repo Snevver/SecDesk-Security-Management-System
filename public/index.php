@@ -100,11 +100,11 @@ try {
             if (session_status() === PHP_SESSION_NONE) session_start();
 
             if ($result['data']['success'] && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-                Logger::write('info', "User is logged in, redirecting to /employeeDashboard.html.php");
+                Logger::write('info', "Redirecting to /employeeDashboard.html.php");
                 include DIR_VIEWS . 'employeeDashboard.html.php';
                 exit;
             } else {
-                Logger::write('info', "User is not logged in, redirecting to /login.html.php");
+                Logger::write('info', "Redirecting to /login.html.php");
                 include DIR_VIEWS . 'login.html.php';
                 exit;
             }

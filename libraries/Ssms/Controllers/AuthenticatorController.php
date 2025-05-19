@@ -132,9 +132,6 @@ class AuthenticatorController
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) session_start();
 
-        // Debug session info
-        Logger::write('info', "Session variables: " . print_r($_SESSION, true));
-
         // Check if user is logged in
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
             Logger::write('info', $_SESSION['email'] . " is logged in!");

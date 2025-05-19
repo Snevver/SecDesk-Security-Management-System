@@ -2,7 +2,7 @@
 
 | Index | Priority | Done? | As a..   | I want to..                                         | Because..                                                                 |
 | ----- | -------- | ----- | -------- | --------------------------------------------------- | ------------------------------------------------------------------------- |
-| 1     | HIGH     | ❌    | User     | encounter a home page on which I can log in         | I want to be able to easily get to my dashboard when I visit the website  |
+| 1     | HIGH     | ✅    | User     | encounter a home page on which I can log in         | I want to be able to easily get to my dashboard when I visit the website  |
 | 2     | LOW      | ❌    | User     | leave comments on vulnerabilities                   | so I can better manage my vulnerabilities                                 |
 | 3     | MEDIUM   | ❌    | User     | change my password                                  | so I don't have to log in with a randomly generated password all the time |
 | 4     | MEDIUM   | ❌    | User     | filter and sort my reports                          | so I can easily manage my reports                                         |
