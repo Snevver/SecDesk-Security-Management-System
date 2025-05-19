@@ -100,7 +100,5 @@ function displayCustomerTests(data) {
     testListElement.innerHTML = testList;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Fetch customer tests
-    fetchCustomerTests();
-});
+// Fetch customer tests
+fetchCustomerTests();

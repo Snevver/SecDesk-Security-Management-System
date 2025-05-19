@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Admin Dashboard</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    
+    <body>
+        <div class="container">
+            <h1>Admin Dashboard</h1>
 
-        <div>
-            <h2>Logged in as <span id="admin-email"><?=$_SESSION['email'] ?? "Unknown"?></span></h2>
-            <h3>Role: <span id="admin-role"><?=$_SESSION['role'] ?? "Unknown"?></span></h3>
+            <div>
+                <h2>Logged in as <span id="admin-email"><?=$_SESSION['email'] ?? "Unknown"?></span></h2>
+                <h3>Role: <span id="admin-role"><?=$_SESSION['role'] ?? "Unknown"?></span></h3>
+            </div>
+
+            <h3>Customer Overview:</h3>
+            <div id="userList">Loading customers...</div>
+
+            <button id="logout-btn">Logout</button>
+
+            <script src="/js/employeeDashboard.js"></script>
+            <script src="/js/logout.js"></script>
         </div>
-
-        <h3>Customer Overview:</h3>
-        <div id="userList">Loading customers...</div>
-
-        <button id="logout-btn">Logout</button>
-
-        <script src="/js/employeeDashboard.js"></script>
-        <script src="/js/logout.js"></script>
-    </div>
-</body>
+    </body>
 </html>

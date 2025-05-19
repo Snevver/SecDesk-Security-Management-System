@@ -7,9 +7,9 @@ This project is a web application developed for SecDesk, aimed at improving the 
 The SecDesk Security Management System provides:
 
 -   A centralized database for storing accounts and penetration test results
--   Different access levels for customers, SecDesk workers (often refered to as "pen testers" in documentation), and administrators
+-   Different access levels for customers, SecDesk workers (often refered to as "pentesters" in documentation, short for penetration tester), and administrators
 -   A detailed overview for each vulnerability per target.
--   Customer note functionality per vulnerabilities
+-   Customer comment functionality for vulnerabilities
 
 This web application makes it easy to document affected components, risk statements, recommended fixes, and track the resolution status of identified vulnerabilities.
 
@@ -41,7 +41,7 @@ You need a few things to be able to run this application locally:
     PASSWORD="your_password"
     ```
 
-    Note: Remember to use quotes around any values with special characters.
+    Remember to use quotes around any values with special characters.
 
 3. Run the database setup script:
 
@@ -61,7 +61,7 @@ This project requires these packages in order to function:
 -   BootstrapCSS
 -   PopperJS
 
-Refer to the 🔧 Setup section for information on how to install these packages.
+Refer to step 4 of the 🔧 Setup section for information on how to install these packages.
 
 ## 🧑‍💻 Authors
 
@@ -69,20 +69,16 @@ Refer to the 🔧 Setup section for information on how to install these packages
 
 Son is a full-stack web developer and was the SCRUM master during this project. He was also in charge of making sure the project was properly documented.
 
-[Website](https://vdburg.site/) | [GitHub](https://github.com/Penguin-09) | [LinkedIn](https://www.linkedin.com/in/son-bram/)
-
-email: son@vdburg.site
+[Website](https://vdburg.site/) | [GitHub](https://github.com/Penguin-09) | [LinkedIn](https://www.linkedin.com/in/son-bram/) | son@vdburg.site
 
 ### Sven Hoeksema
 
 Sven is a back-end developer and was in charge of managing the database during this project. He wrote a large part of the back-end code.
 
-[Website](https://snevver.nl/) | [GitHub](https://github.com/Snevver) | [LinkedIn](https://www.linkedin.com/in/sven-hoeksema/) | 
-
-email: svenhoeksema@hotmail.com
+[Website](https://snevver.nl/) | [GitHub](https://github.com/Snevver) | [LinkedIn](https://www.linkedin.com/in/sven-hoeksema/) | svenhoeksema@hotmail.com
 
 ### Doncan Dayan
 
 Don is a front-end web developer who designed and wrote the front-end of the application.
 
-[GitHub](https://github.com/donbithub)
+[GitHub](https://github.com/donbithub) | dorkinat@gmail.com
