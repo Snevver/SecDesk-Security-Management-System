@@ -27,7 +27,7 @@ function fetchCustomerTests() {
  * @returns {void}
  */
 function displayCustomerTests(data) {
-    const testListElement = document.getElementById("testlistAccordion");
+    const testListElement = document.querySelector(".accordion");
 
     if (!testListElement) return;
 
@@ -65,7 +65,9 @@ function displayCustomerTests(data) {
                      aria-labelledby="${headingId}"
                      data-bs-parent="#testListAccordion">
                     <div class="accordion-body">
-                        <p><strong>Description:</strong> ${test.test_description || "No Description"}</p>
+                        <p><strong>Description:</strong> ${
+                            test.test_description || "No Description"
+                        }</p>
         `;
 
         // Targets inside the accordion body
@@ -74,8 +76,12 @@ function displayCustomerTests(data) {
             for (let target of test.targets) {
                 testList += `
                     <li class="list-group-item">
-                        <strong>Target Name:</strong> ${target.target_name || "Not found"}<br>
-                        <strong>Description:</strong> ${target.target_description || "Not found"}
+                        <strong>Target Name:</strong> ${
+                            target.target_name || "Not found"
+                        }<br>
+                        <strong>Description:</strong> ${
+                            target.target_description || "Not found"
+                        }
                     </li>
                 `;
             }
@@ -94,6 +100,7 @@ function displayCustomerTests(data) {
     testListElement.innerHTML = testList;
 }
 
-
-// Fetch customer tests
-// fetchCustomerTests();
+document.addEventListener("DOMContentLoaded", () => {
+    // Fetch customer tests
+    fetchCustomerTests();
+});

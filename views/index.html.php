@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,8 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <script src="/js/bootstrap.js" defer></script>
-  <script src="/js/auth.js"></script>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
-
 <body>
   <!-- Main Header -->
   <header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
@@ -155,10 +152,7 @@
 
               </header>
 
-              <div id="testListAccordion" class="accordion row ms-3 me-3">
-
-
-            </div>
+              <div id="testListAccordion" class="accordion row ms-3 me-3"></div>
           </div>
         </section>
 
@@ -188,6 +182,4 @@
   <script src="/js/index.js"></script>
   <script src="/js/logout.js"></script>
 </body>
-
-
 </html>
