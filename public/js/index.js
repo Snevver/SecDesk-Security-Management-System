@@ -42,6 +42,8 @@ function displayCustomerTests(data) {
 
     let testList = "";
 
+    let testIndex = 1;
+
     for (let test of data.tests) {
         const collapseId = `collapse-${test.id}`;
         const headingId = `heading-${test.id}`;
@@ -56,7 +58,7 @@ function displayCustomerTests(data) {
                             aria-expanded="false"
                             aria-controls="${collapseId}">
                         <div>
-                            <div class="fw-bold">Test 1: ${test.test_name}</div>
+                            <div class="fw-bold">Test ${testIndex}: ${test.test_name}</div>
                             <small class="text-muted">Date: ${testDate}</small>
                         </div>
                     </button>
@@ -69,13 +71,13 @@ function displayCustomerTests(data) {
                             test.test_description || "No Description"
                         }</p>
         `;
-
+        
         // Targets inside the accordion body
         if (test.targets && test.targets.length > 0) {
             testList += `<ul class="list-group">`;
             for (let target of test.targets) {
                 testList += `
-                    <li class="list-group-item">
+                    <li id=target-${target.id} class="list-group-item">
                         <strong>Target Name:</strong> ${
                             target.target_name || "Not found"
                         }<br>
@@ -95,6 +97,8 @@ function displayCustomerTests(data) {
                 </div>
             </div>
         `;
+
+        testIndex++;
     }
 
     testListElement.innerHTML = testList;
