@@ -106,3 +106,19 @@ function displayCustomerTests(data) {
 
 // Fetch customer tests
 fetchCustomerTests();
+
+document.querySelector(".accordion").addEventListener("click", function(event) {
+    const targetLi = event.target.closest("li[id^='target-']");
+    if (targetLi) {
+        const targetId = targetLi.id.split("-")[1];
+        fetch(`api/vulnerabilities/${targetId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                // Handle the data received from the server
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching target vulnerabilities:", error);
+            });
+    }
+});

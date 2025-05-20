@@ -71,6 +71,15 @@ function sendJsonResponse($data, $statusCode = 200) {
     exit;
 }
 
+// This is the route to get the vulnerabilities for a target
+if (preg_match('#^/api/vulnerabilities/(\d+)$#', $uri, $matches)) {
+    $targetId = (int)$matches[1];
+    Logger::write('info', "Fetching vulnerabilities for target ID $targetId...");
+    $c = new IndexController(Db::getInstance());
+    $result = $c->getVulnerabilities($targetId);
+    sendJsonResponse($result['data'], $result['status']);
+}
+
 //-----------------------------------------------------
 // Route Requests
 //-----------------------------------------------------
