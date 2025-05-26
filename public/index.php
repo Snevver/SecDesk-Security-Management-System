@@ -119,6 +119,25 @@ try {
             }
             break;
 
+        // Route to target page
+        case '/targets':
+            $c = new AuthenticatorController(Db::getInstance());
+            $result = $c->isLoggedIn();
+
+            // Start the session
+            if (session_status() === PHP_SESSION_NONE) session_start();
+
+            if ($result['data']['success'] && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+                Logger::write('info', "Redirecting to /targets.html.php");
+                include DIR_VIEWS . 'targets.html.php';
+                exit;
+            } else {
+                Logger::write('info', "Redirecting to /login.html.php");
+                include DIR_VIEWS . 'login.html.php';
+                exit;
+            }
+            break;
+
         // Route to login page
         case '/login':
             // Start the session
@@ -184,7 +203,7 @@ try {
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
-    Logger::write('error', 'HTTP error: ' . $e->getMessage());
+    Logger::write('error', 'HTTP error: ' . $e->getMessage() . ' - ' . $uri);
     $c = new ErrorController();
     $c($e);
 } catch (\Throwable $e) {
