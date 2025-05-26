@@ -7,28 +7,28 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Dashboard</title>
 
-		<!-- CSS --> 
+		<!-- CSS -->
 		<link rel="stylesheet" href="/css/main.css">
 		<link rel="stylesheet" href="/css/index.css">
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-		<!-- JS --> 
+		<!-- JS -->
 		<script src="/js/bootstrap.js" defer></script>
 		<script src="/js/index.js" defer></script>
 		<script src="/js/logout.js" defer></script>
 
-		<!-- Favicon --> 
+		<!-- Favicon -->
 		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 	</head>
 
 	<body>
 		<!-- HEADER -->
 		<header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
-			<div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-align-center w-100">
-				<!-- Logo --> 
+			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
+				<!-- Logo -->
 				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-1">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo m-1 position-absolute top-0 start-0">
 				</div>
 
 				<!-- Title -->
@@ -37,7 +37,7 @@
 						<span>Security Management System</span>
 					</h1>
 
-					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">	
+					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
 				</div>
 			</div>
 		</header>
@@ -45,7 +45,7 @@
 		<!-- SIDEBAR -->
 		<div class="content-wrapper d-flex">
 			<div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
-				<!-- Logo only --> 
+				<!-- Logo only -->
 				<a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
 					<img src="images/logo-only.webp" alt="SecDesk Logo" class="logo-only">
 				</a>
@@ -60,7 +60,7 @@
 						</a>
 					</li>
 
-					<!-- Statistics Button --> 
+					<!-- Statistics Button -->
 					<li>
 						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Statistics" data-bs-toggle="tooltip" data-bs-placement="right">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
@@ -69,19 +69,19 @@
 						</a>
 					</li>
 
-					<!-- Settings Button --> 
+					<!-- Settings Button -->
 					<li>
 						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="tooltip" data-bs-placement="right">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
 								<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-								
+
 								<path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
 							</svg>
 						</a>
 					</li>
 				</ul>
 
-				<!-- Logout Button --> 
+				<!-- Logout Button -->
 				<a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
 						<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
@@ -89,7 +89,7 @@
 					</svg>
 				</a>
 
-				<!-- Logout Modal --> 
+				<!-- Logout Modal -->
 				<div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -106,10 +106,10 @@
 							</div>
 
 							<div class="modal-footer">
-								<button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger" data-bs-dismiss="modal">
+								<button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn text-white" data-bs-dismiss="modal">
 									No
 								</button>
-								<button id="logout-btn" type="button"class="btn btn-success" data-bs-dismiss="modal">
+								<button id="logout-btn" type="button"class="btn text-white" data-bs-dismiss="modal">
 									Yes
 								</button>
 							</div>
@@ -124,7 +124,7 @@
 					<div class="row d-flex text-align-center justify-content-center align-items-center">
 						<section id="testList" class="container-fluid p-0">
 
-						<header id="testListHeader" class="mb-4 mt-4">
+						<header id="testListHeader" class="mb-4 mt-4 ms-xxl-0 me-xxl-0 ms-3 me-3">
 							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
 								<h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
 
@@ -155,7 +155,7 @@
 
 						<div id="testListAccordion" class="accordion row ms-3 me-3"></div>
 					</div>
-				</section> 	
+				</section>
 			</main>
 		</div>
 	</body>
