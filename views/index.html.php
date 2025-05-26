@@ -155,27 +155,7 @@
 
 						<div id="testListAccordion" class="accordion row ms-3 me-3"></div>
 					</div>
-				</section>
-
-				<!-- <div id="horizontalScroll" class="overflow-auto" style="white-space: nowrap;">
-					<div class="row g-4 m-0 flex-nowrap">
-						<div class="col-6 col-xl-3">
-							<div class="statBox"></div>
-						</div>
-
-						<div class="col-6 col-xl-3">
-							<div class="statBox"></div>
-						</div>
-
-						<div class="col-6 col-xl-3">
-							<div class="statBox"></div>
-						</div>
-
-						<div class="col-6 col-xl-3">
-							<div class="statBox"></div>
-						</div>
-					</div>
-				</div> -->
+				</section> 	
 			</main>
 		</div>
 	</body>

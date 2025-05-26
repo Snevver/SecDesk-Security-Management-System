@@ -51,18 +51,12 @@ function displayCustomerTests(data) {
 
         testList += `
             <a id="test-${test.id}" class="text-decoration-none">
-                <div class="accordion-item p-0 pb-3">
-                    <h2 class="accordion-header" id="${headingId}">
-                        <button class="accordion-button accordion-color collapsed d-flex align-items-center justify-content-center" type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#${collapseId}"
-                                aria-expanded="false"
-                                aria-controls="${collapseId}">
-                            <div>
-                                <div class="fw-bold">Test ${testIndex}: ${test.test_name}</div>
-                                <small class="text-muted">Date: ${testDate}</small>
-                            </div>
-                        </button>
+                <div class="p-0 pb-3">
+                    <h2 id="${headingId}">
+                        <div>
+                            <div class="fw-bold">Test ${testIndex}: ${test.test_name}</div>
+                            <small class="text-muted">Date: ${testDate}</small>
+                        </div>
                     </h2>
                 </div>
             </a>

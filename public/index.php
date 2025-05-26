@@ -195,6 +195,13 @@ try {
             $result = $c->getTargets($test_id);
             sendJsonResponse($result['data'], $result['status']);
             break;
+          case '/api/vulnerabilities':
+            $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
+            Logger::write('info', 'Fetching vulnerabilities for target ID: ' . $target_id);
+            $c = new TargetController(Db::getInstance());
+            $result = $c->getVulnerabilities($target_id);
+            sendJsonResponse($result['data'], $result['status']);
+            break;
 
         // Route to Bootstrap Javascript
         case '/js/bootstrap.js':
