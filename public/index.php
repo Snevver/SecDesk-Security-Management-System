@@ -24,17 +24,17 @@ require_once APP_ROOT . 'vendor/autoload.php';
 require_once DIR_INCLUDES . 'errorHandler.php';
 
 // Declare all the used namespaces
-use Ssms\Controllers\IndexController;
-use Ssms\Controllers\AuthenticatorController;
 use Ssms\Exceptions\HTTPException;
 use Ssms\Controllers\ErrorController;
-use Ssms\Controllers\EmployeeDashboardController;
-use Ssms\Controllers\TargetController;
 use Ssms\Database\Db;
 use Ssms\Logger;
 
 // Get the URI and remove the query string
 $uri = strtok(filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL), '?');
+
+// Get possible query parameters
+$test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+$target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
 
 // If the URI is a file, return false
 if (is_file(__DIR__ . $uri)) {
@@ -64,6 +64,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+function useController($controllerName, $methodName, $args = []) {
+    $controllerClass = "Ssms\\Controllers\\$controllerName";
+    if (!class_exists($controllerClass)) {
+        throw new HTTPException("Controller $controllerName not found", 404);
+    }
+
+    $controller = new $controllerClass(Db::getInstance());
+    if (!method_exists($controller, $methodName)) {
+        throw new HTTPException("Method $methodName not found in controller $controllerName", 404);
+    }
+
+    return call_user_func_array([$controller, $methodName], $args);
+}
+
+function checkLogin() {
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    
+    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+        Logger::write('info', "User " . ($_SESSION['email'] ?? 'unknown') . " is logged in, proceeding with request.");
+        return true;
+    } else {
+        Logger::write('info', "User is not logged in, redirecting to /login");
+        header('Location: /login');
+        exit;
+    }
+}
+
 // Helper function to send JSON response
 function sendJsonResponse($data, $statusCode = 200) {
     header('Content-Type: application/json');
@@ -72,150 +99,114 @@ function sendJsonResponse($data, $statusCode = 200) {
     exit;
 }
 
-// This is the route to get the vulnerabilities for a target
-if (preg_match('#^/api/vulnerabilities/(\d+)$#', $uri, $matches)) {
-    $targetId = (int)$matches[1];
-    Logger::write('info', "Fetching vulnerabilities for target ID $targetId...");
-    $c = new IndexController(Db::getInstance());
-    $result = $c->getVulnerabilities($targetId);
-    sendJsonResponse($result['data'], $result['status']);
+// Authenticated route handler
+function handleAuthenticatedRoute($viewFile) {
+    checkLogin();
+    
+    Logger::write('info', "Redirecting authenticated user to $viewFile");
+    include DIR_VIEWS . $viewFile;
+    exit;
+}
+
+// Define protected routes that require authentication
+$protectedRoutes = [
+    '/',
+    '/employee',
+    '/admin',
+    '/targets',
+    '/api/customers',
+    '/api/tests', 
+    '/api/targets',
+    '/api/vulnerabilities'
+];
+
+// Automatically checks login for protected routes
+function applyAuthMiddleware($uri, $protectedRoutes) {
+    foreach ($protectedRoutes as $route) {
+        if ($uri === $route) {
+            checkLogin();
+            break;
+        }
+    }
 }
 
 //-----------------------------------------------------
 // Route Requests
 //-----------------------------------------------------
 try {
+    applyAuthMiddleware($uri, $protectedApiRoutes);
+    
     switch ($uri) {
-        // Route to dashboard
-        case '/':
-            $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->isLoggedIn();
-            if ($result['data']['success']) {
-                Logger::write('info', "User is logged in, redirecting to /index.html.php");
-                include DIR_VIEWS . 'index.html.php';
-                exit;
-            } else {
-                Logger::write('info', "User is not logged in, redirecting to /login.html.php");
-                include DIR_VIEWS . 'login.html.php';
-                exit;
-            }
-            break;
-
-        // Route to employee dashboard
-        case '/employee-dashboard':
-            $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->isLoggedIn();
-
-            // Start the session
-            if (session_status() === PHP_SESSION_NONE) session_start();
-
-            if ($result['data']['success'] && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-                Logger::write('info', "Redirecting to /employeeDashboard.html.php");
-                include DIR_VIEWS . 'employeeDashboard.html.php';
-                exit;
-            } else {
-                Logger::write('info', "Redirecting to /login.html.php");
-                include DIR_VIEWS . 'login.html.php';
-                exit;
-            }
-            break;
-
-        // Route to target page
-        case '/targets':
-            $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->isLoggedIn();
-
-            // Start the session
-            if (session_status() === PHP_SESSION_NONE) session_start();
-
-            if ($result['data']['success'] && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-                Logger::write('info', "Redirecting to /targets.html.php");
-                include DIR_VIEWS . 'targets.html.php';
-                exit;
-            } else {
-                Logger::write('info', "Redirecting to /login.html.php");
-                include DIR_VIEWS . 'login.html.php';
-                exit;
-            }
-            break;
-
-        // Route to login page
+        // Routes to views
         case '/login':
-            // Start the session
             if (session_status() === PHP_SESSION_NONE) session_start();
-
-            Logger::write('info', "Redirecting " . ($_SESSION['email'] ?? "Unknown user") . " to /login.html.php");
             include DIR_VIEWS . 'login.html.php';
             break;
+        
+        case '/':
+            handleAuthenticatedRoute('index.html.php');
+            break;
 
-        // Route to logout API
-        case '/api/logout':
-            $c = new AuthenticatorController(Db::getInstance());
-            $c->logout();
-            Logger::write('info', "Successfully logged out!");
-            header('Location: /login');
-            exit;
+        case '/employee':
+            handleAuthenticatedRoute('employeeDashboard.html.php');
+            break;
 
-        // Route to login API
+        case '/admin':
+            handleAuthenticatedRoute('adminDashboard.html.php');
+            break;
+        
+        case '/targets':
+            handleAuthenticatedRoute('targets.html.php');
+            break;
+
+        // API Routes
         case '/api/login':
-            Logger::write('info', 'Login request recieved');
-            $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->login();
+            $result = useController("AuthenticatorController", "login");
             sendJsonResponse($result['data'], $result['status']);
             break;
 
-        // Route to login checking API
+        case '/api/logout':
+            $result = useController("AuthenticatorController", "logout");
+            sendJsonResponse($result['data'], $result['status']);
+            break;
+
         case '/api/check-login':
-            Logger::write('info', 'Checking if ' . ($_SESSION['email'] ?? "Unknown user") . " is logged in");
-            $c = new AuthenticatorController(Db::getInstance());
-            $result = $c->isLoggedIn();
+            $result = useController("AuthenticatorController", "isLoggedIn");
             sendJsonResponse($result['data'], $result['status']);
             break;
 
-        // Route to customers API
         case '/api/customers':
-            Logger::write('info', 'Fetching customers...');
-            $c = new EmployeeDashboardController(Db::getInstance());
-            $result = $c->getCustomers();
+            $result = useController("AdminDashboardController", "getCustomers");
             sendJsonResponse($result['data'], $result['status']);
             break;
         
-        // Route to tests API
         case '/api/tests':
-            Logger::write('info', 'Fetching tests...');
-            $c = new IndexController(Db::getInstance());
-            $result = $c->getCustomersTests();
+            $result = useController("IndexController", "getCustomersTests");
             sendJsonResponse($result['data'], $result['status']);
             break;
         
         case '/api/targets':
-            $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
-            Logger::write('info', 'Fetching targets for test ID: ' . $test_id);
-            $c = new TargetController(Db::getInstance());
-            $result = $c->getTargets($test_id);
+            $result = useController("TargetController", "getTargets", [$test_id]);
             sendJsonResponse($result['data'], $result['status']);
             break;
-          case '/api/vulnerabilities':
-            $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
-            Logger::write('info', 'Fetching vulnerabilities for target ID: ' . $target_id);
-            $c = new TargetController(Db::getInstance());
-            $result = $c->getVulnerabilities($target_id);
+        
+        case '/api/vulnerabilities':
+            $result = useController("TargetController", "getVulnerabilities", [$target_id]);
             sendJsonResponse($result['data'], $result['status']);
             break;
-
-        // Route to Bootstrap Javascript
+            
+        // Routes for styling and scripts
         case '/js/bootstrap.js':
             header('Content-Type: application/javascript');
             echo file_get_contents(APP_ROOT . '/node_modules/bootstrap/dist/js/bootstrap.bundle.js');
             break;
         
-        // Route to Bootstrap CSS
         case '/css/bootstrap.css':
             header('Content-Type: text/css');
             echo file_get_contents(APP_ROOT . '/node_modules/bootstrap/dist/css/bootstrap.css');
             break;
-        
-        default:
+
+        default:            
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {

@@ -55,8 +55,10 @@ class AuthenticatorController
                     $_SESSION['role'] = $role_name;
 
                     // Determine redirect URL based on role
-                    if ($role_name === 'admin' || $role_name === 'employee') {
-                        $_SESSION['redirect'] = '/employee-dashboard';
+                    if ($role_name === 'admin') {
+                        $_SESSION['redirect'] = '/admin';
+                    } else if ($role_name === 'employee') {
+                        $_SESSION['redirect'] = '/employee';
                     } else if ($role_name === 'customer') {
                         $_SESSION['redirect'] = '/';
                     } else {
