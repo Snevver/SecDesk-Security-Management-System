@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
 
-        <!-- CSS --> 
+        <!-- CSS -->
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -32,10 +32,10 @@
         <main id="loginMain" class="container-fluid p-0">
             <div id="mainFlexWrapper" class="d-flex justify-content-between align-items-start flex-wrap w-100">
                 <div class="col-12 col-md-4 p-0 d-flex justify-content-center align-items-center">
-                    <div id="loginWrapper" class="w-100 d-flex justify-content-center">
+                    <div id="loginWrapper" class="w-100 d-flex justify-content-center align-items-start">
                         <section id="loginSection" class="row m-0">
                             <div class="col-12 d-flex flex-column justify-content-center align-items-center" id="loginContainer">
-                                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-4">
+                                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
                                     <div class="form-group mb-4">
@@ -80,7 +80,7 @@
 
                             <!-- Carousel -->
                             <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-                                <div class="carousel-indicators">
+                                <div class="carousel-indicators mb-0 mb-sm-1">
                                     <button type=" button" data-bs-target="#fadeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                     <button type="button" data-bs-target="#fadeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                                     <button type="button" data-bs-target="#fadeCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -158,16 +158,15 @@
 
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                    <h2>
-                                                        <span class="highlight">Step Four:</span> This is where <span class="highlight">you</span> come in
-                                                        and
-                                                        make a
-                                                        <span>big change!</span>
-                                                    </h2>
-
-                                                    <p>
-                                                        With tips on how to fix your vulnerabilities, in SMS you can track your progress untill everything is fixed!
-                                                    </p>
+                                                <h2><span class="highlight">Step Four:</span> This is where <span
+                                                        class="highlight">you</span> come in
+                                                    and
+                                                    make a
+                                                    <span>big change!</span>
+                                                </h2>
+                                                <p>With tips on how to fix your vulnerabilities, in SMS you can
+                                                    track
+                                                    your progress till everything is fixed!</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +206,7 @@
 
                 <div class="col mb-3">
                     <h5>Our core service</h5>
-                    
+
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
                             <a href="https://secdesk.com/full-service-security/" class="nav-link p-0 text-body-secondary" data-wpel-link="internal">SecDesk Subscription</a>
