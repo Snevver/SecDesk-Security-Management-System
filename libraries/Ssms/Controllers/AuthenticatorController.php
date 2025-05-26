@@ -84,7 +84,8 @@ class AuthenticatorController
                 throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
             }
         } catch (HTTPException $httpError) {
-            Logger::write('error', "HTTP error: " . $httpError->getMessage());
+            $uri = $_SERVER['REQUEST_URI'] ?? 'unknown';
+            Logger::write('error', "HTTP error: " . $httpError->getMessage() . " - " . $uri);
             return [
                 'status' => $httpError->getCode(),
                 'data' => [

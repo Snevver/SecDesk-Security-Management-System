@@ -29,6 +29,7 @@ use Ssms\Controllers\AuthenticatorController;
 use Ssms\Exceptions\HTTPException;
 use Ssms\Controllers\ErrorController;
 use Ssms\Controllers\EmployeeDashboardController;
+use Ssms\Controllers\TargetController;
 use Ssms\Database\Db;
 use Ssms\Logger;
 
@@ -184,6 +185,14 @@ try {
             Logger::write('info', 'Fetching tests...');
             $c = new IndexController(Db::getInstance());
             $result = $c->getCustomersTests();
+            sendJsonResponse($result['data'], $result['status']);
+            break;
+        
+        case '/api/targets':
+            $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+            Logger::write('info', 'Fetching targets for test ID: ' . $test_id);
+            $c = new TargetController(Db::getInstance());
+            $result = $c->getTargets($test_id);
             sendJsonResponse($result['data'], $result['status']);
             break;
 
