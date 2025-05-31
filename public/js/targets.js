@@ -23,15 +23,34 @@ function fetchTestTargets(test_id) {
       let targetList = "";
       for (let target of data.targets) {
         targetList += `
-                    <button class="target-button p-0 d-flex" id="target-${target.id}"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="bottom"
-                            data-bs-title="${target.target_description}"
-                            data-bs-custom-class="custom-tooltip">
-                        <p class="ms-1">
-                            T${target.id}: ${target.target_name}
-                        </p>
-                    </button>`;
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="heading-${target.id}">
+        <button class="accordion-button button-size collapsed"
+                type="button"
+                id="target-${target.id}"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-${target.id}"
+                aria-expanded="false"
+                aria-controls="collapse-${target.id}"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="${target.target_description}"
+                data-bs-custom-class="custom-tooltip">
+        T${target.id}: ${target.target_name}
+        </button>
+    </h2>
+    <div id="collapse-${target.id}"
+        class="accordion-collapse collapse"
+        aria-labelledby="heading-${target.id}"
+        data-bs-parent="#targetAccordion">
+        <div class="accordion-body vulnerability-list" id="vulns-for-${target.id}">
+        <div class="spinner-border spinner-border-sm text-success" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    </div>
+    </div>
+
+                    `;
       }
 
       targetListElement.innerHTML = targetList;
@@ -83,8 +102,10 @@ function fetchVulnerabilities(target_id) {
     })
     .then((data) => {
       console.log("Vulnerabilities:", data.vulnerabilities);
-      const vulnerabilityListElement =
-        document.getElementsByClassName("vulnerability-list")[0];
+      // Get element by unique ID to display vulnerabilities in the correct target element
+      const vulnerabilityListElement = document.getElementById(
+        `vulns-for-${target_id}`
+      );
       if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
         vulnerabilityListElement.innerHTML = "<p>No vulnerabilities found.</p>";
         return;
@@ -93,11 +114,11 @@ function fetchVulnerabilities(target_id) {
       let vulnerabilityList = "";
       for (let vulnerability of data.vulnerabilities) {
         vulnerabilityList += `
-                    <button id="vulnerability-${vulnerability.id}" class="d-flex target-button p-0">
-                        <p class="ms-1">
-                            V${vulnerability.id}: ${vulnerability.affected_entity}
-                        </p>
-                    </button>`;
+              <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-0">
+                <p class="ms-1">
+                  V${vulnerability.id}: ${vulnerability.affected_entity}
+                </p>
+              </button>`;
       }
 
       vulnerabilityListElement.innerHTML = vulnerabilityList;
@@ -153,15 +174,11 @@ function showVulnerabilityDetails(vulnerability) {
       <div class="divTableCell">${vulnerability.identifier || "N/A"}</div>
       <div class="divTableCell"><strong>CVSS Score:</strong></div>
       <div class="divTableCell">${vulnerability.cvss_score || "N/A"}</div>
-      <div class="divTableCell"><strong>Risk Statement:</strong></div>
-      <div class="divTableCell">${vulnerability.risk_statement || "N/A"}</div>
     </div>
 
     <div class="divTableRow">
       <div class="divTableCell"><strong>Classification:</strong></div>
       <div class="divTableCell">${vulnerability.classification || "N/A"}</div>
-      <div class="divTableCell"><strong>CVSS v3 Code:</strong></div>
-      <div class="divTableCell">${vulnerability.cvssv3_code || "N/A"}</div>
       <div class="divTableCell"><strong>Residual Risk:</strong></div>
       <div class="divTableCell">${vulnerability.residual_risk || "N/A"}</div>
     </div>
@@ -171,10 +188,6 @@ function showVulnerabilityDetails(vulnerability) {
       <div class="divTableCell">${vulnerability.location || "N/A"}</div>
       <div class="divTableCell"><strong>Likelihood:</strong></div>
       <div class="divTableCell">${vulnerability.likelihood || "N/A"}</div>
-      <div class="divTableCell"><strong>Identified Controls:</strong></div>
-      <div class="divTableCell">${
-        vulnerability.identified_controls || "N/A"
-      }</div>
     </div>
 
     <div class="divTableRow">
@@ -186,9 +199,26 @@ function showVulnerabilityDetails(vulnerability) {
       <div class="divTableCell">${
         vulnerability.remediation_difficulty || "N/A"
       }</div>
-      <div class="divTableCell"><strong>Status:</strong></div>
+    </div>
+
+    <div class="divTableRow">
+        <div class="divTableCell"><strong>Risk Statement:</strong></div>
+        <div class="divTableCell">${vulnerability.risk_statement || "N/A"}</div>
+        <div class="divTableCell"><strong>Status:</strong></div>
+        <div class="divTableCell">${
+          vulnerability.solved ? "Solved" : "Open"
+        }</div>
+    </div>
+
+    <div class="divTableRow">
+        <div class="divTableCell"><strong>CVSS v3 Code:</strong></div>
+        <div class="divTableCell">${vulnerability.cvssv3_code || "N/A"}</div>
+    </div>
+
+    <div class="divTableRow">
+      <div class="divTableCell"><strong>Identified Controls:</strong></div>
       <div class="divTableCell">${
-        vulnerability.solved ? "Solved" : "Open"
+        vulnerability.identified_controls || "N/A"
       }</div>
     </div>
 
@@ -204,16 +234,16 @@ function showVulnerabilityDetails(vulnerability) {
 
               ${
                 vulnerability.reproduction_steps
-                  ? `<div>
+                  ? `<div class="ms-2">
                     <h3>Reproduction Steps</h3>
-                    <pre>${vulnerability.reproduction_steps}</pre>
+                    <p>${vulnerability.reproduction_steps}</>
                 </div>`
                   : ""
               }
 
             ${
               vulnerability.impact
-                ? `<div>
+                ? `<div class="ms-2">
                     <h3>Impact</h3>
                     <p>${vulnerability.impact}</p>
                 </div>`
@@ -226,7 +256,7 @@ function showVulnerabilityDetails(vulnerability) {
             </div>
               ${
                 vulnerability.recommended_reading
-                  ? `<div>
+                  ? `<div class="ms-2">
                     <h3>Recommended Reading</h3>
                     <p>${vulnerability.recommended_reading}</p>
                 </div>`
@@ -235,7 +265,7 @@ function showVulnerabilityDetails(vulnerability) {
 
             ${
               vulnerability.response
-                ? `<div>
+                ? `<div class="ms-2">
                     <h3>Response</h3>
                     <p>${vulnerability.response}</p>
                 </div>`

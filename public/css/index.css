@@ -40,9 +40,12 @@
   transition: background-color 0.15s ease;
 }
 
+.accordion-button {
+  font-size: 0.8rem !important;
+}
+
 .accordion-button,
-.test-button,
-.target-button {
+.test-button {
   height: 12vh;
   background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
   border: 2px solid #ccc !important;
@@ -55,8 +58,16 @@
   border-radius: 0.5rem !important;
 }
 
-.target-button:first-child {
+/* .target-button:first-child {
   border-radius: 0.5rem 0.5rem 0 0 !important;
+} */
+
+.button-size {
+  height: 4.5vh !important;
+}
+
+.collapsed {
+  height: 3.5vh !important;
 }
 
 .accordion-button:hover,
@@ -95,7 +106,8 @@ input:focus,
 }
 
 #targetSidebar {
-  min-width: 12.5vw;
+  min-width: 15vw;
+  max-width: 15vw;
   /* background: linear-gradient(
     to right,
     var(--light-background-color),
@@ -129,7 +141,8 @@ input:focus,
 }
 
 .target-button {
-  height: 3vh !important;
+  height: 3.5vh !important;
+  font-size: 0.8em;
 }
 
 .target-button:hover {
@@ -145,7 +158,15 @@ input:focus,
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.subHeader {
+.vuln-button {
+  background-color: white !important;
+}
+
+.subHeader1 {
+  width: 15vw;
+}
+
+.subHeader2 {
   width: 12.5%;
 }
 
@@ -175,28 +196,13 @@ button.active {
 .divTableRow {
   display: table-row;
 }
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
-}
-.divTableCell,
-.divTableHead {
-  /* border: 1px solid #999999; */
-  border: 2px solid #ccc;
 
+.divTableCell {
+  border: 2px solid #ccc;
   display: table-cell;
   padding: 3px 10px;
 }
-.divTableHeading {
-  background-color: #eee;
-  display: table-header-group;
-  font-weight: bold;
-}
-.divTableFoot {
-  background-color: #eee;
-  display: table-footer-group;
-  font-weight: bold;
-}
+
 .divTableBody {
   display: table-row-group;
 }

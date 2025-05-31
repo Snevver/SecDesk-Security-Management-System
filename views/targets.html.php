@@ -41,19 +41,25 @@
     </header>
 
     <header class="d-flex">
-        <div class="mb-1 mt-1 ms-1 me-1 targetListHeader subHeader">
-            <div class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center">
+        <div class="mb-1 mt-1 ms-1 me-1 targetListHeader subHeader1">
+            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
+                <a href="/index.html.php" class="position-absolute start-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+
                 <h3 class="headerTitle text-center m-0">Targets</h3>
             </div>
         </div>
 
-        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader subHeader">
-            <div class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center">
+        <!-- <div class="mb-1 mt-1 ms-0 me-1 targetListHeader subHeader2">
+            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
                 <h3 class="headerTitle text-center m-0">Vulnerabilities</h3>
             </div>
-        </div>
+        </div> -->
 
-        <div class="mb-1 mt-1 ms-0 me-1 w-75 targetListHeader">
+        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader flex-grow-1">
             <div id="vulnerabilityDetails" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center">
                 <h3 class="text-center w-100 m-0">Vulnerability details</h3>
             </div>
@@ -64,20 +70,20 @@
 
     <!-- CONTENT -->
     <div id="targetsMain" class="d-flex h-100">
-        <div id="targetSidebar" class="h-100 ms-1 me-1">
+        <div id="targetSidebar" class="h-100 ms-1 me-0 overflow-auto">
 
 
-            <div id="" class="target-list h-100 w-100">
+            <div id="targetAccordion" class="target-list h-100 w-100">
 
             </div>
         </div>
 
 
-        <div id="vulnerabilitySidebar" class="vulnerability-list">
+        <!-- <div id="vulnerabilitySidebar" class="vulnerability-list">
 
-        </div>
+        </div> -->
 
-        <div id="vulnerabilityDetails" class="h-100 w-100 ms-1 me-1">
+        <div id="vulnerabilityDetails" class="h-100 w-100 ms-1 me-1 overflow-auto">
             <div class="vulnerability-details h-100 w-100">
 
             </div>
@@ -87,6 +93,6 @@
 
     <!-- <div class="target-list"></div> -->
     <!-- <div class="vulnerability-list"></div> -->
-    <div class="vulnerability-details"></div>
+    <!-- <div class="vulnerability-details"></div> -->
 </body>
 </html>
