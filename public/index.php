@@ -134,7 +134,7 @@ function applyAuthMiddleware($uri, $protectedRoutes) {
 // Route Requests
 //-----------------------------------------------------
 try {
-    applyAuthMiddleware($uri, $protectedApiRoutes);
+    applyAuthMiddleware($uri, $protectedRoutes);
     
     switch ($uri) {
         // Routes to views
