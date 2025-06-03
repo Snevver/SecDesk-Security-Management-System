@@ -17,14 +17,17 @@ CREATE TABLE IF NOT EXISTS users (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE RESTRICT
 );
 
--- The tests table will store all information about the tests. Each test is linked to a single user.
+-- The tests table will store all information about the tests. Each test is linked to a customer and a pentester.
 CREATE TABLE IF NOT EXISTS tests (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
+    customer_id INTEGER NOT NULL,
+    pentester_id INTEGER NOT NULL,
     test_name VARCHAR(255) NOT NULL,
     test_description TEXT NOT NULL,
     test_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    completed BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (customer_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (pentester_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- The targets table will store all information about the targets. Each target is linked to a specific test.

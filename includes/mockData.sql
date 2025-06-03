@@ -13,22 +13,28 @@ INSERT INTO users (email, password, role_id) VALUES
     ('grace@example.com', 'grace123', 1),
     ('heidi@example.com', 'heidi123', 1),
     ('ivan@example.com', 'ivan123', 1),
-    ('judy@example.com', 'judy123', 1);
+    ('judy@example.com', 'judy123', 1),
+    ('sarah.pentester@example.com', 'sarah123', 2),
+    ('mike.security@example.com', 'mike123', 2),
+    ('emma.hacker@example.com', 'emma123', 2),
+    ('alex.cyber@example.com', 'alex123', 2),
+    ('jordan.infosec@example.com', 'jordan123', 2);
 
 -- Tests
-INSERT INTO tests (user_id, test_name, test_description) VALUES 
-    (3, 'Web App Test', 'Testing a web application for security issues.'),
-    (4, 'E-Commerce Security Review', 'Audit of online store security.'),
-    (5, 'Healthcare System Audit', 'Security testing for hospital software.'),
-    (6, 'Online Banking PenTest', 'Penetration test of banking platform.'),
-    (7, 'Educational Portal Review', 'Review of security in LMS system.'),
-    (3, 'API Security Test', 'Testing API endpoints for vulnerabilities.'),
-    (3, 'Mobile App Review', 'Security review of the mobile application.'),
-    (4, 'Payment System Audit', 'Audit of payment processing system.'),
-    (5, 'Cloud Security Assessment', 'Assessment of cloud infrastructure.'),
-    (6, 'Legacy System PenTest', 'Penetration test of legacy systems.'),
-    (8, 'IoT Device Security', 'Security review of IoT devices.'),
-    (9, 'Network Segmentation Test', 'Testing network segmentation and isolation.');
+INSERT INTO tests (customer_id, pentester_id, test_name, test_description, completed) VALUES 
+    (3, 2, 'Web App Test', 'Testing a web application for security issues.', TRUE),
+    (4, 14, 'E-Commerce Security Review', 'Audit of online store security.', TRUE),
+    (5, 15, 'Healthcare System Audit', 'Security testing for hospital software.', TRUE),
+    (6, 16, 'Online Banking PenTest', 'Penetration test of banking platform.', TRUE),
+    (7, 17, 'Educational Portal Review', 'Review of security in LMS system.', TRUE),
+    (3, 18, 'API Security Test', 'Testing API endpoints for vulnerabilities.', TRUE),
+    (3, 2, 'Mobile App Review', 'Security review of the mobile application.', TRUE),
+    (4, 14, 'Payment System Audit', 'Audit of payment processing system.', TRUE),
+    (5, 15, 'Cloud Security Assessment', 'Assessment of cloud infrastructure.', TRUE),
+    (6, 16, 'Legacy System PenTest', 'Penetration test of legacy systems.', TRUE),
+    (8, 17, 'IoT Device Security', 'Security review of IoT devices.', TRUE),
+    (9, 18, 'Network Segmentation Test', 'Testing network segmentation and isolation.', TRUE)
+ON CONFLICT DO NOTHING;
 
 -- Targets
 INSERT INTO targets (test_id, target_name, target_description) VALUES 
@@ -89,9 +95,9 @@ INSERT INTO vulnerabilities (
 -- ===================================================================
 
 -- Bob's comprehensive penetration tests
-INSERT INTO tests (user_id, test_name, test_description) VALUES 
-    (4, 'Enterprise Financial Application Security Assessment', 'Comprehensive security assessment of a large-scale financial application infrastructure including web applications, APIs, databases, network components, and cloud services. This assessment covers authentication mechanisms, data protection, transaction security, regulatory compliance (PCI DSS, SOX), and business logic vulnerabilities. The scope includes both internal and external attack vectors, social engineering considerations, and mobile application security for the companion trading app.'),
-    (4, 'Global E-Commerce Platform Penetration Test', 'Full-scope penetration testing of an international e-commerce platform serving millions of customers across multiple regions. The assessment encompasses the entire technology stack including customer-facing web applications, administrative interfaces, payment processing systems, inventory management, supply chain integrations, customer support systems, and mobile applications. Special attention is given to payment card industry compliance, customer data protection, fraud prevention mechanisms, and third-party integration security.');
+INSERT INTO tests (customer_id, pentester_id, test_name, test_description, completed) VALUES 
+    (4, 15, 'Enterprise Financial Application Security Assessment', 'Comprehensive security assessment of a large-scale financial application infrastructure including web applications, APIs, databases, network components, and cloud services. This assessment covers authentication mechanisms, data protection, transaction security, regulatory compliance (PCI DSS, SOX), and business logic vulnerabilities. The scope includes both internal and external attack vectors, social engineering considerations, and mobile application security for the companion trading app.', TRUE),
+    (4, 16, 'Global E-Commerce Platform Penetration Test', 'Full-scope penetration testing of an international e-commerce platform serving millions of customers across multiple regions. The assessment encompasses the entire technology stack including customer-facing web applications, administrative interfaces, payment processing systems, inventory management, supply chain integrations, customer support systems, and mobile applications. Special attention is given to payment card industry compliance, customer data protection, fraud prevention mechanisms, and third-party integration security.', TRUE);
 
 -- Targets for Test 1: Enterprise Financial Application Security Assessment (test_id will be auto-generated, assuming it's 13)
 INSERT INTO targets (test_id, target_name, target_description) VALUES 

@@ -33,10 +33,8 @@ class IndexController
             ];
         }
 
-        $user_id = (int)$_SESSION['user_id'];
-
-        try {
-            $stmt = $this->pdo->prepare("SELECT * FROM tests WHERE user_id = :user_id");
+        $user_id = (int)$_SESSION['user_id'];        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM tests WHERE customer_id = :user_id");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $stmt->execute();
             $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);

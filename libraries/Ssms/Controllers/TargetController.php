@@ -42,15 +42,13 @@ class TargetController
         }
 
         $user_id = (int)$_SESSION['user_id'];
-        $test_id = $test_id ?? null;
-
-        // Check if the test is owned by the logged in person
-        $stmt = $this->pdo->prepare("SELECT user_id FROM tests WHERE id = :test_id");
+        $test_id = $test_id ?? null;        // Check if the test is owned by the logged in person
+        $stmt = $this->pdo->prepare("SELECT customer_id FROM tests WHERE id = :test_id");
         $stmt->bindParam(':test_id', $test_id, \PDO::PARAM_INT);
         $stmt->execute();
         $test = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if (!$test || $test['user_id'] !== $user_id) {
+        if (!$test || $test['customer_id'] !== $user_id) {
             Logger::write('warning', 'Unauthorized access attempt to test ID ' . $test_id . ' by user ID ' . $user_id);
             return [
                 'status' => 403,
@@ -108,15 +106,13 @@ class TargetController
                 'status' => 404,
                 'data' => ['error' => 'Target not found']
             ];
-        }
-
-        // Check if the test is owned by the logged in person
-        $stmt = $this->pdo->prepare("SELECT user_id FROM tests WHERE id = :test_id");
+        }        // Check if the test is owned by the logged in person
+        $stmt = $this->pdo->prepare("SELECT customer_id FROM tests WHERE id = :test_id");
         $stmt->bindParam(':test_id', $target['test_id'], \PDO::PARAM_INT);
         $stmt->execute();
         $test = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if (!$test || $test['user_id'] !== $user_id) {
+        if (!$test || $test['customer_id'] !== $user_id) {
             Logger::write('warning', 'Unauthorized access attempt to test ID ' . $target['test_id'] . ' by user ID ' . $user_id);
             return [
                 'status' => 403,

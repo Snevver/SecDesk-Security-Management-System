@@ -14,7 +14,7 @@ class AdminDashboardController
     }
 
     //-----------------------------------------------------
-    // Fetch All Customer Data From Database
+    // Fetch All Customers From Database
     //-----------------------------------------------------
     public function getCustomers() {
         try {       
@@ -37,6 +37,37 @@ class AdminDashboardController
             ];
         } catch (\Exception $e) {   
             Logger::write('error', 'System error: ' . $e->getMessage());     
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Fetch All Employees From Database
+    //-----------------------------------------------------
+    public function getEmployees() {
+        try {
+            // Fetch all employees from the database
+            $stmt = $this->pdo->prepare("SELECT id, email FROM users where role_id = 2");
+            $stmt->execute();
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched employees: ' . json_encode($users));
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'users' => $users]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]

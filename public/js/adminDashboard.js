@@ -11,18 +11,18 @@ function fetchCustomers() {
     })
         .then((response) => response.json())
         .then((data) => {
-            const userListElement = document.getElementById('userList');
+            const userListElement = document.getElementById('customers-list');
 
             if (!data.success) {
                 userListElement.innerHTML =
-                    '<p>Error loading users: ' +
+                    '<p>Error loading customers: ' +
                     (data.error || 'Unknown error') +
                     '</p>';
                 return;
             }
 
             if (!data.users || data.users.length === 0) {
-                userListElement.innerHTML = '<p>No users found.</p>';
+                userListElement.innerHTML = '<p>No customers found.</p>';
                 return;
             }
 
@@ -42,32 +42,43 @@ function fetchCustomers() {
         });
 }
 
-/**
- * Fetch and display user email and role
- */
-function fetchUserInfo() {
-    fetch(`/api/check-login`, {
+
+function fetchEmployees() {
+    fetch(`/api/employees`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())
         .then((data) => {
-            const emailElement = document.getElementById('userEmail');
-            const roleElement = document.getElementById('userRole');
+            const userListElement = document.getElementById('employees-list');
 
             if (!data.success) {
-                emailElement.textContent = 'Unknown';
-                roleElement.textContent = 'Unknown';
+                userListElement.innerHTML =
+                    '<p>Error loading employees: ' +
+                    (data.error || 'Unknown error') +
+                    '</p>';
                 return;
             }
 
-            emailElement.textContent = data.user.email || 'Unknown';
-            roleElement.textContent = data.user.role || 'Unknown';
+            if (!data.users || data.users.length === 0) {
+                userListElement.innerHTML = '<p>No employees found.</p>';
+                return;
+            }
+
+            let listElement = '<ul>';
+
+            for (let user of data.users) {
+                listElement += `<li>Email: ${user.email} <br> ID: ${user.id}</li>`;
+            }
+
+            listElement += '</ul>';
+
+            userListElement.innerHTML = listElement;
         })
-        .catch(() => {
-            document.getElementById('userEmail').textContent = 'Unknown';
-            document.getElementById('userRole').textContent = 'Unknown';
+        .catch((error) => {
+            document.getElementById('userList').innerHTML =
+                '<p>Error: ' + error.message + '</p>';
         });
 }
 
-fetchUserInfo();
 fetchCustomers();
+fetchEmployees();
