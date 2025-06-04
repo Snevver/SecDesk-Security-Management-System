@@ -11,7 +11,7 @@
         <div class="container">
             <h1>Employee Dashboard</h1>
 
-            <button id="create-report-btn">Create New Report</button>
+            <a href="/edit" id="create-report-btn">Create New Report</a>
 
             <div>
                 <h2>Logged in as <span id="email"><?=$_SESSION['email'] ?? "Unknown"?></span></h2>

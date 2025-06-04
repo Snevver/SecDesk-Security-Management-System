@@ -154,4 +154,58 @@ class AuthenticatorController
             ];
         }
     }
+
+    //-----------------------------------------------------
+    // Check if pentester has access to test
+    //-----------------------------------------------------
+    public function doesUserHaveAccess()
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        $testID = $_GET['test_id'] ?? null;
+
+        if ($testID === null) {
+            return [
+                'status' => 400,
+                'data' => [
+                    'success' => false,
+                    'message' => 'No test ID provided',
+                ]
+                ];
+        } else {
+            // Check if user is logged in
+            if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+                return [
+                    'status' => 401,
+                    'data' => ['success' => false, 'message' => 'User is not logged in']
+                ];
+            }
+
+            // Check if user is a pentester
+            if ($_SESSION['role'] !== 'pentester') {
+                return [
+                    'status' => 403,
+                    'data' => ['success' => false, 'message' => 'Access denied']
+                ];
+            }
+
+            // Check if test ID belongs to the pentester
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM tests WHERE id = :id AND pentester_id = :pentester_id");
+            $stmt->execute(['id' => $testID, 'pentester_id' => $_SESSION['user_id']]);
+            $count = $stmt->fetchColumn();
+
+            if ($count > 0) {
+                return [
+                    'status' => 200,
+                    'data' => ['success' => true, 'message' => 'User has access to the test']
+                ];
+            } else {
+                return [
+                    'status' => 403,
+                    'data' => ['success' => false, 'message' => 'Access denied to this test']
+                ];
+            }
+        }
+    }
 }

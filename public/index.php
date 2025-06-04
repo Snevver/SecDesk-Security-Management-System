@@ -17,7 +17,6 @@ $app = new Ssms\Application();
 $app->init();
 $uri = $app->getUri();
 
-
 //-----------------------------------------------------
 // Route Requests
 //-----------------------------------------------------
@@ -32,7 +31,16 @@ try {
             break;
         
         case '/':
-            $app->handleAuthenticatedRoute('index.html.php');
+            if ($_SESSION['logged_in'] ?? false) {
+                // Redirect to the appropriate dashboard based on role
+                if ($_SESSION['role'] === 'admin') {
+                    $app->handleAuthenticatedRoute('adminDashboard.html.php');
+                } else if ($_SESSION['role'] === 'pentester') {
+                    $app->handleAuthenticatedRoute('employeeDashboard.html.php');
+                } else {
+                    $app->handleAuthenticatedRoute('index.html.php');
+                }
+            }
             break;
 
         case '/employee':
@@ -45,6 +53,16 @@ try {
         
         case '/targets':
             $app->handleAuthenticatedRoute('targets.html.php');
+            break;
+
+        case '/edit':
+            $result = $app->useController('AuthenticatorController', 'doesUserHaveAccess');
+            if ($result['status'] == 200) {
+                $app->handleAuthenticatedRoute('editTest.html.php', 'pentester');
+            } else {
+                // FIX THIS!!! SEND TO ERROR PAGE INSTEAD
+                throw new HTTPException('Access denied', 403);
+            }
             break;
 
         // API Routes
@@ -97,6 +115,16 @@ try {
         case '/api/vulnerabilities':
             $target_id = $app->getIntQueryParam('target_id');
             $result = $app->useController("TargetController", "getVulnerabilities", [$target_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/check-access':
+            $result = $app->useController("AuthenticatorController", "doesUserHaveAccess");
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/create-test':
+            $result = $app->useController("EmployeeDashboardController", "createTest");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
         

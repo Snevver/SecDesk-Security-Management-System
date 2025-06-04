@@ -25,6 +25,7 @@ class Application implements LoggerAwareInterface
             '/employee',
             '/admin',
             '/targets',
+            '/edit',
             '/api/customers',
             '/api/tests', 
             '/api/targets',
