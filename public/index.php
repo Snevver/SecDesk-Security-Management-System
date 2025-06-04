@@ -88,7 +88,7 @@ try {
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
     
-          case '/api/targets':
+        case '/api/targets':
             $test_id = $app->getIntQueryParam('test_id');
             $result = $app->useController("TargetController", "getTargets", [$test_id]);
             $app->sendJsonResponse($result['data'], $result['status']);

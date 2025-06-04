@@ -9,8 +9,6 @@ function getEmployeesTests() {
                 document.getElementById('completed-reports');
             const inProgressTestsContainer = document.getElementById('reports-in-progress');
 
-
-
             // Clear existing content
             completedTestsContainer.innerHTML = '';
             inProgressTestsContainer.innerHTML = '';
