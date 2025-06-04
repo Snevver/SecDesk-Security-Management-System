@@ -17,9 +17,7 @@ class Application implements LoggerAwareInterface
     private string $HTTPMethod;
     private null|LoggerInterface $logger = null;
     private AuthenticatorController $authenticationController;
-    private array $protectedRoutes;
-
-    public function __construct() {
+    private array $protectedRoutes;    public function __construct() {
         $this->protectedRoutes = [
             '/',
             '/employee',
@@ -27,13 +25,18 @@ class Application implements LoggerAwareInterface
             '/targets',
             '/edit',
             '/api/customers',
+            '/api/employees',
             '/api/tests', 
+            '/api/employee-tests',
+            '/api/update-test-completion',
             '/api/targets',
-            '/api/vulnerabilities'
+            '/api/vulnerabilities',
+            '/check-access',
+            '/create-test'
         ];
 
         $this->authenticationController = new AuthenticatorController(Db::getInstance());
-    }    
+    }
     
     public function init(): bool {
         $this->setLogger(new Logger());
@@ -137,9 +140,7 @@ class Application implements LoggerAwareInterface
                 break;
             }
         }
-    }
-
-    private function checkLogin() {
+    }    private function checkLogin() {
         if (session_status() === PHP_SESSION_NONE) session_start();
         
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
@@ -150,6 +151,36 @@ class Application implements LoggerAwareInterface
             include DIR_VIEWS . 'login.html.php';
             exit;
         }
+    }
+
+    public function checkApiAuthentication() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        
+        if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+            $this->logger?->warning("Unauthorized API access attempt to " . $this->getUri());
+            throw new HTTPException('Authentication required', 401);
+        }
+        
+        $this->logger?->info("User " . ($_SESSION['email'] ?? 'unknown') . " authenticated for API access to " . $this->getUri());
+        return true;
+    }
+
+    public function checkApiAuthorization(string|array $allowedRoles) {
+        $this->checkApiAuthentication();
+        
+        if (is_string($allowedRoles)) {
+            $allowedRoles = [$allowedRoles];
+        }
+        
+        $userRole = $_SESSION['role'] ?? null;
+        
+        if (!in_array($userRole, $allowedRoles)) {
+            $this->logger?->warning("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
+            throw new HTTPException('Access denied. Insufficient permissions.', 403);
+        }
+        
+        $this->logger?->info("User with role '{$userRole}' authorized for API access to " . $this->getUri());
+        return true;
     }
 
     public function getAuthenticationController(): AuthenticatorController {
@@ -168,18 +199,22 @@ class Application implements LoggerAwareInterface
         }
     }
 
-    public function getQueryParam(string $key, null|string $default = null) {
-        return $_GET[$key] ?? $default;
-    }
-
-    public function getIntQueryParam(string $key, null|string $default = null): ?int {
-        $value = $this->getQueryParam($key, $default);
-        return $value !== null ? (int)$value : null;
-    }
-
     public function isAuthenticated(): bool {
         if (session_status() === PHP_SESSION_NONE) session_start();
         return isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+    }
+
+    public function handleDashboardRoute() {
+        if ($_SESSION['logged_in'] ?? false) {
+            // Redirect to the appropriate dashboard based on role
+            if ($_SESSION['role'] === 'admin') {
+                $this->handleAuthenticatedRoute('adminDashboard.html.php');
+            } else if ($_SESSION['role'] === 'pentester') {
+                $this->handleAuthenticatedRoute('employeeDashboard.html.php');
+            } else {
+                $this->handleAuthenticatedRoute('index.html.php');
+            }
+        }
     }
 
     public function getCurrentUser(): ?array {

@@ -29,18 +29,8 @@ try {
             if (session_status() === PHP_SESSION_NONE) session_start();
             include DIR_VIEWS . 'login.html.php';
             break;
-        
-        case '/':
-            if ($_SESSION['logged_in'] ?? false) {
-                // Redirect to the appropriate dashboard based on role
-                if ($_SESSION['role'] === 'admin') {
-                    $app->handleAuthenticatedRoute('adminDashboard.html.php');
-                } else if ($_SESSION['role'] === 'pentester') {
-                    $app->handleAuthenticatedRoute('employeeDashboard.html.php');
-                } else {
-                    $app->handleAuthenticatedRoute('index.html.php');
-                }
-            }
+          case '/':
+            $app->handleDashboardRoute();
             break;
 
         case '/employee':
@@ -79,51 +69,56 @@ try {
         case '/api/check-login':
             $result = $app->useController("AuthenticatorController", "isLoggedIn");
             $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/customers':
+            break;        case '/api/customers':
+            $app->checkApiAuthorization('admin');
             $result = $app->useController("AdminDashboardController", "getCustomers");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/api/employees':
+            $app->checkApiAuthorization('admin');
             $result = $app->useController("AdminDashboardController", "getEmployees");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
         
         case '/api/tests':
+            $app->checkApiAuthorization(['admin', 'customer']);
             $result = $app->useController("IndexController", "getCustomersTests");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/api/employee-tests':
+            $app->checkApiAuthorization('pentester');
             $result = $app->useController("EmployeeDashboardController", "getEmployeeTests");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/api/update-test-completion':
+            $app->checkApiAuthorization('pentester');
             $result = $app->useController("EmployeeDashboardController", "updateTestCompletion");
             $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-    
-        case '/api/targets':
-            $test_id = $app->getIntQueryParam('test_id');
+            break;        case '/api/targets':
+            $app->checkApiAuthorization('pentester');
+            $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
             $result = $app->useController("TargetController", "getTargets", [$test_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
         
         case '/api/vulnerabilities':
-            $target_id = $app->getIntQueryParam('target_id');
+            $app->checkApiAuthorization('pentester');
+            $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
             $result = $app->useController("TargetController", "getVulnerabilities", [$target_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/check-access':
+            $app->checkApiAuthentication();
             $result = $app->useController("AuthenticatorController", "doesUserHaveAccess");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/create-test':
+            $app->checkApiAuthorization('pentester');
             $result = $app->useController("EmployeeDashboardController", "createTest");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
