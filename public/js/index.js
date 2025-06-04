@@ -80,4 +80,3 @@ function displayCustomerTests(data) {
 
 // Fetch customer tests
 fetchCustomerTests();
-

@@ -67,11 +67,11 @@
 								<path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
 							</svg>
 						</a>
-					</li>
-
+					</li>					
+					
 					<!-- Settings Button --> 
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="tooltip" data-bs-placement="right">
+						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
 								<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
 								
@@ -124,12 +124,16 @@
 					<div class="row d-flex text-align-center justify-content-center align-items-center">
 						<section id="testList" class="container-fluid p-0">
 
-						<header id="testListHeader" class="mb-4 mt-4">
-							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
+						<header id="testListHeader" class="mb-4 mt-4">							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
 								<h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
 
+								<div class="d-flex align-items-center">
+									<button class="btn btn-outline-primary me-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+										<i class="bi bi-key-fill"></i> Change Password
+									</button>
+								</div>
+
 								<div class="d-xxl-flex d-none flex-wrap justify-content-center align-items-center">
-									<form class="form-inline d-xl-flex me-4 d-none">
 										<input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
 										<button class="btn my-2 my-sm-0" type="submit">Search</button>
 									</form>
@@ -156,7 +160,50 @@
 						<div id="testListAccordion" class="accordion row ms-3 me-3"></div>
 					</div>
 				</section> 	
-			</main>
+			</main>		</div>
+
+		<!-- Change Password Modal -->
+		<div class="modal fade" id="changePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title fs-5" id="changePasswordModalLabel">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-key-fill me-2" viewBox="0 0 16 16">
+								<path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5h1.837a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5z"/>
+								<path d="M12 10.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+							</svg>
+							Change Password
+						</h2>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<form id="changePasswordForm">
+						<div class="modal-body">
+							<div class="mb-3">
+								<label for="currentPassword" class="form-label">Current Password</label>
+								<input type="password" class="form-control" id="currentPassword" required>
+							</div>
+							<div class="mb-3">
+								<label for="newPassword" class="form-label">New Password</label>
+								<input type="password" class="form-control" id="newPassword" required>
+							</div>
+							<div class="mb-3">
+								<label for="confirmPassword" class="form-label">Confirm New Password</label>
+								<input type="password" class="form-control" id="confirmPassword" required>
+							</div>
+							<div id="passwordError" class="text-danger d-none"></div>
+							<div id="passwordSuccess" class="text-success d-none"></div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary" id="changePasswordSubmit">Change Password</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
+
+		<script src="/js/changePassword.js"></script>
 	</body>
 </html>

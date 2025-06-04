@@ -208,4 +208,110 @@ class AuthenticatorController
             }
         }
     }
+
+    //-----------------------------------------------------
+    // Change user password
+    //-----------------------------------------------------
+    public function changePassword()
+    {
+        try {
+            // Start session if not already started
+            if (session_status() === PHP_SESSION_NONE) session_start();
+
+            // Check if user is logged in
+            if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
+                return [
+                    'status' => 401,
+                    'data' => ['success' => false, 'message' => 'User is not logged in']
+                ];
+            }
+
+            // Get the request body
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+
+            // Validate the request body
+            if (!isset($data['currentPassword']) || !isset($data['newPassword'])) {
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'message' => 'Current password and new password are required']
+                ];
+            }
+
+            $currentPassword = $data['currentPassword'];
+            $newPassword = $data['newPassword'];
+            $userId = $_SESSION['user_id'];
+
+            // Validate new password strength
+            if (strlen($newPassword) < 8) {
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'message' => 'New password must be at least 8 characters long']
+                ];
+            }
+
+            // Check password strength
+            if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/', $newPassword)) {
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'message' => 'Password must contain at least one uppercase letter, one lowercase letter, and one number']
+                ];
+            }
+
+            // Get current user password from database
+            $stmt = $this->pdo->prepare("SELECT password FROM users WHERE id = :user_id");
+            $stmt->execute(['user_id' => $userId]);
+            $user = $stmt->fetch();
+
+            if (!$user) {
+                return [
+                    'status' => 404,
+                    'data' => ['success' => false, 'message' => 'User not found']
+                ];
+            }
+
+            // Verify current password
+            if ($currentPassword !== $user['password']) {
+                Logger::write('warning', 'Failed password change attempt for user ID ' . $userId . ': Invalid current password');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'message' => 'Current password is incorrect']
+                ];
+            }
+
+            // Update password in database
+            $stmt = $this->pdo->prepare("UPDATE users SET password = :new_password WHERE id = :user_id");
+            $result = $stmt->execute([
+                'new_password' => $newPassword,
+                'user_id' => $userId
+            ]);
+
+            if ($result) {
+                Logger::write('info', 'Password changed successfully for user ID ' . $userId);
+                return [
+                    'status' => 200,
+                    'data' => ['success' => true, 'message' => 'Password changed successfully']
+                ];
+            } else {
+                Logger::write('error', 'Failed to update password for user ID ' . $userId);
+                return [
+                    'status' => 500,
+                    'data' => ['success' => false, 'message' => 'Failed to update password']
+                ];
+            }
+
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error during password change: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'message' => 'Database error occurred']
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error during password change: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'message' => 'System error occurred']
+            ];
+        }
+    }
 }

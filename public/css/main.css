@@ -306,3 +306,57 @@ h1 span,
     font-size: 2rem !important;
     /* !important may be necessary to override Bootstrap */
 }
+/* MODAL STYLES */
+.modal-content {
+    background-color: white !important;
+    color: #212529 !important;
+}
+
+.modal-header {
+    background-color: var(--header-color) !important;
+    color: white !important;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-header .modal-title {
+    color: white !important;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-body {
+    background-color: white !important;
+    color: #212529 !important;
+}
+
+.modal-body .form-label {
+    color: #212529 !important;
+    font-weight: 500;
+}
+
+.modal-body .form-control {
+    border: 1px solid #ced4da;
+    color: #212529 !important;
+    background-color: white !important;
+}
+
+.modal-body .form-control:focus {
+    border-color: var(--header-color);
+    box-shadow: 0 0 0 0.2rem rgba(111, 98, 234, 0.25);
+}
+
+.modal-footer {
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Error and success messages */
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-success {
+    color: #198754 !important;
+}

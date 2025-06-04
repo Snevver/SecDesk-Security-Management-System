@@ -9,6 +9,7 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "psr/log": "^3.0@dev"
+        "psr/log": "^3.0@dev",
+        "phpmailer/phpmailer": "dev-master"
     }
 }

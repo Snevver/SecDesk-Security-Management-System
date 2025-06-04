@@ -17,6 +17,11 @@ class EmployeeDashboardController
         $this->pdo = $pdo;
     }    
     
+    /**
+     * Fetches all tests assigned to the pentester from the database.
+     * 
+     * @return array An associative array containing the status and data of the tests.
+     */
     public function getEmployeeTests() {
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -150,4 +155,10 @@ class EmployeeDashboardController
         }
     }
 
+    //-----------------------------------------------------
+    // Create a new test
+    //-----------------------------------------------------
+    public function createTest() {
+
+    }
 }
