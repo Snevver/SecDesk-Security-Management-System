@@ -60,6 +60,7 @@ This project requires these packages in order to function:
 
 -   BootstrapCSS
 -   PopperJS
+-   PHPMailer
 
 Refer to step 4 of the 🔧 Setup section for information on how to install these packages.
 

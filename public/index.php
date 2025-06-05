@@ -82,6 +82,12 @@ try {
             $result = $app->useController("AdminDashboardController", "getEmployees");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
+
+        case '/api/admins':
+            $app->checkApiAuthorization('admin');
+            $result = $app->useController("AdminDashboardController", "getAdmins");
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
         
         case '/api/tests':
             $app->checkApiAuthorization(['admin', 'customer']);
@@ -119,22 +125,22 @@ try {
             $app->checkApiAuthentication();
             $result = $app->useController("AuthenticatorController", "doesUserHaveAccess");
             $app->sendJsonResponse($result['data'], $result['status']);
-            break;        
-        
+            break;
+
         case '/create-customer':
             $app->checkApiAuthorization('admin');
             $email = $app->decodeBody();
-            $result = $app->useController("AdminDashboardController", "createCustomer", [$email]);
+            $result = $app->useController("AdminDashboardController", "createNewAccount", [$$email]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
-        case '/create-employee':
+        case '/create-account':
             $app->checkApiAuthorization('admin');
-            $email = $app->decodeBody();
-            $result = $app->useController("AdminDashboardController", "createEmployee", [$email]);
+            $data = $app->decodeBody();
+            $result = $app->useController("AdminDashboardController", "createNewAccount", [$data]);
             $app->sendJsonResponse($result['data'], $result['status']);
-            break;        
-            
+            break;
+           
         case '/create-test':
             $app->checkApiAuthorization('pentester');
             $result = $app->useController("EmployeeDashboardController", "createTest");

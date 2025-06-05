@@ -347,19 +347,31 @@ class Application implements LoggerAwareInterface
             'role' => $_SESSION['role'] ?? null,
             'role_id' => $_SESSION['role_id'] ?? null
         ];
-    }
-
+    }    
+    
     /**
-     * Decodes the request body and extracts the email.
+     * Decode and sanitize the request body
      * 
-     * This method reads the raw request body, decodes it from JSON, and sanitizes the email.
-     * 
-     * @return string The sanitized email address.
-     * @throws HTTPException If the email is not provided or invalid.
+     * @return mixed The sanitized data (string for email-only requests, array for complex data).
+     * @throws HTTPException If the data is invalid.
      */
     public function decodeBody() {
         $requestBody = file_get_contents('php://input');
         $data = json_decode($requestBody, true);
+        
+        // If it's the new format with accountType and email
+        if (isset($data['accountType']) && isset($data['email'])) {
+            $email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
+            if (!$email) {
+                throw new HTTPException('Invalid email format', 400);
+            }
+            return [
+                'accountType' => $data['accountType'],
+                'email' => $email
+            ];
+        }
+        
+        // Legacy format - just email
         if (!isset($data['email'])) {
             throw new HTTPException('Email is required', 400);
         }

@@ -76,80 +76,63 @@ class AdminDashboardController
                 'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
             ];
         }
-    }    
-    
+    }
+
     //-----------------------------------------------------
-    // Create a new customer account
+    // Fetch All Admins From Database
     //-----------------------------------------------------
-    public function createCustomer($email) {
+    public function getAdmins() {
         try {
-            Logger::write('info', 'Creating new customer account for email: ' . $email);
-            
-            // Validate email
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                Logger::write('error', 'Invalid email format: ' . $email);
-                return [
-                    'status' => 400,
-                    'data' => ['success' => false, 'error' => 'Invalid email format']
-                ];
-            }
-            
-            // Check if user already exists
-            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE email = :email");
-            $stmt->execute(['email' => $email]);
-            if ($stmt->fetch()) {
-                Logger::write('error', 'User already exists: ' . $email);
-                return [
-                    'status' => 409,
-                    'data' => ['success' => false, 'error' => 'User with this email already exists']
-                ];
-            }
-            
-            // Create customer (role_id = 1 for customer)
-            $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role_id) VALUES (:email, :password, 1)");
-            $password = $this->generatePassword();
-            $stmt->execute([
-                'email' => $email,
-                'password' => $password
-            ]);
-              $userId = $this->pdo->lastInsertId();
-            Logger::write('info', 'Customer created successfully with ID: ' . $userId);
-            
-            // Send welcome email with credentials
-            $this->sendEmail($email, $password);
-            
+            // Fetch all admins from the database
+            $stmt = $this->pdo->prepare("SELECT id, email FROM users where role_id = 3");
+            $stmt->execute();
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched admins: ' . json_encode($users));
+
             return [
-                'status' => 201,
-                'data' => [
-                    'success' => true, 
-                    'message' => 'Customer created successfully',
-                    'user_id' => $userId,
-                    'email' => $email
-                ]
+                'status' => 200,
+                'data' => ['success' => true, 'users' => $users]
             ];
-            
         } catch (\PDOException $e) {
-            Logger::write('error', 'Database error creating customer: ' . $e->getMessage());
+            Logger::write('error', 'Database error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
             ];
         } catch (\Exception $e) {
-            Logger::write('error', 'System error creating customer: ' . $e->getMessage());
+            Logger::write('error', 'System error: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
             ];
         }
     }
-
-    //-----------------------------------------------------
-    // Create a new employee account
-    //-----------------------------------------------------
-    public function createEmployee($email) {
+    
+    // -----------------------------------------------------
+    // Create a new account of specified type
+    // -----------------------------------------------------
+    public function createNewAccount($data) {
         try {
-            Logger::write('info', 'Creating new employee account for email: ' . $email);
-            
+            // Handle both old format (for backward compatibility) and new format
+            if (is_array($data) && isset($data['accountType']) && isset($data['email'])) {
+                // New format: array with accountType and email
+                $typeOfAccount = $data['accountType'];
+                $email = $data['email'];
+            } else if (is_string($data)) {
+                // Old format: just email string, assume customer
+                $typeOfAccount = 'customer';
+                $email = $data;
+            } else {
+                Logger::write('error', 'Invalid data format for createNewAccount');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Invalid data format']
+                ];
+            }
+
+            Logger::write('info', 'Creating new account of type: ' . $typeOfAccount . ' for email: ' . $email);
+        
             // Validate email
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 Logger::write('error', 'Invalid email format: ' . $email);
@@ -169,38 +152,55 @@ class AdminDashboardController
                     'data' => ['success' => false, 'error' => 'User with this email already exists']
                 ];
             }
-            
-            // Create employee
-            $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role_id) VALUES (:email, :password, 2)");
+
+            switch($typeOfAccount) {
+                case 'customer':
+                    $roleId = 1; // Customer role
+                    break;
+                case 'employee':
+                    $roleId = 2; // Employee role
+                    break;
+                case 'admin':
+                    $roleId = 3; // Admin role
+                    break;
+                default:
+                    Logger::write('error', 'Invalid account type: ' . $typeOfAccount);
+                    return [
+                        'status' => 400,
+                        'data' => ['success' => false, 'error' => 'Invalid account type']
+                    ];
+            }
+
+            // Create user
+            $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role_id) VALUES (:email, :password, :role_id)");
             $password = $this->generatePassword();
             $stmt->execute([
                 'email' => $email,
-                'password' => $password
+                'password' => $password,
+                'role_id' => $roleId
             ]);
-            
             $userId = $this->pdo->lastInsertId();
-            Logger::write('info', 'Employee created successfully with ID: ' . $userId);
+            Logger::write('info', 'Account created successfully with ID: ' . $userId);
 
-            $this->sendEmail($email, $password);
-            
-            return [
-                'status' => 201,
-                'data' => [
-                    'success' => true, 
-                    'message' => 'Employee created successfully',
-                    'user_id' => $userId,
-                    'email' => $email
-                ]
-            ];
-            
+            // Send welcome email with credentials
+            $this->sendEmail($email, $password);            return [
+                    'status' => 201,
+                    'data' => [
+                        'success' => true, 
+                        'message' => ucfirst($typeOfAccount) . ' created successfully',
+                        'user_id' => $userId,
+                        'email' => $email,
+                        'role' => $typeOfAccount
+                    ]
+                ];
         } catch (\PDOException $e) {
-            Logger::write('error', 'Database error creating employee: ' . $e->getMessage());
+            Logger::write('error', 'Database error creating account: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
             ];
         } catch (\Exception $e) {
-            Logger::write('error', 'System error creating employee: ' . $e->getMessage());
+            Logger::write('error', 'System error creating account: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
