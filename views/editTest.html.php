@@ -10,7 +10,6 @@
     <body>
         <div class="container">
             <h1>Edit test</h1>
-            <p>Test id given =<?= $_GET['test_id'] ?></p>
         </div>
 
         <script src="/js/logout.js"></script>
