@@ -111,6 +111,51 @@ function toggleTestCompletion(testId, completed) {
         });
 }
 
-function redirectToForm(testId) {}
+// Populate the select element with customer emails
+function populateSelectElement() {
+    fetch("/api/customers", {
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            for (const user of data.users) {
+                const optionElement = document.createElement("option");
+                optionElement.value = user.id;
+                optionElement.textContent = user.email;
+                selectElement.appendChild(optionElement);
+            }
+        });
+}
+
+const selectElement = document.getElementById("customer-select");
 
 getEmployeesTests();
+populateSelectElement();
+
+// Event listener for the "Create Report" button
+document.getElementById("create-report-btn").addEventListener("click", () => {
+    selectElement.classList.remove("d-none");
+});
+
+// Event listener for the select element
+selectElement.addEventListener("change", (event) => {
+    const selectedCustomerID = parseInt(event.target.value);
+    
+    fetch("/create-test", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            customer_id: selectedCustomerID,
+        }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            window.location.href = `/edit?test_id=${newTestID}`;
+        });
+});

@@ -158,7 +158,16 @@ class EmployeeDashboardController
     //-----------------------------------------------------
     // Create a new test
     //-----------------------------------------------------
-    public function createTest() {
+    public function createTest($customerID) {
+        $nullVar = null;
 
+        $stmt = $this->pdo->prepare("INSERT INTO tests (test_name, test_description, customer_id, pentester_id) VALUES (:test_name, :test_description, :customer_id, :pentester_id)");
+        $stmt->bindParam(':test_name', $nullVar, \PDO::PARAM_STR);
+        $stmt->bindParam(':test_description', $nullVar, \PDO::PARAM_STR);
+        $stmt->bindParam(':customer_id', $customerID, \PDO::PARAM_INT);
+        $stmt->bindParam(':pentester_id', $_SESSION['user_id'], \PDO::PARAM_INT);
+        $stmt->execute();
+        
+        Logger::write('info', 'Test created successfully for customer ID: ' . $customerID);
     }
 }

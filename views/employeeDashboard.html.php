@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/js/employeeDashboard.js"></script>
+        <script src="/js/employeeDashboard.js" defer></script>
     </head>
       <body>
         <div class="container mt-4">
@@ -27,9 +27,14 @@
                         </div>
                     </div>
 
-                    <a href="/edit" id="create-report-btn" class="btn btn-primary mb-4">
+                    <button id="create-report-btn" class="btn btn-primary mb-4">
                         <i class="bi bi-plus-circle"></i> Create New Report
-                    </a>
+                    </button>
+
+                    <select id="customer-select" class="form-select d-none mb-4">
+                        <option value="" selected disabled>Select a customer</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
 
                     <div class="card mb-4">
                         <div class="card-header">

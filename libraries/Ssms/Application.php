@@ -228,16 +228,17 @@ class Application implements LoggerAwareInterface
      * 
      * @throws HTTPException If the user is not authenticated.
      */
-    public function checkApiAuthentication() {
-        $result = $this->authenticationController->isLoggedIn();
-        
-        if ($result['status'] !== 200) {
-            $this->logger?->warning("Unauthorized API access attempt to " . $this->getUri());
-            throw new HTTPException('Authentication required', 401);
+    public function checkApiAuthentication($allowedRoles = []) {
+        // Start session to access role information
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
         
-        $this->logger?->info("User " . ($_SESSION['email'] ?? 'unknown') . " authenticated for API access to " . $this->getUri());
-        return true;
+        if (in_array($_SESSION['role'], $allowedRoles)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

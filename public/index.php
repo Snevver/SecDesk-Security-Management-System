@@ -44,14 +44,20 @@ try {
         
         case '/targets':
             $app->handleAuthenticatedRoute('targets.html.php');
-            break;
-
+            break;        
+            
         case '/edit':
-            $result = $app->useController('AuthenticatorController', 'doesUserHaveAccess');
-            if ($result['status'] == 200) {
-                $app->handleAuthenticatedRoute('editTest.html.php', 'pentester');
+            // Check if test_id is provided for editing existing test
+            if (isset($_GET['test_id'])) {
+                $result = $app->useController('AuthenticatorController', 'doesUserHaveAccess');
+                if ($result['status'] == 200) {
+                    $app->handleAuthenticatedRoute('editTest.html.php', 'pentester');
+                } else {
+                    throw new HTTPException('Access denied', 403);
+                }
             } else {
-                throw new HTTPException('Access denied', 403);
+                // No test_id provided, this is for creating a new test
+                $app->handleAuthenticatedRoute('editTest.html.php', 'pentester');
             }
             break;
 
@@ -72,13 +78,17 @@ try {
             break;        
             
         case '/api/customers':
-            $app->checkApiAuthorization('admin');
-            $result = $app->useController("AdminDashboardController", "getCustomers");
-            $app->sendJsonResponse($result['data'], $result['status']);
+            if ($app->checkApiAuthorization(['admin', 'pentester'])) {
+                $result = $app->useController("AdminDashboardController", "getCustomers");
+                $app->sendJsonResponse($result['data'], $result['status']);    
+            } else {
+                throw new HTTPException('Access denied', 403);
+            }
+            
             break;
 
         case '/api/employees':
-            $app->checkApiAuthorization('admin');
+            $app->checkApiAuthorization(['admin', 'pentester']);
             $result = $app->useController("AdminDashboardController", "getEmployees");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
@@ -137,7 +147,11 @@ try {
             
         case '/create-test':
             $app->checkApiAuthorization('pentester');
-            $result = $app->useController("EmployeeDashboardController", "createTest");
+
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            Logger::write('info', 'Creating test with data: ' . json_encode($data));
+            $result = $app->useController("EmployeeDashboardController", "createTest", [$data['customer_id']]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
