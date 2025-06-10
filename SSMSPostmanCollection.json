@@ -270,8 +270,213 @@
 									"value": "application/json"
 								}
 							],
-							"cookie": [],
+							"cookie": [],							
 							"body": "{\n    \"success\": true,\n    \"message\": \"Successfully logged out\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login (Pentester)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"pentester@example.com\",\n    \"password\": \"pentester123\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/api/login",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "login"]
+						},
+						"description": "Login as a pentester. Pentester accounts have access to employee dashboard and testing tools."
+					},
+					"response": [
+						{
+							"name": "Successful Pentester Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"pentester@example.com\",\n    \"password\": \"pentester123\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/login"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"role\": \"pentester\",\n    \"userId\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"current_password\": \"oldpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/api/change-password",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "change-password"]
+						},
+						"description": "Change the password for the currently logged-in user."
+					},
+					"response": [
+						{
+							"name": "Password Changed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"current_password\": \"oldpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/change-password"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Password changed successfully\"\n}"
+						},
+						{
+							"name": "Invalid Current Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"current_password\": \"wrongpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/change-password"
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Current password is incorrect\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check Access",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/check-access?test_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["check-access"],
+							"query": [
+								{
+									"key": "test_id",
+									"value": "1",
+									"description": "The ID of the test to check access for"
+								}
+							]
+						},
+						"description": "Check if the current user has access to a specific test or resource."
+					},
+					"response": [
+						{
+							"name": "Access Granted",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/check-access?test_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"hasAccess\": true,\n    \"message\": \"Access granted\"\n}"
+						},
+						{
+							"name": "Access Denied",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/check-access?test_id=1"
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"hasAccess\": false,\n    \"message\": \"Access denied\"\n}"
 						}
 					]
 				}
@@ -350,12 +555,200 @@
 									"value": "application/json"
 								}
 							],
-							"cookie": [],
-							"body": "[\n    {\n        \"id\": 1,\n        \"test_id\": 1,\n        \"name\": \"Main Website\",\n        \"url\": \"https://example.com\",\n        \"ip_address\": \"192.168.1.1\",\n        \"status\": \"Vulnerable\"\n    },\n    {\n        \"id\": 2,\n        \"test_id\": 1,\n        \"name\": \"Admin Portal\",\n        \"url\": \"https://admin.example.com\",\n        \"ip_address\": \"192.168.1.2\",\n        \"status\": \"Secure\"\n    }\n]"
+							"cookie": [],							"body": "[\n    {\n        \"id\": 1,\n        \"test_id\": 1,\n        \"name\": \"Main Website\",\n        \"url\": \"https://example.com\",\n        \"ip_address\": \"192.168.1.1\",\n        \"status\": \"Vulnerable\"\n    },\n    {\n        \"id\": 2,\n        \"test_id\": 1,\n        \"name\": \"Admin Portal\",\n        \"url\": \"https://admin.example.com\",\n        \"ip_address\": \"192.168.1.2\",\n        \"status\": \"Secure\"\n    }\n]"
 						}
 					]
-				}
-			]
+				},
+				{
+					"name": "Get Vulnerabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/vulnerabilities?target_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "vulnerabilities"],
+							"query": [
+								{
+									"key": "target_id",
+									"value": "1",
+									"description": "The ID of the target to get vulnerabilities for"
+								}
+							]
+						},
+						"description": "Get vulnerabilities for a specific target (pentester only). Requires target_id as query parameter."
+					},
+					"response": [
+						{
+							"name": "Target Vulnerabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/vulnerabilities?target_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"target_id\": 1,\n        \"name\": \"SQL Injection\",\n        \"severity\": \"High\",\n        \"description\": \"User input not properly sanitized\",\n        \"status\": \"Open\"\n    },\n    {\n        \"id\": 2,\n        \"target_id\": 1,\n        \"name\": \"Cross-Site Scripting\",\n        \"severity\": \"Medium\",\n        \"description\": \"XSS vulnerability in user comments\",\n        \"status\": \"Fixed\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Employee Tests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/employee-tests",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "employee-tests"]
+						},
+						"description": "Get all tests assigned to the logged-in pentester employee."
+					},
+					"response": [
+						{
+							"name": "Employee Tests",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/employee-tests"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"customer_id\": 2,\n        \"employee_id\": 3,\n        \"name\": \"Website Security Assessment\",\n        \"description\": \"Complete security assessment of company website\",\n        \"status\": \"In Progress\",\n        \"start_date\": \"2023-10-15\",\n        \"end_date\": \"2023-11-15\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update Test Completion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"test_id\": 1,\n    \"status\": \"Completed\",\n    \"completion_notes\": \"All vulnerabilities identified and documented\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/api/update-test-completion",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "update-test-completion"]
+						},
+						"description": "Update the completion status of a test (pentester only)."
+					},
+					"response": [
+						{
+							"name": "Test Updated",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"test_id\": 1,\n    \"status\": \"Completed\",\n    \"completion_notes\": \"All vulnerabilities identified and documented\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/update-test-completion"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Test completion status updated successfully\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customer_id\": 2,\n    \"name\": \"Network Security Assessment\",\n    \"description\": \"Comprehensive network penetration testing\",\n    \"start_date\": \"2023-12-01\",\n    \"end_date\": \"2023-12-31\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/create-test",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["create-test"]
+						},
+						"description": "Create a new penetration test for a customer (pentester only)."
+					},
+					"response": [
+						{
+							"name": "Test Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"customer_id\": 2,\n    \"name\": \"Network Security Assessment\",\n    \"description\": \"Comprehensive network penetration testing\",\n    \"start_date\": \"2023-12-01\",\n    \"end_date\": \"2023-12-31\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/create-test"
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Test created successfully\",\n    \"test_id\": 3\n}"						}
+					]
+				}			]
 		},
 		{
 			"name": "Admin",
@@ -414,8 +807,376 @@
 									"value": "application/json"
 								}
 							],
+							"cookie": [],							"body": "{\n    \"success\": false,\n    \"message\": \"Admin access required\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/employees",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "employees"]
+						},
+						"description": "Get all employee accounts (admin and pentester only). Returns a list of all employee accounts."
+					},
+					"response": [
+						{
+							"name": "Employees List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/employees"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"message\": \"Admin access required\"\n}"
+							"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"John Pentester\",\n        \"email\": \"john@secdesk.com\",\n        \"role\": \"pentester\",\n        \"created_at\": \"2023-01-10\"\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Jane Security\",\n        \"email\": \"jane@secdesk.com\",\n        \"role\": \"pentester\",\n        \"created_at\": \"2023-02-15\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Admins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/admins",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "admins"]
+						},
+						"description": "Get all admin accounts (admin only). Returns a list of all administrator accounts."
+					},
+					"response": [
+						{
+							"name": "Admins List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/admins"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"System Administrator\",\n        \"email\": \"admin@secdesk.com\",\n        \"role\": \"admin\",\n        \"created_at\": \"2023-01-01\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New User\",\n    \"email\": \"newuser@example.com\",\n    \"password\": \"securepassword123\",\n    \"role\": \"customer\",\n    \"phone\": \"555-123-4567\",\n    \"address\": \"123 Main St, City\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/create-account",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["create-account"]
+						},
+						"description": "Create a new user account (admin only). Can create customer, pentester, or admin accounts."
+					},
+					"response": [
+						{
+							"name": "Account Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"New User\",\n    \"email\": \"newuser@example.com\",\n    \"password\": \"securepassword123\",\n    \"role\": \"customer\",\n    \"phone\": \"555-123-4567\",\n    \"address\": \"123 Main St, City\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/create-account"
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Account created successfully\",\n    \"user_id\": 5\n}"						}
+					]
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Customer Company\",\n    \"email\": \"contact@newcustomer.com\",\n    \"password\": \"customerpass123\",\n    \"phone\": \"555-999-8888\",\n    \"address\": \"789 Business St, Corporate City\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/create-customer",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["create-customer"]
+						},
+						"description": "Create a new customer account (admin only). Specialized endpoint for customer creation."
+					},
+					"response": [
+						{
+							"name": "Customer Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"New Customer Company\",\n    \"email\": \"contact@newcustomer.com\",\n    \"password\": \"customerpass123\",\n    \"phone\": \"555-999-8888\",\n    \"address\": \"789 Business St, Corporate City\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/create-customer"
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Customer account created successfully\",\n    \"customer_id\": 6\n}"
+						},
+						{
+							"name": "Email Already Exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Duplicate Customer\",\n    \"email\": \"existing@customer.com\",\n    \"password\": \"password123\",\n    \"phone\": \"555-111-2222\",\n    \"address\": \"123 Existing St\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/create-customer"
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Email address already exists\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"description": "User account management endpoints",
+			"item": [
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"current_password\": \"oldpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "http://ssms.web/api/change-password",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "change-password"]
+						},
+						"description": "Change the password for the currently logged-in user."
+					},
+					"response": [
+						{
+							"name": "Password Changed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"current_password\": \"oldpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/change-password"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Password changed successfully\"\n}"
+						},
+						{
+							"name": "Invalid Current Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"current_password\": \"wrongpassword\",\n    \"new_password\": \"newpassword123\",\n    \"confirm_password\": \"newpassword123\"\n}"
+								},
+								"url": {
+									"raw": "http://ssms.web/api/change-password"
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Current password is incorrect\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check Access",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/check-access?test_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["check-access"],
+							"query": [
+								{
+									"key": "test_id",
+									"value": "1",
+									"description": "The ID of the test to check access for"
+								}
+							]
+						},
+						"description": "Check if the current user has access to a specific test or resource."
+					},
+					"response": [
+						{
+							"name": "Access Granted",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/check-access?test_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"hasAccess\": true,\n    \"message\": \"Access granted\"\n}"
+						},
+						{
+							"name": "Access Denied",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/check-access?test_id=1"
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"hasAccess\": false,\n    \"message\": \"Access denied\"\n}"
 						}
 					]
 				}

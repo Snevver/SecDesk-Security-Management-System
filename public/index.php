@@ -118,14 +118,14 @@ try {
             break;        
             
         case '/api/targets':
-            $app->checkApiAuthorization('pentester');
+            $app->checkApiAuthorization(['pentester', 'customer']);
             $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
             $result = $app->useController("TargetController", "getTargets", [$test_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
         
         case '/api/vulnerabilities':
-            $app->checkApiAuthorization('pentester');
+            $app->checkApiAuthorization(['pentester', 'customer']);
             $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
             $result = $app->useController("TargetController", "getVulnerabilities", [$target_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
