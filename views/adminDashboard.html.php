@@ -96,9 +96,7 @@
         .user-list {
             max-height: 400px;
             overflow-y: auto;
-        }
-
-        .user-item {
+        }        .user-item {
             background: #f8f9fa;
             border-left: 4px solid #004185;
             margin-bottom: 0.5rem;
@@ -110,6 +108,71 @@
         .user-item:hover {
             background: #e9ecef;
             transform: translateX(4px);
+        }        .customer-item {
+            position: relative;
+            cursor: pointer !important;
+            z-index: 1;
+        }
+
+        .customer-item:hover {
+            background: #d4edda !important;
+            border-left-color: #28a745 !important;
+            transform: translateX(8px) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        }
+
+        .customer-item::after {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: #666;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .customer-item:hover::after {
+            opacity: 1;
+        }
+
+        .employee-item {
+            position: relative;
+            cursor: pointer !important;
+            z-index: 1;
+        }
+
+        .employee-item:hover {
+            background: #d1ecf1 !important;
+            border-left-color: #17a2b8 !important;
+            transform: translateX(8px) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        }
+
+        .employee-item::after {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: #666;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .employee-item:hover::after {
+            opacity: 1;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+            color: #28a745;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .customer-item:hover::after {
+            opacity: 1;
         }
 
         .user-email {
@@ -228,8 +291,7 @@
         </div>
     </div>
     
-    <div class="container">        
-        <!-- Action Buttons -->
+    <div class="container">          <!-- Action Buttons -->
         <div class="action-buttons">
             <div class="row justify-content-center">
                 <div class="col-md-6 mb-3">

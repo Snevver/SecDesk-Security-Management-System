@@ -6,15 +6,19 @@ function fetchAccounts(accountType) {
     fetch(`/api/${accountType}s`, {
         credentials: 'same-origin',
     })
-    .then((response) => response.json())
+        .then((response) => response.json())
         .then((data) => {
-            const userListElement = document.getElementById(`${accountType}s-list`);
+            const userListElement = document.getElementById(
+                `${accountType}s-list`,
+            );
 
             if (!data.success) {
                 userListElement.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-exclamation-triangle"></i>
-                        <p>Error loading ${accountType}s: ${data.error || 'Unknown error'}</p>
+                        <p>Error loading ${accountType}s: ${
+                    data.error || 'Unknown error'
+                }</p>
                     </div>
                 `;
                 return;
@@ -30,22 +34,54 @@ function fetchAccounts(accountType) {
                 `;
                 return;
             }
-
             let listElement = '';
-
             for (let user of data.users) {
-                listElement += `
-                    <div class="user-item">
-                        <div class="user-email">
-                            <i class="bi bi-person-badge me-2"></i>${user.email}
+                if (accountType === 'customer') {
+                    // Make customers clickable to navigate to customer management page
+                    console.log(
+                        'Creating clickable customer item for user ID:',
+                        user.id,
+                    );
+                    listElement += `
+                        <div id="customer-${user.id}" class="user-item customer-item" data-customer-id="${user.id}" style="cursor: pointer;">
+                            <div class="user-email">
+                                <i class="bi bi-person-badge me-2"></i>${user.email}
+                            </div>
+                            <div class="user-id">ID: ${user.id} <i class="bi bi-arrow-right-circle ms-2"></i></div>
                         </div>
-                        <div class="user-id">ID: ${user.id}</div>
-                    </div>
-                `;
+                    `;
+                } else if (accountType === 'employee') {
+                    // Make employees (pentesters) clickable to navigate to pentester management page
+                    console.log(
+                        'Creating clickable employee item for user ID:',
+                        user.id,
+                    );
+                    listElement += `
+                        <div id="employee-${user.id}" class="user-item employee-item" data-employee-id="${user.id}" style="cursor: pointer;">
+                            <div class="user-email">
+                                <i class="bi bi-person-badge me-2"></i>${user.email}
+                            </div>
+                            <div class="user-id">ID: ${user.id} <i class="bi bi-arrow-right-circle ms-2"></i></div>
+                        </div>
+                    `;
+                } else {
+                    listElement += `
+                        <div class="user-item">
+                            <div class="user-email">
+                                <i class="bi bi-person-badge me-2"></i>${user.email}
+                            </div>
+                            <div class="user-id">ID: ${user.id}</div>
+                        </div>
+                    `;
+                }
             }
-
             userListElement.innerHTML = listElement;
-        })        .catch((error) => {
+
+            console.log(
+                `Loaded ${data.users.length} ${accountType}s successfully`,
+            );
+        })
+        .catch((error) => {
             document.getElementById(`${accountType}-list`).innerHTML = `
                 <div class="empty-state">
                     <i class="bi bi-exclamation-triangle"></i>
@@ -55,9 +91,9 @@ function fetchAccounts(accountType) {
         });
 }
 
-fetchAccounts("customer");
-fetchAccounts("employee");
-fetchAccounts("admin");
+fetchAccounts('customer');
+fetchAccounts('employee');
+fetchAccounts('admin');
 
 // Modal functions
 function openAccountModal() {
@@ -65,35 +101,39 @@ function openAccountModal() {
     const modal = document.getElementById('emailModal');
     const emailInput = document.getElementById('emailInput');
     const accountTypeSelect = document.getElementById('accountType');
-    
+
     if (!modal || !emailInput || !accountTypeSelect) {
         console.error('Modal elements not found');
         return;
     }
-    
+
     emailInput.value = '';
     accountTypeSelect.value = '';
-    
+
     // Use Bootstrap 5 modal API
     const bootstrapModal = new bootstrap.Modal(modal);
     bootstrapModal.show();
-    
+
     // Focus on account type select after modal is shown
-    modal.addEventListener('shown.bs.modal', function() {
-        accountTypeSelect.focus();
-    }, { once: true });
-    
+    modal.addEventListener(
+        'shown.bs.modal',
+        function () {
+            accountTypeSelect.focus();
+        },
+        { once: true },
+    );
+
     // Remove any existing event listeners
     const form = document.getElementById('emailForm');
     const newForm = form.cloneNode(true);
     form.parentNode.replaceChild(newForm, form);
-    
+
     // Add new event listener
-    newForm.addEventListener('submit', function(e) {
+    newForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const email = document.getElementById('emailInput').value.trim();
         const accountType = document.getElementById('accountType').value;
-        
+
         if (email && accountType) {
             createAccount(accountType, email);
             bootstrapModal.hide();
@@ -105,41 +145,129 @@ function openAccountModal() {
 
 function createAccount(accountType, email) {
     console.log('Creating account:', accountType, email);
-    
+
     fetch('/create-account', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             accountType: accountType,
-            email: email 
+            email: email,
         }),
-        credentials: 'same-origin'
+        credentials: 'same-origin',
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert(`${accountType.charAt(0).toUpperCase() + accountType.slice(1)} created successfully!`);
-            
-            // Refresh the appropriate list
-            if (accountType === 'customer') {
-                fetchCustomers();
-            } else if (accountType === 'employee') {
-                fetchEmployees();
-            } else if (accountType === 'admin') {
-                fetchAdmins();
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert(
+                    `${
+                        accountType.charAt(0).toUpperCase() +
+                        accountType.slice(1)
+                    } created successfully!`,
+                ); // Refresh the appropriate list
+                if (accountType === 'customer') {
+                    fetchAccounts('customer');
+                } else if (accountType === 'employee') {
+                    fetchAccounts('employee');
+                } else if (accountType === 'admin') {
+                    fetchAccounts('admin');
+                }
+            } else {
+                alert(
+                    `Error creating ${accountType}: ` +
+                        (data.error || 'Unknown error'),
+                );
             }
-        } else {
-            alert(`Error creating ${accountType}: ` + (data.error || 'Unknown error'));
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert(`Error creating ${accountType}: ` + error.message);
-    });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert(`Error creating ${accountType}: ` + error.message);
+        });
 }
 
+// Function to open customer management page
+function openCustomerManagement(customerId) {
+    console.log('Opening customer management for ID:', customerId);
+    console.log('Navigating to:', `/admin/customer?id=${customerId}`);
+    window.location.href = `/admin/customer?id=${customerId}`;
+}
+
+// Make sure function is available globally
+window.openCustomerManagement = openCustomerManagement;
+
+// Debug: log when script loads
+console.log('AdminDashboard.js loaded successfully');
+console.log(
+    'openCustomerManagement function available:',
+    typeof window.openCustomerManagement,
+);
+
+// Test function for debugging
+function testCustomerManagement() {
+    console.log('Test button clicked');
+    openCustomerManagement(1);
+}
+window.testCustomerManagement = testCustomerManagement;
+
+// Global click handler as ultimate backup
+document.addEventListener('click', function (e) {
+    console.log('Document click detected on:', e.target);
+    const customerItem = e.target.closest('.customer-item');
+    const employeeItem = e.target.closest('.employee-item');
+
+    if (customerItem) {
+        console.log('Click was on customer item');
+        const customerId = customerItem.getAttribute('data-customer-id');
+        if (customerId) {
+            console.log(
+                'Global click handler - navigating to customer:',
+                customerId,
+            );
+            e.preventDefault();
+            e.stopPropagation();
+            window.openCustomerManagement(customerId);
+        }
+    } else if (employeeItem) {
+        console.log('Click was on employee item');
+        const employeeId = employeeItem.getAttribute('data-employee-id');
+        if (employeeId) {
+            console.log(
+                'Global click handler - navigating to pentester:',
+                employeeId,
+            );
+            e.preventDefault();
+            e.stopPropagation();
+            window.openPentesterManagement(employeeId);
+        } else {
+            console.log('Employee item found but no employee ID attribute');
+        }
+    } else {
+        console.log('Click was not on a customer or employee item');
+    }
+});
+
+// Function to open pentester management page
+function openPentesterManagement(pentesterId) {
+    console.log('Opening pentester management for ID:', pentesterId);
+    if (!pentesterId) {
+        console.error('Pentester ID is required');
+        alert('Pentester ID is required');
+        return;
+    }
+
+    try {
+        const url = `/admin/pentester?id=${pentesterId}`;
+        console.log('Navigating to:', url);
+        console.log('About to set window.location.href...');
+        window.location.href = url;
+        console.log('window.location.href set successfully');
+    } catch (error) {
+        console.error('Error navigating to pentester management:', error);
+        alert('Error opening pentester management: ' + error.message);
+    }
+}
+window.openPentesterManagement = openPentesterManagement;
 
 // Button event listeners
 document.addEventListener('DOMContentLoaded', function() {

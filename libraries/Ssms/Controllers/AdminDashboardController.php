@@ -308,4 +308,409 @@ class AdminDashboardController
         </html>
         ";
     }
+
+    //-----------------------------------------------------
+    // Get Customer Details
+    //-----------------------------------------------------
+    public function getCustomerDetails($customer_id) {
+        try {
+            if (!$customer_id) {
+                Logger::write('error', 'Customer ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Customer ID is required']
+                ];
+            }            
+            
+            // Fetch customer details
+            $stmt = $this->pdo->prepare("SELECT id, email, creation_date FROM users WHERE id = :customer_id AND role_id = 1");
+            $stmt->execute(['customer_id' => $customer_id]);
+            $customer = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$customer) {
+                Logger::write('error', 'Customer not found: ' . $customer_id);
+                return [
+                    'status' => 404,
+                    'data' => ['success' => false, 'error' => 'Customer not found']
+                ];
+            }
+
+            Logger::write('info', 'Fetched customer details for ID: ' . $customer_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'customer' => $customer]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Customer Tests
+    //-----------------------------------------------------
+    public function getCustomerTests($customer_id) {
+        try {
+            if (!$customer_id) {
+                Logger::write('error', 'Customer ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Customer ID is required']
+                ];
+            }            
+            
+            // Fetch tests for specific customer
+            $stmt = $this->pdo->prepare("
+                SELECT t.id, t.customer_id, t.pentester_id, t.test_name, t.test_description, t.test_date, t.completed,
+                       p.email as pentester_email
+                FROM tests t
+                LEFT JOIN users p ON t.pentester_id = p.id
+                WHERE t.customer_id = :customer_id 
+                ORDER BY t.test_date DESC
+            ");
+            $stmt->execute(['customer_id' => $customer_id]);
+            $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($tests) . ' tests for customer ID: ' . $customer_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'tests' => $tests]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Customer Targets
+    //-----------------------------------------------------
+    public function getCustomerTargets($customer_id) {
+        try {
+            if (!$customer_id) {
+                Logger::write('error', 'Customer ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Customer ID is required']
+                ];
+            }            
+            
+            // Fetch targets for all tests of specific customer
+            $stmt = $this->pdo->prepare("
+                SELECT t.id, t.test_id, t.target_name, t.target_description,
+                       ts.test_name as test_name
+                FROM targets t
+                INNER JOIN tests ts ON t.test_id = ts.id
+                WHERE ts.customer_id = :customer_id
+                ORDER BY ts.test_date DESC, t.id DESC
+            ");
+            $stmt->execute(['customer_id' => $customer_id]);
+            $targets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($targets) . ' targets for customer ID: ' . $customer_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'targets' => $targets]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Customer Vulnerabilities
+    //-----------------------------------------------------
+    public function getCustomerVulnerabilities($customer_id) {
+        try {
+            if (!$customer_id) {
+                Logger::write('error', 'Customer ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Customer ID is required']
+                ];
+            }            
+            
+            // Fetch vulnerabilities for all targets of all tests of specific customer
+            $stmt = $this->pdo->prepare("
+                SELECT v.id, v.target_id, v.affected_entity, v.identifier, v.risk_statement, 
+                       v.affected_component, v.residual_risk, v.classification, v.identified_controls, 
+                       v.cvss_score, v.likelihood, v.cvssv3_code, v.location, 
+                       v.vulnerabilities_description, v.reproduction_steps, v.impact, 
+                       v.remediation_difficulty, v.recommendations, v.recommended_reading, 
+                       v.response, v.solved, v.created_at,
+                       t.target_name as target_name,
+                       ts.test_name as test_name
+                FROM vulnerabilities v
+                INNER JOIN targets t ON v.target_id = t.id
+                INNER JOIN tests ts ON t.test_id = ts.id
+                WHERE ts.customer_id = :customer_id
+                ORDER BY 
+                    CASE 
+                        WHEN v.cvss_score >= 9.0 THEN 1
+                        WHEN v.cvss_score >= 7.0 THEN 2
+                        WHEN v.cvss_score >= 4.0 THEN 3
+                        ELSE 4
+                    END,
+                    v.created_at DESC
+            ");
+            $stmt->execute(['customer_id' => $customer_id]);
+            $vulnerabilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($vulnerabilities) . ' vulnerabilities for customer ID: ' . $customer_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'vulnerabilities' => $vulnerabilities]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]            
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Pentester Details
+    //-----------------------------------------------------
+    public function getPentesterDetails($pentester_id) {
+        try {
+            if (!$pentester_id) {
+                Logger::write('error', 'Pentester ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Pentester ID is required']
+                ];
+            }
+
+            // Fetch pentester details - pentesters have role_id = 2
+            $stmt = $this->pdo->prepare("
+                SELECT id, email, creation_date 
+                FROM users 
+                WHERE id = :pentester_id AND role_id = 2
+            ");
+            $stmt->execute(['pentester_id' => $pentester_id]);
+            $pentester = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$pentester) {
+                Logger::write('error', 'Pentester not found with ID: ' . $pentester_id);
+                return [
+                    'status' => 404,
+                    'data' => ['success' => false, 'error' => 'Pentester not found']
+                ];
+            }
+
+            Logger::write('info', 'Fetched pentester details for ID: ' . $pentester_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'pentester' => $pentester]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Pentester Tests
+    //-----------------------------------------------------
+    public function getPentesterTests($pentester_id) {
+        try {
+            if (!$pentester_id) {
+                Logger::write('error', 'Pentester ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Pentester ID is required']
+                ];
+            }
+
+            // Fetch all tests assigned to this pentester with customer information
+            $stmt = $this->pdo->prepare("
+                SELECT t.id, t.test_name, t.test_description, t.test_date, t.completed,
+                       u.email as customer_email, u.id as customer_id
+                FROM tests t
+                INNER JOIN users u ON t.customer_id = u.id
+                WHERE t.pentester_id = :pentester_id
+                ORDER BY t.test_date DESC, t.id DESC
+            ");
+            $stmt->execute(['pentester_id' => $pentester_id]);
+            $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($tests) . ' tests for pentester ID: ' . $pentester_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'tests' => $tests]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Pentester Targets
+    //-----------------------------------------------------
+    public function getPentesterTargets($pentester_id) {
+        try {
+            if (!$pentester_id) {
+                Logger::write('error', 'Pentester ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Pentester ID is required']
+                ];
+            }
+
+            // Fetch all targets for all tests of specific pentester
+            $stmt = $this->pdo->prepare("
+                SELECT tg.id, tg.target_name, tg.target_description, tg.test_id,
+                       t.test_name, u.email as customer_email
+                FROM targets tg
+                INNER JOIN tests t ON tg.test_id = t.id
+                INNER JOIN users u ON t.customer_id = u.id
+                WHERE t.pentester_id = :pentester_id
+                ORDER BY t.test_date DESC, tg.id ASC
+            ");
+            $stmt->execute(['pentester_id' => $pentester_id]);
+            $targets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($targets) . ' targets for pentester ID: ' . $pentester_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'targets' => $targets]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Get Pentester Vulnerabilities
+    //-----------------------------------------------------
+    public function getPentesterVulnerabilities($pentester_id) {
+        try {
+            if (!$pentester_id) {
+                Logger::write('error', 'Pentester ID not provided');
+                return [
+                    'status' => 400,
+                    'data' => ['success' => false, 'error' => 'Pentester ID is required']
+                ];
+            }
+
+            // Fetch vulnerabilities for all targets of all tests of specific pentester
+            $stmt = $this->pdo->prepare("
+                SELECT v.id, v.target_id, v.affected_entity, v.identifier, v.risk_statement, 
+                       v.affected_component, v.residual_risk, v.classification, v.identified_controls, 
+                       v.cvss_score, v.likelihood, v.cvssv3_code, v.location, 
+                       v.vulnerabilities_description, v.reproduction_steps, v.impact, 
+                       v.remediation_difficulty, v.recommendations, v.recommended_reading, 
+                       v.response, v.solved, v.created_at,
+                       tg.target_name as target_name,
+                       t.test_name as test_name,
+                       u.email as customer_email
+                FROM vulnerabilities v
+                INNER JOIN targets tg ON v.target_id = tg.id
+                INNER JOIN tests t ON tg.test_id = t.id
+                INNER JOIN users u ON t.customer_id = u.id
+                WHERE t.pentester_id = :pentester_id
+                ORDER BY 
+                    CASE 
+                        WHEN v.cvss_score >= 9.0 THEN 1
+                        WHEN v.cvss_score >= 7.0 THEN 2
+                        WHEN v.cvss_score >= 4.0 THEN 3
+                        ELSE 4
+                    END,
+                    v.created_at DESC
+            ");
+            $stmt->execute(['pentester_id' => $pentester_id]);
+            $vulnerabilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            Logger::write('info', 'Fetched ' . count($vulnerabilities) . ' vulnerabilities for pentester ID: ' . $pentester_id);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'vulnerabilities' => $vulnerabilities]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        } catch (\Exception $e) {
+            Logger::write('error', 'System error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'System error: ' . $e->getMessage()]
+            ];
+        }
+    }
 }

@@ -1023,6 +1023,203 @@
 							"body": "{\n    \"success\": false,\n    \"message\": \"Email address already exists\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Get Customer Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/customer-details?customer_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "customer-details"],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "1",
+									"description": "The ID of the customer to get details for"
+								}
+							]
+						},
+						"description": "Get detailed information about a specific customer (admin only)."
+					},
+					"response": [
+						{
+							"name": "Customer Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/customer-details?customer_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"customer\": {\n        \"id\": 1,\n        \"email\": \"customer@example.com\",\n        \"created_at\": \"2023-01-15T10:30:00Z\"\n    }\n}"
+						},
+						{
+							"name": "Customer Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/customer-details?customer_id=999"
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"error\": \"Customer not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Customer Tests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/customer-tests?customer_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "customer-tests"],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "1",
+									"description": "The ID of the customer to get tests for"
+								}
+							]
+						},
+						"description": "Get all tests for a specific customer (admin only)."
+					},
+					"response": [
+						{
+							"name": "Customer Tests",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/customer-tests?customer_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"tests\": [\n        {\n            \"id\": 1,\n            \"customer_id\": 1,\n            \"employee_id\": 3,\n            \"name\": \"Website Security Assessment\",\n            \"description\": \"Complete security assessment of company website\",\n            \"status\": \"In Progress\",\n            \"start_date\": \"2023-10-15\",\n            \"end_date\": \"2023-11-15\",\n            \"created_at\": \"2023-10-10T09:00:00Z\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Customer Targets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/customer-targets?customer_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "customer-targets"],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "1",
+									"description": "The ID of the customer to get targets for"
+								}
+							]
+						},
+						"description": "Get all targets for all tests of a specific customer (admin only)."
+					},
+					"response": [
+						{
+							"name": "Customer Targets",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/customer-targets?customer_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"targets\": [\n        {\n            \"id\": 1,\n            \"test_id\": 1,\n            \"name\": \"Main Website\",\n            \"url\": \"https://example.com\",\n            \"ip_address\": \"192.168.1.1\",\n            \"status\": \"Vulnerable\",\n            \"created_at\": \"2023-10-15T10:00:00Z\",\n            \"test_name\": \"Website Security Assessment\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Customer Vulnerabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ssms.web/api/customer-vulnerabilities?customer_id=1",
+							"protocol": "http",
+							"host": ["ssms.web"],
+							"path": ["api", "customer-vulnerabilities"],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "1",
+									"description": "The ID of the customer to get vulnerabilities for"
+								}
+							]
+						},
+						"description": "Get all vulnerabilities for all targets of all tests of a specific customer (admin only)."
+					},
+					"response": [
+						{
+							"name": "Customer Vulnerabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ssms.web/api/customer-vulnerabilities?customer_id=1"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"vulnerabilities\": [\n        {\n            \"id\": 1,\n            \"target_id\": 1,\n            \"name\": \"SQL Injection\",\n            \"severity\": \"High\",\n            \"description\": \"User input not properly sanitized in login form\",\n            \"status\": \"Open\",\n            \"created_at\": \"2023-10-16T14:30:00Z\",\n            \"target_name\": \"Main Website\",\n            \"target_url\": \"https://example.com\",\n            \"test_name\": \"Website Security Assessment\"\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		},
