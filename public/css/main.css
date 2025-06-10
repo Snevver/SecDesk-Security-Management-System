@@ -1,92 +1,93 @@
 /* COLORS  */
 :root {
-    --logo-color: #5f44ff;
-    --light-background-color: #e1dbf1;
-    --dark-background-color: #181328;
-    --button-color: #55e5a0;
-    --header-color: #6862ea;
+  --logo-color: #5f44ff;
+  --light-background-color: #e1dbf1;
+  --dark-background-color: #181328;
+  --button-color: #55e5a0;
+  --header-color: #6862ea;
 }
 
 /* FONTS */
 
 /* Logo font */
 @font-face {
-    font-family: 'Orbitron';
-    src: url('../fonts/Orbitron.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Orbitron";
+  src: url("../fonts/Orbitron.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Paragraph font */
 @font-face {
-    font-family: 'Roboto';
-    src: url('../fonts/Roboto.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Roboto";
+  src: url("../fonts/Roboto.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* GLOBAL STYLES */
 
 html,
 body {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 main {
-    background-color: var(--light-background-color);
-    width: 100%;
+  background-color: var(--light-background-color);
+  width: 100%;
 }
 
 .btn {
-    background-color: var(--header-color) !important;
+  background-color: var(--header-color) !important;
 }
 
 svg {
-    color: var(--header-color);
+  color: var(--header-color);
 }
 
 /* LOGIN PAGE */
 
 #loginWrapper {
-    height: 90vh;
-    width: 50%;
-    margin-left: 5%;
-    margin-top: 10vh;
+  height: 90vh;
+  width: 50%;
+  margin-left: 5%;
+  margin-top: 10vh;
 }
 
 .logo {
-    height: 50px;
-    width: auto;
+  height: 50px;
+  width: auto;
 }
 
 .mainframe {
-    width: 283.5px;
-    height: 351px;
+  width: 283.5px;
+  height: 351px;
 }
 
 #mainHeader {
-    background-color: var(--dark-background-color);
-    height: 60px;
+  background-color: var(--dark-background-color);
+  height: 60px;
 }
 
 #loginSection {
-    background-color: var(--dark-background-color);
-    width: 80%;
-    height: 50%;
-    border-radius: 24px;
+  background-color: var(--dark-background-color);
+  width: 80%;
+  height: 50%;
+  border-radius: 24px;
 }
 
 #loginContainer {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 label {
-    color: white;
+  color: white;
 }
 
 /* form {
@@ -94,269 +95,265 @@ label {
 } */
 
 #login {
-    background-color: var(--button-color);
-    width: 100%;
+  background-color: var(--button-color);
+  width: 100%;
 }
 
 #login:focus-visible,
 input:focus {
-    outline: 2px solid var(--logo-color);
-    outline-offset: 2px;
+  outline: 2px solid var(--logo-color);
+  outline-offset: 2px;
 }
 
 @media screen and (max-width: 1500px) {
-    .hide {
-        display: none !important;
-    }
+  .hide {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1200px) {
-    #loginRight {
-        display: none !important;
-    }
+  #loginRight {
+    display: none !important;
+  }
 
-    #loginContainer {
-        width: 100%;
-    }
+  #loginContainer {
+    width: 100%;
+  }
 
-    /* h1 span {
+  /* h1 span {
         display: none;
     } */
 }
 
 @media screen and (max-width: 768px) {
-    #loginWrapper {
-        height: 50%;
-        margin-top: 5%;
-    }
+  #loginWrapper {
+    height: 50%;
+    margin-top: 5%;
+    margin-left: 0;
+  }
 
-    #loginSection {
-        height: 40vh;
-    }
+  #loginSection {
+    height: 40vh;
+  }
 
-    #contentWrapper {
-        margin-top: 5% !important;
-    }
+  #contentWrapper {
+    margin-top: 5% !important;
+  }
 
-    #homeContent {
-        width: 80% !important;
-    }
+  #homeContent {
+    width: 80% !important;
+  }
 
-    .contentCard {
-        margin: 0 !important;
-    }
+  .contentCard {
+    margin: 0 !important;
+  }
 }
 
 @media screen and (max-width: 576px) {
-    #mainHeader {
-        display: flex;
-        justify-content: center !important;
-    }
+  #mainHeader {
+    display: flex;
+    justify-content: center !important;
+  }
 
-    #loginSection {
-        width: 90%;
-    }
+  #loginSection {
+    width: 90%;
+  }
 
-    #homeContent {
-        width: 90% !important;
-    }
+  #homeContent {
+    width: 90% !important;
+  }
 
-    #contentHeader {
-        display: none;
-    }
+  #contentHeader {
+    display: none;
+  }
 
-    .contentCard {
-        height: 25vh !important;
-        width: auto !important;
-        margin-top: 5% !important;
-    }
+  .contentCard {
+    height: 25vh !important;
+    width: auto !important;
+    margin-top: 5% !important;
+  }
 
-    #fadeCarousel {
-        height: 44vh !important;
-    }
+  #fadeCarousel {
+    height: 44vh !important;
+  }
 }
 
 @media screen and (max-width: 375px) {
-    #loginSection {
-        width: 95%;
-    }
 }
 
 @media (max-height: 800px) {
-    .mainframe {
-        width: 198.45px;
-        height: 245.7px;
-    }
+  .mainframe {
+    width: 198.45px;
+    height: 245.7px;
+  }
 
-    .sms {
-        display: none;
-    }
+  .sms {
+    display: none;
+  }
 }
 
 @media (max-height: 550px) {
-    .mainframe {
-        width: 141.75px;
-        height: 175.5px;
-    }
+  .mainframe {
+    width: 141.75px;
+    height: 175.5px;
+  }
 
-    .form-group {
-        margin: 0 !important;
-    }
+  .form-group {
+    margin: 0 !important;
+  }
 }
 
 /* LOGIN CONTENT */
 
 #contentWrapper {
-    margin-top: 10vh;
+  margin-top: 10vh;
 }
 
 #homeContent {
-    background-color: var(--dark-background-color);
-    height: 45vh;
-    width: 90%;
-    border-radius: 24px;
+  background-color: var(--dark-background-color);
+  height: 45vh;
+  width: 90%;
+  border-radius: 24px;
 }
 
 .contentCard {
-    width: 95%;
-    margin-top: 6%;
+  width: 95%;
+  margin-top: 6%;
 }
 
 #contentHeader {
-    padding: 3%;
+  padding: 3%;
 }
 
 .homeContentCard {
-    padding: 0% 5% 0% 5%;
-    height: 33vh;
+  padding: 0% 5% 0% 5%;
+  height: 33vh;
 }
 
 .contentCardText {
-    color: white;
-    font-family: 'Roboto', sans-serif;
+  color: white;
+  font-family: "Roboto", sans-serif;
 }
 
 .highlight {
-    color: var(--button-color);
+  color: var(--button-color);
 }
 
 /* LOGIN CONTENT CAROUSEL */
 
 .carousel-fade .carousel-item {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
 /* FOOTER */
 
 footer {
-    background-color: var(--light-background-color);
-    padding: 0% 10% 0% 10%;
+  background-color: var(--light-background-color);
+  padding: 0% 10% 0% 10%;
 }
 
 /* DASHBOARD PAGE */
 
 .logo-only {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 #sidebar {
-    height: 94vh;
-    width: 4.5em;
+  height: 94vh;
+  width: 4.5em;
 }
 
 .nav-pills .nav-link.active {
-    background-color: var(--light-background-color) !important;
+  background-color: var(--light-background-color) !important;
 }
 
 #userDashboard {
-    height: 94vh;
-    width: 98%;
-    background-color: white;
-    /* border-radius: 18px 18px 0px 0px; */
+  height: 94vh;
+  width: 98%;
+  background-color: white;
 }
 
 #testList {
-    height: 54vh;
-    width: 97%;
-    /* background-color: var(--light-background-color); */
-    border-radius: 18px;
+  height: 54vh;
+  width: 97%;
+  border-radius: 18px;
 }
 
 .statBox {
-    height: 25vh;
-    background-color: var(--light-background-color);
-    border-radius: 18px;
-    border: solid 3px var(--dark-background-color);
+  height: 25vh;
+  background-color: var(--light-background-color);
+  border-radius: 18px;
+  border: solid 3px var(--dark-background-color);
 }
 
 #dashboardHeader {
-    display: flex;
-    justify-content: center;
-    font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
 }
 
 h1 span,
 .highlightPurple {
-    color: var(--logo-color);
+  color: var(--logo-color);
 }
 
 .my-large-text {
-    font-size: 2rem !important;
-    /* !important may be necessary to override Bootstrap */
+  font-size: 2rem !important;
+  /* !important may be necessary to override Bootstrap */
 }
 /* MODAL STYLES */
 .modal-content {
-    background-color: white !important;
-    color: #212529 !important;
+  background-color: white !important;
+  color: #212529 !important;
 }
 
 .modal-header {
-    background-color: var(--header-color) !important;
-    color: white !important;
-    border-bottom: 1px solid #dee2e6;
+  background-color: var(--header-color) !important;
+  color: white !important;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .modal-header .modal-title {
-    color: white !important;
+  color: white !important;
 }
 
 .modal-header .btn-close {
-    filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
 }
 
 .modal-body {
-    background-color: white !important;
-    color: #212529 !important;
+  background-color: white !important;
+  color: #212529 !important;
 }
 
 .modal-body .form-label {
-    color: #212529 !important;
-    font-weight: 500;
+  color: #212529 !important;
+  font-weight: 500;
 }
 
 .modal-body .form-control {
-    border: 1px solid #ced4da;
-    color: #212529 !important;
-    background-color: white !important;
+  border: 1px solid #ced4da;
+  color: #212529 !important;
+  background-color: white !important;
 }
 
 .modal-body .form-control:focus {
-    border-color: var(--header-color);
-    box-shadow: 0 0 0 0.2rem rgba(111, 98, 234, 0.25);
+  border-color: var(--header-color);
+  box-shadow: 0 0 0 0.2rem rgba(111, 98, 234, 0.25);
 }
 
 .modal-footer {
-    background-color: #f8f9fa !important;
-    border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa !important;
+  border-top: 1px solid #dee2e6;
 }
 
 /* Error and success messages */
 .text-danger {
-    color: #dc3545 !important;
+  color: #dc3545 !important;
 }
 
 .text-success {
-    color: #198754 !important;
+  color: #198754 !important;
 }
