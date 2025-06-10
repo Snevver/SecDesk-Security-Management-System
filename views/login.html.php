@@ -117,7 +117,7 @@
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
                                                     <h2>
-                                                        <span class="highlight">Step Two:</span> We'll put <spanclass="highlight">special care</span> into what matters most
+                                                        <span class="highlight">Step Two:</span> We'll put <span class="highlight">special care</span> into what matters most
                                                     </h2>
 
                                                     <p>With a detailed report of your vulnerabilities</p>
@@ -158,15 +158,17 @@
 
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                <h2><span class="highlight">Step Four:</span> This is where <span
-                                                        class="highlight">you</span> come in
-                                                    and
-                                                    make a
-                                                    <span>big change!</span>
-                                                </h2>
-                                                <p>With tips on how to fix your vulnerabilities, in SMS you can
-                                                    track
-                                                    your progress till everything is fixed!</p>
+                                                    <h2><span class="highlight">Step Four:</span> This is where <span
+                                                            class="highlight">you</span> come in
+                                                        and
+                                                        make a
+                                                        <span>big change!</span>
+                                                    </h2>
+
+                                                    <p>With tips on how to fix your vulnerabilities, in SMS you can
+                                                        track
+                                                        your progress till everything is fixed!
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,6 +198,7 @@
 
                 <div class="col mb-3">
                     <h5>SecDesk</h5>
+
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="https://secdesk.com/" class="nav-link p-0 text-body-secondary" data-wpel-link="internal">Secdesk.com</a></li>
                         <li class="nav-item mb-2"><a href="https://secdesk.com/ask-secdesk/" class="nav-link p-0 text-body-secondary" data-wpel-link="internal">Helpdesk</a></li>
