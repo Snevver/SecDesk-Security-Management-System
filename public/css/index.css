@@ -1,198 +1,249 @@
 @import url(main.css);
 
 .sms {
-    width: 112.5px;
-    height: 37.5px;
-    margin-left: 10px;
+  width: 112.5px;
+  height: 37.5px;
+  margin-left: 10px;
 }
 
 .logo {
-    padding: 0;
+  padding: 0;
 }
 
 #testListHeader,
 .targetListHeader {
-    background: linear-gradient(
-        to top,
-        var(--light-background-color),
-        #f1f1f1
-    ) !important;
-    height: 8vh;
-    border-radius: 0.5rem;
-    border: 2px solid #ccc;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(
+    to top,
+    var(--light-background-color),
+    #f1f1f1
+  ) !important;
+  height: 8vh;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 #userDashboard {
-    font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .accordion-item,
 .test-item {
-    border: none !important;
+  border: none !important;
 }
 
 .test-button,
 .target-button {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    font-size: 1rem;
-    transition: background-color 0.15s ease;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  transition: background-color 0.15s ease;
 }
 
 .accordion-button {
-    font-size: 0.8rem !important;
+  font-size: 0.8rem !important;
 }
 
 .accordion-button,
 .test-button {
-    height: 12vh;
-    background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
-    border: 2px solid #ccc !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
-    transition: all 0.2s ease-in-out !important;
+  height: 12vh;
+  background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
+  border-bottom: 2px solid #ccc !important;
+  border-right: 2px solid #ccc !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease-in-out !important;
 }
 
 .test-button {
-    border-radius: 0.5rem !important;
+  border-radius: 0.5rem !important;
+  border: 2px solid #ccc !important;
 }
 
 .button-size {
-    height: 4.5vh !important;
+  height: 4.5vh !important;
 }
 
 .collapsed {
-    height: 3.5vh !important;
+  height: 3.5vh !important;
 }
 
 .accordion-button:hover,
 .test-button:hover {
-    background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 .accordion-button:focus {
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: #888 !important;
-}
-
-button.accordion-button:not(.collapsed),
-button.test-button:not(.collapsed) {
-    border-radius: 0.5rem 0.5rem 0 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .accordion-body {
-    border: 2px solid #ccc;
-    border-top: 0px;
-    border-radius: 0 0 0.5rem 0.5rem;
+  border-top: 0px;
 }
 
 input:focus,
 .form-control:focus {
-    box-shadow: 0 0 0 0.15rem var(--header-color) !important;
+  box-shadow: 0 0 0 0.15rem var(--header-color) !important;
 }
 
 /* TARGETS CSS */
 
 #targetsMain {
-    max-height: calc(100% - 5vh - 69px);
+  max-height: calc(100% - 5vh - 69px);
 }
 
 #targetSidebar {
-    min-width: 15vw;
-    max-width: 15vw;
-    border-radius: 0.5rem;
-    border: 2px solid #ccc;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-width: 15vw;
+  max-width: 15vw;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .headerTitle {
-    width: 12.5vw;
-    border-right: 1px solid #ccc;
+  width: 12.5vw;
 }
 
 #vulnerabilitySidebar {
-    min-width: 12.5vw;
-    border-radius: 0.5rem;
-    border: 2px solid #ccc;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-width: 12.5vw;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .targetListHeader {
-    height: 5vh;
+  height: 5vh;
 }
 
 .target-button {
-    height: 3.5vh !important;
-    font-size: 0.8em;
+  height: 3.5vh !important;
+  font-size: 0.8em;
 }
 
 .target-button:hover {
-    background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-    cursor: pointer;
+  background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer;
 }
 
 #vulnerabilityDetails {
-    border: 2px solid #ccc;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .vuln-button {
-    background-color: white !important;
+  background-color: white !important;
+  border: 0 !important;
+  border-bottom: solid 1px #ccc !important;
 }
 
 .subHeader1 {
-    width: 15vw;
+  width: 15vw;
 }
 
 .subHeader2 {
-    width: 12.5%;
+  width: 12.5%;
 }
 
-button.active {
-    background: linear-gradient(to bottom, #c4b5ec, #d1d1d1) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-    border: solid 2px black !important;
+.accordion-header .accordion-button.active {
+  /* background: linear-gradient(to bottom, #d4c5f8, #e6e6ff) !important; */
+  color: white !important;
+  background: var(--dark-background-color) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  border-bottom: 2px solid var(--dark-background-color) !important;
+  border-right: 2px solid var(--dark-background-color) !important;
+}
+
+.vulnerability-list .vuln-button.active {
+  background: var(--light-background-color) !important;
 }
 
 .custom-tooltip {
-    --bs-tooltip-bg: var(--light-background-color);
+  --bs-tooltip-bg: var(--light-background-color);
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
 }
 
 .divTable {
-    display: table;
-    width: 100%;
-    border-radius: 0.5rem 0.5rem 0rem 0rem;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: table;
+  width: 100%;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 .divTableRow {
-    display: table-row;
+  display: table-row;
 }
 
 .divTableCell {
-    border: 2px solid #ccc;
-    display: table-cell;
-    padding: 3px 10px;
+  border: 2px solid #ccc;
+  display: table-cell;
+  padding: 3px 10px;
 }
 
 .divTableBody {
-    display: table-row-group;
+  display: table-row-group;
 }
 
 .divTableCell:nth-of-type(odd) {
-    background-color: #6962ea7b;
-    white-space: nowrap;
+  background-color: #6962ea7b;
+  white-space: nowrap;
 }
 
 .divTableRow:nth-child(odd) .divTableCell:nth-of-type(even) {
-    background-color: var(--light-background-color);
+  background-color: var(--light-background-color);
 }
 .divTableRow:nth-child(even) .divTableCell:nth-of-type(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(165, 139, 224, 0.4);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(165, 139, 224, 0.6);
+}
+
+.back {
+  background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
+  background-color: #cccccc00;
+  border: 2px solid #8f8f8f !important;
+}
+
+.vuln-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform 0.2s ease-in-out;
+  opacity: 0.5;
+  position: relative;
+  right: 4%;
+}
+
+.vuln-button.active::after {
+  opacity: 1;
 }
