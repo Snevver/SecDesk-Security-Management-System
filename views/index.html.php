@@ -22,13 +22,13 @@
 		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 	</head>
 
-	<body>
+	<body class="p-0 m-0 w-100">
 		<!-- HEADER -->
 		<header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
 			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo m-1 position-absolute top-0 start-0">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto m-1 position-absolute top-0 start-0">
 				</div>
 
 				<!-- Title -->
@@ -119,7 +119,7 @@
 			</div>
 
 			<!-- DASHBOARD -->
-			<main class="d-flex justify-content-center align-items-end">
+			<main class="d-flex justify-content-center w-100 align-items-end">
 				<section id="userDashboard">
 					<div class="row d-flex text-align-center justify-content-center align-items-center">
 						<section id="testList" class="container-fluid p-0">
@@ -181,15 +181,15 @@
 					<form id="changePasswordForm">
 						<div class="modal-body">
 							<div class="mb-3">
-								<label for="currentPassword" class="form-label">Current Password</label>
+								<label for="currentPassword" class="form-label text-white">Current Password</label>
 								<input type="password" class="form-control" id="currentPassword" required>
 							</div>
 							<div class="mb-3">
-								<label for="newPassword" class="form-label">New Password</label>
+								<label for="newPassword" class="form-label text-white">New Password</label>
 								<input type="password" class="form-control" id="newPassword" required>
 							</div>
 							<div class="mb-3">
-								<label for="confirmPassword" class="form-label">Confirm New Password</label>
+								<label for="confirmPassword" class="form-label text-white">Confirm New Password</label>
 								<input type="password" class="form-control" id="confirmPassword" required>
 							</div>
 							<div id="passwordError" class="text-danger d-none"></div>

@@ -11,7 +11,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="/js/employeeDashboard.js" defer></script>
     </head>
-      <body>
+      <body class="p-0 m-0 w-100">
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-12">                    
@@ -96,16 +96,16 @@
                         <form id="changePasswordForm">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="currentPassword" class="form-label">Current Password</label>
+                                    <label for="currentPassword" class="form-label text-white">Current Password</label>
                                     <input type="password" class="form-control" id="currentPassword" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
+                                    <label for="newPassword" class="form-label text-white">New Password</label>
                                     <input type="password" class="form-control" id="newPassword" required>
                                     <div class="form-text">Password should be at least 8 characters long.</div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                    <label for="confirmPassword" class="form-label text-white">Confirm New Password</label>
                                     <input type="password" class="form-control" id="confirmPassword" required>
                                 </div>
                                 <div id="passwordError" class="text-danger d-none"></div>

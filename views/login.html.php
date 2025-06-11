@@ -18,10 +18,10 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     </head>
 
-    <body>
+    <body class="p-0 m-0 w-100">
         <!-- HEADER -->
         <header id="mainHeader" class="d-flex align-items-center">
-            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo">
+            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto">
         </header>
 
         <!-- Debugging !!! NOT TO BE USED IN PRODUCTION !!! -->
@@ -29,22 +29,22 @@
         <div id="error-message"></div>
 
         <!-- LOGIN SECTION -->
-        <main id="loginMain" class="container-fluid p-0">
+        <main id="loginMain" class="container-fluid w-100 p-0">
             <div id="mainFlexWrapper" class="d-flex justify-content-between align-items-start flex-wrap w-100">
                 <div class="col-12 col-md-4 p-0 d-flex justify-content-center align-items-center">
                     <div id="loginWrapper" class="w-100 d-flex justify-content-center align-items-start">
-                        <section id="loginSection" class="row m-0">
-                            <div class="col-12 d-flex flex-column justify-content-center align-items-center" id="loginContainer">
+                        <section id="loginSection" class="row h-50 m-0">
+                            <div class="col-12 d-flex flex-column justify-content-center w-100 h-100 align-items-center" id="loginContainer">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
                                     <div class="form-group mb-4">
-                                        <label for="email">Email address</label>
+                                        <label class="text-white" for="email">Email address</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <label for="password">Password</label>
+                                        <label class="text-white" for="password">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
 
