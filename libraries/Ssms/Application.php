@@ -37,6 +37,8 @@ class Application implements LoggerAwareInterface
             '/create-test',
             '/create-customer',
             '/create-employee',
+            '/admin/customer',
+            '/admin/pentester',
         ];
 
         $this->authenticationController = new AuthenticatorController(Db::getInstance());
