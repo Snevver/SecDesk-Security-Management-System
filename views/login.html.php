@@ -29,12 +29,12 @@
         <div id="error-message"></div>
 
         <!-- LOGIN SECTION -->
-        <main id="loginMain" class="container-fluid w-100 p-0">
-            <div id="mainFlexWrapper" class="d-flex justify-content-between align-items-start flex-wrap w-100">
-                <div class="col-12 col-md-4 p-0 d-flex justify-content-center align-items-center">
-                    <div id="loginWrapper" class="w-100 d-flex justify-content-center align-items-start">
-                        <section id="loginSection" class="row h-50 m-0">
-                            <div class="col-12 d-flex flex-column justify-content-center w-100 h-100 align-items-center" id="loginContainer">
+<main id="loginMain" class="container-fluid d-flex flex-column">
+    <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-center">
+        <div class="col-12 col-md-4 d-flex pe-md-0">
+            <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                <section id="loginSection" class="w-100 p-3">
+                            <div class="col-12 d-flex flex-column justify-content-center w-100 align-items-center" id="loginContainer">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
@@ -48,7 +48,7 @@
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
 
-                                    <button type="submit" id="login" class="btn">Login</button>
+                                    <button type="submit" id="login" class="btn w-100">Login</button>
                                 </form>
                             </div>
                         </section>
@@ -56,9 +56,9 @@
                 </div>
 
                 <!-- DESCRIPTION SECTION -->
-                <div class="col-12 col-md-8 p-0">
-                    <div id="contentWrapper" class="d-flex justify-content-center align-items-center">
-                        <section id="homeContent" class="row m-0 flex-column align-items-center">
+        <div class="col-12 col-md-8 d-flex">
+            <div id="contentWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                <section id="homeContent" class="w-100 p-3">
 
                             <!-- Content Header -->
                             <header id="contentHeader">
@@ -66,7 +66,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-12 d-flex justify-content-center align-items-center">
                                             <div class="contentCardText d-flex flex-column align-items-center">
-                                                <h2 class="m-0">
+                                                <h2 class="m-0 pb-3">
                                                     <span class="hide">Achieve success with our</span>
                                                     <span class="highlight">Security Management System</span>
                                                 </h2>
@@ -92,7 +92,7 @@
                                     <div class="carousel-item active d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
                                             </div>
                                             <div class="col-12 col-sm-7 p-0 d-flex">
                                                 <div class="contentCardText d-flex flex-column text-align-center">
@@ -111,7 +111,7 @@
                                     <div class="carousel-item d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
@@ -130,7 +130,7 @@
                                     <div class="carousel-item d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
@@ -153,7 +153,7 @@
                                     <div class="carousel-item d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
