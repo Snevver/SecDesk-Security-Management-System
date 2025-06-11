@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - SecDesk SMS</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/main.css">
-    
+    <link rel="stylesheet" href="/css/admin.css">
+
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
@@ -46,8 +47,8 @@
             font-weight: 500;
             border-radius: 6px;
             transition: all 0.3s ease;
-        }        
-        
+        }
+
         .btn-outline-light:hover {
             background-color: white;
             color: #004185;
@@ -191,11 +192,11 @@
             .admin-header {
                 text-align: center;
             }
-            
+
             .action-buttons {
                 text-align: center;
             }
-            
+
             .btn-create {
                 width: 100%;
                 margin-bottom: 0.5rem;
@@ -212,7 +213,7 @@
                 <div class="col-md-6">
                     <h1><i class="bi bi-shield-check"></i> Admin Dashboard</h1>
                     <p class="mb-0">SecDesk Security Management System</p>
-                </div>                
+                </div>
                 <div class="col-md-6 text-md-end">
                     <div class="d-flex align-items-center justify-content-md-end flex-wrap">
                         <div class="user-info me-3">
@@ -227,8 +228,8 @@
             </div>
         </div>
     </div>
-    
-    <div class="container">        
+
+    <div class="container">
         <!-- Action Buttons -->
         <div class="action-buttons">
             <div class="row justify-content-center">
@@ -350,7 +351,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="emailInput" class="form-label text-white">Email Address</label>
-                            <input type="email" class="form-control" id="emailInput" name="email" required 
+                            <input type="email" class="form-control" id="emailInput" name="email" required
                                    placeholder="Enter email address">
                         </div>
                     </form>
@@ -365,7 +366,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Custom Scripts -->
     <script src="/js/changePassword.js"></script>
     <script src="/js/adminDashboard.js"></script>

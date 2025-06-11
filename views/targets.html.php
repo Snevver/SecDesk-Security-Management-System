@@ -6,8 +6,7 @@
     <title>Secdesk Targets</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/targets.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -42,15 +41,15 @@
     <header class="d-flex">
         <div class="mb-1 mt-1 ms-1 me-1 targetListHeader subHeader1">
             <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
-                <a href="/" class="position-absolute back btn start-0 mb-0 ms-3 p-0 pe-2 pt-1 pb-1"
+                <a href="/" class="position-absolute back btn start-0 mb-0 ms-3 p-1"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
                 data-bs-title="Back to tests"
                 data-bs-custom-class="custom-tooltip">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="d-xl-none" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="d-none">Back</span>
+                    <span class="d-none d-xl-block">Back</span>
                 </a>
 
                 <h3 class="headerTitle text-center m-0">Targets</h3>

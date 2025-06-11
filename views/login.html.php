@@ -6,7 +6,7 @@
         <title>Login</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/login.css">
         <link rel="stylesheet" href="/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -20,7 +20,7 @@
 
     <body class="p-0 m-0 w-100">
         <!-- HEADER -->
-        <header id="mainHeader" class="d-flex align-items-center">
+        <header id="mainHeader" class="d-flex align-items-center justify-content-center justify-content-sm-start">
             <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto">
         </header>
 
@@ -34,7 +34,7 @@
         <div class="col-12 col-md-4 d-flex pe-md-0">
             <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
                 <section id="loginSection" class="w-100 p-3">
-                            <div class="col-12 d-flex flex-column justify-content-center w-100 align-items-center" id="loginContainer">
+                            <div  id="loginContainer" class="col-12 d-flex flex-column justify-content-center w-100 align-items-center">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
@@ -61,13 +61,13 @@
                 <section id="homeContent" class="w-100 p-3">
 
                             <!-- Content Header -->
-                            <header id="contentHeader">
+                            <header id="contentHeader" class="d-none d-sm-block">
                                 <div class=" col-12 m-0 p-0">
                                     <div class="row align-items-center">
                                         <div class="col-12 d-flex justify-content-center align-items-center">
                                             <div class="contentCardText d-flex flex-column align-items-center">
                                                 <h2 class="m-0 pb-3">
-                                                    <span class="hide">Achieve success with our</span>
+                                                    <span class="d-xxl-inline d-none">Achieve success with our</span>
                                                     <span class="highlight">Security Management System</span>
                                                 </h2>
                                             </div>
