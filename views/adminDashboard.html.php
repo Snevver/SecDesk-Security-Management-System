@@ -306,16 +306,16 @@
                 <div class="modal-body">
                     <form id="changePasswordForm">
                         <div class="mb-3">
-                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <label for="currentPassword" class="form-label text-white">Current Password</label>
                             <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                         </div>
                         <div class="mb-3">
-                            <label for="newPassword" class="form-label">New Password</label>
+                            <label for="newPassword" class="form-label text-white">New Password</label>
                             <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                             <div class="form-text">Password must be at least 8 characters long and contain uppercase, lowercase, and numbers.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <label for="confirmPassword" class="form-label text-white">Confirm New Password</label>
                             <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                         </div>
                         <div id="changePasswordMessage"></div>
@@ -340,7 +340,7 @@
                 <div class="modal-body">
                     <form id="emailForm">
                         <div class="mb-3">
-                            <label for="accountType" class="form-label">Account Type</label>
+                            <label for="accountType" class="form-label text-white">Account Type</label>
                             <select class="form-select" id="accountType" name="accountType" required>
                                 <option value="">Select account type...</option>
                                 <option value="customer">Customer</option>
@@ -349,7 +349,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="emailInput" class="form-label">Email Address</label>
+                            <label for="emailInput" class="form-label text-white">Email Address</label>
                             <input type="email" class="form-control" id="emailInput" name="email" required 
                                    placeholder="Enter email address">
                         </div>

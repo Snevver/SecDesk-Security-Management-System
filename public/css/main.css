@@ -32,14 +32,10 @@
 html,
 body {
     height: 100vh;
-    margin: 0;
-    padding: 0;
-    width: 100%;
 }
 
 main {
     background-color: var(--light-background-color);
-    width: 100%;
 }
 
 .btn {
@@ -54,19 +50,12 @@ svg {
 
 #loginWrapper {
     height: 90vh;
-    width: 50%;
     margin-left: 5%;
     margin-top: 10vh;
 }
 
 .logo {
     height: 50px;
-    width: auto;
-}
-
-.mainframe {
-    width: 283.5px;
-    height: 351px;
 }
 
 #mainHeader {
@@ -77,17 +66,7 @@ svg {
 #loginSection {
     background-color: var(--dark-background-color);
     width: 80%;
-    height: 50%;
     border-radius: 24px;
-}
-
-#loginContainer {
-    width: 100%;
-    height: 100%;
-}
-
-label {
-    color: white;
 }
 
 #login {

@@ -19,13 +19,13 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
-<body>
+<body class="p-0 m-0 w-100">
     <!-- HEADER -->
     <header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
         <div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
-                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo m-1 position-absolute top-0 start-0">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto m-1 position-absolute top-0 start-0">
             </div>
 
             <!-- Title -->
