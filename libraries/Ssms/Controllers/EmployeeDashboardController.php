@@ -168,6 +168,13 @@ class EmployeeDashboardController
         $stmt->bindParam(':pentester_id', $_SESSION['user_id'], \PDO::PARAM_INT);
         $stmt->execute();
         
-        Logger::write('info', 'Test created successfully for customer ID: ' . $customerID);
+        $newTestID = $this->pdo->lastInsertId();
+
+        Logger::write('info', 'Test created successfully for customer ID: ' . $customerID . ' with new test ID: ' . $newTestID);
+
+        return [
+                'status' => 201,
+                'data' => ['success' => true, 'new_test_id' => $newTestID]
+            ];
     }
 }

@@ -143,7 +143,7 @@ document.getElementById("create-report-btn").addEventListener("click", () => {
 // Event listener for the select element
 selectElement.addEventListener("change", (event) => {
     const selectedCustomerID = parseInt(event.target.value);
-    
+
     fetch("/create-test", {
         method: "POST",
         credentials: "same-origin",
@@ -156,6 +156,6 @@ selectElement.addEventListener("change", (event) => {
     })
         .then((response) => response.json())
         .then((data) => {
-            window.location.href = `/edit?test_id=${newTestID}`;
+            window.location.href = `/edit?test_id=${data.new_test_id}`;
         });
 });

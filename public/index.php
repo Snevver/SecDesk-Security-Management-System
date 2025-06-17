@@ -180,7 +180,7 @@ try {
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
-    Logger::write('error', 'HTTP error: ' . $e->getMessage() . ' - ' . $uri);
+    Logger::write('error', 'HTTP error: ' . $e->getMessage() . ' - ' . $uri . $e->getLine() . ' - ' . basename($e->getFile()));
     $c = new ErrorController();
     $c($e);
 } catch (\Throwable $e) {
