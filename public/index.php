@@ -129,6 +129,14 @@ try {
             $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
             $result = $app->useController("TargetController", "getVulnerabilities", [$target_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
+            break;        
+            
+        case '/api/get-test-data':
+            $app->checkApiAuthorization('pentester');
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            $result = $app->useController("DataController", "getTestData", [$data['test_id']]);
+            $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/check-access':
@@ -140,7 +148,7 @@ try {
         case '/create-customer':
             $app->checkApiAuthorization('admin');
             $email = $app->decodeBody();
-            $result = $app->useController("AdminDashboardController", "createNewAccount", [$$email]);
+            $result = $app->useController("AdminDashboardController", "createNewAccount", [$email]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
@@ -153,11 +161,19 @@ try {
            
         case '/create-test':
             $app->checkApiAuthorization('pentester');
-
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
             Logger::write('info', 'Creating test with data: ' . json_encode($data));
             $result = $app->useController("EmployeeDashboardController", "createTest", [$data['customer_id']]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/update-test':
+            $app->checkApiAuthorization('pentester');
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            Logger::write('info', 'Updating test with data: ' . json_encode($data));
+            $result = $app->useController("DataController", "updateTest", [$data['test_id'], $data['test_name'], $data['test_description']]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
@@ -180,7 +196,7 @@ try {
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {
-    Logger::write('error', 'HTTP error: ' . $e->getMessage() . ' - ' . $uri . $e->getLine() . ' - ' . basename($e->getFile()));
+    Logger::write('error', 'HTTP error: ' . $e->getMessage() . ' - ' . $uri . ' - Line: ' . $e->getLine() . ' - File: ' . basename($e->getFile()));
     $c = new ErrorController();
     $c($e);
 } catch (\Throwable $e) {
