@@ -42,7 +42,9 @@ class TargetController
         }
 
         $user_id = (int)$_SESSION['user_id'];
-        $test_id = $test_id ?? null;        // Check if the test is owned by the logged in person
+        $test_id = $test_id ?? null;        
+        
+        // Check if the test is owned by the logged in person
         $stmt = $this->pdo->prepare("SELECT customer_id FROM tests WHERE id = :test_id");
         $stmt->bindParam(':test_id', $test_id, \PDO::PARAM_INT);
         $stmt->execute();

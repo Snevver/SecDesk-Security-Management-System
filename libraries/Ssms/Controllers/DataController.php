@@ -6,11 +6,13 @@ use Ssms\Logger;
 
 class DataController
 {
-    public function __construct(private \PDO $pdo) {
+    public function __construct(private \PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
-    public function getTestData($test_id) {
+    public function getTestData($test_id)
+    {
         try {
 
             Logger::write('info', 'Fetching test data for test ID: ' . $test_id . " of type " . gettype($test_id));
@@ -45,7 +47,8 @@ class DataController
         }
     }
 
-    public function updateTest($test_id, $title, $description) {
+    public function updateTest($test_id, $title, $description)
+    {
         try {
             Logger::write('info', 'Updating test with ID: ' . $test_id);
 
@@ -74,6 +77,32 @@ class DataController
             return [
                 'status' => 500,
                 'data' => ['error' => 'Internal server error']
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Fetch all target data from the database
+    //-----------------------------------------------------
+    public function getTargets($test_id = null)
+    { 
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM targets WHERE test_id = :test_id");
+            $stmt->bindParam(':test_id', $test_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $targets = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+             
+            Logger::write('info', 'Fetched targets for test ID ' . $test_id . ': ' . json_encode($targets));
+
+            return [
+                'status' => 200,
+                'data' => ['targets' => $targets]
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Database error']
             ];
         }
     }

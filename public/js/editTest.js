@@ -1,13 +1,13 @@
 const titleInputElement = document.getElementById("test-title");
 const descriptionInputElement = document.getElementById("test-description");
 
+const urlParams = new URLSearchParams(window.location.search);
+const testId = urlParams.get("test_id");
+
 /**
  * Fill any form elements that already have data
  */
 function populateFormElement() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const testId = urlParams.get("test_id");
-
     fetch(`/api/get-test-data`, {
         method: "POST",
         credentials: "same-origin",
@@ -35,9 +35,6 @@ function populateFormElement() {
  * Update the test with the new data
  */
 function updateTestData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const testId = urlParams.get("test_id");
-
     fetch(`/update-test`, {
         method: "POST",
         credentials: "same-origin",
@@ -64,7 +61,48 @@ function updateTestData() {
         });
 }
 
+function fetchTestTargets() {
+    console.log(`Fetching targets for test ID: ${testId}`);
+    fetch(`/api/targets?test_id=${testId}`)
+        .then((response) => {
+            if (!response.ok) {
+                console.log(response);
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const targetListElement =
+                document.getElementsByClassName("target-list")[0];
+            if (!data || !data.targets || data.targets.length === 0) {
+                targetListElement.innerHTML = "<p>No targets found.</p>";
+                return;
+            }
+            let targetList = "";
+            for (let target of data.targets) {
+                targetList += `
+                    <div id="target-${target.id}">
+                        <h2>
+                            ${target.target_name}
+                        </h2>
+                        <div>
+                            <p>${target.target_description}</p>
+                        </div>
+                    </div>`;
+            }
+
+            targetListElement.innerHTML = targetList;
+        })
+        .catch((error) => {
+            console.error(
+                "There was a problem with the fetch operation:",
+                error
+            );
+        });
+}
+
 populateFormElement();
+fetchTestTargets();
 
 document.getElementById("test-form").addEventListener("submit", (event) => {
     event.preventDefault();
