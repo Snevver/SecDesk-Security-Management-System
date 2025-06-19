@@ -8,10 +8,6 @@
     </head>
     
     <body>
-        <div class="container">
-            <h1>Edit test</h1>
-        </div>
 
-        <script src="/js/logout.js"></script>
     </body>
 </html>

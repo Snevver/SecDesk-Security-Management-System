@@ -106,7 +106,9 @@ class TargetController
                 'status' => 404,
                 'data' => ['error' => 'Target not found']
             ];
-        }        // Check if the test is owned by the logged in person
+        }        
+        
+        // Check if the test is owned by the logged in person
         $stmt = $this->pdo->prepare("SELECT customer_id FROM tests WHERE id = :test_id");
         $stmt->bindParam(':test_id', $target['test_id'], \PDO::PARAM_INT);
         $stmt->execute();

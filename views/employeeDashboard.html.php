@@ -27,13 +27,12 @@
                         </div>
                     </div>
 
-                    <button id="create-report-btn" class="btn btn-primary mb-4">
-                        <i class="bi bi-plus-circle"></i> Create New Report
+                    <button id="create-test-btn" class="btn btn-primary mb-4">
+                        <i class="bi bi-plus-circle"></i> Create New Test
                     </button>
 
                     <select id="customer-select" class="form-select d-none mb-4">
                         <option value="" selected disabled>Select a customer</option>
-                        <!-- Options will be populated by JavaScript -->
                     </select>
 
                     <div class="card mb-4">
@@ -55,8 +54,7 @@
                                     </h5>
                                 </div>
                                 <div class="card-body">
-                                    <div id="reports-in-progress">
-                                        <!-- Content will be loaded by JavaScript -->
+                                    <div id="tests-in-progress">
                                     </div>
                                 </div>
                             </div>
@@ -71,8 +69,7 @@
                                     </h5>
                                 </div>
                                 <div class="card-body">
-                                    <div id="completed-reports">
-                                        <!-- Content will be loaded by JavaScript -->
+                                    <div id="completed-tests">
                                     </div>
                                 </div>
                             </div>

@@ -6,9 +6,9 @@ function getEmployeesTests() {
         .then((data) => {
             console.log(data);
             const completedTestsContainer =
-                document.getElementById("completed-reports");
+                document.getElementById("completed-tests");
             const inProgressTestsContainer = document.getElementById(
-                "reports-in-progress"
+                "tests-in-progress"
             );
 
             // Clear existing content
@@ -74,9 +74,9 @@ function getEmployeesTests() {
         })
         .catch((error) => {
             console.error("Error fetching tests:", error);
-            document.getElementById("completed-reports").innerHTML =
+            document.getElementById("completed-tests").innerHTML =
                 "<p>Error loading tests: " + error.message + "</p>";
-            document.getElementById("reports-in-progress").innerHTML =
+            document.getElementById("tests-in-progress").innerHTML =
                 "<p>Error loading tests: " + error.message + "</p>";
         });
 }
@@ -135,8 +135,8 @@ const selectElement = document.getElementById("customer-select");
 getEmployeesTests();
 populateSelectElement();
 
-// Event listener for the "Create Report" button
-document.getElementById("create-report-btn").addEventListener("click", () => {
+// Event listener for the "Create test" button
+document.getElementById("create-test-btn").addEventListener("click", () => {
     selectElement.classList.remove("d-none");
 });
 
