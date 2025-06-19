@@ -13,15 +13,21 @@
     </head>
     
     <body>
-        <h1>Edit test pagina</h1>        
-        <form id="test-form" class="d-flex flex-column p-2 gap-2 col-lg-3">
-            <label for="test-title">title</label>
-            <input type="text" id="test-title" name="test-title" required>
+        <h1>Edit test pagina</h1>
+        <!-- Form for the test title and description -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <form id="test-form" class="d-flex flex-column p-2 gap-2 col-lg-3">
+                <label for="test-title">title</label>
+                <input type="text" id="test-title" name="test-title" required>
 
-            <label for="test-description">Description</label>
-            <input type="text" id="test-description" name="test-description" required>
+                <label for="test-description">Description</label>
+                <input type="text" id="test-description" name="test-description" required>
 
-            <input type="submit" value="Save" id="test-submit">
-        </form>
+                <input type="submit" value="Save" id="test-submit">
+            </form>
+        </div>
+
+
+        <!-- List of tests targets -->
     </body>
 </html>
