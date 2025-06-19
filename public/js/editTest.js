@@ -62,41 +62,44 @@ function updateTestData() {
 }
 
 function fetchTestTargets() {
-    console.log(`Fetching targets for test ID: ${testId}`);
     fetch(`/api/targets?test_id=${testId}`)
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const targetListElement =
-                document.getElementsByClassName("target-list")[0];
+                document.getElementsByClassName('target-list')[0];
             if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = "<p>No targets found.</p>";
+                targetListElement.innerHTML = '<p>No targets found.</p>';
                 return;
             }
-            let targetList = "";
+            let targetList = '';
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
-                        <h2>
-                            ${target.target_name}
-                        </h2>
-                        <div>
-                            <p>${target.target_description}</p>
-                        </div>
+                        <form>
+                            <label for="target-name-${target.id}">Name</label>
+                            <input type="text" name="target_name" value="${target.target_name}" />
+                            <label for="target-url-${target.id}">Description</label>
+                            <input type="text" name="target_description" value="${target.target_description}" />
+                            <button type="button">Save</button>                        </form>
                     </div>`;
             }
+
+            targetList += `<div id="add-target">
+                <a href="/add-target?test_id=${testId}">Add Target</a>
+            </div>`;
 
             targetListElement.innerHTML = targetList;
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }

@@ -176,8 +176,7 @@ class Application implements LoggerAwareInterface
      * 
      * @param string $viewFile The view file to include if access is granted.
      * @param string|null $neededRole The role required to access the route, or null for no role restriction.
-     */
-    public function handleAuthenticatedRoute($viewFile, $neededRole = null) {
+     */    public function handleAuthenticatedRoute($viewFile, $allowedRoles = null) {
         $result = $this->authenticationController->isLoggedIn();
         
         if ($result['status'] !== 200) {
@@ -189,14 +188,24 @@ class Application implements LoggerAwareInterface
         // Start session to access role information
         if (session_status() === PHP_SESSION_NONE) session_start();
 
-        if ($neededRole !== null && isset($_SESSION['role']) && $_SESSION['role'] !== $neededRole) {
-            $this->logger?->error("Access denied for user with role {$_SESSION['role']} to $viewFile");
-            http_response_code(403);
-            include DIR_VIEWS . 'index.html.php';
-        } else {
-            $this->logger?->info("Redirecting authenticated user to $viewFile");
-            include DIR_VIEWS . $viewFile;
+        if ($allowedRoles !== null) {
+            // Convert single role to array for consistent handling
+            if (is_string($allowedRoles)) {
+                $allowedRoles = [$allowedRoles];
+            }
+            
+            $userRole = $_SESSION['role'] ?? null;
+            
+            if (!in_array($userRole, $allowedRoles)) {
+                $this->logger?->error("Access denied for user with role '{$userRole}' to $viewFile. Required roles: " . implode(', ', $allowedRoles));
+                http_response_code(403);
+                include DIR_VIEWS . 'error.html.php';
+                return;
+            }
         }
+        
+        $this->logger?->info("Redirecting authenticated user to $viewFile");
+        include DIR_VIEWS . $viewFile;
     }
     
     /**
@@ -220,7 +229,7 @@ class Application implements LoggerAwareInterface
         }
     }
     
-    /**
+      /**
      * Checks if the user is authenticated for API access.
      * 
      * This method uses the centralized authentication controller to check login status
@@ -228,17 +237,21 @@ class Application implements LoggerAwareInterface
      * 
      * @throws HTTPException If the user is not authenticated.
      */
-    public function checkApiAuthentication($allowedRoles = []) {
-        // Start session to access role information
+    public function checkApiAuthentication() {
+        // Start session to access authentication information
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        if (in_array($_SESSION['role'], $allowedRoles)) {
-            return true;
-        } else {
-            return false;
+        $result = $this->authenticationController->isLoggedIn();
+        
+        if ($result['status'] !== 200) {
+            $this->logger?->warning("Unauthenticated API access attempt to " . $this->getUri());
+            throw new HTTPException('Authentication required.', 401);
         }
+        
+        $this->logger?->info("User authenticated for API access to " . $this->getUri());
+        return true;
     }
 
     /**
@@ -379,5 +392,96 @@ class Application implements LoggerAwareInterface
         $email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
         
         return $email;
+    }
+
+    /**
+     * Handles an API route with authentication and authorization.
+     * 
+     * This method combines authentication and authorization checks, then executes
+     * the specified controller method and sends the JSON response.
+     * 
+     * @param string|array $allowedRoles A single role or an array of roles that are allowed access.
+     * @param string $controllerName The name of the controller class.
+     * @param string $methodName The name of the method to call on the controller.
+     * @param array $parameters Optional parameters to pass to the controller method.
+     * @throws HTTPException If authentication or authorization fails.
+     */
+    public function handleApiRoute(string|array $allowedRoles, string $controllerName, string $methodName, array $parameters = []) {
+        $this->checkApiAuthorization($allowedRoles);
+        $result = $this->useController($controllerName, $methodName, $parameters);
+        $this->sendJsonResponse($result['data'], $result['status']);
+    }
+    
+    /**
+     * Defines route-specific authorization requirements.
+     * 
+     * @return array An associative array mapping routes to their required roles.
+     */
+    private function getRouteAuthorization(): array {
+        return [
+            '/admin' => ['admin'],
+            '/employee' => ['pentester'],
+            '/targets' => ['pentester', 'customer', 'admin'],
+            '/edit' => ['pentester'],
+            '/api/customers' => ['admin', 'pentester'],
+            '/api/employees' => ['admin', 'pentester'],
+            '/api/admins' => ['admin'],
+            '/api/tests' => ['admin', 'customer'],
+            '/api/employee-tests' => ['pentester'],
+            '/api/update-test-completion' => ['pentester'],
+            '/api/targets' => ['pentester', 'customer'],
+            '/api/vulnerabilities' => ['pentester', 'customer'],
+            '/api/get-test-data' => ['pentester'],
+            '/check-access' => [],
+            '/create-customer' => ['admin'],
+            '/create-account' => ['admin'],
+            '/create-test' => ['pentester'],
+            '/add-target' => ['pentester'],
+            '/update-test' => ['pentester'],
+            '/api/change-password' => [],
+        ];
+    }
+
+    /**
+     * Enhanced authentication middleware that applies both authentication and authorization.
+     */
+    public function applyEnhancedAuthMiddleware() {
+        $uri = $this->getUri();
+        $routeAuth = $this->getRouteAuthorization();
+        
+        // Check if route requires any authentication
+        if (in_array($uri, $this->protectedRoutes) || array_key_exists($uri, $routeAuth)) {
+            $result = $this->authenticationController->isLoggedIn();
+            
+            if ($result['status'] !== 200) {
+                $this->logger?->info("User is not logged in, redirecting to /login");
+                include DIR_VIEWS . 'login.html.php';
+                exit;
+            }
+            
+            // Check role-based authorization if required
+            if (array_key_exists($uri, $routeAuth) && !empty($routeAuth[$uri])) {
+                $this->checkUserRole($routeAuth[$uri]);
+            }
+        }
+    }
+
+    /**
+     * Checks if the current user has one of the required roles.
+     * 
+     * @param array $allowedRoles Array of roles allowed for this route.
+     * @throws HTTPException If the user doesn't have the required role.
+     */
+    private function checkUserRole(array $allowedRoles) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        $userRole = $_SESSION['role'] ?? null;
+        
+        if (!in_array($userRole, $allowedRoles)) {
+            $this->logger?->warning("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
+            throw new HTTPException('Access denied. Insufficient permissions.', 403);
+        }
     }
 }
