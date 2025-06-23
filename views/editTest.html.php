@@ -5,74 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Edit test</title>
         <script src="/js/editTest.js" defer></script>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background: white;
-                color: black;
-            }
-            .header {
-                border: 1px solid black;
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            .content {
-                display: flex;
-                gap: 20px;
-            }
-            .left, .right {
-                flex: 1;
-                border: 1px solid black;
-                padding: 20px;
-            }
-            input, button {
-                margin: 5px 0;
-                padding: 5px;
-                border: 1px solid black;
-                background: white;
-                color: black;
-            }
-            h1, h3 {
-                margin-top: 0;
-            }
-        </style>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     
-    <body>
-        <a href="/">Back to Dashboard</a>
+    <body class="p-3 d-flex gap-3">
+        <div class="w-50">
+            <!-- Title and Description -->
+            <header>
+                <h1>
+                    Editing <span class="fw-bold" id="test-title">Loading title...</span>
+                </h1>
 
-        <div class="header">
-            <h1>Edit Test</h1>
-            <form id="test-form">
-                <div>
-                    <label for="test-title">Title:</label>
-                    <input type="text" id="test-title" name="test-title" value="Loading..." required>
-                </div>
-                <div>
-                    <label for="test-description">Description:</label>
-                    <input type="text" id="test-description" name="test-description" value="Loading..." required>
-                </div>
-                <div>
-                    <button type="submit" id="test-submit">Save Changes</button>
-                </div>
-            </form>
+                <h3 id="test-description">
+                    Loading description...
+                </h3>
+
+                <button class="btn btn-dark" id="edit-test-detail-button">
+                    Edit Test Detail
+                </button>
+            </header>
+
+            <!-- Targets -->
+            <div class="border rounded p-2 mt-3" id="target-container">
+                Loading targets...
+            </div>
         </div>
 
-        <div class="content">
-            <div class="left">
-                <h3>Targets</h3>
-                <div class="target-list">
-                    <!-- Targets will be loaded here -->
-                </div>
-            </div>
-
-            <div class="right">
-                <h3>Vulnerabilities</h3>
-                <div class="vulnerability-content">
-                    <!-- Vulnerability form/content will be loaded here -->
-                </div>
-            </div>
+        <div class="w-50 border rounded p-2" id="form-container">
+            Click an edit button to load a form...
         </div>
     </body>
 </html>

@@ -27,7 +27,7 @@ class Logger extends \Psr\Log\AbstractLogger
         $timestamp = date('Y-m-d H:i:s');
         $formattedMessage = "[$timestamp] [$level] $message" . PHP_EOL;
 
-        if (!is_null($context)) $formattedMessage .= print_r($context, true) . PHP_EOL;
+        if (!is_null($context) && !empty($context)) $formattedMessage .= print_r($context, true) . PHP_EOL;
 
         fwrite($fh, $formattedMessage);
         fclose($fh);
@@ -37,10 +37,9 @@ class Logger extends \Psr\Log\AbstractLogger
     {
         $logger = new self();
         $logger->log($level, $message, $context);
-    }
-
-    public static function __callStatic($name, $arguments)
+    }    public static function __callStatic($name, $arguments)
     {
-        Logger::log($name, ...$arguments);
+        $logger = new self();
+        $logger->log($name, ...$arguments);
     }
 }
