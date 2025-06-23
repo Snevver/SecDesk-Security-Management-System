@@ -82,18 +82,105 @@ function fetchTestTargets() {
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
-                        <h3>${target.target_name}</h3>
-                        <p>${target.target_description}</p>
-                        <a href="/edit-target?target_id=${target.id}">Edit</a>
-                        <a href="/delete-target?target_id=${target.id}">Delete</a><br><br>
+                        <div data-target-id="${target.id}">
+                            <h3>
+                                ${target.target_name}
+                                <span>▼</span>
+                            </h3>
+                            <p>${target.target_description}</p>
+                            <a class="btn btn-dark" href="/edit-target?target_id=${target.id}">Edit Target</a>
+                            <a class="btn btn-danger" href="/delete-target?target_id=${target.id}">Delete</a>
+                        </div>
+                        <div id="vulnerabilities-${target.id}" style="display: none;">
+                            <div>Loading vulnerabilities...</div>
+                        </div>
+                        <br><br>
                     </div>`;
             }
 
             targetList += `<div id="add-target">
-                <br><br><br><a href="/add-target?test_id=${testId}">Add Target</a>
+                <br><br><br><a class="btn btn-success" href="/add-target?test_id=${testId}">Add Target</a>
             </div>`;
-
             targetListElement.innerHTML = targetList;
+
+            // Add event listeners for dropdown functionality
+            const targetHeaders = targetListElement.querySelectorAll(
+                'div[data-target-id]',
+            );
+            targetHeaders.forEach((header) => {
+                header.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.dataset.targetId;
+                    const dropdown = document.getElementById(
+                        `vulnerabilities-${targetId}`,
+                    );
+                    const arrow = this.querySelector('span');
+
+                    console.log(`Clicking on target ${targetId}`);
+
+                    // Toggle dropdown visibility
+                    if (
+                        dropdown.style.display === 'none' ||
+                        dropdown.style.display === ''
+                    ) {
+                        // Show dropdown and fetch vulnerabilities
+                        dropdown.style.display = 'block';
+                        arrow.textContent = '▲';
+                        fetchVulnerabilities(targetId);
+                    } else {
+                        // Hide dropdown
+                        dropdown.style.display = 'none';
+                        arrow.textContent = '▼';
+                    }
+                });
+            });
+        })
+        .catch((error) => {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
+        });
+}
+
+function fetchVulnerabilities(targetId) {
+    fetch(`/api/vulnerabilities?target_id=${targetId}`)
+        .then((response) => {
+            if (!response.ok) {
+                console.log(response);
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const vulnerabilitiesElement = document.getElementById(
+                `vulnerabilities-${targetId}`,
+            );
+            if (
+                !data ||
+                !data.vulnerabilities ||
+                data.vulnerabilities.length === 0
+            ) {
+                vulnerabilitiesElement.innerHTML =
+                    '<p>No vulnerabilities found.</p>';
+                return;
+            }
+            let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
+            for (let vulnerability of data.vulnerabilities) {
+                vulnerabilityList += `
+                    <div>
+                        <h4>${vulnerability.affected_entity}</h4>
+                        <p>${vulnerability.vulnerabilities_description}</p>
+                        <a class="btn btn-dark" href="/edit-vulnerability?vulnerability_id=${vulnerability.id}">Edit Vulnerability</a>
+                        <a class="btn btn-danger" href="/delete-vulnerability?vulnerability_id=${vulnerability.id}">Delete</a>
+                    </div>`;
+            }
+            
+            vulnerabilityList += `<div id="add-target">
+                <br><br><br><a class="btn btn-success" href="/add-target?test_id=${testId}">Add Target</a>
+            </div></div>`;
+
+            vulnerabilitiesElement.innerHTML = vulnerabilityList;
         })
         .catch((error) => {
             console.error(
