@@ -4,7 +4,7 @@ const customerId = urlParams.get('id');
 
 if (!customerId) {
     alert('Customer ID not provided');
-    window.location.href = '/admin';
+    window.location.href = '/';
 }
 
 // Filter state management

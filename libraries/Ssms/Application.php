@@ -22,8 +22,6 @@ class Application implements LoggerAwareInterface
     public function __construct() {
         $this->protectedRoutes = [
             '/',
-            '/employee',
-            '/admin',
             '/targets',
             '/edit',
             '/api/customers',
@@ -176,7 +174,8 @@ class Application implements LoggerAwareInterface
      * 
      * @param string $viewFile The view file to include if access is granted.
      * @param string|null $neededRole The role required to access the route, or null for no role restriction.
-     */    public function handleAuthenticatedRoute($viewFile, $allowedRoles = null) {
+     */    
+    public function handleAuthenticatedRoute($viewFile, $allowedRoles = null) {
         $result = $this->authenticationController->isLoggedIn();
         
         if ($result['status'] !== 200) {
@@ -419,8 +418,6 @@ class Application implements LoggerAwareInterface
      */
     private function getRouteAuthorization(): array {
         return [
-            '/admin' => ['admin'],
-            '/employee' => ['pentester'],
             '/targets' => ['pentester', 'customer', 'admin'],
             '/edit' => ['pentester'],
             '/api/customers' => ['admin', 'pentester'],

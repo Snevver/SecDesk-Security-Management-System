@@ -144,4 +144,40 @@ class TargetController
             ];
         }
     }
+
+    /**
+     * Handle role-based target fetching for API endpoint
+     */
+    public function handleApiTargets($test_id = null)
+    {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        $test_id = $test_id ?? (isset($_GET['test_id']) ? (int)$_GET['test_id'] : null);
+        $userRole = $_SESSION['role'] ?? null;
+        
+        Logger::write('info', 'Fetching targets for user with role: ' . $userRole . ', Test ID: ' . $test_id);
+        
+        try {
+            if ($userRole === 'pentester') {
+                // Use DataController for pentester
+                $dataController = new \Ssms\Controllers\DataController($this->pdo);
+                return $dataController->getTargets($test_id);
+            } elseif ($userRole === 'customer') {
+                // Use TargetController for customer
+                return $this->getTargets($test_id);
+            } else {
+                return [
+                    'status' => 403,
+                    'data' => ['error' => 'Access denied for role: ' . $userRole]
+                ];
+            }
+        } catch (\Exception $e) {
+            Logger::write('error', 'Error in handleApiTargets: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
+            ];
+        }
+    }
 }

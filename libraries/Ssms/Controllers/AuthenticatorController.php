@@ -52,18 +52,8 @@ class AuthenticatorController
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['logged_in'] = true;
                     $_SESSION['role_id'] = (int)$user['role_id'];
-                    $_SESSION['role'] = $role_name;
-
-                    // Determine redirect URL based on role
-                    if ($role_name === 'admin') {
-                        $_SESSION['redirect'] = '/admin';
-                    } else if ($role_name === 'pentester') {
-                        $_SESSION['redirect'] = '/employee';
-                    } else if ($role_name === 'customer') {
-                        $_SESSION['redirect'] = '/';
-                    } else {
-                        throw new HTTPException('Unknown role', 401);
-                    }
+                    $_SESSION['role'] = $role_name;                    // Determine redirect URL based on role - all users go to root which handles role-based routing
+                    $_SESSION['redirect'] = '/';
 
                     Logger::write('info', "Login of " . $_SESSION['email'] . " successful! Redirecting user to " . $_SESSION['redirect']);
                     
@@ -311,6 +301,31 @@ class AuthenticatorController
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'message' => 'System error occurred']
+            ];
+        }
+    }
+
+    /**
+     * Handle edit route authorization and view rendering
+     */
+    public function handleEditRoute()
+    {
+        // Check if test_id is provided for editing existing test
+        if (isset($_GET['test_id'])) {
+            $accessResult = $this->doesUserHaveAccess();
+            if ($accessResult['status'] == 200) {
+                return [
+                    'status' => 200,
+                    'data' => ['view' => 'editTest.html.php', 'role' => 'pentester']
+                ];
+            } else {
+                throw new HTTPException('Access denied', 403);
+            }
+        } else {
+            // No test_id provided, this is for creating a new test
+            return [
+                'status' => 200,
+                'data' => ['view' => 'editTest.html.php', 'role' => 'pentester']
             ];
         }
     }
