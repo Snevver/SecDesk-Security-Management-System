@@ -10,10 +10,10 @@ const testId = urlParams.get("test_id");
  */
 function populateFormElement() {
     fetch(`/api/get-test-data`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             test_id: testId,
@@ -21,15 +21,31 @@ function populateFormElement() {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.debug("Test data received:", data);
+            console.debug('Test data received:', data);
             if (titleInputElement) {
-                titleInputElement.textContent =
-                    data.test_name ?? "Loading title...";
+                if (
+                    titleInputElement.tagName === 'INPUT' ||
+                    titleInputElement.tagName === 'TEXTAREA'
+                ) {
+                    titleInputElement.value =
+                        data.test_name ?? 'Loading title...';
+                } else {
+                    titleInputElement.textContent =
+                        data.test_name ?? 'Loading title...';
+                }
             }
 
             if (descriptionInputElement) {
-                descriptionInputElement.textContent =
-                    data.test_description ?? "Loading description...";
+                if (
+                    descriptionInputElement.tagName === 'INPUT' ||
+                    descriptionInputElement.tagName === 'TEXTAREA'
+                ) {
+                    descriptionInputElement.value =
+                        data.test_description ?? 'Loading description...';
+                } else {
+                    descriptionInputElement.textContent =
+                        data.test_description ?? 'Loading description...';
+                }
             }
         });
 }
@@ -39,28 +55,36 @@ function populateFormElement() {
  */
 function updateTestData() {
     fetch(`/update-test`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             test_id: testId,
-            test_name: titleInputElement.value,
-            test_description: descriptionInputElement.value,
+            test_name:
+                titleInputElement.tagName === 'INPUT' ||
+                titleInputElement.tagName === 'TEXTAREA'
+                    ? titleInputElement.value
+                    : titleInputElement.textContent,
+            test_description:
+                descriptionInputElement.tagName === 'INPUT' ||
+                descriptionInputElement.tagName === 'TEXTAREA'
+                    ? descriptionInputElement.value
+                    : descriptionInputElement.textContent,
         }),
     })
         .then((response) => response.json())
         .then((data) => {
             if (!data.success) {
                 alert(
-                    "Error updating test: " + (data.error || "Unknown error")
+                    'Error updating test: ' + (data.error || 'Unknown error'),
                 );
             }
         })
         .catch((error) => {
-            console.error("Error updating test:", error);
-            alert("Error updating test: " + error.message);
+            console.error('Error updating test:', error);
+            alert('Error updating test: ' + error.message);
         });
 }
 
@@ -69,18 +93,18 @@ function fetchTestTargets() {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const targetListElement =
-                document.getElementById("target-container");
+                document.getElementById('target-container');
             if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = "<p>No targets found.</p>";
+                targetListElement.innerHTML = '<p>No targets found.</p>';
                 return;
             }
-            let targetList = "";
+            let targetList = '';
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
@@ -89,9 +113,7 @@ function fetchTestTargets() {
                                 ${target.target_name}
                                 <span>▼</span>
                             </h3>                            
-                            <p>${
-                                target.target_description
-                            }</p>
+                            <p>${target.target_description}</p>
                             <a class="btn btn-dark" href="/edit-target?target_id=${
                                 target.id
                             }">Edit Target</a>
@@ -105,17 +127,9 @@ function fetchTestTargets() {
                             target.id
                         }" style="display: none;">
                             <div>Loading vulnerabilities...</div>
-                        </div>
+                        </div>                        
                         <br><br>
                     </div>`;
-
-                // Add event listener for the edit button
-                document
-                    .getElementById("edit-target-button-" + target.id)
-                    .addEventListener("click", (event) => {
-                        event.preventDefault();
-                        displayForm("test-detail-form");
-                    });
             }
 
             targetList += `<div id="add-target">
@@ -125,40 +139,40 @@ function fetchTestTargets() {
 
             // Add event listeners for dropdown functionality
             const targetHeaders = targetListElement.querySelectorAll(
-                "div[data-target-id]"
+                'div[data-target-id]',
             );
             targetHeaders.forEach((header) => {
-                header.addEventListener("click", function (e) {
+                header.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.dataset.targetId;
                     const dropdown = document.getElementById(
-                        `vulnerabilities-${targetId}`
+                        `vulnerabilities-${targetId}`,
                     );
-                    const arrow = this.querySelector("span");
+                    const arrow = this.querySelector('span');
 
                     console.log(`Clicking on target ${targetId}`);
 
                     // Toggle dropdown visibility
                     if (
-                        dropdown.style.display === "none" ||
-                        dropdown.style.display === ""
+                        dropdown.style.display === 'none' ||
+                        dropdown.style.display === ''
                     ) {
                         // Show dropdown and fetch vulnerabilities
-                        dropdown.style.display = "block";
-                        arrow.textContent = "▲";
+                        dropdown.style.display = 'block';
+                        arrow.textContent = '▲';
                         fetchVulnerabilities(targetId);
                     } else {
                         // Hide dropdown
-                        dropdown.style.display = "none";
-                        arrow.textContent = "▼";
+                        dropdown.style.display = 'none';
+                        arrow.textContent = '▼';
                     }
                 });
             });
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }
@@ -168,13 +182,13 @@ function fetchVulnerabilities(targetId) {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const vulnerabilitiesElement = document.getElementById(
-                `vulnerabilities-${targetId}`
+                `vulnerabilities-${targetId}`,
             );
             if (
                 !data ||
@@ -182,7 +196,7 @@ function fetchVulnerabilities(targetId) {
                 data.vulnerabilities.length === 0
             ) {
                 vulnerabilitiesElement.innerHTML =
-                    "<p>No vulnerabilities found.</p>";
+                    '<p>No vulnerabilities found.</p>';
                 return;
             }
             let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
@@ -207,8 +221,8 @@ function fetchVulnerabilities(targetId) {
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }
@@ -247,7 +261,8 @@ function deleteEntity(entityType, entityId, elementId = null) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
-        })        .then((data) => {
+        })
+        .then((data) => {
             if (data.success) {
                 // Remove the element from the DOM if elementId is provided
                 if (elementId) {
@@ -261,19 +276,15 @@ function deleteEntity(entityType, entityId, elementId = null) {
                         entityName.charAt(0).toUpperCase() + entityName.slice(1)
                     } deleted successfully!`,
                 );
-                
-                // Optionally reload the page for certain entities
-                if (entityType === 'target') {
-                    window.location.reload();
-                }
-            } else {
-                alert(
-                    `Error deleting ${entityName}: ` +
-                        (data.error || 'Unknown error'),
-                );
-
-                window.location.reload();
             }
+
+            alert(
+                `${
+                    entityName.charAt(0).toUpperCase() + entityName.slice(1)
+                } deleted successfully!`,
+            );
+
+            window.location.reload();
         })
         .catch((error) => {
             console.error(`Error deleting ${entityName}:`, error);
