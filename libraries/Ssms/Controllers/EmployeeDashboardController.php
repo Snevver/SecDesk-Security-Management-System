@@ -177,4 +177,83 @@ class EmployeeDashboardController
                 'data' => ['success' => true, 'new_test_id' => $newTestID]
             ];
     }
+
+    public function deleteVulnerability($vulnerabilityID) {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        // Check if user_id is set in the session
+        if (!isset($_SESSION['user_id'])) {
+            return [
+                'status' => 400,
+                'data' => ['error' => 'User ID is required']
+            ];
+        }
+
+        $user_id = (int)$_SESSION['user_id'];
+
+        try {
+            // Verify that the vulnerability belongs to a target owned by this pentester
+            $stmt = $this->pdo->prepare("SELECT target_id FROM vulnerabilities WHERE id = :vulnerability_id");
+            $stmt->bindParam(':vulnerability_id', $vulnerabilityID, \PDO::PARAM_INT);
+            $stmt->execute();
+            $vulnerability = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$vulnerability) {
+                Logger::write('error', 'Unauthorized vulnerability deletion attempt for vulnerability ID ' . $vulnerabilityID . ' by user ID ' . $user_id);
+                return [
+                    'status' => 404,
+                    'data' => ['error' => 'Vulnerability not found']
+                ];
+            }
+
+            // Check if the target belongs to a test owned by this pentester
+            $stmt = $this->pdo->prepare("SELECT test_id FROM targets WHERE id = :target_id");
+            $stmt->bindParam(':target_id', $vulnerability['target_id'], \PDO::PARAM_INT);
+            $stmt->execute();
+            $target = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$target) {
+                Logger::write('error', 'Unauthorized target deletion attempt for target ID ' . $vulnerability['target_id'] . ' by user ID ' . $user_id);
+                return [
+                    'status' => 404,
+                    'data' => ['error' => 'Target not found']
+                ];
+            }
+
+            // Check if the test belongs to this pentester
+            $stmt = $this->pdo->prepare("SELECT pentester_id FROM tests WHERE id = :test_id");
+            $stmt->bindParam(':test_id', $target['test_id'], \PDO::PARAM_INT);
+            $stmt->execute();
+            $test = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$test || $test['pentester_id'] !== $user_id) {
+                Logger::write('error', 'Unauthorized test deletion attempt for test ID ' . $target['test_id'] . ' by user ID ' . $user_id);
+                return [
+                    'status' => 403,
+                    'data' => ['error' => 'Forbidden: You do not have access to this test']
+                ];
+            }
+            
+            // Delete the vulnerability
+            $stmt = $this->pdo->prepare("DELETE FROM vulnerabilities WHERE id = :vulnerability_id");
+            $stmt->bindParam(':vulnerability_id', $vulnerabilityID, \PDO::PARAM_INT);
+            $stmt->execute();
+            Logger::write('info', 'Vulnerability ID ' . $vulnerabilityID . ' deleted successfully by user ID ' . $user_id);
+
+            // Send back to the edit page
+            header('Location: /edit?test_id=' . $target['test_id']);
+            
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'message' => 'Vulnerability deleted successfully']
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        }
+    }
 }

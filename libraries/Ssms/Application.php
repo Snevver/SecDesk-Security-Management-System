@@ -19,22 +19,27 @@ class Application implements LoggerAwareInterface
     private AuthenticatorController $authenticationController;
     private array $protectedRoutes;    
     
-    public function __construct() {
+    public function __construct() {        
         $this->protectedRoutes = [
             '/',
             '/targets',
             '/edit',
             '/api/customers',
             '/api/employees',
+            '/api/admins',
             '/api/tests', 
             '/api/employee-tests',
             '/api/update-test-completion',
             '/api/targets',
             '/api/vulnerabilities',
+            '/api/get-test-data',
             '/check-access',
+            '/create-account',
             '/create-test',
-            '/create-customer',
-            '/create-employee',
+            '/add-target',
+            '/update-test',
+            '/api/change-password',
+            '/api/delete',
         ];
 
         $this->authenticationController = new AuthenticatorController(Db::getInstance());

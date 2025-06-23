@@ -86,12 +86,22 @@ function fetchTestTargets() {
                             <h3>
                                 ${target.target_name}
                                 <span>▼</span>
-                            </h3>
-                            <p>${target.target_description}</p>
-                            <a class="btn btn-dark" href="/edit-target?target_id=${target.id}">Edit Target</a>
-                            <a class="btn btn-danger" href="/delete-target?target_id=${target.id}">Delete</a>
+                            </h3>                            
+                            <p>${
+                                target.target_description
+                            }</p>
+                            <a class="btn btn-dark" href="/edit-target?target_id=${
+                                target.id
+                            }">Edit Target</a>
+                            ${createDeleteButton(
+                                'target',
+                                target.id,
+                                `target-${target.id}`,
+                            )}
                         </div>
-                        <div id="vulnerabilities-${target.id}" style="display: none;">
+                        <div id="vulnerabilities-${
+                            target.id
+                        }" style="display: none;">
                             <div>Loading vulnerabilities...</div>
                         </div>
                         <br><br>
@@ -168,16 +178,19 @@ function fetchVulnerabilities(targetId) {
             let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
             for (let vulnerability of data.vulnerabilities) {
                 vulnerabilityList += `
-                    <div>
+                    <div id="vuln-${vulnerability.id}">
                         <h4>${vulnerability.affected_entity}</h4>
                         <p>${vulnerability.vulnerabilities_description}</p>
-                        <a class="btn btn-dark" href="/edit-vulnerability?vulnerability_id=${vulnerability.id}">Edit Vulnerability</a>
-                        <a class="btn btn-danger" href="/delete-vulnerability?vulnerability_id=${vulnerability.id}">Delete</a>
+                        ${createActionButtons(
+                            'vulnerability',
+                            vulnerability.id,
+                            `vuln-${vulnerability.id}`,
+                        )}
                     </div>`;
             }
-            
-            vulnerabilityList += `<div id="add-target">
-                <br><br><br><a class="btn btn-success" href="/add-target?test_id=${testId}">Add Target</a>
+
+            vulnerabilityList += `<div id="add-vuln-${targetId}">
+                <br><br><br><a class="btn btn-success" href="/add-vulnerability?target_id=${targetId}">Add Vulnerability</a>
             </div></div>`;
 
             vulnerabilitiesElement.innerHTML = vulnerabilityList;
@@ -190,10 +203,100 @@ function fetchVulnerabilities(targetId) {
         });
 }
 
+function deleteVulnerability(vulnerabilityId) {
+    deleteEntity('vulnerability', vulnerabilityId, `vuln-${vulnerabilityId}`);
+}
+
+function deleteEntity(entityType, entityId, elementId = null) {
+    const entityNames = {
+        vulnerability: 'vulnerability',
+        target: 'target',
+        test: 'test',
+        customer: 'customer',
+        employee: 'employee',
+    };
+
+    const entityName = entityNames[entityType] || entityType;
+
+    if (!confirm(`Are you sure you want to delete this ${entityName}?`)) {
+        return;
+    }
+
+    // Construct the API endpoint dynamically
+    const endpoint = `/api/delete?${entityType}_id=${entityId}`;
+
+    fetch(endpoint, {
+        method: 'DELETE',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+                // Remove the element from the DOM if elementId is provided
+                if (elementId) {
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        element.remove();
+                    }
+                }
+                alert(
+                    `${
+                        entityName.charAt(0).toUpperCase() + entityName.slice(1)
+                    } deleted successfully!`,
+                );
+            }
+
+            alert(
+                    `${
+                        entityName.charAt(0).toUpperCase() + entityName.slice(1)
+                    } deleted successfully!`,
+                );
+
+                window.location.reload();
+        })
+        .catch((error) => {
+            console.error(`Error deleting ${entityName}:`, error);
+            alert(`Error deleting ${entityName}: ` + error.message);
+        });
+}
+
+// Helper function to create delete buttons dynamically
+function createDeleteButton(
+    entityType,
+    entityId,
+    elementId = null,
+    buttonClass = 'btn btn-danger',
+) {
+    return `<button class="${buttonClass}" onclick="deleteEntity('${entityType}', ${entityId}, '${
+        elementId || ''
+    }')">Delete</button>`;
+}
+
+// Helper function to create action buttons (edit + delete)
+function createActionButtons(entityType, entityId, elementId = null) {
+    const editEndpoint = `/edit-${entityType}?${entityType}_id=${entityId}`;
+    return `
+        <a class="btn btn-dark" href="${editEndpoint}">Edit ${
+        entityType.charAt(0).toUpperCase() + entityType.slice(1)
+    }</a>
+        ${createDeleteButton(entityType, entityId, elementId)}
+    `;
+}
+
 populateFormElement();
 fetchTestTargets();
 
-document.getElementById("test-form").addEventListener("submit", (event) => {
+document.getElementById('test-form').addEventListener('submit', (event) => {
     event.preventDefault();
     updateTestData();
 });
+
+

@@ -95,7 +95,7 @@ try {
         case '/api/vulnerabilities':
             $app->checkApiAuthorization(['pentester', 'customer']);
             $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
-            $result = $app->useController("TargetController", "getVulnerabilities", [$target_id]);
+            $result = $app->useController("VulnerabilityController", "getVulnerabilities", [$target_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
@@ -139,6 +139,22 @@ try {
             $app->checkApiAuthentication();
             $result = $app->useController("AuthenticatorController", "changePassword");
             $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+        
+        case '/api/delete':
+            $app->checkApiAuthentication();
+            if (isset($_GET['test_id'])) {
+                $test_id = (int)$_GET['test_id'];
+                $app->handleApiRoute('pentester', "EmployeeDashboardController", "deleteTest", [$test_id]);
+            } else if (isset($_GET['target_id'])) {
+                $target_id = (int)$_GET['target_id'];
+                $app->handleApiRoute('pentester', "TargetController", "deleteTarget", [$target_id]);
+            } else if (isset($_GET['vulnerability_id'])) {
+                $vulnerability_id = (int)$_GET['vulnerability_id'];
+                $app->handleApiRoute('pentester', "VulnerabilityController", "deleteVulnerability", [$vulnerability_id]);
+            } else {
+                throw new HTTPException('Invalid request: test_id, target_id or vulnerability_id is required', 400);
+            }
             break;
         
         // Routes for styling and scripts
