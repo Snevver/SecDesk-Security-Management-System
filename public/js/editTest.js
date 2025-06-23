@@ -1,5 +1,6 @@
 const titleInputElement = document.getElementById("test-title");
 const descriptionInputElement = document.getElementById("test-description");
+// const targetContainerElement = document.getElementById("target-container");
 
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get("test_id");
@@ -18,15 +19,15 @@ function populateFormElement() {
             test_id: testId,
         }),
     })
-        .then((response) => response.json())
+        .then((response) => response.json())        
         .then((data) => {
             console.debug("Test data received:", data);
             if (titleInputElement) {
-                titleInputElement.value = data.test_name ?? null;
+                titleInputElement.textContent = data.test_name ?? "Loading title...";
             }
 
             if (descriptionInputElement) {
-                descriptionInputElement.value = data.test_description ?? null;
+                descriptionInputElement.textContent = data.test_description ?? "Loading description...";
             }
         });
 }
@@ -72,7 +73,7 @@ function fetchTestTargets() {
         })
         .then((data) => {
             const targetListElement =
-                document.getElementsByClassName('target-list')[0];
+                document.getElementById('target-container');
             if (!data || !data.targets || data.targets.length === 0) {
                 targetListElement.innerHTML = '<p>No targets found.</p>';
                 return;
@@ -81,17 +82,15 @@ function fetchTestTargets() {
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
-                        <form>
-                            <label for="target-name-${target.id}">Name</label>
-                            <input type="text" name="target_name" value="${target.target_name}" />
-                            <label for="target-url-${target.id}">Description</label>
-                            <input type="text" name="target_description" value="${target.target_description}" />
-                            <button type="button">Save</button>                        </form>
+                        <h3>${target.target_name}</h3>
+                        <p>${target.target_description}</p>
+                        <a href="/edit-target?target_id=${target.id}">Edit</a>
+                        <a href="/delete-target?target_id=${target.id}">Delete</a><br><br>
                     </div>`;
             }
 
             targetList += `<div id="add-target">
-                <a href="/add-target?test_id=${testId}">Add Target</a>
+                <br><br><br><a href="/add-target?test_id=${testId}">Add Target</a>
             </div>`;
 
             targetListElement.innerHTML = targetList;

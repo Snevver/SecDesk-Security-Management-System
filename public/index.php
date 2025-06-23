@@ -111,11 +111,6 @@ try {
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
-        case '/create-customer':
-            $email = $app->decodeBody();
-            $app->handleApiRoute('admin', "AdminDashboardController", "createNewAccount", [$email]);
-            break;
-
         case '/create-account':
             $data = $app->decodeBody();
             $app->handleApiRoute('admin', "AdminDashboardController", "createNewAccount", [$data]);

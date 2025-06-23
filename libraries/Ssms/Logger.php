@@ -18,7 +18,6 @@ class Logger extends \Psr\Log\AbstractLogger
         $logFile = match (strtolower($level)) {
             'error' => APP_ROOT . 'logs/error.log',
             'info' => APP_ROOT . 'logs/info.log',
-            default => APP_ROOT . 'logs/log.log',
         };
 
         // Open the appropriate log file

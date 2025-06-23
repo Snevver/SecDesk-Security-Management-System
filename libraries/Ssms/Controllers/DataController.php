@@ -32,7 +32,7 @@ class DataController
                     'data' => $testData
                 ];
             } else {
-                Logger::write('warning', 'No test found for test ID ' . $test_id);
+                Logger::write('error', 'No test found for test ID ' . $test_id);
                 return [
                     'status' => 404,
                     'data' => ['error' => 'Test not found']
@@ -66,7 +66,7 @@ class DataController
                     'data' => ['success' => true]
                 ];
             } else {
-                Logger::write('warning', 'No changes made for test ID ' . $test_id);
+                Logger::write('error', 'No changes made for test ID ' . $test_id);
                 return [
                     'status' => 304,
                     'data' => ['success' => false, 'message' => 'No changes made']

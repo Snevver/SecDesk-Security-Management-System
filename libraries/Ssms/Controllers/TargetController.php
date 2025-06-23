@@ -51,7 +51,7 @@ class TargetController
         $test = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!$test || $test['customer_id'] !== $user_id) {
-            Logger::write('warning', 'Unauthorized access attempt to test ID ' . $test_id . ' by user ID ' . $user_id);
+            Logger::write('error', 'Unauthorized access attempt to test ID ' . $test_id . ' by user ID ' . $user_id);
             return [
                 'status' => 403,
                 'data' => ['error' => 'Forbidden: You do not have access to this test']
@@ -103,7 +103,7 @@ class TargetController
         $target = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!$target) {
-            Logger::write('warning', 'Unauthorized access attempt to target ID ' . $target_id . ' by user ID ' . $user_id);
+            Logger::write('error', 'Unauthorized access attempt to target ID ' . $target_id . ' by user ID ' . $user_id);
             return [
                 'status' => 404,
                 'data' => ['error' => 'Target not found']
@@ -117,7 +117,7 @@ class TargetController
         $test = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!$test || $test['customer_id'] !== $user_id) {
-            Logger::write('warning', 'Unauthorized access attempt to test ID ' . $target['test_id'] . ' by user ID ' . $user_id);
+            Logger::write('error', 'Unauthorized access attempt to test ID ' . $target['test_id'] . ' by user ID ' . $user_id);
             return [
                 'status' => 403,
                 'data' => ['error' => 'Forbidden: You do not have access to this test']

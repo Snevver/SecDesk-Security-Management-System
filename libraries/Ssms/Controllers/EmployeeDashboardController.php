@@ -128,7 +128,7 @@ class EmployeeDashboardController
             $test = $stmt->fetch(\PDO::FETCH_ASSOC);
 
             if (!$test || $test['pentester_id'] !== $user_id) {
-                Logger::write('warning', 'Unauthorized test completion update attempt for test ID ' . $test_id . ' by user ID ' . $user_id);
+                Logger::write('error', 'Unauthorized test completion update attempt for test ID ' . $test_id . ' by user ID ' . $user_id);
                 return [
                     'status' => 403,
                     'data' => ['error' => 'Forbidden: You do not have access to this test']

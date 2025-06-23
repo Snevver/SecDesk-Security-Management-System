@@ -262,7 +262,7 @@ class AuthenticatorController
 
             // Verify current password
             if ($currentPassword !== $user['password']) {
-                Logger::write('warning', 'Failed password change attempt for user ID ' . $userId . ': Invalid current password');
+                Logger::write('error', 'Failed password change attempt for user ID ' . $userId . ': Invalid current password');
                 return [
                     'status' => 400,
                     'data' => ['success' => false, 'message' => 'Current password is incorrect']
