@@ -19,15 +19,17 @@ function populateFormElement() {
             test_id: testId,
         }),
     })
-        .then((response) => response.json())        
+        .then((response) => response.json())
         .then((data) => {
             console.debug("Test data received:", data);
             if (titleInputElement) {
-                titleInputElement.textContent = data.test_name ?? "Loading title...";
+                titleInputElement.textContent =
+                    data.test_name ?? "Loading title...";
             }
 
             if (descriptionInputElement) {
-                descriptionInputElement.textContent = data.test_description ?? "Loading description...";
+                descriptionInputElement.textContent =
+                    data.test_description ?? "Loading description...";
             }
         });
 }
@@ -67,18 +69,18 @@ function fetchTestTargets() {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error('Network response was not ok');
+                throw new Error("Network response was not ok");
             }
             return response.json();
         })
         .then((data) => {
             const targetListElement =
-                document.getElementById('target-container');
+                document.getElementById("target-container");
             if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = '<p>No targets found.</p>';
+                targetListElement.innerHTML = "<p>No targets found.</p>";
                 return;
             }
-            let targetList = '';
+            let targetList = "";
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
@@ -106,6 +108,14 @@ function fetchTestTargets() {
                         </div>
                         <br><br>
                     </div>`;
+
+                // Add event listener for the edit button
+                document
+                    .getElementById("edit-target-button-" + target.id)
+                    .addEventListener("click", (event) => {
+                        event.preventDefault();
+                        displayForm("test-detail-form");
+                    });
             }
 
             targetList += `<div id="add-target">
@@ -115,40 +125,40 @@ function fetchTestTargets() {
 
             // Add event listeners for dropdown functionality
             const targetHeaders = targetListElement.querySelectorAll(
-                'div[data-target-id]',
+                "div[data-target-id]"
             );
             targetHeaders.forEach((header) => {
-                header.addEventListener('click', function (e) {
+                header.addEventListener("click", function (e) {
                     e.preventDefault();
                     const targetId = this.dataset.targetId;
                     const dropdown = document.getElementById(
-                        `vulnerabilities-${targetId}`,
+                        `vulnerabilities-${targetId}`
                     );
-                    const arrow = this.querySelector('span');
+                    const arrow = this.querySelector("span");
 
                     console.log(`Clicking on target ${targetId}`);
 
                     // Toggle dropdown visibility
                     if (
-                        dropdown.style.display === 'none' ||
-                        dropdown.style.display === ''
+                        dropdown.style.display === "none" ||
+                        dropdown.style.display === ""
                     ) {
                         // Show dropdown and fetch vulnerabilities
-                        dropdown.style.display = 'block';
-                        arrow.textContent = '▲';
+                        dropdown.style.display = "block";
+                        arrow.textContent = "▲";
                         fetchVulnerabilities(targetId);
                     } else {
                         // Hide dropdown
-                        dropdown.style.display = 'none';
-                        arrow.textContent = '▼';
+                        dropdown.style.display = "none";
+                        arrow.textContent = "▼";
                     }
                 });
             });
         })
         .catch((error) => {
             console.error(
-                'There was a problem with the fetch operation:',
-                error,
+                "There was a problem with the fetch operation:",
+                error
             );
         });
 }
@@ -158,13 +168,13 @@ function fetchVulnerabilities(targetId) {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error('Network response was not ok');
+                throw new Error("Network response was not ok");
             }
             return response.json();
         })
         .then((data) => {
             const vulnerabilitiesElement = document.getElementById(
-                `vulnerabilities-${targetId}`,
+                `vulnerabilities-${targetId}`
             );
             if (
                 !data ||
@@ -172,7 +182,7 @@ function fetchVulnerabilities(targetId) {
                 data.vulnerabilities.length === 0
             ) {
                 vulnerabilitiesElement.innerHTML =
-                    '<p>No vulnerabilities found.</p>';
+                    "<p>No vulnerabilities found.</p>";
                 return;
             }
             let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
@@ -197,8 +207,8 @@ function fetchVulnerabilities(targetId) {
         })
         .catch((error) => {
             console.error(
-                'There was a problem with the fetch operation:',
-                error,
+                "There was a problem with the fetch operation:",
+                error
             );
         });
 }
@@ -237,8 +247,7 @@ function deleteEntity(entityType, entityId, elementId = null) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
-        })
-        .then((data) => {
+        })        .then((data) => {
             if (data.success) {
                 // Remove the element from the DOM if elementId is provided
                 if (elementId) {
@@ -252,15 +261,19 @@ function deleteEntity(entityType, entityId, elementId = null) {
                         entityName.charAt(0).toUpperCase() + entityName.slice(1)
                     } deleted successfully!`,
                 );
-            }
-
-            alert(
-                    `${
-                        entityName.charAt(0).toUpperCase() + entityName.slice(1)
-                    } deleted successfully!`,
+                
+                // Optionally reload the page for certain entities
+                if (entityType === 'target') {
+                    window.location.reload();
+                }
+            } else {
+                alert(
+                    `Error deleting ${entityName}: ` +
+                        (data.error || 'Unknown error'),
                 );
 
                 window.location.reload();
+            }
         })
         .catch((error) => {
             console.error(`Error deleting ${entityName}:`, error);
@@ -291,6 +304,18 @@ function createActionButtons(entityType, entityId, elementId = null) {
     `;
 }
 
+function displayForm(formId) {
+    const formElement = document.getElementById(formId);
+
+    document.querySelectorAll("form").forEach((form) => {
+        form.classList.remove("d-flex");
+        form.classList.add("d-none");
+    });
+
+    formElement.classList.remove("d-none");
+    formElement.classList.add("d-flex");
+}
+
 populateFormElement();
 fetchTestTargets();
 
@@ -300,3 +325,16 @@ document.getElementById('test-form').addEventListener('submit', (event) => {
 });
 
 
+document
+    .getElementById("test-detail-form")
+    .addEventListener("submit", (event) => {
+        event.preventDefault();
+        updateTestData();
+    });
+
+document
+    .getElementById("edit-test-detail-button")
+    .addEventListener("click", (event) => {
+        event.preventDefault();
+        displayForm("test-detail-form");
+    });
