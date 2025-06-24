@@ -292,12 +292,6 @@ function createVulnerabilityCard(vuln) {
                         </div>
                     </div>
                 </div>
-                
-                <div class="vuln-actions">
-                    <button class="btn btn-sm btn-outline-primary me-2 text-white" onclick="editVulnerability(${vuln.id})">
-                        <i class="bi bi-pencil"></i> Edit
-                    </button>
-                </div>
             </div>
         </div>
     `;
@@ -420,18 +414,6 @@ function getSeverityClass(cvssScore) {
     return 'low';
 }
 
-// Action functions
-function editTest(testId) {
-    window.location.href = `/edit?test_id=${testId}`;
-}
-
-function editTarget(targetId) {
-    alert('Dit moet op de een of andere manier verwijzen naar de target edit pagina');
-}
-
-function editVulnerability(vulnId) {
-    alert('En dit moet op de een of andere manier verwijzen naar de vulnerability edit pagina');
-}
 function deleteUser(userId) {
     if (confirm('Are you sure you want to delete this pentester?')) {
         fetch(`/api/delete?user_id=${userId}`, {
