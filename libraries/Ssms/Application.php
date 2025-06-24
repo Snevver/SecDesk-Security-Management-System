@@ -30,7 +30,6 @@ class Application implements LoggerAwareInterface
             '/api/get-all-employees',
             '/api/get-all-admins',
             '/api/get-all-customer-tests', 
-            '/api/get-all-customer-tests',
             '/api/update-test-completion',
             '/api/get-all-targets',
             '/api/get-all-vulnerabilities',
@@ -252,7 +251,7 @@ class Application implements LoggerAwareInterface
         $result = $this->authenticationController->isLoggedIn();
         
         if ($result['status'] !== 200) {
-            $this->logger?->warning("Unauthenticated API access attempt to " . $this->getUri());
+            $this->logger?->error("Unauthenticated API access attempt to " . $this->getUri());
             throw new HTTPException('Authentication required.', 401);
         }
         
@@ -279,7 +278,7 @@ class Application implements LoggerAwareInterface
         $userRole = $_SESSION['role'] ?? null;
         
         if (!in_array($userRole, $allowedRoles)) {
-            $this->logger?->warning("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
+            $this->logger?->error("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
             throw new HTTPException('Access denied. Insufficient permissions.', 403);
         }
         
@@ -430,8 +429,8 @@ class Application implements LoggerAwareInterface
             '/api/get-all-customers' => ['admin', 'pentester'],
             '/api/get-all-employees' => ['admin', 'pentester'],
             '/api/get-all-admins' => ['admin'],
-            '/api/get-all-customer-tests' => ['admin', 'customer'],
-            '/api/get-all-customer-tests' => ['pentester'],
+            '/api/get-all-customer-tests' => ['admin', 'customer', 'pentester'],
+            '/api/get-all-employee-tests' => ['pentester'],
             '/api/update-test-completion' => ['pentester'],
             '/api/get-all-targets' => ['pentester', 'customer'],
             '/api/get-all-vulnerabilities' => ['pentester', 'customer'],
@@ -485,7 +484,7 @@ class Application implements LoggerAwareInterface
         $userRole = $_SESSION['role'] ?? null;
         
         if (!in_array($userRole, $allowedRoles)) {
-            $this->logger?->warning("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
+            $this->logger?->error("Access denied for user with role '{$userRole}' to " . $this->getUri() . ". Required roles: " . implode(', ', $allowedRoles));
             throw new HTTPException('Access denied. Insufficient permissions.', 403);
         }
     }

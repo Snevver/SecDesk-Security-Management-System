@@ -150,6 +150,40 @@ class DataController
         }
     }
 
+    public function updateTarget($target_id, $title, $description)
+    {
+        try {
+            Logger::write('info', 'Updating target with ID: ' . $target_id);
+
+            // Prepare and execute the SQL statement to update the target
+            $stmt = $this->pdo->prepare("UPDATE targets SET target_name = :title, target_description = :description WHERE id = :target_id");
+            $stmt->bindParam(':target_id', $target_id, \PDO::PARAM_INT);
+            $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
+            $stmt->bindParam(':description', $description, \PDO::PARAM_STR);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                Logger::write('info', 'Target updated successfully for target ID ' . $target_id);
+                return [
+                    'status' => 200,
+                    'data' => ['success' => true]
+                ];
+            } else {
+                Logger::write('error', 'No changes made for target ID ' . $target_id);
+                return [
+                    'status' => 304,
+                    'data' => ['success' => false, 'message' => 'No changes made']
+                ];
+            }
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
+            ];
+        }
+    }
+
     //-----------------------------------------------------
     // Fetch all target data from the database
     //-----------------------------------------------------
@@ -172,6 +206,41 @@ class DataController
             return [
                 'status' => 500,
                 'data' => ['error' => 'Database error']
+            ];
+        }
+    }
+
+    public function getCustomerEmail($customer_id)
+    {
+        try {
+            Logger::write('info', 'Fetching customer email for customer ID: ' . $customer_id);
+
+            // Prepare and execute the SQL statement to fetch customer email
+            $stmt = $this->pdo->prepare("SELECT email FROM users WHERE id = :customer_id");
+            $stmt->bindParam(':customer_id', $customer_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            // Fetch the customer email
+            $customerEmail = $stmt->fetchColumn();
+            
+            if ($customerEmail) {
+                Logger::write('info', 'Fetched customer email for customer ID ' . $customer_id . ': ' . $customerEmail);
+                return [
+                    'status' => 200,
+                    'data' => ['email' => $customerEmail]
+                ];
+            } else {
+                Logger::write('error', 'No customer found for customer ID ' . $customer_id);
+                return [
+                    'status' => 404,
+                    'data' => ['error' => 'Customer not found']
+                ];
+            }
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
             ];
         }
     }

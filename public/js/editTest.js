@@ -1,10 +1,164 @@
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get("test_id");
 
+// Get DOM elements
+const titleInputElement = document.getElementById("test-title-input");
+const descriptionInputElement = document.getElementById("test-description-input");
+
 /**
- * Fill any form elements that already have data
+ * Dynamic function to edit any entity (test, target, or vulnerability)
+ * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
+ * @param {number} entityId - The ID of the entity to edit
+ */
+function editEntity(entityType, entityId) {
+    console.debug(`Editing ${entityType} with ID: ${entityId}`);
+    
+    // Store the current editing entity information for save operations
+    window.currentEditingEntityType = entityType;
+    window.currentEditingEntityId = entityId;
+    if (entityType === 'target') {
+        window.currentEditingTargetId = entityId;
+    }
+    
+    const apiEndpoints = {
+        test: '/api/get-test',
+        target: '/api/get-target',
+        vulnerability: '/api/get-vulnerability'
+    };
+    
+    const idFields = {
+        test: 'test_id',
+        target: 'target_id',
+        vulnerability: 'vulnerability_id'
+    };
+    
+    const endpoint = apiEndpoints[entityType];
+    const idField = idFields[entityType];
+    
+    if (!endpoint || !idField) {
+        console.error(`Invalid entity type: ${entityType}`);
+        return;
+    }
+    
+    fetch(endpoint, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            [idField]: entityId,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })        
+        .then((data) => {
+            console.debug(`${entityType} data received:`, data);
+            
+            // Show the appropriate form with correct ID mapping
+            const formIds = {
+                test: 'test-detail-form',
+                target: 'target-form',
+                vulnerability: 'vulnerability-form'
+            };
+            
+            const formId = formIds[entityType];
+            if (formId) {
+                displayForm(formId);
+                
+                // Populate form fields based on entity type
+                populateEntityForm(entityType, data);
+            } else {
+                console.warn(`No form ID mapping found for entity type: ${entityType}`);
+                alert(`Form not available for ${entityType} editing`);
+            }
+        })        
+        .catch((error) => {
+            console.error(`Error fetching ${entityType}:`, error);
+            alert(`Error loading ${entityType}: ` + error.message);
+        });
+}
+
+/**
+ * Populate form fields with entity data
+ * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability') 
+ * @param {object} data - The entity data received from the API
+ */
+function populateEntityForm(entityType, data) {    
+    console.debug(`Populating ${entityType} form with data:`, data);
+    const fieldMappings = {
+        test: {
+            name: { 
+                element: 'test-title-input', 
+                dataField: 'test_name' 
+            },
+
+            description: { 
+                element: 'test-description-input', 
+                dataField: 'test_description' 
+            }
+        },
+
+        target: {
+            name: { 
+                element: 'target-title-input', 
+                dataField: 'target_name' 
+            },
+
+            description: { 
+                element: 'target-description-input', 
+                dataField: 'target_description' 
+            }
+        },
+
+        vulnerability: {
+            name: { 
+                element: 'vulnerability-title', 
+                dataField: 'affected_entity' 
+            },
+
+            description: { 
+                element: 'vulnerability-description', 
+                dataField: 'vulnerabilities_description' 
+            }
+        }
+    };
+    
+    const mapping = fieldMappings[entityType];
+    if (!mapping) {
+        console.error(`No field mapping found for entity type: ${entityType}`);
+        return;
+    }
+    
+    // Populate each field
+    Object.keys(mapping).forEach(fieldType => {
+        const config = mapping[fieldType];
+        const element = document.getElementById(config.element);
+        const value = data[config.dataField];
+        
+        if (element && value !== undefined) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.value = value;
+            } else {
+                element.textContent = value;
+            }
+        }
+    });
+}
+
+/**
+ * Fill form elements that already have data (for initial test loading)
  */
 function populateFormElement() {
+    if (!testId) {
+        console.warn('No test ID found in URL parameters');
+        return;
+    }
+    
     fetch(`/api/get-test`, {
         method: 'POST',
         credentials: 'same-origin',
@@ -15,33 +169,36 @@ function populateFormElement() {
             test_id: testId,
         }),
     })
-        .then((response) => response.json())
-        .then((data) => {
-            console.debug('Test data received:', data);
-            if (titleInputElement) {
-                if (
-                    titleInputElement.tagName === 'INPUT' ||
-                    titleInputElement.tagName === 'TEXTAREA'
-                ) {
-                    titleInputElement.value =
-                        data.test_name ?? 'Loading title...';
-                } else {
-                    titleInputElement.textContent =
-                        data.test_name ?? 'Loading title...';
-                }
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-
+            return response.json();
+        })        .then((data) => {
+            
+            // Update the display title and description
+            const displayTitle = document.getElementById('test-title');
+            const displayDescription = document.getElementById('test-description');
+            
+            if (displayTitle && data.test_name) {
+                displayTitle.textContent = data.test_name;
+            }
+            
+            if (displayDescription && data.test_description) {
+                displayDescription.textContent = data.test_description;
+            }
+            
+            // Use the same population logic as editEntity for form inputs
+            populateEntityForm('test', data);
+        })
+        .catch((error) => {
+            console.error('Error fetching initial test data:', error);
+            // Set fallback values
+            if (titleInputElement) {
+                titleInputElement.value = 'Error loading title';
+            }
             if (descriptionInputElement) {
-                if (
-                    descriptionInputElement.tagName === 'INPUT' ||
-                    descriptionInputElement.tagName === 'TEXTAREA'
-                ) {
-                    descriptionInputElement.value =
-                        data.test_description ?? 'Loading description...';
-                } else {
-                    descriptionInputElement.textContent =
-                        data.test_description ?? 'Loading description...';
-                }
+                descriptionInputElement.value = 'Error loading description';
             }
         });
 }
@@ -55,11 +212,11 @@ function updateTestData() {
         credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
-        },
+        },        
         body: JSON.stringify({
             test_id: testId,
-            test_name: document.getElementById("test-title").value,
-            test_description: document.getElementById("test-description").value,
+            test_name: document.getElementById("test-title-input").value,
+            test_description: document.getElementById("test-description-input").value,
         }),
     })
         .then((response) => response.json())
@@ -69,12 +226,66 @@ function updateTestData() {
                     "Error updating test: " + (data.error || "Unknown error")
                 );
             } else {
-                alert("Test updated successfully!");
+                window.location.reload();
             }
+
         })
         .catch((error) => {
             console.error("Error updating test:", error);
             alert("Error updating test: " + error.message);
+        });
+}
+
+/**
+ * Update the target with the new data
+ */
+function updateTargetData() {
+    const targetTitleElement = document.getElementById("target-title-input");
+    const targetDescriptionElement = document.getElementById("target-description-input");
+    
+    if (!targetTitleElement || !targetDescriptionElement) {
+        alert("Error: Target form fields not found");
+        return;
+    }
+    
+    // Get the target ID from the current form or context
+    const targetId = window.currentEditingTargetId;
+    
+    if (!targetId) {
+        alert("Error: No target ID found for update");
+        return;
+    }
+    
+    fetch(`/update-target`, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            target_id: targetId,
+            target_name: targetTitleElement.value,
+            target_description: targetDescriptionElement.value,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (!data.success) {
+                alert(
+                    "Error updating target: " + (data.error || "Unknown error")
+                );
+            } else {
+                window.location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error("Error updating target:", error);
+            alert("Error updating target: " + error.message);
         });
 }
 
@@ -129,15 +340,16 @@ function fetchTestTargets() {
                 <br><br><br><a class="btn btn-success" href="/add-target?test_id=${testId}">Add Target</a>
             </div>`;
 
-            targetListElement.innerHTML = targetList;
-
+            targetListElement.innerHTML = targetList;            
+            
             // Add event listeners for the edit buttons
             data.targets.forEach((target) => {
                 document
                     .querySelector(`.edit-target-button-${target.id}`)
                     .addEventListener("click", (event) => {
                         event.preventDefault();
-                        displayForm("target-form");
+                        event.stopPropagation(); // Prevent dropdown toggle
+                        editEntity('target', target.id);
                     });
             });
 
@@ -301,24 +513,28 @@ function createDeleteButton(
     elementId = null,
     buttonClass = "btn btn-danger"
 ) {
-    return `<button class="${buttonClass}" onclick="deleteEntity('${entityType}', ${entityId}, '${
+    return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity('${entityType}', ${entityId}, '${
         elementId || ""
     }')">Delete</button>`;
 }
 
 // Helper function to create action buttons (edit + delete)
 function createActionButtons(entityType, entityId, elementId = null) {
-    const editEndpoint = `/edit-${entityType}?${entityType}_id=${entityId}`;
     return `
-        <a class="btn btn-dark" href="${editEndpoint}">Edit ${
-        entityType.charAt(0).toUpperCase() + entityType.slice(1)
-    }</a>
+        <button class="btn btn-dark" onclick="event.stopPropagation(); editEntity('${entityType}', ${entityId})">
+            Edit ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}
+        </button>
         ${createDeleteButton(entityType, entityId, elementId)}
     `;
 }
 
 function displayForm(formId) {
     const formElement = document.getElementById(formId);
+    
+    if (!formElement) {
+        console.warn(`Form with ID '${formId}' not found in DOM`);
+        return;
+    }
 
     document.querySelectorAll("form").forEach((form) => {
         form.classList.remove("d-flex");
@@ -330,6 +546,7 @@ function displayForm(formId) {
 }
 
 fetchTestTargets();
+populateFormElement();
 
 // Create event listeners for all buttons
 document
@@ -343,5 +560,16 @@ document
     .getElementById("edit-test-detail-button")
     .addEventListener("click", (event) => {
         event.preventDefault();
-        displayForm("test-detail-form");
+        editEntity('test', testId);
     });
+
+// Add event listener for target form submission
+const targetForm = document.getElementById("target-form");
+if (targetForm) {
+    targetForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        updateTargetData();
+    });
+} else {
+    console.warn("Target form not found - target editing may not work");
+}

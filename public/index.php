@@ -75,7 +75,7 @@ try {
             break;
         
         case '/api/get-all-customer-tests':
-            $app->handleApiRoute(['admin', 'customer'], "IndexController", "getCustomersTests");
+            $app->handleApiRoute(['admin', 'customer', 'pentester'], "IndexController", "getCustomersTests");
             break;
 
         case '/api/get-all-employee-tests':
@@ -108,13 +108,20 @@ try {
         case '/api/get-target':
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
-            $app->handleApiRoute('pentester', "TDataController", "getTarget", [$data['target_id']]);
+            $app->handleApiRoute('pentester', "DataController", "getTarget", [$data['target_id']]);
             break;
         
         case '/api/get-vulnerability':
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
             $app->handleApiRoute('pentester', "DataController", "getVulnerability", [$data['vulnerability_id']]);
+            break;
+        
+        case '/api/get-customer-email':
+            $app->checkApiAuthorization(['pentester']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            $result = $app->useController("DataController", "getCustomerEmail", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/check-access':
@@ -140,6 +147,13 @@ try {
             $data = json_decode($requestBody, true);
             Logger::write('info', 'Updating test with data: ' . json_encode($data));
             $app->handleApiRoute('pentester', "DataController", "updateTest", [$data['test_id'], $data['test_name'], $data['test_description']]);
+            break;
+
+        case '/update-target':
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            Logger::write('info', 'Updating target with data: ' . json_encode($data));
+            $app->handleApiRoute('pentester', "DataController", "updateTarget", [$data['target_id'], $data['target_name'], $data['target_description']]);
             break;
 
         case '/api/change-password':
