@@ -1,0 +1,80 @@
+/* COLORS  */
+:root {
+  --logo-color: #5f44ff;
+  --light-background-color: #e1dbf1;
+  --dark-background-color: #181328;
+  --button-color: #55e5a0;
+  --header-color: #6862ea;
+  --white-color: #fff;
+  --black-color: #000;
+}
+
+/* FONTS */
+
+/* Logo font */
+@font-face {
+  font-family: "Orbitron";
+  src: url("../fonts/Orbitron.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Paragraph font */
+@font-face {
+  font-family: "Roboto";
+  src: url("../fonts/Roboto.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* GLOBAL STYLES */
+
+html,
+body {
+  height: 100vh;
+}
+
+main {
+  background-color: var(--light-background-color);
+}
+
+#mainHeader {
+  background-color: var(--dark-background-color);
+  height: 60px;
+}
+
+.btn {
+  background-color: var(--header-color);
+  color: var(--white-color);
+}
+
+svg {
+  color: var(--header-color);
+}
+
+.logo {
+  height: 50px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(165, 139, 224, 0.4);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(165, 139, 224, 0.6);
+}

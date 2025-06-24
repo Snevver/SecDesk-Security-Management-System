@@ -1,13 +1,32 @@
-@import url(main.css);
+@import url(global.css);
 
-.sms {
-  width: 112.5px;
-  height: 37.5px;
-  margin-left: 10px;
+/* DASHBOARD PAGE */
+
+.logo-only {
+  width: 40px;
+  height: 40px;
 }
 
-.logo {
-  padding: 0;
+#sidebar {
+  height: calc(100vh - 60px);
+  width: 4.5em;
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--light-background-color) !important;
+}
+
+#userDashboard {
+  font-family: "Roboto", sans-serif;
+  height: 94vh;
+  width: 98%;
+  background-color: var(--white-color);
+}
+
+#testList {
+  height: 54vh;
+  width: 97%;
+  border-radius: 18px;
 }
 
 #testListHeader,
@@ -23,9 +42,58 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-#userDashboard {
-  font-family: "Roboto", sans-serif;
+h1 span,
+.highlightPurple {
+  color: var(--logo-color);
 }
+
+/* MODAL STYLES */
+.modal-content {
+  background-color: var(--white-color) !important;
+  color: #212529 !important;
+}
+
+.modal-header {
+  background-color: var(--header-color) !important;
+  color: var(--white-color) !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-header .modal-title {
+  color: var(--white-color) !important;
+}
+
+.modal-header .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.modal-body {
+  background-color: var(--white-color) !important;
+  color: #212529 !important;
+}
+
+.modal-body .form-label {
+  color: #212529 !important;
+  font-weight: 500;
+}
+
+.modal-body .form-control {
+  border: 1px solid #ced4da;
+  color: #212529 !important;
+  background-color: var(--white-color) !important;
+}
+
+.modal-body .form-control:focus {
+  border-color: var(--header-color);
+  box-shadow: 0 0 0 0.2rem rgba(111, 98, 234, 0.25);
+}
+
+.modal-footer {
+  background-color: #f8f9fa !important;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Accordion & Test/Target buttons styling */
 
 .accordion-item,
 .test-item {
@@ -48,26 +116,23 @@
 .test-button {
   height: 12vh;
   background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
-  border: 2px solid #ccc !important;
-  /* border-radius: 0.5rem !important; */
+  border-bottom: 2px solid #ccc !important;
+  border-right: 2px solid #ccc !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
   transition: all 0.2s ease-in-out !important;
 }
 
 .test-button {
   border-radius: 0.5rem !important;
+  border: 2px solid #ccc !important;
 }
 
-/* .target-button:first-child {
-  border-radius: 0.5rem 0.5rem 0 0 !important;
-} */
-
 .button-size {
-  height: 4.5vh !important;
+  height: 4vh !important;
 }
 
 .collapsed {
-  height: 3.5vh !important;
+  height: 3vh !important;
 }
 
 .accordion-button:hover,
@@ -80,18 +145,10 @@
 .accordion-button:focus {
   box-shadow: none !important;
   outline: none !important;
-  border-color: #888 !important;
-}
-
-button.accordion-button:not(.collapsed),
-button.test-button:not(.collapsed) {
-  border-radius: 0.5rem 0.5rem 0 0 !important;
 }
 
 .accordion-body {
-  border: 2px solid #ccc;
   border-top: 0px;
-  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 input:focus,
@@ -99,123 +156,13 @@ input:focus,
   box-shadow: 0 0 0 0.15rem var(--header-color) !important;
 }
 
-/* TARGETS CSS */
-
-#targetsMain {
-  max-height: calc(100% - 5vh - 69px);
+.btn {
+  background-color: var(--header-color) !important;
+  color: var(--black-color) !important;
+  border: 1px solid black;
 }
 
-#targetSidebar {
-  min-width: 15vw;
-  max-width: 15vw;
-  /* background: linear-gradient(
-    to right,
-    var(--light-background-color),
-    #f1f1f1
-  ) !important; */
-  border-radius: 0.5rem;
-  border: 2px solid #ccc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.headerTitle {
-  width: 12.5vw;
-  border-right: 1px solid #ccc;
-}
-
-#vulnerabilitySidebar {
-  min-width: 12.5vw;
-  /* background-color: var(--light-background-color); */
-  /* background: linear-gradient(
-    to left,
-    var(--light-background-color),
-    #f1f1f1
-  ) !important; */
-  border-radius: 0.5rem;
-  border: 2px solid #ccc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.targetListHeader {
-  height: 5vh;
-}
-
-.target-button {
-  height: 3.5vh !important;
-  font-size: 0.8em;
-}
-
-.target-button:hover {
-  background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
-  /* transform: translateY(-1px) !important; */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-  cursor: pointer;
-}
-
-#vulnerabilityDetails {
-  border: 2px solid #ccc;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.vuln-button {
-  background-color: white !important;
-}
-
-.subHeader1 {
-  width: 15vw;
-}
-
-.subHeader2 {
-  width: 12.5%;
-}
-
-button.active {
-  background: linear-gradient(to bottom, #c4b5ec, #d1d1d1) !important;
-  /* background: linear-gradient(
-    to bottom,
-    var(--button-color),
-    #55e59f79
-  ) !important; */
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
-  border: solid 2px black !important;
-}
-
-.custom-tooltip {
-  --bs-tooltip-bg: var(--light-background-color);
-}
-
-.divTable {
-  display: table;
-  width: 100%;
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-.divTableRow {
-  display: table-row;
-}
-
-.divTableCell {
-  border: 2px solid #ccc;
-  display: table-cell;
-  padding: 3px 10px;
-}
-
-.divTableBody {
-  display: table-row-group;
-}
-
-.divTableCell:nth-of-type(odd) {
-  background-color: #6962ea7b;
-  /* background-color: #55e59f79; */
-  white-space: nowrap;
-}
-
-.divTableRow:nth-child(odd) .divTableCell:nth-of-type(even) {
-  background-color: var(--light-background-color);
-}
-.divTableRow:nth-child(even) .divTableCell:nth-of-type(even) {
-  background-color: #f9f9f9;
+.btn:hover {
+  border: 1px solid var(--white-color);
+  color: var(--white-color) !important;
 }

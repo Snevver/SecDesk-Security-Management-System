@@ -1,0 +1,95 @@
+@import url(global.css);
+
+/* LOGIN PAGE */
+
+#mainFlexWrapper {
+  height: calc(100vh - 60px);
+  padding-top: 15vh;
+}
+
+#loginSection {
+  background-color: var(--dark-background-color);
+  width: 80%;
+  border-radius: 24px;
+}
+
+#login {
+  background-color: var(--button-color);
+}
+
+#login:focus-visible,
+input:focus {
+  outline: 2px solid var(--logo-color);
+  outline-offset: 2px;
+}
+
+/* RESPONSIVITY */
+
+@media screen and (max-width: 768px) {
+  #mainFlexWrapper {
+    padding-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .contentCard {
+    object-fit: contain;
+  }
+  .contentCardText {
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  #fadeCarousel {
+    height: 100% !important;
+  }
+  /* #loginSection {
+    width: 90%;
+  }
+
+  #homeContent {
+    width: 90% !important;
+  }
+
+  .contentCard {
+    width: auto !important;
+  } */
+}
+
+/* LOGIN CONTENT */
+
+#fadeCarousel {
+  height: 87%;
+}
+
+#homeContent {
+  background-color: var(--dark-background-color);
+  width: 90%;
+  border-radius: 24px;
+}
+
+.contentCard {
+  width: 80%;
+}
+
+.contentCardText {
+  color: var(--white-color);
+  font-family: "Roboto", sans-serif;
+}
+
+.highlight {
+  color: var(--button-color);
+}
+
+/* LOGIN CONTENT CAROUSEL */
+
+.carousel-fade .carousel-item {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* FOOTER */
+
+footer {
+  background-color: var(--light-background-color);
+  padding: 0% 10% 0% 10%;
+}

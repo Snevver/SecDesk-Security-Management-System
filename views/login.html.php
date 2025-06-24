@@ -6,7 +6,7 @@
         <title>Login</title>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/login.css">
         <link rel="stylesheet" href="/css/bootstrap.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -18,10 +18,10 @@
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     </head>
 
-    <body>
+    <body class="p-0 m-0 w-100">
         <!-- HEADER -->
-        <header id="mainHeader" class="d-flex align-items-center">
-            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo">
+        <header id="mainHeader" class="d-flex align-items-center justify-content-center justify-content-sm-start">
+            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
         </header>
 
         <!-- Debugging !!! NOT TO BE USED IN PRODUCTION !!! -->
@@ -29,26 +29,26 @@
         <div id="error-message"></div>
 
         <!-- LOGIN SECTION -->
-        <main id="loginMain" class="container-fluid p-0">
-            <div id="mainFlexWrapper" class="d-flex justify-content-between align-items-start flex-wrap w-100">
-                <div class="col-12 col-md-4 p-0 d-flex justify-content-center align-items-center">
-                    <div id="loginWrapper" class="w-100 d-flex justify-content-center align-items-start">
-                        <section id="loginSection" class="row m-0">
-                            <div class="col-12 d-flex flex-column justify-content-center align-items-center" id="loginContainer">
+        <main id="loginMain" class="container-fluid d-flex flex-column">
+            <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
+                <div class="col-12 col-md-4 d-flex pe-md-0 pb-3 pb-md-0">
+                    <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                        <section id="loginSection" class="w-100 p-0 p-sm-4 p-xxl-5">
+                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
                                     <div class="form-group mb-4">
-                                        <label for="email">Email address</label>
+                                        <label class="text-white" for="email">Email address</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
                                     </div>
 
                                     <div class="form-group mb-4">
-                                        <label for="password">Password</label>
+                                        <label class="text-white" for="password">Password</label>
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
 
-                                    <button type="submit" id="login" class="btn">Login</button>
+                                    <button type="submit" id="login" class="btn w-100">Login</button>
                                 </form>
                             </div>
                         </section>
@@ -56,18 +56,18 @@
                 </div>
 
                 <!-- DESCRIPTION SECTION -->
-                <div class="col-12 col-md-8 p-0">
-                    <div id="contentWrapper" class="d-flex justify-content-center align-items-center">
-                        <section id="homeContent" class="row m-0 flex-column align-items-center">
+                <div class="col-12 col-md-8 d-flex">
+                    <div id="contentWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                        <section id="homeContent" class="w-100 p-3">
 
                             <!-- Content Header -->
-                            <header id="contentHeader">
+                            <header id="contentHeader" class="d-none d-sm-block">
                                 <div class=" col-12 m-0 p-0">
                                     <div class="row align-items-center">
                                         <div class="col-12 d-flex justify-content-center align-items-center">
                                             <div class="contentCardText d-flex flex-column align-items-center">
-                                                <h2 class="m-0">
-                                                    <span class="hide">Achieve success with our</span>
+                                                <h2 class="m-0 pb-3">
+                                                    <span class="d-xxl-inline d-none">Achieve success with our</span>
                                                     <span class="highlight">Security Management System</span>
                                                 </h2>
                                             </div>
@@ -76,7 +76,7 @@
                                 </div>
                             </header>
 
-                            <hr class="m-0" style="border-top: 1px solid #ccc;">
+                            <hr class="m-0 d-none d-sm-block" style="border-top: 1px solid #ccc;">
 
                             <!-- Carousel -->
                             <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
@@ -89,10 +89,10 @@
 
                                 <div class="carousel-inner h-100">
                                     <!-- First slide -->
-                                    <div class="carousel-item active d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 active d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
                                             <div class="col-12 col-sm-7 p-0 d-flex">
                                                 <div class="contentCardText d-flex flex-column text-align-center">
@@ -108,16 +108,16 @@
                                     </div>
 
                                     <!-- Second slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
                                                     <h2>
-                                                        <span class="highlight">Step Two:</span> We'll put <spanclass="highlight">special care</span> into what matters most
+                                                        <span class="highlight">Step Two:</span> We'll put <span class="highlight">special care</span> into what matters most
                                                     </h2>
 
                                                     <p>With a detailed report of your vulnerabilities</p>
@@ -127,10 +127,10 @@
                                     </div>
 
                                     <!-- Third slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
@@ -150,23 +150,23 @@
                                     </div>
 
                                     <!-- Fourth slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="img-fluid contentCard">
+                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                <h2><span class="highlight">Step Four:</span> This is where <span
-                                                        class="highlight">you</span> come in
-                                                    and
-                                                    make a
-                                                    <span>big change!</span>
-                                                </h2>
-                                                <p>With tips on how to fix your vulnerabilities, in SMS you can
-                                                    track
-                                                    your progress till everything is fixed!</p>
+                                                    <h2><span class="highlight">Step Four:</span> This is where <span
+                                                            class="highlight">you</span>
+                                                        make a
+                                                        <span>big change!</span>
+                                                    </h2>
+
+                                                    <p>With SMS you can track
+                                                        your progress till everything is fixed!
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,6 +196,7 @@
 
                 <div class="col mb-3">
                     <h5>SecDesk</h5>
+
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="https://secdesk.com/" class="nav-link p-0 text-body-secondary" data-wpel-link="internal">Secdesk.com</a></li>
                         <li class="nav-item mb-2"><a href="https://secdesk.com/ask-secdesk/" class="nav-link p-0 text-body-secondary" data-wpel-link="internal">Helpdesk</a></li>

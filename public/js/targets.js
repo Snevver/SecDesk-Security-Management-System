@@ -24,35 +24,35 @@ function fetchTestTargets(test_id) {
       for (let target of data.targets) {
         targetList += `
     <div class="accordion-item">
-    <h2 class="accordion-header" id="heading-${target.id}">
-        <button class="accordion-button button-size collapsed"
+      <h2 class="accordion-header"
+            data-bs-toggle="tooltip"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-placement="right"
+            title="${target.target_description}" id="heading-${target.id}">
+        <button class="accordion-button button-size collapsed p-0 pe-2 ps-1"
                 type="button"
                 id="target-${target.id}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapse-${target.id}"
                 aria-expanded="false"
-                aria-controls="collapse-${target.id}"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                data-bs-title="${target.target_description}"
-                data-bs-custom-class="custom-tooltip">
-        T${target.id}: ${target.target_name}
+                aria-controls="collapse-${target.id}">
+          <span class="ps-1">T${target.id}: ${target.target_name}</span>
         </button>
-    </h2>
-    <div id="collapse-${target.id}"
-        class="accordion-collapse collapse"
-        aria-labelledby="heading-${target.id}"
-        data-bs-parent="#targetAccordion">
-        <div class="accordion-body vulnerability-list" id="vulns-for-${target.id}">
-        <div class="spinner-border spinner-border-sm text-success" role="status">
-        <span class="visually-hidden">Loading...</span>
+      </h2>
+      <div id="collapse-${target.id}"
+          class="accordion-collapse collapse"
+          aria-labelledby="heading-${target.id}"
+          data-bs-parent="#targetAccordion">
+        <div class="accordion-body p-0 vulnerability-list" id="vulns-for-${target.id}">
+        <div class="d-flex align-items-center">
+          <p role="status">Loading...</p>
+          <div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
+        </div>
+        </div>
+      </div>
     </div>
-    </div>
-    </div>
-
-                    `;
+    `;
       }
-
       targetListElement.innerHTML = targetList;
 
       // Enabling Bootstrap tooltips with delay, only working on hover not focus
@@ -62,7 +62,7 @@ function fetchTestTargets(test_id) {
       newButtons.forEach(
         (el) =>
           new bootstrap.Tooltip(el, {
-            delay: { show: 500, hide: 200 },
+            delay: { show: 750, hide: 200 },
             trigger: "hover",
           })
       );
@@ -75,13 +75,22 @@ function fetchTestTargets(test_id) {
         element.addEventListener("click", function (e) {
           e.preventDefault();
 
-          // Remove 'focused' class from all first, then add 'focused to the clicked element
-          targetElements.forEach((el) => el.classList.remove("active"));
-          this.classList.add("active");
+          // Check if the button is already expanded
+          const isExpanded = this.getAttribute("aria-expanded") === "false";
 
-          const targetId = this.id.replace("target-", "");
-          console.log(`Clicking on target ${targetId}`);
-          fetchVulnerabilities(targetId);
+          // Remove 'active' class from all first
+          targetElements.forEach((el) => el.classList.remove("active"));
+
+          // Only add 'active' class if the button is being expanded
+          if (!isExpanded) {
+            this.classList.add("active");
+            const targetId = this.id.replace("target-", "");
+            console.log(`Clicking on target ${targetId}`);
+            fetchVulnerabilities(targetId);
+          } else {
+            // If collapsing, hide vulnerability details
+            hideVulnerabilityDetails();
+          }
         });
       });
     })
@@ -107,15 +116,15 @@ function fetchVulnerabilities(target_id) {
         `vulns-for-${target_id}`
       );
       if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
-        vulnerabilityListElement.innerHTML = "<p>No vulnerabilities found.</p>";
+        vulnerabilityListElement.innerHTML = `<p class="ps-2 m-0">No vulnerabilities found.</p>`;
         return;
       }
 
       let vulnerabilityList = "";
       for (let vulnerability of data.vulnerabilities) {
         vulnerabilityList += `
-              <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-0">
-                <p class="ms-1">
+              <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-0 align-items-center">
+                <p class="m-0 ps-2">
                   V${vulnerability.id}: ${vulnerability.affected_entity}
                 </p>
               </button>`;
@@ -170,8 +179,10 @@ function showVulnerabilityDetails(vulnerability) {
   <div class="divTableBody">
 
     <div class="divTableRow">
-      <div class="divTableCell"><strong>Identifier:</strong></div>
-      <div class="divTableCell">${vulnerability.identifier || "N/A"}</div>
+      <div class="divTableCell"><strong>Identified Controls:</strong></div>
+      <div class="divTableCell">${
+        vulnerability.identified_controls || "N/A"
+      }</div>
       <div class="divTableCell"><strong>CVSS Score:</strong></div>
       <div class="divTableCell">${vulnerability.cvss_score || "N/A"}</div>
     </div>
@@ -213,15 +224,9 @@ function showVulnerabilityDetails(vulnerability) {
     <div class="divTableRow">
         <div class="divTableCell"><strong>CVSS v3 Code:</strong></div>
         <div class="divTableCell">${vulnerability.cvssv3_code || "N/A"}</div>
+        <div class="divTableCell"><strong>Identifier:</strong></div>
+        <div class="divTableCell">${vulnerability.identifier || "N/A"}</div>
     </div>
-
-    <div class="divTableRow">
-      <div class="divTableCell"><strong>Identified Controls:</strong></div>
-      <div class="divTableCell">${
-        vulnerability.identified_controls || "N/A"
-      }</div>
-    </div>
-
   </div>
 </div>
 
@@ -267,14 +272,10 @@ function showVulnerabilityDetails(vulnerability) {
               vulnerability.response
                 ? `<div class="ms-2">
                     <h3>Response</h3>
-                    <p>${vulnerability.response}</p>
+                    <p class="pb-2">${vulnerability.response}</p>
                 </div>`
                 : ""
             }
-
-            <div class="ms-2">
-                <button onclick="hideVulnerabilityDetails()">Close Details</button>
-            </div>
         </div>
     `;
 

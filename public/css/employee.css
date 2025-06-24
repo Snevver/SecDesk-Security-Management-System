@@ -1,0 +1,58 @@
+@import url(global.css);
+@import url(index.css);
+
+#testListHeader {
+  min-height: 4vh !important;
+  max-height: 5vh !important;
+}
+
+.test-button {
+  height: auto !important;
+}
+
+#reports-in-progress {
+  max-height: 72vh;
+}
+
+.btn {
+  background-color: var(--button-color) !important;
+  color: var(--black-color) !important;
+  border: 1px solid black;
+}
+
+.btn:hover {
+  border: 1px solid var(--white-color);
+  color: var(--white-color) !important;
+  /* box-shadow: 0px -23px 25px 0px rgba(255, 255, 255, 0.17) inset,
+    0px -36px 30px 0px rgba(255, 255, 255, 0.15) inset,
+    0px -79px 40px 0px rgba(255, 255, 255, 0.1) inset,
+    0px 2px 1px rgba(255, 255, 255, 0.06), 0px 4px 2px rgba(255, 255, 255, 0.09),
+    0px 8px 4px rgba(255, 255, 255, 0.09),
+    0px 16px 8px rgba(255, 255, 255, 0.09) !important; */
+}
+
+.in-progress {
+  background-color: var(--header-color);
+}
+
+.completed {
+  background-color: var(--button-color);
+}
+
+#reports-in-progress,
+#completed-reports {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+.test-item {
+  scroll-snap-align: start;
+}
+
+.test-item:last-of-type {
+  padding-bottom: 0 !important;
+}
+
+#userDashboard {
+  min-height: calc(100vh - 60px);
+}

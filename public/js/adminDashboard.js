@@ -12,20 +12,20 @@ function fetchAccounts(accountType) {
                 `${accountType}s-list`,
             );
 
-            if (!data.success) {
-                userListElement.innerHTML = `
+      if (!data.success) {
+        userListElement.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-exclamation-triangle"></i>
                         <p>Error loading ${accountType}s: ${
-                    data.error || 'Unknown error'
-                }</p>
+          data.error || "Unknown error"
+        }</p>
                     </div>
                 `;
-                return;
-            }
+        return;
+      }
 
-            if (!data.users || data.users.length === 0) {
-                userListElement.innerHTML = `
+      if (!data.users || data.users.length === 0) {
+        userListElement.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-people"></i>
                         <p>No ${accountType}s found.</p>
@@ -88,7 +88,7 @@ function fetchAccounts(accountType) {
                     <p>Error: ${error.message}</p>
                 </div>
             `;
-        });
+    });
 }
 
 fetchAccounts('customer');
@@ -270,20 +270,20 @@ function openPentesterManagement(pentesterId) {
 window.openPentesterManagement = openPentesterManagement;
 
 // Button event listeners
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, setting up button listeners');
-    
-    // Single create account button
-    const createAccountBtn = document.getElementById('create-account-btn');
-    
-    console.log('Create account button found:', !!createAccountBtn);
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM loaded, setting up button listeners");
 
-    if (createAccountBtn) {
-        createAccountBtn.addEventListener('click', () => {
-            console.log('Create Account button clicked');
-            openAccountModal();
-        });
-    } else {
-        console.error('Create account button not found!');
-    }
+  // Single create account button
+  const createAccountBtn = document.getElementById("create-account-btn");
+
+  console.log("Create account button found:", !!createAccountBtn);
+
+  if (createAccountBtn) {
+    createAccountBtn.addEventListener("click", () => {
+      console.log("Create Account button clicked");
+      openAccountModal();
+    });
+  } else {
+    console.error("Create account button not found!");
+  }
 });
