@@ -251,7 +251,6 @@
                                         <th>Status</th>
                                         <th>Pentester</th>
                                         <th>Test Date</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tests-table-body">
@@ -276,7 +275,6 @@
                                         <th>Test</th>
                                         <th>Name</th>
                                         <th>Description</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>                                
                                 <tbody id="targets-table-body">
