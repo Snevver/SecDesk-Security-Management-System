@@ -52,7 +52,7 @@ class AuthenticatorController
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['logged_in'] = true;
                     $_SESSION['role_id'] = (int)$user['role_id'];
-                    $_SESSION['role'] = $role_name;                    // Determine redirect URL based on role - all users go to root which handles role-based routing
+                    $_SESSION['role'] = $role_name;
                     $_SESSION['redirect'] = '/';
 
                     Logger::write('info', "Login of " . $_SESSION['email'] . " successful! Redirecting user to " . $_SESSION['redirect']);

@@ -441,6 +441,7 @@ class Application implements LoggerAwareInterface
             '/add-target' => ['pentester'],
             '/update-test' => ['pentester'],
             '/api/change-password' => [],
+            '/api/delete' => ['admin', 'pentester']
         ];
     }
 

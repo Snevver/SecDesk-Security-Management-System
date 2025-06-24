@@ -414,3 +414,24 @@ function getSeverityClass(cvssScore) {
     return 'low';
 }
 
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this pentester?')) {
+        fetch(`/api/delete?user_id=${userId}`, {
+            method: 'DELETE',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert('Pentester deleted successfully');
+                    window.location.href = '/';
+                } else {
+                    alert('Failed to delete pentester: ' + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting pentester:', error);
+                alert('Error deleting pentester');
+            });
+    }
+}   
+

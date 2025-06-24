@@ -124,7 +124,7 @@ try {
             break;        
             
         // !!! To be implemented
-        case '/add-target':
+        case '/add':
             $app->checkApiAuthorization('pentester');
             break;
 
@@ -152,6 +152,9 @@ try {
             } else if (isset($_GET['vulnerability_id'])) {
                 $vulnerability_id = (int)$_GET['vulnerability_id'];
                 $app->handleApiRoute('pentester', "VulnerabilityController", "deleteVulnerability", [$vulnerability_id]);
+            } else if (isset($_GET['user_id'])) {
+                $user_id = (int)$_GET['user_id'];
+                $app->handleApiRoute('admin', "AdminDashboardController", "deleteUser", [$user_id]);
             } else {
                 throw new HTTPException('Invalid request: test_id, target_id or vulnerability_id is required', 400);
             }
