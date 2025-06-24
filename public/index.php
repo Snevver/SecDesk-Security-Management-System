@@ -37,13 +37,20 @@ try {
         case '/targets':
             $app->handleAuthenticatedRoute('targets.html.php');
             break;
-            
-        case '/edit':
+              case '/edit':
             $app->checkApiAuthorization('pentester');
             $result = $app->useController('AuthenticatorController', 'handleEditRoute');
             if ($result['status'] == 200) {
                 $app->handleAuthenticatedRoute($result['data']['view'], $result['data']['role']);
             }
+            break;
+
+        case '/admin/customer':
+            $app->handleAuthenticatedRoute('adminCustomer.html.php', 'admin');
+            break;
+
+        case '/admin/pentester':
+            $app->handleAuthenticatedRoute('adminPentester.html.php', 'admin');
             break;
 
         // API Routes

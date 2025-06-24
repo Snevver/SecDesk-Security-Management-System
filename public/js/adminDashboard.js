@@ -12,20 +12,20 @@ function fetchAccounts(accountType) {
                 `${accountType}s-list`,
             );
 
-      if (!data.success) {
-        userListElement.innerHTML = `
+            if (!data.success) {
+                userListElement.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-exclamation-triangle"></i>
                         <p>Error loading ${accountType}s: ${
-          data.error || "Unknown error"
-        }</p>
+                    data.error || 'Unknown error'
+                }</p>
                     </div>
                 `;
-        return;
-      }
+                return;
+            }
 
-      if (!data.users || data.users.length === 0) {
-        userListElement.innerHTML = `
+            if (!data.users || data.users.length === 0) {
+                userListElement.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-people"></i>
                         <p>No ${accountType}s found.</p>
@@ -37,11 +37,6 @@ function fetchAccounts(accountType) {
             let listElement = '';
             for (let user of data.users) {
                 if (accountType === 'customer') {
-                    // Make customers clickable to navigate to customer management page
-                    console.log(
-                        'Creating clickable customer item for user ID:',
-                        user.id,
-                    );
                     listElement += `
                         <div id="customer-${user.id}" class="user-item customer-item" data-customer-id="${user.id}" style="cursor: pointer;">
                             <div class="user-email">
@@ -51,11 +46,6 @@ function fetchAccounts(accountType) {
                         </div>
                     `;
                 } else if (accountType === 'employee') {
-                    // Make employees (pentesters) clickable to navigate to pentester management page
-                    console.log(
-                        'Creating clickable employee item for user ID:',
-                        user.id,
-                    );
                     listElement += `
                         <div id="employee-${user.id}" class="user-item employee-item" data-employee-id="${user.id}" style="cursor: pointer;">
                             <div class="user-email">
@@ -77,18 +67,50 @@ function fetchAccounts(accountType) {
             }
             userListElement.innerHTML = listElement;
 
+            // Add click event listeners to the newly created elements
+            if (accountType === 'customer') {
+                const customerItems =
+                    userListElement.querySelectorAll('.customer-item');
+                customerItems.forEach((item) => {
+                    item.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const customerId =
+                            this.getAttribute('data-customer-id');
+                        if (customerId) {
+                            window.location.href = `/admin/customer?id=${customerId}`;
+                        }
+                    });
+                });
+                console.log(
+                    `Added click listeners to ${customerItems.length} customer items`,
+                );
+            } else if (accountType === 'employee') {
+                const employeeItems =
+                    userListElement.querySelectorAll('.employee-item');
+                employeeItems.forEach((item) => {
+                    item.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const employeeId =
+                            this.getAttribute('data-employee-id');
+                        if (employeeId) {
+                            window.location.href = `/admin/pentester?id=${employeeId}`;
+                        }
+                    });
+                });
+            }
+
             console.log(
                 `Loaded ${data.users.length} ${accountType}s successfully`,
             );
         })
         .catch((error) => {
-            document.getElementById(`${accountType}-list`).innerHTML = `
+            document.getElementById(`${accountType}s-list`).innerHTML = `
                 <div class="empty-state">
                     <i class="bi bi-exclamation-triangle"></i>
                     <p>Error: ${error.message}</p>
                 </div>
             `;
-    });
+        });
 }
 
 fetchAccounts('customer');
@@ -165,7 +187,9 @@ function createAccount(accountType, email) {
                         accountType.charAt(0).toUpperCase() +
                         accountType.slice(1)
                     } created successfully!`,
-                ); // Refresh the appropriate list
+                ); 
+                
+                // Refresh the appropriate list
                 if (accountType === 'customer') {
                     fetchAccounts('customer');
                 } else if (accountType === 'employee') {
