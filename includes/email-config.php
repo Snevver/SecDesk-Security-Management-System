@@ -14,7 +14,7 @@ return [
     'smtp_port' => 587,
     
     // SMTP Username
-    'smtp_username' => 'svenhoeksema@gmail.com', // Change this to the compeny email address
+    'smtp_username' => 'svenhoeksema@gmail.com', // Change this to the company email address
     
     // SMTP Password (for Gmail, use App Password)
     'smtp_password' => 'tbsd whly hvzp zqsa',

@@ -69,17 +69,4 @@ class IndexController
             ];
         }
     }
-
-    public function getVulnerabilities($targetID) {
-        $stmt = $this->pdo->prepare("SELECT * FROM vulnerabilities WHERE target_id = :target_id");
-        $stmt->bindParam(':target_id', $targetID, PDO::PARAM_INT);
-        $stmt->execute();
-        $vulnerabilities = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        Logger::write('info', 'Fetched vulnerabilities for target ID ' . $targetID . ': ' . json_encode($vulnerabilities));
-        return [
-            'status' => 200,
-            'data' => ['success' => true, 'vulnerabilities' => $vulnerabilities]
-        ];
-    }
 }

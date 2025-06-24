@@ -183,7 +183,8 @@ class AdminDashboardController
             Logger::write('info', 'Account created successfully with ID: ' . $userId);
 
             // Send welcome email with credentials
-            $this->sendEmail($email, $password);            return [
+            $this->sendEmail($email, $password);            
+            return [
                     'status' => 201,
                     'data' => [
                         'success' => true, 
@@ -343,6 +344,40 @@ class AdminDashboardController
             ];
         } catch (\PDOException $e) {
             Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+
+
+
+    public function deleteUser($userId) {
+        try {
+            // Check if user exists
+            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE id = :id");
+            $stmt->execute(['id' => $userId]);
+            if (!$stmt->fetch()) {
+                Logger::write('error', 'User not found: ' . $userId);
+                return [
+                    'status' => 404,
+                    'data' => ['success' => false, 'error' => 'User not found']
+                ];
+            }
+
+            // Delete user
+            $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
+            $stmt->execute(['id' => $userId]);
+            Logger::write('info', 'User deleted successfully: ' . $userId);
+
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'message' => 'User deleted successfully']
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error deleting user: ' . $e->getMessage());
             return [
                 'status' => 500,
                 'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]

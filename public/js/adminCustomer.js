@@ -4,7 +4,7 @@ const customerId = urlParams.get('id');
 
 if (!customerId) {
     alert('Customer ID not provided');
-    window.location.href = '/admin';
+    window.location.href = '/';
 }
 
 // Filter state management
@@ -81,9 +81,6 @@ async function loadCustomerTests() {
                         <td><span class="badge bg-${test.completed ? 'success' : 'warning'}">${test.completed ? 'Completed' : 'In Progress'}</span></td>
                         <td>${escapeHtml(test.pentester_email || 'Not assigned')}</td>
                         <td>${test.test_date ? new Date(test.test_date).toLocaleDateString() : 'Not set'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary text-white" onclick="editTest(${test.id})">Edit</button>
-                        </td>
                     </tr>
                 `).join('');
             }
@@ -126,9 +123,6 @@ function displayTargets(targets) {
                 <td>${escapeHtml(target.test_name || 'Unknown')}</td>
                 <td><a href="#" class="text-decoration-none fw-bold clickable-link" onclick="filterVulnerabilitiesByTarget(${target.id}, '${escapeHtml(target.target_name || 'Untitled')}')" title="Click to view vulnerabilities for this target">${escapeHtml(target.target_name || 'Untitled')}</a></td>
                 <td>${escapeHtml(target.target_description || 'No description')}</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-primary text-white" onclick="editTarget(${target.id})">Edit</button>
-                </td>
             </tr>
         `).join('');
     }
@@ -438,4 +432,24 @@ function editTarget(targetId) {
 function editVulnerability(vulnId) {
     alert('En dit moet op de een of andere manier verwijzen naar de vulnerability edit pagina');
 }
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this pentester?')) {
+        fetch(`/api/delete?user_id=${userId}`, {
+            method: 'DELETE',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert('Pentester deleted successfully');
+                    window.location.href = '/';
+                } else {
+                    alert('Failed to delete pentester: ' + data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting pentester:', error);
+                alert('Error deleting pentester');
+            });
+    }
+}   
 

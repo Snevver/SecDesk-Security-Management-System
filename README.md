@@ -49,9 +49,20 @@ You need a few things to be able to run this application locally:
     php Database/import.sql
     ```
 
-4. Install any dependencies. You can do this with NPM by navigating to the root folder of the project and running:
+4. Install any dependencies. You can do this with NPM and composer by navigating to the root folder of the project and running:
     ```
     npm install
+    ```
+    and
+    ```
+    composer install
+    ```
+
+5. Create log files by running the following commands in the root folder:
+    ```
+    mkdir logs
+    New-Item -ItemType File -Path "logs\info.log"
+    New-Item -ItemType File -Path "logs\error.log"
     ```
 
 ## ⚙️ Dependencies
