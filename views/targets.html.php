@@ -24,7 +24,7 @@
         <div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
-                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto m-1 position-absolute top-0 start-0">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-1 position-absolute top-0 start-0">
             </div>
 
             <!-- Title -->
@@ -66,22 +66,33 @@
 
 
     <!-- CONTENT -->
-    <div id="targetsMain" class="d-flex h-100">
-        <div id="targetSidebar" class="h-100 ms-1 me-0 overflow-auto">
+<div id="targetsMain" class="d-flex h-100">
+    <!-- Left side container for search and sidebar -->
+    <div class="d-flex flex-column me-1">
+        <!-- Search section -->
+        <!-- <div class="mb-1 mt-0 ms-1 targetListHeader subHeader1">
+            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
+                <div class="d-xxl-flex d-none flex-wrap justify-content-center align-items-center">
+                        <input class="form-control me-1 w-50" type="search" placeholder="Search" aria-label="Search">
+                        <button class="w-auto btn my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div> -->
 
-
+        <!-- Target sidebar -->
+        <div id="targetSidebar" class="flex-grow-1 ms-1 overflow-auto">
             <div id="targetAccordion" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100">
-
             </div>
         </div>
-
-        <div id="vulnerabilityDetails" class="h-100 w-100 ms-1 me-1 overflow-auto">
-            <div class="vulnerability-details h-100 w-100">
-
-            </div>
-        </div>
-
     </div>
+
+    <!-- Vulnerability details (right side) -->
+    <div id="vulnerabilityDetails" class="h-100 w-100 ms-0 me-1 overflow-auto">
+        <div class="vulnerability-details h-100 w-100">
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

@@ -46,7 +46,8 @@ main {
 }
 
 .btn {
-  background-color: var(--header-color) !important;
+  background-color: var(--header-color);
+  color: var(--white-color);
 }
 
 svg {

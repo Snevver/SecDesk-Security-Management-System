@@ -45,7 +45,7 @@ function fetchTestTargets(test_id) {
           data-bs-parent="#targetAccordion">
         <div class="accordion-body p-0 vulnerability-list" id="vulns-for-${target.id}">
         <div class="d-flex align-items-center">
-          <strong role="status">Loading...</strong>
+          <p role="status">Loading...</p>
           <div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
         </div>
         </div>

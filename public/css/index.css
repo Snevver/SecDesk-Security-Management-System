@@ -8,7 +8,7 @@
 }
 
 #sidebar {
-  height: 94vh;
+  height: calc(100vh - 60px);
   width: 4.5em;
 }
 
@@ -27,16 +27,6 @@
   height: 54vh;
   width: 97%;
   border-radius: 18px;
-}
-
-#dashboardHeader {
-  display: flex;
-  justify-content: center;
-  font-family: "Roboto", sans-serif;
-}
-
-.logo {
-  padding: 0;
 }
 
 #testListHeader,
@@ -138,11 +128,11 @@ h1 span,
 }
 
 .button-size {
-  height: 4.5vh !important;
+  height: 4vh !important;
 }
 
 .collapsed {
-  height: 3.5vh !important;
+  height: 3vh !important;
 }
 
 .accordion-button:hover,
@@ -164,4 +154,15 @@ h1 span,
 input:focus,
 .form-control:focus {
   box-shadow: 0 0 0 0.15rem var(--header-color) !important;
+}
+
+.btn {
+  background-color: var(--header-color) !important;
+  color: var(--black-color) !important;
+  border: 1px solid black;
+}
+
+.btn:hover {
+  border: 1px solid var(--white-color);
+  color: var(--white-color) !important;
 }

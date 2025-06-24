@@ -2,8 +2,9 @@
 
 /* LOGIN PAGE */
 
-#loginWrapper {
-  height: 90vh;
+#mainFlexWrapper {
+  height: calc(100vh - 60px);
+  padding-top: 15vh;
 }
 
 #loginSection {
@@ -25,13 +26,23 @@ input:focus {
 /* RESPONSIVITY */
 
 @media screen and (max-width: 768px) {
-  #homeContent {
-    width: 80% !important;
+  #mainFlexWrapper {
+    padding-top: 1rem;
   }
 }
 
 @media screen and (max-width: 576px) {
-  #loginSection {
+  .contentCard {
+    object-fit: contain;
+  }
+  .contentCardText {
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  #fadeCarousel {
+    height: 100% !important;
+  }
+  /* #loginSection {
     width: 90%;
   }
 
@@ -41,10 +52,14 @@ input:focus {
 
   .contentCard {
     width: auto !important;
-  }
+  } */
 }
 
 /* LOGIN CONTENT */
+
+#fadeCarousel {
+  height: 87%;
+}
 
 #homeContent {
   background-color: var(--dark-background-color);
@@ -53,7 +68,7 @@ input:focus {
 }
 
 .contentCard {
-  width: 95%;
+  width: 80%;
 }
 
 .contentCardText {

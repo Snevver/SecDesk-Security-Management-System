@@ -8,7 +8,6 @@
 		<title>Dashboard</title>
 
 		<!-- CSS -->
-		<link rel="stylesheet" href="/css/main.css">
 		<link rel="stylesheet" href="/css/index.css">
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -28,7 +27,7 @@
 			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto m-1 position-absolute top-0 start-0">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-1 position-absolute top-0 start-0">
 				</div>
 
 				<!-- Title -->
@@ -124,7 +123,7 @@
 					<div class="row d-flex text-align-center justify-content-center align-items-center">
 						<section id="testList" class="container-fluid p-0">
 
-						<header id="testListHeader" class="mb-4 mt-4 ms-xxl-0 me-xxl-0 ms-3 me-3">
+						<header id="testListHeader" class="mb-3 mt-3 ms-xxl-0 me-xxl-0 ms-3 me-3">
 							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
 								<h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
 
@@ -132,28 +131,6 @@
 									<button class="btn btn-outline-primary me-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
 										<i class="bi bi-key-fill"></i> Change Password
 									</button>
-								</div>
-
-								<div class="d-xxl-flex d-none flex-wrap justify-content-center align-items-center">
-										<input class="form-control me-1" type="search" placeholder="Search" aria-label="Search">
-										<button class="btn my-2 my-sm-0" type="submit">Search</button>
-									</form>
-
-									<div class="btn-group me-4 d-none d-xl-flex">
-										<button type="button" class="btn btn-md dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-											Sort by
-
-											<span class="visually-hidden">Toggle Dropdown</span>
-										</button>
-
-										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#">Date</a></li>
-
-											<li><a class="dropdown-item" href="#">Completion</a></li>
-
-											<li><a class="dropdown-item" href="#">A-Z</a></li>
-										</ul>
-									</div>
 								</div>
 							</div>
 						</header>

@@ -21,7 +21,7 @@
     <body class="p-0 m-0 w-100">
         <!-- HEADER -->
         <header id="mainHeader" class="d-flex align-items-center justify-content-center justify-content-sm-start">
-            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo w-auto">
+            <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
         </header>
 
         <!-- Debugging !!! NOT TO BE USED IN PRODUCTION !!! -->
@@ -29,12 +29,12 @@
         <div id="error-message"></div>
 
         <!-- LOGIN SECTION -->
-<main id="loginMain" class="container-fluid d-flex flex-column">
-    <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-center">
-        <div class="col-12 col-md-4 d-flex pe-md-0">
-            <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
-                <section id="loginSection" class="w-100 p-3">
-                            <div  id="loginContainer" class="col-12 d-flex flex-column justify-content-center w-100 align-items-center">
+        <main id="loginMain" class="container-fluid d-flex flex-column">
+            <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
+                <div class="col-12 col-md-4 d-flex pe-md-0 pb-3 pb-md-0">
+                    <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                        <section id="loginSection" class="w-100 p-0 p-sm-4 p-xxl-5">
+                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-4 mb-0">
 
                                 <form id="login-form" class="w-75">
@@ -56,9 +56,9 @@
                 </div>
 
                 <!-- DESCRIPTION SECTION -->
-        <div class="col-12 col-md-8 d-flex">
-            <div id="contentWrapper" class="w-100 d-flex align-items-center justify-content-center">
-                <section id="homeContent" class="w-100 p-3">
+                <div class="col-12 col-md-8 d-flex">
+                    <div id="contentWrapper" class="w-100 d-flex align-items-center justify-content-center">
+                        <section id="homeContent" class="w-100 p-3">
 
                             <!-- Content Header -->
                             <header id="contentHeader" class="d-none d-sm-block">
@@ -76,7 +76,7 @@
                                 </div>
                             </header>
 
-                            <hr class="m-0" style="border-top: 1px solid #ccc;">
+                            <hr class="m-0 d-none d-sm-block" style="border-top: 1px solid #ccc;">
 
                             <!-- Carousel -->
                             <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
@@ -89,10 +89,10 @@
 
                                 <div class="carousel-inner h-100">
                                     <!-- First slide -->
-                                    <div class="carousel-item active d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 active d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
+                                                <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
                                             <div class="col-12 col-sm-7 p-0 d-flex">
                                                 <div class="contentCardText d-flex flex-column text-align-center">
@@ -108,10 +108,10 @@
                                     </div>
 
                                     <!-- Second slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
+                                                <img src="images/contentcard-report.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
@@ -127,10 +127,10 @@
                                     </div>
 
                                     <!-- Third slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
+                                                <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
@@ -150,23 +150,21 @@
                                     </div>
 
                                     <!-- Fourth slide -->
-                                    <div class="carousel-item d-flex justify-content-center align-items-center">
+                                    <div class="carousel-item h-100 d-flex justify-content-center align-items-center">
                                         <div class="row align-items-center homeContentCard">
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
-                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="contentCard object-fit-contain p-3">
+                                                <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
                                             <div class="col-12 col-sm-7 p-0">
                                                 <div class="contentCardText d-flex flex-column">
                                                     <h2><span class="highlight">Step Four:</span> This is where <span
-                                                            class="highlight">you</span> come in
-                                                        and
+                                                            class="highlight">you</span>
                                                         make a
                                                         <span>big change!</span>
                                                     </h2>
 
-                                                    <p>With tips on how to fix your vulnerabilities, in SMS you can
-                                                        track
+                                                    <p>With SMS you can track
                                                         your progress till everything is fixed!
                                                     </p>
                                                 </div>
