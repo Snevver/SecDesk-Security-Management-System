@@ -16,8 +16,9 @@
         <link rel="stylesheet" href="/css/employee.css">
         <link rel="stylesheet" href="/css/index.css">
     </head>
-      <body class="p-0 m-0 w-100">
-        		<!-- HEADER -->
+
+    <body class="p-0 m-0 w-100">
+        <!-- HEADER -->
 		<header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
 			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
 				<!-- Logo -->
@@ -35,14 +36,6 @@
 				</div>
 			</div>
 		</header>
-
-        <button id="create-test-btn" class="btn btn-primary mb-4">
-            <i class="bi bi-plus-circle"></i> Create New Test
-        </button>
-
-        <select id="customer-select" class="form-select d-none mb-4">
-            <option value="" selected disabled>Select a customer</option>
-        </select>
 
 		<!-- SIDEBAR -->
 		<div class="content-wrapper d-flex">
@@ -136,66 +129,8 @@
                                         <i class="bi bi-key-fill"></i> Change Password
                                     </button>
                                 </div>
-                                <div class="card-body">
-                                    <div id="tests-in-progress">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0">
-                                        <i class="bi bi-check-circle"></i>
-                                        Completed Tests
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div id="completed-tests">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>            
-            </div>
-
-            <!-- Change Password Modal -->
-            <div class="modal fade" id="changePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="changePasswordModalLabel">
-                                <i class="bi bi-key-fill"></i>
-                                Change Password
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <form id="changePasswordForm">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="currentPassword" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" id="currentPassword" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" required>
-                                    <div class="form-text">Password should be at least 8 characters long.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" required>
-                                </div>
-                                <div id="passwordError" class="text-danger d-none"></div>
-                                <div id="passwordSuccess" class="text-success d-none"></div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary" id="changePasswordSubmit">
-                                    <i class="bi bi-check-lg"></i> Change Password
+                                <button id="create-report-btn" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Create New Report
                                 </button>
                             </div>
 
@@ -233,7 +168,7 @@
                                             </h5>
                                         </div>
                                         <div class="card-body pe-0">
-                                            <div id="reports-in-progress" class="overflow-y-auto d-flex flex-column pe-1 me-1">
+                                            <div id="tests-in-progress" class="overflow-y-auto d-flex flex-column pe-1 me-1">
                                                 <!-- Content will be loaded by JavaScript -->
                                             </div>
                                         </div>
@@ -249,7 +184,7 @@
                                             </h5>
                                         </div>
                                         <div class="card-body pe-0">
-                                            <div id="completed-reports" class="overflow-y-auto pe-1 me-1">
+                                            <div id="completed-tests" class="overflow-y-auto pe-1 me-1">
                                                 <!-- Content will be loaded by JavaScript -->
                                             </div>
                                         </div>
