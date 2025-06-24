@@ -1,6 +1,73 @@
 function getEmployeesTests() {
-    fetch(`/api/employee-tests`, {
-        credentials: "same-origin",
+  fetch(`/api/get-all-customer-tests`, {
+    credentials: "same-origin",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      const completedTestsContainer =
+        document.getElementById("completed-tests");
+      const inProgressTestsContainer =
+        document.getElementById("tests-in-progress");
+
+      // Clear existing content
+      completedTestsContainer.innerHTML = "";
+      inProgressTestsContainer.innerHTML = "";
+
+      // Display completed tests
+      if (data.completedTests && data.completedTests.length > 0) {
+        let completedHTML = "";
+        let testIndex = 1;
+        data.completedTests.forEach((test) => {
+          const testDate = new Date(test.test_date).toLocaleDateString();
+          completedHTML += `
+                  <div id="test-${test.id}" class="test-item p-0 pb-3">
+                    <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
+                      <div class="text-start pe-3 flex-grow-1">
+                        <div class="fw-bold fs-5">${test.test_name}</div>
+                        <small class="text-muted d-block mb-1">Date: ${testDate}</small>
+                        <p class="mb-1"><strong>Description:</strong> ${test.test_description}</p>
+                        <p class="mb-0"><strong>Status:</strong> <span>✅ Completed</span></p>
+                      </div>
+                      <div class="d-flex flex-column gap-2 align-items-end">
+                        <button class="btn btn-sm btn-outline-warning" onclick="toggleTestCompletion(${test.id}, false)">Mark as In Progress <i class="bi bi-arrow-repeat ps-1"></i></button>
+                      </div>
+                    </div>
+                  </div>
+    `;
+        });
+        completedTestsContainer.innerHTML = completedHTML;
+      } else {
+        completedTestsContainer.innerHTML = "<p>No completed tests found.</p>";
+      }
+
+      // Display non-completed tests
+      if (data.nonCompletedTests && data.nonCompletedTests.length > 0) {
+        let inProgressHTML = "";
+        let testIndex = 1;
+        data.nonCompletedTests.forEach((test) => {
+          const testDate = new Date(test.test_date).toLocaleDateString();
+          inProgressHTML += `
+                  <div id="test-${test.id}" class="test-item p-0 pb-3">
+                    <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
+                      <div class="text-start pe-3 flex-grow-1">
+                        <div class="fw-bold fs-5">${test.test_name}</div>
+                        <small class="text-muted d-block mb-1">Date: ${testDate}</small>
+                        <p class="mb-1"><strong>Description:</strong> ${test.test_description}</p>
+                        <p class="mb-0"><strong>Status:</strong> <span>🔄 In Progress</span></p>
+                      </div>
+                      <div class="d-flex flex-column gap-2 align-items-end">
+                        <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)">Mark as Completed <i class="bi bi-check-lg ps-1"></i></button>
+                        <button class="btn btn-sm" onclick='window.location.href = "/edit?test_id=${test.id}"'>Edit test <i class="bi bi-pencil-fill ps-1"></i></button>
+                      </div>
+                    </div>
+                  </div>
+    `;
+        });
+        inProgressTestsContainer.innerHTML = inProgressHTML;
+      } else {
+        inProgressTestsContainer.innerHTML = "<p>No tests in progress.</p>";
+      }
     })
         .then((response) => response.json())
         .then((data) => {
@@ -113,21 +180,21 @@ function toggleTestCompletion(testId, completed) {
 
 // Populate the select element with customer emails
 function populateSelectElement() {
-    fetch("/api/customers", {
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            for (const user of data.users) {
-                const optionElement = document.createElement("option");
-                optionElement.value = user.id;
-                optionElement.textContent = user.email;
-                selectElement.appendChild(optionElement);
-            }
-        });
+  fetch("/api/get-all-customers", {
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      for (const user of data.users) {
+        const optionElement = document.createElement("option");
+        optionElement.value = user.id;
+        optionElement.textContent = user.email;
+        selectElement.appendChild(optionElement);
+      }
+    });
 }
 
 const selectElement = document.getElementById("customer-select");

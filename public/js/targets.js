@@ -4,34 +4,56 @@ const test_id = urlParams.get('test_id');
 const target_id = urlParams.get('target_id');
 
 function fetchTestTargets(test_id) {
-    console.log(`Fetching targets for test ID: ${test_id}`);
-    fetch(`/api/targets?test_id=${test_id}`)
-        .then((response) => {
-            if (!response.ok) {
-                console.log(response);
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            const targetListElement =
-                document.getElementsByClassName('target-list')[0];
-            if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = '<p>No targets found.</p>';
-                return;
-            }
-            let targetList = '';
-            for (let target of data.targets) {
-                targetList += `
-                    <div id="target-${target.id}">
-                        <h2>
-                            ${target.target_name}
-                        </h2>
-                        <div>
-                            <p>${target.target_description}</p>
-                        </div>
-                    </div>`;
-            }
+  console.log(`Fetching targets for test ID: ${test_id}`);
+  fetch(`/api/get-all-targets?test_id=${test_id}`)
+    .then((response) => {
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const targetListElement =
+        document.getElementsByClassName("target-list")[0];
+      if (!data || !data.targets || data.targets.length === 0) {
+        targetListElement.innerHTML = "<p>No targets found.</p>";
+        return;
+      }
+      let targetList = "";
+      for (let target of data.targets) {
+        targetList += `
+    <div class="accordion-item">
+      <h2 class="accordion-header"
+            data-bs-toggle="tooltip"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-placement="right"
+            title="${target.target_description}" id="heading-${target.id}">
+        <button class="accordion-button button-size collapsed p-0 pe-2 ps-1"
+                type="button"
+                id="target-${target.id}"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-${target.id}"
+                aria-expanded="false"
+                aria-controls="collapse-${target.id}">
+          <span class="ps-1">T${target.id}: ${target.target_name}</span>
+        </button>
+      </h2>
+      <div id="collapse-${target.id}"
+          class="accordion-collapse collapse"
+          aria-labelledby="heading-${target.id}"
+          data-bs-parent="#targetAccordion">
+        <div class="accordion-body p-0 vulnerability-list" id="vulns-for-${target.id}">
+        <div class="d-flex align-items-center">
+          <p role="status">Loading...</p>
+          <div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
+        </div>
+        </div>
+      </div>
+    </div>
+    `;
+      }
+      targetListElement.innerHTML = targetList;
 
             targetListElement.innerHTML = targetList;
 
@@ -56,28 +78,25 @@ function fetchTestTargets(test_id) {
 }
 
 function fetchVulnerabilities(target_id) {
-    console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
-    fetch(`/api/vulnerabilities?target_id=${target_id}`)
-        .then((response) => {
-            if (!response.ok) {
-                console.log(response);
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log('Vulnerabilities:', data.vulnerabilities);
-            const vulnerabilityListElement =
-                document.getElementsByClassName('vulnerability-list')[0];
-            if (
-                !data ||
-                !data.vulnerabilities ||
-                data.vulnerabilities.length === 0
-            ) {
-                vulnerabilityListElement.innerHTML =
-                    '<p>No vulnerabilities found.</p>';
-                return;
-            }
+  console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
+  fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
+    .then((response) => {
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Vulnerabilities:", data.vulnerabilities);
+      // Get element by unique ID to display vulnerabilities in the correct target element
+      const vulnerabilityListElement = document.getElementById(
+        `vulns-for-${target_id}`
+      );
+      if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
+        vulnerabilityListElement.innerHTML = `<p class="ps-2 m-0">No vulnerabilities found.</p>`;
+        return;
+      }
 
             let vulnerabilityList = '';
             for (let vulnerability of data.vulnerabilities) {

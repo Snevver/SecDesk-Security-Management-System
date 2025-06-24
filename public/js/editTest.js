@@ -9,7 +9,7 @@ const testId = urlParams.get("test_id");
  * Fill any form elements that already have data
  */
 function populateFormElement() {
-    fetch(`/api/get-test-data`, {
+    fetch(`/api/get-test`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -89,7 +89,7 @@ function updateTestData() {
 }
 
 function fetchTestTargets() {
-    fetch(`/api/targets?test_id=${testId}`)
+    fetch(`/api/get-all-targets?test_id=${testId}`)
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
@@ -178,7 +178,7 @@ function fetchTestTargets() {
 }
 
 function fetchVulnerabilities(targetId) {
-    fetch(`/api/vulnerabilities?target_id=${targetId}`)
+    fetch(`/api/get-all-vulnerabilities?target_id=${targetId}`)
         .then((response) => {
             if (!response.ok) {
                 console.log(response);

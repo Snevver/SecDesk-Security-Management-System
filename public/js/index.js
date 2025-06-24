@@ -6,19 +6,19 @@
  * Fetch customer tests
  */
 function fetchCustomerTests() {
-    fetch(`/api/tests`, {
-        credentials: "same-origin",
-    })
-        .then((response) => response.json())
-        .then((data) => displayCustomerTests(data))
-        .catch((error) => {
-            const testListElement = document.getElementById("testListContent");
-            if (testListElement) {
-                testListElement.classList.remove("loading");
-                testListElement.innerHTML =
-                    "<p>Error loading tests: " + error.message + "</p>";
-            }
-        });
+  fetch(`/api/get-all-customer-tests`, {
+    credentials: "same-origin",
+  })
+    .then((response) => response.json())
+    .then((data) => displayCustomerTests(data))
+    .catch((error) => {
+      const testListElement = document.getElementById("testListContent");
+      if (testListElement) {
+        testListElement.classList.remove("loading");
+        testListElement.innerHTML =
+          "<p>Error loading tests: " + error.message + "</p>";
+      }
+    });
 }
 
 /**

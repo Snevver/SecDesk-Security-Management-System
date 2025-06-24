@@ -11,7 +11,7 @@ class DataController
         $this->pdo = $pdo;
     }
 
-    public function getTestData($test_id)
+    public function getTest($test_id)
     {
         try {
 
@@ -36,6 +36,75 @@ class DataController
                 return [
                     'status' => 404,
                     'data' => ['error' => 'Test not found']
+                ];
+            }
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
+            ];
+        }
+    }
+
+    public function getTarget($target_id)
+    {
+        try {
+            Logger::write('info', 'Fetching target data for target ID: ' . $target_id);
+
+            // Prepare and execute the SQL statement to fetch target data
+            $stmt = $this->pdo->prepare("SELECT * FROM targets WHERE id = :target_id");
+            $stmt->bindParam(':target_id', $target_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            // Fetch the target data
+            $targetData = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            if ($targetData) {
+                Logger::write('info', 'Fetched target data for target ID ' . $target_id . ': ' . json_encode($targetData));
+                return [
+                    'status' => 200,
+                    'data' => $targetData
+                ];
+            } else {
+                Logger::write('error', 'No target found for target ID ' . $target_id);
+                return [
+                    'status' => 404,
+                    'data' => ['error' => 'Target not found']
+                ];
+            }
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
+            ];
+        }
+    }
+
+    public function getVulnerability($vulnerability_id) {
+        try {
+            Logger::write('info', 'Fetching vulnerability data for vulnerability ID: ' . $vulnerability_id);
+
+            // Prepare and execute the SQL statement to fetch vulnerability data
+            $stmt = $this->pdo->prepare("SELECT * FROM vulnerabilities WHERE id = :vulnerability_id");
+            $stmt->bindParam(':vulnerability_id', $vulnerability_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            // Fetch the vulnerability data
+            $vulnerabilityData = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            if ($vulnerabilityData) {
+                Logger::write('info', 'Fetched vulnerability data for vulnerability ID ' . $vulnerability_id . ': ' . json_encode($vulnerabilityData));
+                return [
+                    'status' => 200,
+                    'data' => $vulnerabilityData
+                ];
+            } else {
+                Logger::write('error', 'No vulnerability found for vulnerability ID ' . $vulnerability_id);
+                return [
+                    'status' => 404,
+                    'data' => ['error' => 'Vulnerability not found']
                 ];
             }
         } catch (\PDOException $e) {
