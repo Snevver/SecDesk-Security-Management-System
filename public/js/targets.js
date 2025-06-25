@@ -3,9 +3,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const test_id = urlParams.get("test_id");
 const target_id = urlParams.get("target_id");
 
-let selectedTargetId = null;
-let selectedVulnId = null;
-
 function fetchTestTargets(test_id) {
   fetch(`/api/targets?test_id=${test_id}`)
     .then((response) => {
@@ -94,13 +91,15 @@ function addTargetListeners(targetListElement) {
   targetElements.forEach((element) => {
     element.addEventListener("click", function (e) {
       e.preventDefault();
-      const targetId = this.id.replace("target-", "");
-      selectedTargetId = targetId;
-      selectedVulnId = null; // Reset vuln selection
-      // Remove 'active' from all, add to this
+      const isExpanded = this.getAttribute("aria-expanded") === "false";
       targetElements.forEach((el) => el.classList.remove("active"));
-      this.classList.add("active");
-      fetchVulnerabilities(targetId, targetListElement.id);
+      if (!isExpanded) {
+        this.classList.add("active");
+        const targetId = this.id.replace("target-", "");
+        fetchVulnerabilities(targetId, targetListElement.id);
+      } else {
+        hideVulnerabilityDetails();
+      }
     });
   });
 }
@@ -135,7 +134,7 @@ function fetchVulnerabilities(target_id, listId) {
       }
       vulnerabilityListElement.innerHTML = vulnerabilityList;
 
-      // After rendering vulnerability buttons:
+      // Add event listeners for vulnerability clicks
       const vulnerabilityElements = vulnerabilityListElement.querySelectorAll(
         "button[id^='vulnerability-']"
       );
@@ -144,33 +143,20 @@ function fetchVulnerabilities(target_id, listId) {
           e.preventDefault();
           vulnerabilityElements.forEach((el) => el.classList.remove("active"));
           this.classList.add("active");
-          const vulnId = this.id.replace("vulnerability-", "");
-          selectedVulnId = vulnId;
+          const vulnerabilityId = this.id.replace("vulnerability-", "");
           const vulnerability = data.vulnerabilities.find(
-            (v) => v.id == vulnId
+            (v) => v.id == vulnerabilityId
           );
           if (vulnerability) {
             showVulnerabilityDetails(vulnerability);
           }
         });
-        // If this vuln is the selected one, activate it
-        if (
-          selectedVulnId &&
-          element.id === `vulnerability-${selectedVulnId}`
-        ) {
-          element.classList.add("active");
-        }
       });
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 }
-
-// The rest of your showVulnerabilityDetails and hideVulnerabilityDetails functions remain unchanged
-
-// Fetch the test targets when the script loads
-fetchTestTargets(test_id);
 
 function showVulnerabilityDetails(vulnerability) {
   console.log("Showing details for vulnerability:", vulnerability);
@@ -332,40 +318,53 @@ function handleSidebarVisibility() {
 window.addEventListener("DOMContentLoaded", handleSidebarVisibility);
 window.addEventListener("resize", handleSidebarVisibility);
 
-function restoreSidebarState(sidebarType) {
-  const accordionId =
-    sidebarType === "desktop"
-      ? "targetAccordionDesktop"
-      : "targetAccordionMobile";
-  const accordion = document.getElementById(accordionId);
+const desktopBtn = document.getElementById("desktopSidebarToggleBtn");
+const desktopArrow = desktopBtn.querySelector(".arrow-icon");
 
-  if (selectedTargetId) {
-    const targetBtn = accordion.querySelector(`#target-${selectedTargetId}`);
-    if (targetBtn) {
-      // Remove 'active' from all accordion buttons first
-      accordion
-        .querySelectorAll("button[id^='target-']")
-        .forEach((btn) => btn.classList.remove("active"));
+desktopBtn.addEventListener("click", () => {
+  desktopArrow.classList.toggle("rotated");
+});
 
-      // Only click if not already expanded
-      if (targetBtn.getAttribute("aria-expanded") === "false") {
-        targetBtn.click();
-      } else {
-        fetchVulnerabilities(selectedTargetId, accordionId);
-      }
-      // Add 'active' class to the selected button
-      targetBtn.classList.add("active");
+let lastActiveTargetId = null;
+let lastActiveVulnId = null;
 
-      // After vulnerabilities are loaded, select the vuln if any
-      if (selectedVulnId) {
+function syncSidebarStateToMobile() {
+  // Find the expanded target in desktop sidebar
+  const desktopAccordion = document.getElementById("targetAccordionDesktop");
+  const expandedTarget = desktopAccordion.querySelector(
+    ".accordion-button.active"
+  );
+  if (expandedTarget) {
+    lastActiveTargetId = expandedTarget.id.replace("target-", "");
+    // Optionally, find the selected vulnerability
+    const activeVuln = desktopAccordion.querySelector(".vuln-button.active");
+    if (activeVuln) {
+      lastActiveVulnId = activeVuln.id.replace("vulnerability-", "");
+    }
+  } else {
+    lastActiveTargetId = null;
+    lastActiveVulnId = null;
+  }
+}
+
+function syncMobileSidebarState() {
+  if (lastActiveTargetId) {
+    // Expand the same target in mobile sidebar
+    const mobileAccordion = document.getElementById("targetAccordionMobile");
+    const mobileTargetBtn = mobileAccordion.querySelector(
+      `#target-${lastActiveTargetId}`
+    );
+    if (mobileTargetBtn) {
+      // Expand the accordion
+      mobileTargetBtn.click();
+      // After vulnerabilities are loaded, select the same vulnerability if any
+      if (lastActiveVulnId) {
         setTimeout(() => {
-          const vulnBtn = accordion.querySelector(
-            `#vulnerability-${selectedVulnId}`
+          const mobileVulnBtn = mobileAccordion.querySelector(
+            `#vulnerability-${lastActiveVulnId}`
           );
-          if (vulnBtn && !vulnBtn.classList.contains("active")) {
-            vulnBtn.click();
-          }
-        }, 400);
+          if (mobileVulnBtn) mobileVulnBtn.click();
+        }, 300); // Adjust delay as needed for fetch timing
       }
     }
   }
@@ -373,33 +372,9 @@ function restoreSidebarState(sidebarType) {
 
 window.addEventListener("resize", () => {
   if (window.innerWidth < 1200) {
-    restoreSidebarState("mobile");
-  } else {
-    restoreSidebarState("desktop");
+    syncSidebarStateToMobile();
   }
 });
 
 const mobileSidebar = document.getElementById("targetSidebarMobile");
-if (mobileSidebar) {
-  mobileSidebar.addEventListener("show.bs.offcanvas", () =>
-    restoreSidebarState("mobile")
-  );
-}
-
-const offcanvas = document.getElementById("targetSidebarMobile");
-const offcanvasBtn = document.getElementById("mobileSidebarToggleBtn");
-const arrowIcon = offcanvasBtn.querySelector(".arrow-icon");
-
-offcanvas.addEventListener("show.bs.offcanvas", () => {
-  arrowIcon.classList.add("rotated");
-});
-offcanvas.addEventListener("hide.bs.offcanvas", () => {
-  arrowIcon.classList.remove("rotated");
-});
-
-const desktopBtn = document.getElementById("desktopSidebarToggleBtn");
-const desktopArrow = desktopBtn.querySelector(".arrow-icon");
-
-desktopBtn.addEventListener("click", () => {
-  desktopArrow.classList.toggle("rotated");
-});
+mobileSidebar.addEventListener("show.bs.offcanvas", syncMobileSidebarState);
