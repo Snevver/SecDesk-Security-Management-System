@@ -4,7 +4,6 @@ namespace Ssms\Controllers;
 use Ssms\Logger;
 use PDO;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 class AdminDashboardController

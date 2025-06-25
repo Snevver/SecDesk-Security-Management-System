@@ -331,13 +331,10 @@ function fetchTestTargets() {
                             target.id
                         }" style="display: none;">
                             <div>Loading vulnerabilities...</div>
-                        </div>                        
+                        </div>                          
                         <br><br>
                     </div>`;
             }
-            targetList += `<div id="add-target">
-                <br><br><br><button class="btn btn-success" onclick="addNewTarget()">Add Target</button>
-            </div>`;
 
             targetListElement.innerHTML = targetList;
 
@@ -396,6 +393,8 @@ function fetchTestTargets() {
  * Add a new target to the current test
  */
 function addNewTarget() {
+    console.log('Adding new target for test ID:', testId);
+
     // Make API call to add the target with empty name and description
     fetch(`/api/add-target?test_id=${testId}`, {
         method: 'POST',
@@ -411,17 +410,15 @@ function addNewTarget() {
             return response.json();
         })
         .then((data) => {
-            if (data.success) {
-                // Refresh the targets list to show the new target
-                fetchTestTargets();
-            }
+            console.log('Add target response:', data);
+            // Always reload the page after the API call
+            window.location.reload();
         })
         .catch((error) => {
             console.error('Error adding target:', error);
+            // Still reload even on error to refresh the page state
+            window.location.reload();
         });
-
-    // refresh the page
-    window.location.reload();
 }
 
 /**
@@ -480,9 +477,9 @@ function fetchVulnerabilities(targetId) {
 
 function deleteEntity(entityType, entityId, elementId = null) {
     const entityNames = {
-        vulnerability: "vulnerability",
-        target: "target",
-        test: "test",
+        vulnerability: 'vulnerability',
+        target: 'target',
+        test: 'test',
     };
 
     const entityName = entityNames[entityType] || entityType;
@@ -495,15 +492,15 @@ function deleteEntity(entityType, entityId, elementId = null) {
     const endpoint = `/api/delete?${entityType}_id=${entityId}`;
 
     fetch(endpoint, {
-        method: "DELETE",
-        credentials: "same-origin",
+        method: 'DELETE',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
@@ -519,14 +516,14 @@ function deleteEntity(entityType, entityId, elementId = null) {
                 alert(
                     `${
                         entityName.charAt(0).toUpperCase() + entityName.slice(1)
-                    } deleted successfully!`
+                    } deleted successfully!`,
                 );
             }
 
             alert(
                 `${
                     entityName.charAt(0).toUpperCase() + entityName.slice(1)
-                } deleted successfully!`
+                } deleted successfully!`,
             );
 
             window.location.reload();
@@ -542,10 +539,10 @@ function createDeleteButton(
     entityType,
     entityId,
     elementId = null,
-    buttonClass = "btn btn-danger"
+    buttonClass = 'btn btn-danger',
 ) {
     return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity('${entityType}', ${entityId}, '${
-        elementId || ""
+        elementId || ''
     }')">Delete</button>`;
 }
 
@@ -561,19 +558,19 @@ function createActionButtons(entityType, entityId, elementId = null) {
 
 function displayForm(formId) {
     const formElement = document.getElementById(formId);
-    
+
     if (!formElement) {
         console.warn(`Form with ID '${formId}' not found in DOM`);
         return;
     }
 
-    document.querySelectorAll("form").forEach((form) => {
-        form.classList.remove("d-flex");
-        form.classList.add("d-none");
+    document.querySelectorAll('form').forEach((form) => {
+        form.classList.remove('d-flex');
+        form.classList.add('d-none');
     });
 
-    formElement.classList.remove("d-none");
-    formElement.classList.add("d-flex");
+    formElement.classList.remove('d-none');
+    formElement.classList.add('d-flex');
 }
 
 fetchTestTargets();
@@ -581,26 +578,37 @@ populateFormElement();
 
 // Create event listeners for all buttons
 document
-    .getElementById("test-detail-form")
-    .addEventListener("submit", (event) => {
+    .getElementById('test-detail-form')
+    .addEventListener('submit', (event) => {
         event.preventDefault();
         updateTestData();
     });
 
 document
-    .getElementById("edit-test-detail-button")
-    .addEventListener("click", (event) => {
+    .getElementById('edit-test-detail-button')
+    .addEventListener('click', (event) => {
         event.preventDefault();
         editEntity('test', testId);
     });
 
 // Add event listener for target form submission
-const targetForm = document.getElementById("target-form");
+const targetForm = document.getElementById('target-form');
 if (targetForm) {
-    targetForm.addEventListener("submit", (event) => {
+    targetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         updateTargetData();
     });
 } else {
-    console.warn("Target form not found - target editing may not work");
+    console.warn('Target form not found - target editing may not work');
+}
+
+// Add event listener for add target button
+const addTargetBtn = document.getElementById('add-target-btn');
+if (addTargetBtn) {
+    addTargetBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        addNewTarget();
+    });
+} else {
+    console.warn('Add target button not found');
 }

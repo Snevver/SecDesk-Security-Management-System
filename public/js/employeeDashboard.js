@@ -1,3 +1,6 @@
+// Get DOM elements at the top
+const selectElement = document.getElementById('customer-select');
+
 async function getEmployeesTests() {
     try {
         const response = await fetch(`/api/get-all-employee-tests`, {
@@ -26,13 +29,10 @@ async function getEmployeesTests() {
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
                                 <div class="fw-bold fs-5">${test.test_name}</div>
-                                <small class="text-muted d-block mb-1">Date: ${testDate}</small>
-                                <p class="mb-1"><strong>Description:</strong> ${test.test_description}</p>
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
-                                <p class="mb-0"><strong>Status:</strong> <span>✅ Completed</span></p>
                             </div>
                             <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm btn-outline-warning" onclick="toggleTestCompletion(${test.id}, false)">Mark as In Progress <i class="bi bi-arrow-repeat ps-1"></i></button>
+                                <button class="btn btn-sm btn-outline-warning" onclick="toggleTestCompletion(${test.id}, false)"><i class="bi bi-arrow-repeat ps-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -55,14 +55,11 @@ async function getEmployeesTests() {
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
                                 <div class="fw-bold fs-5">${test.test_name}</div>
-                                <small class="text-muted d-block mb-1">Date: ${testDate}</small>
-                                <p class="mb-1"><strong>Description:</strong> ${test.test_description}</p>
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
-                                <p class="mb-0"><strong>Status:</strong> <span>🔄 In Progress</span></p>
                             </div>
                             <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)">Mark as Completed <i class="bi bi-check-lg ps-1"></i></button>
-                                <button class="btn btn-sm" onclick='window.location.href = "/edit?test_id=${test.id}"'>Edit test <i class="bi bi-pencil-fill ps-1"></i></button>
+                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)"><i class="bi bi-check-lg ps-1"></i></button>
+                                <button class="btn btn-sm" onclick='window.location.href = "/edit?test_id=${test.id}"'><i class="bi bi-pencil-fill ps-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -147,32 +144,52 @@ async function getCustomerEmail(customerID) {
     }
 }
 
-const selectElement = document.getElementById('customer-select');
-
 getEmployeesTests();
 populateSelectElement();
 
 // Event listener for the "Create test" button
-document.getElementById('create-test-btn').addEventListener('click', () => {
-    selectElement.classList.remove('d-none');
-});
+const createTestBtn = document.getElementById('create-test-btn');
+if (createTestBtn) {
+    createTestBtn.addEventListener('click', () => {
+        console.log('Create test button clicked'); // Debug log
+        if (selectElement) {
+            selectElement.classList.remove('d-none');
+            console.log('Select element shown'); // Debug log
+        } else {
+            console.error('selectElement not found');
+        }
+    });
+} else {
+    console.error('create-test-btn element not found');
+}
 
 // Event listener for the select element
-selectElement.addEventListener('change', (event) => {
-    const selectedCustomerID = parseInt(event.target.value);
+if (selectElement) {
+    selectElement.addEventListener('change', (event) => {
+        const selectedCustomerID = parseInt(event.target.value);
 
-    fetch('/create-test', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            customer_id: selectedCustomerID,
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            window.location.href = `/edit?test_id=${data.new_test_id}`;
-        });
-});
+        console.log('Customer selected:', selectedCustomerID); // Debug log
+
+        fetch('/create-test', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                customer_id: selectedCustomerID,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Test created:', data); // Debug log
+                window.location.href = `/edit?test_id=${data.new_test_id}`;
+            })
+            .catch((error) => {
+                console.error('Error creating test:', error);
+                alert('Error creating test: ' + error.message);
+            });
+    });
+} else {
+    console.error('customer-select element not found');
+}

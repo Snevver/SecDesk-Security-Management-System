@@ -27,11 +27,18 @@
                 <button class="btn btn-dark" id="edit-test-detail-button">
                     Edit Test Detail
                 </button>
-            </header>
-
+            </header>            
+            
             <!-- Targets -->
             <div class="border rounded p-2 mt-3" id="target-container">
                 Loading targets...
+            </div>
+            
+            <!-- Add Target Button -->
+            <div class="mt-3">
+                <button class="btn btn-success" id="add-target-btn">
+                    <i class="bi bi-plus-circle"></i> Add Target
+                </button>
             </div>
         </div>
 

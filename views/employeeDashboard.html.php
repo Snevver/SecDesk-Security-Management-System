@@ -116,7 +116,7 @@
 
                         <div class="position-absolute start-0 d-flex justify-content-between align-items-center">
                             <button id="create-test-btn" class="btn btn-primary ms-2">
-                            <i class="bi bi-plus-circle"></i> Create New Report
+                            <i class="bi bi-plus-circle"></i> Create New Test
                             </button>
                         </div>
 
@@ -127,6 +127,10 @@
                     </header>
 
             <div class="container mt-0">
+                <select id="customer-select" class="form-select w-25 m-0 col-6 d-none">
+                    <option value="" selected disabled>Select a customer</option>
+                    <!-- Options will be populated by JavaScript -->
+                </select>
                 <div class="row">
                     <div class="col-md-12">
 
@@ -136,11 +140,7 @@
                                 <h5 class="mb-0 col-6">
                                     <i class="bi bi-person-circle"></i>
                                     Logged in as <span id="email" class="text-primary"><?=$_SESSION['email'] ?? "Unknown"?></span>
-                                </h5>
-                                <select id="customer-select" class="form-select w-25 m-0 col-6">
-                                    <option value="" selected disabled>Select a customer</option>
-                                    <!-- Options will be populated by JavaScript -->
-                                </select>
+                                </h5>                                
                             </div>
                         </div>
 
