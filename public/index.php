@@ -161,6 +161,15 @@ try {
             $result = $app->useController("AuthenticatorController", "changePassword");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
+
+        case '/api/add-target':
+            $app->checkApiAuthentication();
+            $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+            if (!$test_id) {
+                throw new HTTPException('Test ID is required', 400);
+            }
+            $app->handleApiRoute('pentester', "TargetController", "addTarget", [$test_id]);
+            break;
         
         case '/api/delete':
             $app->checkApiAuthentication();
