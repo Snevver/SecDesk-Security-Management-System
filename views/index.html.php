@@ -27,7 +27,7 @@
 			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-1 position-absolute top-0 start-0">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-2 position-absolute top-0 start-0">
 				</div>
 
 				<!-- Title -->
@@ -59,18 +59,9 @@
 						</a>
 					</li>
 
-					<!-- Statistics Button -->
-					<li>
-						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Statistics" data-bs-toggle="tooltip" data-bs-placement="right">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-								<path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z" />
-							</svg>
-						</a>
-					</li>
-
 					<!-- Settings Button -->
 					<li>
-						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
 								<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
 
@@ -126,12 +117,6 @@
 						<header id="testListHeader" class="mb-3 mt-3 ms-xxl-0 me-xxl-0 ms-3 me-3">
 							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
 								<h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
-
-								<div class="d-flex align-items-center">
-									<button class="btn btn-outline-primary me-3" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-										<i class="bi bi-key-fill"></i> Change Password
-									</button>
-								</div>
 							</div>
 						</header>
 

@@ -48,7 +48,10 @@
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
 
-                                    <button type="submit" id="login" class="btn w-100">Login</button>
+                                    <button type="submit" id="login" class="btn w-100">
+                                    <span id="loginSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
+                                    <span id="loginBtnText">Login</span>
+                                    </button>
                                 </form>
                             </div>
                         </section>
@@ -94,14 +97,14 @@
                                             <div class="col-12 col-sm-5 p-0 d-flex justify-content-center align-items-center">
                                                 <img src="images/contentcard-hackerman.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
-                                            <div class="col-12 col-sm-7 p-0 d-flex">
+                                            <div class="col-12 col-sm-7 pe-2 p-0 d-flex">
                                                 <div class="contentCardText d-flex flex-column text-align-center">
-                                                    <h2>
+                                                    <h2 class="display-5">
                                                         <span class="highlight">Step One:</span> We'll hack you for
                                                         <span class="highlight">everything</span> you're worth
                                                     </h2>
 
-                                                    <p>You pick the targets, and we do what we do best</p>
+                                                    <p class="fs-4">You pick the targets, and we do what we do best</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,13 +117,13 @@
                                                 <img src="images/contentcard-report.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
-                                            <div class="col-12 col-sm-7 p-0">
+                                            <div class="col-12 col-sm-7 pe-2 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                    <h2>
+                                                    <h2 class="display-5">
                                                         <span class="highlight">Step Two:</span> We'll put <span class="highlight">special care</span> into what matters most
                                                     </h2>
 
-                                                    <p>With a detailed report of your vulnerabilities</p>
+                                                    <p class="fs-4">With a detailed report of your vulnerabilities</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -133,9 +136,9 @@
                                                 <img src="images/contentcard-sms-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
-                                            <div class="col-12 col-sm-7 p-0">
+                                            <div class="col-12 col-sm-7 pe-2 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                    <h2>
+                                                    <h2 class="display-5">
                                                         <span class="highlight">Step Three:</span> Enter Secdesk's <span
                                                             class="highlight">Security
                                                             Management
@@ -143,7 +146,7 @@
                                                         </span>
                                                     </h2>
 
-                                                    <p>Our detailed report in a user-friendly environment</p>
+                                                    <p class="fs-4">Our detailed report in a user-friendly environment</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,15 +159,16 @@
                                                 <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="contentCard p-0 p-xxl-3">
                                             </div>
 
-                                            <div class="col-12 col-sm-7 p-0">
+                                            <div class="col-12 col-sm-7 pe-2 p-0">
                                                 <div class="contentCardText d-flex flex-column">
-                                                    <h2><span class="highlight">Step Four:</span> This is where <span
+                                                    <h2 class="display-5">
+                                                        <span class="highlight">Step Four:</span> This is where <span
                                                             class="highlight">you</span>
                                                         make a
                                                         <span>big change!</span>
                                                     </h2>
 
-                                                    <p>With SMS you can track
+                                                    <p class="fs-4">With SMS you can track
                                                         your progress till everything is fixed!
                                                     </p>
                                                 </div>

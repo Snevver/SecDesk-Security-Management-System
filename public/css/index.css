@@ -18,7 +18,7 @@
 
 #userDashboard {
   font-family: "Roboto", sans-serif;
-  height: 94vh;
+  height: calc(100vh - 60px);
   width: 98%;
   background-color: var(--white-color);
 }
@@ -36,7 +36,7 @@
     var(--light-background-color),
     #f1f1f1
   ) !important;
-  height: 8vh;
+  height: 60px;
   border-radius: 0.5rem;
   border: 2px solid #ccc;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -114,7 +114,7 @@ h1 span,
 
 .accordion-button,
 .test-button {
-  height: 12vh;
+  height: 100px;
   background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
   border-bottom: 2px solid #ccc !important;
   border-right: 2px solid #ccc !important;
@@ -158,11 +158,11 @@ input:focus,
 
 .btn {
   background-color: var(--header-color) !important;
-  color: var(--black-color) !important;
+  color: var(--white-color) !important;
   border: 1px solid black;
 }
 
 .btn:hover {
-  border: 1px solid var(--white-color);
-  color: var(--white-color) !important;
+  border: 1px solid var(--button-color);
+  color: var(--button-color) !important;
 }
