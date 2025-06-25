@@ -19,7 +19,7 @@ class Application implements LoggerAwareInterface
     private AuthenticatorController $authenticationController;
     private array $protectedRoutes;    
     
-    public function __construct() {          
+    public function __construct() {            
         $this->protectedRoutes = [
             '/',
             '/targets',
@@ -29,16 +29,21 @@ class Application implements LoggerAwareInterface
             '/api/get-all-customers',
             '/api/get-all-employees',
             '/api/get-all-admins',
-            '/api/get-all-customer-tests', 
+            '/api/get-all-customer-tests',
+            '/api/get-all-employee-tests',
             '/api/update-test-completion',
             '/api/get-all-targets',
             '/api/get-all-vulnerabilities',
             '/api/get-test',
+            '/api/get-target',
+            '/api/get-vulnerability',
+            '/api/get-customer-email',
             '/check-access',
             '/create-account',
             '/create-test',
-            '/add-target',
             '/update-test',
+            '/update-target',
+            '/api/add-target',
             '/api/change-password',
             '/api/delete',
         ];
