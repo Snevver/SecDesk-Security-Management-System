@@ -444,7 +444,7 @@ class Application implements LoggerAwareInterface
             '/create-customer' => ['admin'],
             '/create-account' => ['admin'],
             '/create-test' => ['pentester'],
-            '/add-target' => ['pentester'],
+            '/api/add-target' => ['pentester'],
             '/update-test' => ['pentester'],
             '/api/change-password' => [],
             '/api/delete' => ['admin', 'pentester']

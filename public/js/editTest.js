@@ -297,18 +297,18 @@ function fetchTestTargets() {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const targetListElement =
-                document.getElementById("target-container");
+                document.getElementById('target-container');
             if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = "<p>No targets found.</p>";
+                targetListElement.innerHTML = '<p>No targets found.</p>';
                 return;
             }
-            let targetList = "";
+            let targetList = '';
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
@@ -322,9 +322,9 @@ function fetchTestTargets() {
                                 target.id
                             }">Edit Target</button>
                             ${createDeleteButton(
-                                "target",
+                                'target',
                                 target.id,
-                                `target-${target.id}`
+                                `target-${target.id}`,
                             )}
                         </div>
                         <div id="vulnerabilities-${
@@ -335,18 +335,17 @@ function fetchTestTargets() {
                         <br><br>
                     </div>`;
             }
-
             targetList += `<div id="add-target">
-                <br><br><br><a class="btn btn-success" href="/add-target?test_id=${testId}">Add Target</a>
+                <br><br><br><button class="btn btn-success" onclick="addNewTarget()">Add Target</button>
             </div>`;
 
-            targetListElement.innerHTML = targetList;            
-            
+            targetListElement.innerHTML = targetList;
+
             // Add event listeners for the edit buttons
             data.targets.forEach((target) => {
                 document
                     .querySelector(`.edit-target-button-${target.id}`)
-                    .addEventListener("click", (event) => {
+                    .addEventListener('click', (event) => {
                         event.preventDefault();
                         event.stopPropagation(); // Prevent dropdown toggle
                         editEntity('target', target.id);
@@ -355,42 +354,74 @@ function fetchTestTargets() {
 
             // Add event listeners for dropdown functionality
             const targetHeaders = targetListElement.querySelectorAll(
-                "div[data-target-id]"
+                'div[data-target-id]',
             );
             targetHeaders.forEach((header) => {
-                header.addEventListener("click", function (e) {
+                header.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.dataset.targetId;
                     const dropdown = document.getElementById(
-                        `vulnerabilities-${targetId}`
+                        `vulnerabilities-${targetId}`,
                     );
-                    const arrow = this.querySelector("span");
+                    const arrow = this.querySelector('span');
 
                     console.log(`Clicking on target ${targetId}`);
 
                     // Toggle dropdown visibility
                     if (
-                        dropdown.style.display === "none" ||
-                        dropdown.style.display === ""
+                        dropdown.style.display === 'none' ||
+                        dropdown.style.display === ''
                     ) {
                         // Show dropdown and fetch vulnerabilities
-                        dropdown.style.display = "block";
-                        arrow.textContent = "▲";
+                        dropdown.style.display = 'block';
+                        arrow.textContent = '▲';
                         fetchVulnerabilities(targetId);
                     } else {
                         // Hide dropdown
-                        dropdown.style.display = "none";
-                        arrow.textContent = "▼";
+                        dropdown.style.display = 'none';
+                        arrow.textContent = '▼';
                     }
                 });
             });
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
+}
+
+/**
+ * Add a new target to the current test
+ */
+function addNewTarget() {
+    // Make API call to add the target with empty name and description
+    fetch(`/api/add-target?test_id=${testId}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success) {
+                // Refresh the targets list to show the new target
+                fetchTestTargets();
+            }
+        })
+        .catch((error) => {
+            console.error('Error adding target:', error);
+        });
+
+    // refresh the page
+    window.location.reload();
 }
 
 /**
@@ -402,13 +433,13 @@ function fetchVulnerabilities(targetId) {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const vulnerabilitiesElement = document.getElementById(
-                `vulnerabilities-${targetId}`
+                `vulnerabilities-${targetId}`,
             );
             if (
                 !data ||
@@ -416,7 +447,7 @@ function fetchVulnerabilities(targetId) {
                 data.vulnerabilities.length === 0
             ) {
                 vulnerabilitiesElement.innerHTML =
-                    "<p>No vulnerabilities found.</p>";
+                    '<p>No vulnerabilities found.</p>';
                 return;
             }
             let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
@@ -426,23 +457,23 @@ function fetchVulnerabilities(targetId) {
                         <h4>${vulnerability.affected_entity}</h4>
                         <p>${vulnerability.vulnerabilities_description}</p>
                         ${createActionButtons(
-                            "vulnerability",
+                            'vulnerability',
                             vulnerability.id,
-                            `vuln-${vulnerability.id}`
+                            `vuln-${vulnerability.id}`,
                         )}
                     </div>`;
             }
 
             vulnerabilityList += `<div id="add-vuln-${targetId}">
-                <br><br><br><a class="btn btn-success" href="/add-vulnerability?target_id=${targetId}">Add Vulnerability</a>
+                <br><br><br><a class="btn btn-success" href="/api/add-vulnerability?target_id=${targetId}">Add Vulnerability</a>
             </div></div>`;
 
             vulnerabilitiesElement.innerHTML = vulnerabilityList;
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }
