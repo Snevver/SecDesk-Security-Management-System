@@ -53,7 +53,7 @@
                     <!-- <span class="d-none d-xl-block">Back</span> -->
                 </a>
 
-                <h3 class="headerTitle text-center m-0">Targets</h3>
+                <h3 class="headerTitle d-none d-xl-block text-center m-0">Targets</h3>
             </div>
         </div>
         <div class="mb-1 mt-1 ms-1 ms-xl-0 me-1 targetListHeader flex-grow-1 position-relative">
