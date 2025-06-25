@@ -105,59 +105,69 @@ function addTargetListeners(targetListElement) {
   });
 }
 
-function fetchVulnerabilities(target_id) {
-  console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
-  fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
-    .then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    })
-    .then((data) => {
-      // Find the correct vulnerability list element in the correct sidebar
-      const vulnListSelector =
-        listId === "targetAccordionDesktop"
-          ? `#vulns-for-${target_id}`
-          : `#vulns-for-${target_id}`;
-      const vulnerabilityListElement = document.querySelector(
-        `#${listId} ${vulnListSelector}`
-      );
-      if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
-        vulnerabilityListElement.innerHTML = `<p class="ps-2 m-0">No vulnerabilities found.</p>`;
-        return;
-      }
-      let vulnerabilityList = "";
-      for (let vulnerability of data.vulnerabilities) {
-        vulnerabilityList += `
+function fetchVulnerabilities(target_id, listId) {
+    console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
+    fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
+        .then((response) => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then((data) => {
+            // Find the correct vulnerability list element in the correct sidebar
+            const vulnListSelector = `#vulns-for-${target_id}`;
+            const vulnerabilityListElement = document.querySelector(
+                `#${listId} ${vulnListSelector}`,
+            );
+            if (
+                !data ||
+                !data.vulnerabilities ||
+                data.vulnerabilities.length === 0
+            ) {
+                vulnerabilityListElement.innerHTML = `<p class="ps-2 m-0">No vulnerabilities found.</p>`;
+                return;
+            }
+            let vulnerabilityList = '';
+            for (let vulnerability of data.vulnerabilities) {
+                vulnerabilityList += `
               <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-0 align-items-center">
                 <p class="m-0 ps-2">
                   V${vulnerability.id}: ${vulnerability.affected_entity}
                 </p>
               </button>`;
-      }
-      vulnerabilityListElement.innerHTML = vulnerabilityList;
+            }
+            vulnerabilityListElement.innerHTML = vulnerabilityList;
 
-      // Add event listeners for vulnerability clicks
-      const vulnerabilityElements = vulnerabilityListElement.querySelectorAll(
-        "button[id^='vulnerability-']"
-      );
-      vulnerabilityElements.forEach((element) => {
-        element.addEventListener("click", function (e) {
-          e.preventDefault();
-          vulnerabilityElements.forEach((el) => el.classList.remove("active"));
-          this.classList.add("active");
-          const vulnerabilityId = this.id.replace("vulnerability-", "");
-          const vulnerability = data.vulnerabilities.find(
-            (v) => v.id == vulnerabilityId
-          );
-          if (vulnerability) {
-            showVulnerabilityDetails(vulnerability);
-          }
+            // Add event listeners for vulnerability clicks
+            const vulnerabilityElements =
+                vulnerabilityListElement.querySelectorAll(
+                    "button[id^='vulnerability-']",
+                );
+            vulnerabilityElements.forEach((element) => {
+                element.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    vulnerabilityElements.forEach((el) =>
+                        el.classList.remove('active'),
+                    );
+                    this.classList.add('active');
+                    const vulnerabilityId = this.id.replace(
+                        'vulnerability-',
+                        '',
+                    );
+                    const vulnerability = data.vulnerabilities.find(
+                        (v) => v.id == vulnerabilityId,
+                    );
+                    if (vulnerability) {
+                        showVulnerabilityDetails(vulnerability);
+                    }
+                });
+            });
+        })
+        .catch((error) => {
+            console.error(
+                'There was a problem with the fetch operation:',
+                error,
+            );
         });
-      });
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
 }
 
 function showVulnerabilityDetails(vulnerability) {
