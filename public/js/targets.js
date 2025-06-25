@@ -5,7 +5,7 @@ const target_id = urlParams.get("target_id");
 
 function fetchTestTargets(test_id) {
   console.log(`Fetching targets for test ID: ${test_id}`);
-  fetch(`/api/targets?test_id=${test_id}`)
+  fetch(`/api/get-all-targets?test_id=${test_id}`)
     .then((response) => {
       if (!response.ok) {
         console.log(response);
@@ -101,7 +101,7 @@ function fetchTestTargets(test_id) {
 
 function fetchVulnerabilities(target_id) {
   console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
-  fetch(`/api/vulnerabilities?target_id=${target_id}`)
+  fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
     .then((response) => {
       if (!response.ok) {
         console.log(response);

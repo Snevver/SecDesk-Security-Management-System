@@ -6,7 +6,7 @@
  * Fetch customer tests
  */
 function fetchCustomerTests() {
-  fetch(`/api/tests`, {
+  fetch(`/api/get-all-customer-tests`, {
     credentials: "same-origin",
   })
     .then((response) => response.json())

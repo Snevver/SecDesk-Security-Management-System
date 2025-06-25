@@ -183,4 +183,61 @@ class TargetController
             ];
         }
     }
+
+    public function addTarget($test_id) {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        // Check if user_id is set in the session
+        if (!isset($_SESSION['user_id'])) {
+            return [
+                'status' => 400,
+                'data' => ['error' => 'User ID is required']
+            ];
+        }
+
+        $user_id = (int)$_SESSION['user_id'];
+
+        // Validate test_id
+        if (!is_numeric($test_id)) {
+            return [
+                'status' => 400,
+                'data' => ['error' => 'Invalid test ID']
+            ];
+        }
+
+        // Check if the test exists and the user has access to it
+        $stmt = $this->pdo->prepare("SELECT customer_id, pentester_id FROM tests WHERE id = :test_id");
+        $stmt->bindParam(':test_id', $test_id, \PDO::PARAM_INT);
+        $stmt->execute();
+        $test = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$test || ($test['customer_id'] !== $user_id && $test['pentester_id'] !== $user_id)) {
+            Logger::write('error', 'Unauthorized access attempt to test ID ' . $test_id . ' by user ID ' . $user_id);
+            return [
+                'status' => 403,
+                'data' => ['error' => 'Forbidden: You do not have access to this test']
+            ];
+        }
+
+        try {
+            // Insert a new target into the database
+            $stmt = $this->pdo->prepare("INSERT INTO targets (test_id) VALUES (:test_id)");
+            $stmt->bindParam(':test_id', $test_id, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            Logger::write('info', 'Target added for test ID ' . $test_id . ' by user ID ' . $user_id);
+
+            return [
+                'status' => 201,
+                'data' => ['message' => 'Target added successfully']
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error while adding target for test ID ' . $test_id . ': ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Database error']
+            ];
+        }
+    }
 }

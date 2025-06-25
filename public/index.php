@@ -69,23 +69,23 @@ try {
             $app->sendJsonResponse($result['data'], $result['status']);
             break;        
               
-        case '/api/customers':
+        case '/api/get-all-customers':
             $app->handleApiRoute(['admin', 'pentester'], "AdminDashboardController", "getCustomers");
             break;
 
-        case '/api/employees':
+        case '/api/get-all-employees':
             $app->handleApiRoute(['admin', 'pentester'], "AdminDashboardController", "getEmployees");
             break;
 
-        case '/api/admins':
+        case '/api/get-all-admins':
             $app->handleApiRoute('admin', "AdminDashboardController", "getAdmins");
             break;
         
-        case '/api/tests':
-            $app->handleApiRoute(['admin', 'customer'], "IndexController", "getCustomersTests");
+        case '/api/get-all-customer-tests':
+            $app->handleApiRoute(['admin', 'customer', 'pentester'], "IndexController", "getCustomersTests");
             break;
 
-        case '/api/employee-tests':
+        case '/api/get-all-employee-tests':
             $app->handleApiRoute('pentester', "EmployeeDashboardController", "getEmployeeTests");
             break;
 
@@ -93,23 +93,42 @@ try {
             $app->handleApiRoute('pentester', "EmployeeDashboardController", "updateTestCompletion");
             break;
         
-        case '/api/targets':
+        case '/api/get-all-targets':
             $app->checkApiAuthorization(['pentester', 'customer']);
             $result = $app->useController("TargetController", "handleApiTargets");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
-        case '/api/vulnerabilities':
+        case '/api/get-all-vulnerabilities':
             $app->checkApiAuthorization(['pentester', 'customer']);
             $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
             $result = $app->useController("VulnerabilityController", "getVulnerabilities", [$target_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
-        case '/api/get-test-data':
+        case '/api/get-test':
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
-            $app->handleApiRoute('pentester', "DataController", "getTestData", [$data['test_id']]);
+            $app->handleApiRoute('pentester', "DataController", "getTest", [$data['test_id']]);
+            break;
+
+        case '/api/get-target':
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            $app->handleApiRoute('pentester', "DataController", "getTarget", [$data['target_id']]);
+            break;
+        
+        case '/api/get-vulnerability':
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            $app->handleApiRoute('pentester', "DataController", "getVulnerability", [$data['vulnerability_id']]);
+            break;
+        
+        case '/api/get-customer-email':
+            $app->checkApiAuthorization(['pentester']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            $result = $app->useController("DataController", "getCustomerEmail", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
         case '/check-access':
@@ -129,11 +148,6 @@ try {
             Logger::write('info', 'Creating test with data: ' . json_encode($data));
             $app->handleApiRoute('pentester', "EmployeeDashboardController", "createTest", [$data['customer_id']]);
             break;        
-            
-        // !!! To be implemented
-        case '/add':
-            $app->checkApiAuthorization('pentester');
-            break;
 
         case '/update-test':
             $requestBody = file_get_contents('php://input');
@@ -142,66 +156,26 @@ try {
             $app->handleApiRoute('pentester', "DataController", "updateTest", [$data['test_id'], $data['test_name'], $data['test_description']]);
             break;
 
+        case '/update-target':
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            Logger::write('info', 'Updating target with data: ' . json_encode($data));
+            $app->handleApiRoute('pentester', "DataController", "updateTarget", [$data['target_id'], $data['target_name'], $data['target_description']]);
+            break;
+
         case '/api/change-password':
             $app->checkApiAuthentication();
             $result = $app->useController("AuthenticatorController", "changePassword");
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
-        case '/api/customer-details':
-            $app->checkApiAuthorization('admin');
-            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getCustomerDetails", [$customer_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/customer-tests':
-            $app->checkApiAuthorization('admin');
-            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getCustomerTests", [$customer_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/customer-targets':
-            $app->checkApiAuthorization('admin');
-            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getCustomerTargets", [$customer_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;        
-            
-        case '/api/customer-vulnerabilities':
-            $app->checkApiAuthorization('admin');
-            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getCustomerVulnerabilities", [$customer_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/pentester-details':
-            $app->checkApiAuthorization('admin');
-            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getPentesterDetails", [$pentester_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/pentester-tests':
-            $app->checkApiAuthorization('admin');
-            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getPentesterTests", [$pentester_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/pentester-targets':
-            $app->checkApiAuthorization('admin');
-            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getPentesterTargets", [$pentester_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
-            break;
-
-        case '/api/pentester-vulnerabilities':
-            $app->checkApiAuthorization('admin');
-            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
-            $result = $app->useController("AdminDashboardController", "getPentesterVulnerabilities", [$pentester_id]);
-            $app->sendJsonResponse($result['data'], $result['status']);
+        case '/api/add-target':
+            $app->checkApiAuthentication();
+            $test_id = isset($_GET['test_id']) ? (int)$_GET['test_id'] : null;
+            if (!$test_id) {
+                throw new HTTPException('Test ID is required', 400);
+            }
+            $app->handleApiRoute('pentester', "TargetController", "addTarget", [$test_id]);
             break;
         
         case '/api/delete':

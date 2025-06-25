@@ -3,7 +3,7 @@
 //======================================================================
 function fetchAccounts(accountType) {
     console.log(`Fetching accounts of type: ${accountType}`);
-    fetch(`/api/${accountType}s`, {
+    fetch(`/api/get-all-${accountType}s`, {
         credentials: 'same-origin',
     })
         .then((response) => response.json())

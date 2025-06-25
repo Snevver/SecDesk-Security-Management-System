@@ -38,15 +38,13 @@
         <div class="w-50 border rounded p-2" id="form-container">
             <!-- Test Detail form -->
             <form class="d-none flex-column gap-3" id="test-detail-form">
-                <h1>Test Detail Form</h1>
-
-                <div>
-                    <label for="test-title">Title:</label>
-                    <input type="text" id="test-title" name="test-title" value="Loading..." required>
+                <h1>Test Detail Form</h1>                <div>
+                    <label for="test-title-input">Title:</label>
+                    <input type="text" id="test-title-input" name="test-title" value="Loading..." required>
                 </div>
                 <div>
-                    <label for="test-description">Description:</label>
-                    <input type="text" id="test-description" name="test-description" value="Loading..." required>
+                    <label for="test-description-input">Description:</label>
+                    <input type="text" id="test-description-input" name="test-description" value="Loading..." required>
                 </div>
                 <div>
                     <button type="submit" id="test-submit">Save Changes</button>
@@ -55,15 +53,13 @@
 
             <!-- Target form -->
             <form class="d-none flex-column gap-3" id="target-form">
-                <h1>Target Form</h1>
-
-                <div>
-                    <label for="target-title">Title:</label>
-                    <input type="text" id="target-title" name="target-title" value="Loading..." required>
+                <h1>Target Form</h1>                <div>
+                    <label for="target-title-input">Title:</label>
+                    <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
                 </div>
                 <div>
-                    <label for="target-description">Description:</label>
-                    <input type="text" id="target-description" name="target-description" value="Loading..." required>
+                    <label for="target-description-input">Description:</label>
+                    <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
                 </div>
                 <div>
                     <button type="submit" id="target-submit">Save Changes</button>
