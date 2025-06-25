@@ -19,6 +19,14 @@ document.getElementById("login-form").addEventListener("submit", (event) => {
   if (debugElement) debugElement.innerHTML = "";
   if (errorElement) errorElement.textContent = "";
 
+  const loginBtn = document.getElementById("login");
+  const spinner = document.getElementById("loginSpinner");
+  const btnText = document.getElementById("loginBtnText");
+  if (loginBtn && spinner && btnText) {
+    spinner.classList.remove("d-none");
+    btnText.textContent = "Logging in...";
+  }
+
   // Get form values
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -41,7 +49,7 @@ document.getElementById("login-form").addEventListener("submit", (event) => {
       // Check for redirects - If the login was successful, it should go here
       if (response.redirect) {
         window.location.href = response.redirect;
-        return Promise.reject(new Error("Redirect"));
+        // return Promise.reject(new Error("Redirect"));
       }
     })
     .catch((error) => {

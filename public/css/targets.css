@@ -7,7 +7,7 @@
   max-height: calc(100% - 5vh - 69px);
 }
 
-#targetSidebar {
+.targetSidebar {
   min-width: 15vw;
   max-width: 15vw;
   border-radius: 0.5rem;
@@ -44,6 +44,7 @@
 #vulnerabilityDetails {
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: width 0.3s, flex-basis 0.3s;
 }
 
 .vuln-button {
@@ -130,9 +131,9 @@
 }
 
 .back {
-  background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important;
-  background-color: #cccccc00;
-  border: 2px solid #8f8f8f !important;
+  /* background: linear-gradient(to bottom, #e1dbf1de, #e2e2e2) !important; */
+  background-color: #ffffff00 !important;
+  /* border: 2px solid #8f8f8f !important; */
 }
 
 .vuln-button::after {
@@ -152,4 +153,15 @@
 
 .vuln-button.active::after {
   opacity: 1;
+}
+
+.arrow-icon {
+  transition: transform 0.3s;
+}
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.offcanvas-header {
+  color: var(--black-color);
 }

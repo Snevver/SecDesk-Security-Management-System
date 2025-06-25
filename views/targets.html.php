@@ -24,7 +24,7 @@
         <div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
-                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-1 position-absolute top-0 start-0">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-2 position-absolute top-0 start-0">
             </div>
 
             <!-- Title -->
@@ -38,29 +38,42 @@
         </div>
     </header>
 
+    <!-- Target List Header -->
     <header class="d-flex">
-        <div class="mb-1 mt-1 ms-1 me-1 targetListHeader subHeader1">
+        <div id="targetSubheader" class="collapse show mb-1 mt-1 ms-1 me-1 targetListHeader subHeader1">
             <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
-                <a href="/" class="position-absolute back btn start-0 mb-0 ms-3 p-1"
+                <a href="/" class="position-absolute back btn start-0 mb-0 ms-1 ms-xxl-3 p-1"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
                 data-bs-title="Back to tests"
                 data-bs-custom-class="custom-tooltip">
-                    <svg class="d-xl-none" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="d-none d-xl-block">Back</span>
+                    <!-- <span class="d-none d-xl-block">Back</span> -->
                 </a>
 
                 <h3 class="headerTitle text-center m-0">Targets</h3>
             </div>
         </div>
-
-        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader flex-grow-1">
+        <div class="mb-1 mt-1 ms-1 ms-xl-0 me-1 targetListHeader flex-grow-1 position-relative">
+        <button id="desktopSidebarToggleBtn" class="back border-0 d-none d-xl-flex btn-outline-secondary mb-2 position-absolute top-0 start-0 ms-0 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#targetSidebarDesktop" aria-expanded="false" aria-controls="targetSidebarDesktop">
+            <svg class="arrow-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button id="mobileSidebarToggleBtn" class="back border-0 d-xl-none btn-outline-secondary mb-2 position-absolute top-0 start-0 ms-0 mt-2"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#targetSidebarMobile"
+        aria-controls="targetSidebarMobile">
+            <svg class="arrow-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6L15 12L9 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
             <div id="vulnerabilityDetails" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center">
                 <h3 class="text-center w-100 m-0">Vulnerability details</h3>
             </div>
-
         </div>
     </header>
 
@@ -68,27 +81,27 @@
     <!-- CONTENT -->
 <div id="targetsMain" class="d-flex h-100">
     <!-- Left side container for search and sidebar -->
-    <div class="d-flex flex-column me-1">
-        <!-- Search section -->
-        <!-- <div class="mb-1 mt-0 ms-1 targetListHeader subHeader1">
-            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
-                <div class="d-xxl-flex d-none flex-wrap justify-content-center align-items-center">
-                        <input class="form-control me-1 w-50" type="search" placeholder="Search" aria-label="Search">
-                        <button class="w-auto btn my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div> -->
+    <div class="d-flex me-1">
 
-        <!-- Target sidebar -->
-        <div id="targetSidebar" class="flex-grow-1 ms-1 overflow-auto">
-            <div id="targetAccordion" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100">
-            </div>
-        </div>
-    </div>
+<!-- Desktop Sidebar (visible ≥xl) -->
+<div id="targetSidebarDesktop" class="targetSidebar collapse show flex-grow-1 ms-1 overflow-auto">
+  <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
+</div>
+
+<!-- Offcanvas Sidebar (visible <xl) -->
+<div id="targetSidebarMobile" class="targetSidebar offcanvas offcanvas-start d-xl-none"
+     tabindex="-1" aria-labelledby="targetSidebarMobileLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="targetSidebarMobileLabel">Targets</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div id="targetAccordionMobile" class="accordion accordion-flush target-list h-100 w-100"></div>
+  </div>
+</div>
 
     <!-- Vulnerability details (right side) -->
-    <div id="vulnerabilityDetails" class="h-100 w-100 ms-0 me-1 overflow-auto">
+    <div id="vulnerabilityDetails" class="h-100 w-100 ms-1 me-0 overflow-auto">
         <div class="vulnerability-details h-100 w-100">
         </div>
     </div>

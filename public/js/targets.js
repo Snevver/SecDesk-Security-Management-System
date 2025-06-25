@@ -3,23 +3,26 @@ const urlParams = new URLSearchParams(window.location.search);
 const test_id = urlParams.get("test_id");
 const target_id = urlParams.get("target_id");
 
+let selectedTargetId = null;
+let selectedVulnId = null;
+
 function fetchTestTargets(test_id) {
-  console.log(`Fetching targets for test ID: ${test_id}`);
   fetch(`/api/targets?test_id=${test_id}`)
     .then((response) => {
-      if (!response.ok) {
-        console.log(response);
-        throw new Error("Network response was not ok");
-      }
+      if (!response.ok) throw new Error("Network response was not ok");
       return response.json();
     })
     .then((data) => {
-      const targetListElement =
-        document.getElementsByClassName("target-list")[0];
+      // Get both target-list elements
+      const desktopList = document.getElementById("targetAccordionDesktop");
+      const mobileList = document.getElementById("targetAccordionMobile");
+
       if (!data || !data.targets || data.targets.length === 0) {
-        targetListElement.innerHTML = "<p>No targets found.</p>";
+        desktopList.innerHTML = "<p>No targets found.</p>";
+        mobileList.innerHTML = "<p>No targets found.</p>";
         return;
       }
+
       let targetList = "";
       for (let target of data.targets) {
         targetList += `
@@ -42,7 +45,7 @@ function fetchTestTargets(test_id) {
       <div id="collapse-${target.id}"
           class="accordion-collapse collapse"
           aria-labelledby="heading-${target.id}"
-          data-bs-parent="#targetAccordion">
+          data-bs-parent="#targetAccordionDesktop">
         <div class="accordion-body p-0 vulnerability-list" id="vulns-for-${target.id}">
         <div class="d-flex align-items-center">
           <p role="status">Loading...</p>
@@ -53,73 +56,74 @@ function fetchTestTargets(test_id) {
     </div>
     `;
       }
-      targetListElement.innerHTML = targetList;
-
-      // Enabling Bootstrap tooltips with delay, only working on hover not focus
-      const newButtons = document.querySelectorAll(
-        '[data-bs-toggle="tooltip"]'
+      // Populate both
+      desktopList.innerHTML = targetList.replace(
+        /#targetAccordionDesktop/g,
+        "#targetAccordionDesktop"
       );
-      newButtons.forEach(
-        (el) =>
-          new bootstrap.Tooltip(el, {
-            delay: { show: 750, hide: 200 },
-            trigger: "hover",
-          })
+      mobileList.innerHTML = targetList.replace(
+        /#targetAccordionDesktop/g,
+        "#targetAccordionMobile"
       );
 
-      // Add event listeners after elements are added to DOM
-      const targetElements = targetListElement.querySelectorAll(
-        "button[id^='target-']"
-      );
-      targetElements.forEach((element) => {
-        element.addEventListener("click", function (e) {
-          e.preventDefault();
-
-          // Check if the button is already expanded
-          const isExpanded = this.getAttribute("aria-expanded") === "false";
-
-          // Remove 'active' class from all first
-          targetElements.forEach((el) => el.classList.remove("active"));
-
-          // Only add 'active' class if the button is being expanded
-          if (!isExpanded) {
-            this.classList.add("active");
-            const targetId = this.id.replace("target-", "");
-            console.log(`Clicking on target ${targetId}`);
-            fetchVulnerabilities(targetId);
-          } else {
-            // If collapsing, hide vulnerability details
-            hideVulnerabilityDetails();
-          }
-        });
+      // Enable tooltips for both
+      [desktopList, mobileList].forEach((list) => {
+        const newButtons = list.querySelectorAll('[data-bs-toggle="tooltip"]');
+        newButtons.forEach(
+          (el) =>
+            new bootstrap.Tooltip(el, {
+              delay: { show: 750, hide: 200 },
+              trigger: "hover",
+            })
+        );
       });
+
+      // Add event listeners for both
+      addTargetListeners(desktopList);
+      addTargetListeners(mobileList);
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 }
 
-function fetchVulnerabilities(target_id) {
-  console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
+function addTargetListeners(targetListElement) {
+  const targetElements = targetListElement.querySelectorAll(
+    "button[id^='target-']"
+  );
+  targetElements.forEach((element) => {
+    element.addEventListener("click", function (e) {
+      e.preventDefault();
+      const targetId = this.id.replace("target-", "");
+      selectedTargetId = targetId;
+      selectedVulnId = null; // Reset vuln selection
+      // Remove 'active' from all, add to this
+      targetElements.forEach((el) => el.classList.remove("active"));
+      this.classList.add("active");
+      fetchVulnerabilities(targetId, targetListElement.id);
+    });
+  });
+}
+
+function fetchVulnerabilities(target_id, listId) {
   fetch(`/api/vulnerabilities?target_id=${target_id}`)
     .then((response) => {
-      if (!response.ok) {
-        console.log(response);
-        throw new Error("Network response was not ok");
-      }
+      if (!response.ok) throw new Error("Network response was not ok");
       return response.json();
     })
     .then((data) => {
-      console.log("Vulnerabilities:", data.vulnerabilities);
-      // Get element by unique ID to display vulnerabilities in the correct target element
-      const vulnerabilityListElement = document.getElementById(
-        `vulns-for-${target_id}`
+      // Find the correct vulnerability list element in the correct sidebar
+      const vulnListSelector =
+        listId === "targetAccordionDesktop"
+          ? `#vulns-for-${target_id}`
+          : `#vulns-for-${target_id}`;
+      const vulnerabilityListElement = document.querySelector(
+        `#${listId} ${vulnListSelector}`
       );
       if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
         vulnerabilityListElement.innerHTML = `<p class="ps-2 m-0">No vulnerabilities found.</p>`;
         return;
       }
-
       let vulnerabilityList = "";
       for (let vulnerability of data.vulnerabilities) {
         vulnerabilityList += `
@@ -129,38 +133,44 @@ function fetchVulnerabilities(target_id) {
                 </p>
               </button>`;
       }
-
       vulnerabilityListElement.innerHTML = vulnerabilityList;
 
-      // Add event listeners for vulnerability clicks after elements are added to DOM
+      // After rendering vulnerability buttons:
       const vulnerabilityElements = vulnerabilityListElement.querySelectorAll(
         "button[id^='vulnerability-']"
       );
       vulnerabilityElements.forEach((element) => {
         element.addEventListener("click", function (e) {
           e.preventDefault();
-
-          // Remove 'focused' class from all first, then add 'focused to the clicked element
           vulnerabilityElements.forEach((el) => el.classList.remove("active"));
           this.classList.add("active");
-
-          const vulnerabilityId = this.id.replace("vulnerability-", "");
-          console.log(`Clicking on vulnerability ${vulnerabilityId}`);
-
-          // Find the vulnerability data from the response
+          const vulnId = this.id.replace("vulnerability-", "");
+          selectedVulnId = vulnId;
           const vulnerability = data.vulnerabilities.find(
-            (vulnerability) => vulnerability.id == vulnerabilityId
+            (v) => v.id == vulnId
           );
           if (vulnerability) {
             showVulnerabilityDetails(vulnerability);
           }
         });
+        // If this vuln is the selected one, activate it
+        if (
+          selectedVulnId &&
+          element.id === `vulnerability-${selectedVulnId}`
+        ) {
+          element.classList.add("active");
+        }
       });
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 }
+
+// The rest of your showVulnerabilityDetails and hideVulnerabilityDetails functions remain unchanged
+
+// Fetch the test targets when the script loads
+fetchTestTargets(test_id);
 
 function showVulnerabilityDetails(vulnerability) {
   console.log("Showing details for vulnerability:", vulnerability);
@@ -305,4 +315,91 @@ addEventListener("DOMContentLoaded", function (clickEvent) {
       fetchVulnerabilities(targetId);
     });
   });
+});
+
+// Handle sidebar visibility based on screen size
+function handleSidebarVisibility() {
+  const sidebar = document.getElementById("targetSidebarDesktop");
+  if (!sidebar) return;
+  if (window.innerWidth >= 1200) {
+    sidebar.classList.remove("d-none");
+  } else {
+    sidebar.classList.add("d-none");
+  }
+}
+
+// Run on load and resize
+window.addEventListener("DOMContentLoaded", handleSidebarVisibility);
+window.addEventListener("resize", handleSidebarVisibility);
+
+function restoreSidebarState(sidebarType) {
+  const accordionId =
+    sidebarType === "desktop"
+      ? "targetAccordionDesktop"
+      : "targetAccordionMobile";
+  const accordion = document.getElementById(accordionId);
+
+  if (selectedTargetId) {
+    const targetBtn = accordion.querySelector(`#target-${selectedTargetId}`);
+    if (targetBtn) {
+      // Remove 'active' from all accordion buttons first
+      accordion
+        .querySelectorAll("button[id^='target-']")
+        .forEach((btn) => btn.classList.remove("active"));
+
+      // Only click if not already expanded
+      if (targetBtn.getAttribute("aria-expanded") === "false") {
+        targetBtn.click();
+      } else {
+        fetchVulnerabilities(selectedTargetId, accordionId);
+      }
+      // Add 'active' class to the selected button
+      targetBtn.classList.add("active");
+
+      // After vulnerabilities are loaded, select the vuln if any
+      if (selectedVulnId) {
+        setTimeout(() => {
+          const vulnBtn = accordion.querySelector(
+            `#vulnerability-${selectedVulnId}`
+          );
+          if (vulnBtn && !vulnBtn.classList.contains("active")) {
+            vulnBtn.click();
+          }
+        }, 400);
+      }
+    }
+  }
+}
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth < 1200) {
+    restoreSidebarState("mobile");
+  } else {
+    restoreSidebarState("desktop");
+  }
+});
+
+const mobileSidebar = document.getElementById("targetSidebarMobile");
+if (mobileSidebar) {
+  mobileSidebar.addEventListener("show.bs.offcanvas", () =>
+    restoreSidebarState("mobile")
+  );
+}
+
+const offcanvas = document.getElementById("targetSidebarMobile");
+const offcanvasBtn = document.getElementById("mobileSidebarToggleBtn");
+const arrowIcon = offcanvasBtn.querySelector(".arrow-icon");
+
+offcanvas.addEventListener("show.bs.offcanvas", () => {
+  arrowIcon.classList.add("rotated");
+});
+offcanvas.addEventListener("hide.bs.offcanvas", () => {
+  arrowIcon.classList.remove("rotated");
+});
+
+const desktopBtn = document.getElementById("desktopSidebarToggleBtn");
+const desktopArrow = desktopBtn.querySelector(".arrow-icon");
+
+desktopBtn.addEventListener("click", () => {
+  desktopArrow.classList.toggle("rotated");
 });
