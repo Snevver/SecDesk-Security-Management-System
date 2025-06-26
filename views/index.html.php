@@ -23,11 +23,11 @@
 
 	<body class="p-0 m-0 w-100">
 		<!-- HEADER -->
-		<header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
-			<div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
+		<header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
+			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-2 position-absolute top-0 start-0">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
 				</div>
 
 				<!-- Title -->
@@ -36,10 +36,14 @@
 						<span>Security Management System</span>
 					</h1>
 
-					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
+					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none">
+
+  					<div class="d-none d-md-block" style="min-width: 101.4px;"></div>
 				</div>
 			</div>
 		</header>
+
+
 
 		<!-- SIDEBAR -->
 		<div class="content-wrapper d-flex">
@@ -62,10 +66,9 @@
 					<!-- Settings Button -->
 					<li>
 						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-								<path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-
-								<path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+							<path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+							<path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
 							</svg>
 						</a>
 					</li>
@@ -110,11 +113,11 @@
 
 			<!-- DASHBOARD -->
 			<main class="d-flex justify-content-center w-100 align-items-end">
-				<section id="userDashboard">
+				<section id="userDashboard" class="w-100">
 					<div class="row d-flex text-align-center justify-content-center align-items-center">
-						<section id="testList" class="container-fluid p-0">
+						<section id="testList" class="container-fluid p-0 ms-3 me-3 rounded">
 
-						<header id="testListHeader" class="mb-3 mt-3 ms-xxl-0 me-xxl-0 ms-3 me-3">
+						<header id="testListHeader" class="mb-3 mt-3 ms-xxl-0 me-xxl-0 ms-3 me-3 rounded">
 							<div class="h-100 fs-2 d-flex flex-nowrap justify-content-between align-items-center">
 								<h2 class="mb-0 flex-grow-1 text-center" >Security Test Overview</h2>
 							</div>

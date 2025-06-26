@@ -52,11 +52,11 @@ function displayCustomerTests(data) {
     testList += `
             <a id="test-${test.id}" class="text-decoration-none">
                 <div class="test-item p-0 pb-3">
-                    <h2 id="${headingId}">
+                    <h2 class="m-0" id="${headingId}">
                         <button class="test-button accordion-color rounded d-flex align-items-center justify-content-start text-start" type="button">
                             <div>
                                 <div class="fw-bold">Test ${testIndex}: ${test.test_name}</div>
-                                <small class="text-muted">Date: ${testDate}</small>
+                                <small class="text-muted">Completion date: ${testDate}</small>
                             </div>
                         </button>
                     </h2>

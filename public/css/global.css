@@ -42,7 +42,13 @@ main {
 
 #mainHeader {
   background-color: var(--dark-background-color);
-  height: 60px;
+  height: 65px !important;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Roboto", sans-serif;
 }
 
 .btn {
@@ -55,7 +61,13 @@ svg {
 }
 
 .logo {
-  height: 43px;
+  margin-left: 18.5px;
+  height: 28px;
+}
+
+/* Custom 'Bootstrap' styles */
+.fs-7 {
+  font-size: 0.85rem !important;
 }
 
 /* Scrollbar */

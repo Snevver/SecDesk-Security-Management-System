@@ -87,11 +87,3 @@ function equalizeLoginAndDesc() {
 
 document.addEventListener("DOMContentLoaded", equalizeLoginAndDesc);
 window.addEventListener("resize", equalizeLoginAndDesc);
-
-// window.addEventListener("load", equalizeLoginAndDesc);
-// window.addEventListener("resize", equalizeLoginAndDesc);
-
-// Optional: If your content includes images or dynamic content, re-run after a short delay
-// window.addEventListener("DOMContentLoaded", () => {
-//   setTimeout(equalizeLoginAndDesc, 100);
-// });

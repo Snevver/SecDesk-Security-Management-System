@@ -40,7 +40,7 @@
 
     <!-- Target List Header -->
     <header class="d-flex">
-        <div id="targetSubheader" class="collapse show mb-1 mt-1 ms-1 me-1 targetListHeader subHeader1">
+        <div id="targetSubheader" class="collapse show mb-1 mt-1 ms-1 me-1 targetListHeader rounded subHeader1">
             <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
                 <a href="/" class="position-absolute back btn start-0 mb-0 ms-1 ms-xxl-3 p-1"
                 data-bs-toggle="tooltip"
@@ -53,22 +53,21 @@
                     <!-- <span class="d-none d-xl-block">Back</span> -->
                 </a>
 
+                <button id="mobileSidebarToggleBtn" class="back border-0 d-xl-none btn-outline-secondary mb-2 ms-0 mt-2"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#targetSidebarMobile"
+                aria-controls="targetSidebarMobile">
+                    <i class="bi bi-list fs-1"></i>
+                </button>
+
                 <h3 class="headerTitle d-none d-xl-block text-center m-0">Targets</h3>
             </div>
         </div>
-        <div class="mb-1 mt-1 ms-1 ms-xl-0 me-1 targetListHeader flex-grow-1 position-relative">
+        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader rounded flex-grow-1 position-relative">
         <button id="desktopSidebarToggleBtn" class="back border-0 d-none d-xl-flex btn-outline-secondary mb-2 position-absolute top-0 start-0 ms-0 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#targetSidebarDesktop" aria-expanded="false" aria-controls="targetSidebarDesktop">
             <svg class="arrow-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-        <button id="mobileSidebarToggleBtn" class="back border-0 d-xl-none btn-outline-secondary mb-2 position-absolute top-0 start-0 ms-0 mt-2"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#targetSidebarMobile"
-        aria-controls="targetSidebarMobile">
-            <svg class="arrow-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 6L15 12L9 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
             <div id="vulnerabilityDetails" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center">

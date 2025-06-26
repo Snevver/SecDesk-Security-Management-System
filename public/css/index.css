@@ -8,8 +8,10 @@
 }
 
 #sidebar {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 65px);
   width: 4.5em;
+  border-right: 1.5px solid #ccc;
+  z-index: 2;
 }
 
 .nav-pills .nav-link.active {
@@ -18,15 +20,13 @@
 
 #userDashboard {
   font-family: "Roboto", sans-serif;
-  height: calc(100vh - 60px);
-  width: 98%;
+  height: calc(100vh - 65px);
   background-color: var(--white-color);
 }
 
 #testList {
   height: 54vh;
   width: 97%;
-  border-radius: 18px;
 }
 
 #testListHeader,
@@ -37,7 +37,6 @@
     #f1f1f1
   ) !important;
   height: 60px;
-  border-radius: 0.5rem;
   border: 2px solid #ccc;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -123,7 +122,6 @@ h1 span,
 }
 
 .test-button {
-  border-radius: 0.5rem !important;
   border: 2px solid #ccc !important;
 }
 
