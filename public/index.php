@@ -164,6 +164,34 @@ try {
             $app->handleApiRoute('pentester', "DataController", "updateTarget", [$data['target_id'], $data['target_name'], $data['target_description']]);
             break;
 
+        case '/update-vulnerability':
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+            Logger::write('info', 'Updating vulnerability with data: ' . json_encode($data));
+            $app->handleApiRoute('pentester', "DataController", "updateVulnerability", [
+                $data['vulnerability_id'],
+                $data['affected_entity'],
+                $data['identifier'],
+                $data['risk_statement'],
+                $data['affected_component'],    
+                $data['residual_risk'],
+                $data['classification'],
+                $data['identified_controls'],
+                $data['cvss_score'],
+                $data['likelihood'],
+                $data['cvssv3_code'],
+                $data['location'],
+                $data['vulnerabilities_description'],
+                $data['reproduction_steps'],
+                $data['impact'],
+                $data['remediation_difficulty'],
+                $data['recommendations'],
+                $data['recommended_reading'],
+                $data['response'],
+                $data['solved']
+            ]);
+            break;
+
         case '/api/change-password':
             $app->checkApiAuthentication();
             $result = $app->useController("AuthenticatorController", "changePassword");

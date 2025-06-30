@@ -18,20 +18,22 @@ function editEntity(entityType, entityId) {
     // Store the current editing entity information for save operations
     window.currentEditingEntityType = entityType;
     window.currentEditingEntityId = entityId;
-    if (entityType === "target") {
+    if (entityType === 'target') {
         window.currentEditingTargetId = entityId;
+    } else if (entityType === 'vulnerability') {
+        window.currentEditingVulnerabilityId = entityId;
     }
 
     const apiEndpoints = {
-        test: "/api/get-test",
-        target: "/api/get-target",
-        vulnerability: "/api/get-vulnerability",
+        test: '/api/get-test',
+        target: '/api/get-target',
+        vulnerability: '/api/get-vulnerability',
     };
 
     const idFields = {
-        test: "test_id",
-        target: "target_id",
-        vulnerability: "vulnerability_id",
+        test: 'test_id',
+        target: 'target_id',
+        vulnerability: 'vulnerability_id',
     };
 
     const endpoint = apiEndpoints[entityType];
@@ -43,10 +45,10 @@ function editEntity(entityType, entityId) {
     }
 
     fetch(endpoint, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             [idField]: entityId,
@@ -63,9 +65,9 @@ function editEntity(entityType, entityId) {
 
             // Show the appropriate form with correct ID mapping
             const formIds = {
-                test: "test-detail-form",
-                target: "target-form",
-                vulnerability: "vulnerability-form",
+                test: 'test-detail-form',
+                target: 'target-form',
+                vulnerability: 'vulnerability-form',
             };
 
             const formId = formIds[entityType];
@@ -76,7 +78,7 @@ function editEntity(entityType, entityId) {
                 populateEntityForm(entityType, data);
             } else {
                 console.warn(
-                    `No form ID mapping found for entity type: ${entityType}`
+                    `No form ID mapping found for entity type: ${entityType}`,
                 );
                 alert(`Form not available for ${entityType} editing`);
             }
@@ -97,37 +99,104 @@ function populateEntityForm(entityType, data) {
     const fieldMappings = {
         test: {
             name: {
-                element: "test-title-input",
-                dataField: "test_name",
+                element: 'test-title-input',
+                dataField: 'test_name',
             },
 
             description: {
-                element: "test-description-input",
-                dataField: "test_description",
+                element: 'test-description-input',
+                dataField: 'test_description',
             },
         },
 
         target: {
             name: {
-                element: "target-title-input",
-                dataField: "target_name",
+                element: 'target-title-input',
+                dataField: 'target_name',
             },
 
             description: {
-                element: "target-description-input",
-                dataField: "target_description",
+                element: 'target-description-input',
+                dataField: 'target_description',
             },
         },
 
         vulnerability: {
-            name: {
-                element: "vulnerability-title",
-                dataField: "affected_entity",
+            affected_entity: {
+                element: 'affected_entity',
+                dataField: 'affected_entity',
             },
-
+            identifier: {
+                element: 'identifier',
+                dataField: 'identifier',
+            },
+            risk_statement: {
+                element: 'risk_statement',
+                dataField: 'risk_statement',
+            },
+            affected_component: {
+                element: 'affected_component',
+                dataField: 'affected_component',
+            },
+            residual_risk: {
+                element: 'residual_risk',
+                dataField: 'residual_risk',
+            },
+            classification: {
+                element: 'classification',
+                dataField: 'classification',
+            },
+            identified_controls: {
+                element: 'identified_controls',
+                dataField: 'identified_controls',
+            },
+            cvss_score: {
+                element: 'cvss_score',
+                dataField: 'cvss_score',
+            },
+            likelihood: {
+                element: 'likelihood',
+                dataField: 'likelihood',
+            },
+            cvssv3_code: {
+                element: 'cvssv3_code',
+                dataField: 'cvssv3_code',
+            },
+            location: {
+                element: 'location',
+                dataField: 'location',
+            },
             description: {
-                element: "vulnerability-description",
-                dataField: "vulnerabilities_description",
+                element: 'vulnerabilities_description',
+                dataField: 'vulnerabilities_description',
+            },
+            reproduction_steps: {
+                element: 'reproduction_steps',
+                dataField: 'reproduction_steps',
+            },
+            impact: {
+                element: 'impact',
+                dataField: 'impact',
+            },
+            remediation_difficulty: {
+                element: 'remediation_difficulty',
+                dataField: 'remediation_difficulty',
+            },
+            recommendations: {
+                element: 'recommendations',
+                dataField: 'recommendations',
+            },
+            recommended_reading: {
+                element: 'recommended_reading',
+                dataField: 'recommended_reading',
+            },
+            response: {
+                element: 'vulnerability-response-input',
+                dataField: 'response',
+            },
+            solved: {
+                element: 'vulnerability-solved-input',
+                dataField: 'solved',
             },
         },
     };
@@ -144,8 +213,15 @@ function populateEntityForm(entityType, data) {
         const element = document.getElementById(config.element);
         const value = data[config.dataField];
 
-        if (element && value !== undefined) {
-            if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
+        if (element && value !== undefined && value !== null) {
+            if (element.type === 'checkbox') {
+                element.checked = Boolean(value);
+            } else if (
+                element.tagName === 'INPUT' ||
+                element.tagName === 'TEXTAREA'
+            ) {
+                element.value = value;
+            } else if (element.tagName === 'SELECT') {
                 element.value = value;
             } else {
                 element.textContent = value;
@@ -159,15 +235,15 @@ function populateEntityForm(entityType, data) {
  */
 function populateFormElement() {
     if (!testId) {
-        console.warn("No test ID found in URL parameters");
+        console.warn('No test ID found in URL parameters');
         return;
     }
 
     fetch(`/api/get-test`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             test_id: testId,
@@ -181,9 +257,9 @@ function populateFormElement() {
         })
         .then((data) => {
             // Update the display title and description
-            const displayTitle = document.getElementById("test-title");
+            const displayTitle = document.getElementById('test-title');
             const displayDescription =
-                document.getElementById("test-description");
+                document.getElementById('test-description');
 
             if (displayTitle && data.test_name) {
                 displayTitle.textContent = data.test_name;
@@ -194,16 +270,16 @@ function populateFormElement() {
             }
 
             // Use the same population logic as editEntity for form inputs
-            populateEntityForm("test", data);
+            populateEntityForm('test', data);
         })
         .catch((error) => {
-            console.error("Error fetching initial test data:", error);
+            console.error('Error fetching initial test data:', error);
             // Set fallback values
             if (titleInputElement) {
-                titleInputElement.value = "Error loading title";
+                titleInputElement.value = 'Error loading title';
             }
             if (descriptionInputElement) {
-                descriptionInputElement.value = "Error loading description";
+                descriptionInputElement.value = 'Error loading description';
             }
         });
 }
@@ -213,15 +289,15 @@ function populateFormElement() {
  */
 function updateTestData() {
     fetch(`/update-test`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             test_id: testId,
-            test_name: document.getElementById("test-title-input").value,
-            test_description: document.getElementById("test-description-input")
+            test_name: document.getElementById('test-title-input').value,
+            test_description: document.getElementById('test-description-input')
                 .value,
         }),
     })
@@ -229,15 +305,15 @@ function updateTestData() {
         .then((data) => {
             if (!data.success) {
                 alert(
-                    "Error updating test: " + (data.error || "Unknown error")
+                    'Error updating test: ' + (data.error || 'Unknown error'),
                 );
             } else {
                 window.location.reload();
             }
         })
         .catch((error) => {
-            console.error("Error updating test:", error);
-            alert("Error updating test: " + error.message);
+            console.error('Error updating test:', error);
+            alert('Error updating test: ' + error.message);
         });
 }
 
@@ -245,13 +321,13 @@ function updateTestData() {
  * Update the target with the new data
  */
 function updateTargetData() {
-    const targetTitleElement = document.getElementById("target-title-input");
+    const targetTitleElement = document.getElementById('target-title-input');
     const targetDescriptionElement = document.getElementById(
-        "target-description-input"
+        'target-description-input',
     );
 
     if (!targetTitleElement || !targetDescriptionElement) {
-        alert("Error: Target form fields not found");
+        alert('Error: Target form fields not found');
         return;
     }
 
@@ -259,15 +335,15 @@ function updateTargetData() {
     const targetId = window.currentEditingTargetId;
 
     if (!targetId) {
-        alert("Error: No target ID found for update");
+        alert('Error: No target ID found for update');
         return;
     }
 
     fetch(`/update-target`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             target_id: targetId,
@@ -284,15 +360,73 @@ function updateTargetData() {
         .then((data) => {
             if (!data.success) {
                 alert(
-                    "Error updating target: " + (data.error || "Unknown error")
+                    'Error updating target: ' + (data.error || 'Unknown error'),
                 );
             } else {
                 window.location.reload();
             }
         })
         .catch((error) => {
-            console.error("Error updating target:", error);
-            alert("Error updating target: " + error.message);
+            console.error('Error updating target:', error);
+            alert('Error updating target: ' + error.message);
+        });
+}
+
+/**
+ * Update the vulnerability with the new data
+ */
+function updateVulnerabilityData() {
+    const vulnerabilityId = window.currentEditingVulnerabilityId;
+
+    if (!vulnerabilityId) {
+        alert('Error: No vulnerability ID found for update');
+        return;
+    }
+
+    // Collect all form data
+    const formData = {
+        vulnerability_id: vulnerabilityId,
+        affected_entity: document.getElementById('affected_entity')?.value,
+        identifier: document.getElementById('identifier')?.value,
+        risk_statement: document.getElementById('risk_statement')?.value,
+        affected_component: document.getElementById('affected_component')?.value,
+        residual_risk: document.getElementById('residual_risk')?.value,
+        classification: document.getElementById('classification')?.value,
+        identified_controls: document.getElementById('identified_controls')?.value,
+        cvss_score: document.getElementById('cvss_score')?.value,
+        likelihood: document.getElementById('likelihood')?.value,
+        cvssv3_code: document.getElementById('cvssv3_code')?.value,
+        location: document.getElementById('location')?.value,
+        vulnerabilities_description: document.getElementById('vulnerabilities_description')?.value,
+        reproduction_steps: document.getElementById('reproduction_steps')?.value,
+        impact: document.getElementById('impact')?.value,
+        remediation_difficulty: document.getElementById('remediation_difficulty',)?.value,
+        recommendations: document.getElementById('recommendations')?.value,
+        recommended_reading: document.getElementById('recommended_reading')?.value,
+        response: document.getElementById('vulnerability-response-input')?.value,
+        solved: document.getElementById('vulnerability-solved-input')?.checked,
+    };
+
+    fetch(`/update-vulnerability`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(() => {
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error('Error updating vulnerability:', error);
+            alert('Error updating vulnerability: ' + error.message);
         });
 }
 
@@ -304,18 +438,18 @@ function fetchTestTargets() {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const targetListElement =
-                document.getElementById("target-container");
+                document.getElementById('target-container');
             if (!data || !data.targets || data.targets.length === 0) {
-                targetListElement.innerHTML = "<p>No targets found.</p>";
+                targetListElement.innerHTML = '<p>No targets found.</p>';
                 return;
             }
-            let targetList = "";
+            let targetList = '';
             for (let target of data.targets) {
                 targetList += `
                     <div id="target-${target.id}">
@@ -329,9 +463,9 @@ function fetchTestTargets() {
                                 target.id
                             }">Edit Target</button>
                             ${createDeleteButton(
-                                "target",
+                                'target',
                                 target.id,
-                                `target-${target.id}`
+                                `target-${target.id}`,
                             )}
                         </div>
                         <div id="vulnerabilities-${
@@ -349,49 +483,49 @@ function fetchTestTargets() {
             data.targets.forEach((target) => {
                 document
                     .querySelector(`.edit-target-button-${target.id}`)
-                    .addEventListener("click", (event) => {
+                    .addEventListener('click', (event) => {
                         event.preventDefault();
                         event.stopPropagation(); // Prevent dropdown toggle
-                        editEntity("target", target.id);
+                        editEntity('target', target.id);
                     });
             });
 
             // Add event listeners for dropdown functionality
             const targetHeaders = targetListElement.querySelectorAll(
-                "div[data-target-id]"
+                'div[data-target-id]',
             );
             targetHeaders.forEach((header) => {
-                header.addEventListener("click", function (e) {
+                header.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.dataset.targetId;
                     const dropdown = document.getElementById(
-                        `vulnerabilities-${targetId}`
+                        `vulnerabilities-${targetId}`,
                     );
-                    const arrow = this.querySelector("span");
+                    const arrow = this.querySelector('span');
 
                     console.log(`Clicking on target ${targetId}`);
 
                     // Toggle dropdown visibility
                     if (
-                        dropdown.style.display === "none" ||
-                        dropdown.style.display === ""
+                        dropdown.style.display === 'none' ||
+                        dropdown.style.display === ''
                     ) {
                         // Show dropdown and fetch vulnerabilities
-                        dropdown.style.display = "block";
-                        arrow.textContent = "▲";
+                        dropdown.style.display = 'block';
+                        arrow.textContent = '▲';
                         fetchVulnerabilities(targetId);
                     } else {
                         // Hide dropdown
-                        dropdown.style.display = "none";
-                        arrow.textContent = "▼";
+                        dropdown.style.display = 'none';
+                        arrow.textContent = '▼';
                     }
                 });
             });
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }
@@ -400,14 +534,14 @@ function fetchTestTargets() {
  * Add a new target to the current test
  */
 function addNewTarget() {
-    console.log("Adding new target for test ID:", testId);
+    console.log('Adding new target for test ID:', testId);
 
     // Make API call to add the target with empty name and description
     fetch(`/api/add-target?test_id=${testId}`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     })
         .then((response) => {
@@ -417,12 +551,12 @@ function addNewTarget() {
             return response.json();
         })
         .then((data) => {
-            console.log("Add target response:", data);
+            console.log('Add target response:', data);
             // Always reload the page after the API call
             window.location.reload();
         })
         .catch((error) => {
-            console.error("Error adding target:", error);
+            console.error('Error adding target:', error);
             // Still reload even on error to refresh the page state
             window.location.reload();
         });
@@ -432,14 +566,14 @@ function addNewTarget() {
  * Add a new vulnerability to a specific target
  */
 function addNewVulnerability(targetId) {
-    console.log("Adding new vulnerability for target ID:", targetId);
+    console.log('Adding new vulnerability for target ID:', targetId);
 
     // Make API call to add the vulnerability with empty name and description
     fetch(`/api/add-vulnerability?target_id=${targetId}`, {
-        method: "POST",
-        credentials: "same-origin",
+        method: 'POST',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     })
         .then((response) => {
@@ -449,12 +583,12 @@ function addNewVulnerability(targetId) {
             return response.json();
         })
         .then((data) => {
-            console.log("Add vulnerability response:", data);
+            console.log('Add vulnerability response:', data);
             // Always reload the page after the API call
             window.location.reload();
         })
         .catch((error) => {
-            console.error("Error adding vulnerability:", error);
+            console.error('Error adding vulnerability:', error);
             // Still reload even on error to refresh the page state
             window.location.reload();
         });
@@ -469,13 +603,13 @@ function fetchVulnerabilities(targetId) {
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then((data) => {
             const vulnerabilitiesElement = document.getElementById(
-                `vulnerabilities-${targetId}`
+                `vulnerabilities-${targetId}`,
             );
 
             let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
@@ -485,7 +619,7 @@ function fetchVulnerabilities(targetId) {
                 !data.vulnerabilities ||
                 data.vulnerabilities.length === 0
             ) {
-                vulnerabilityList += "<p>No vulnerabilities found.</p>";
+                vulnerabilityList += '<p>No vulnerabilities found.</p>';
             } else {
                 for (let vulnerability of data.vulnerabilities) {
                     vulnerabilityList += `
@@ -493,9 +627,9 @@ function fetchVulnerabilities(targetId) {
                             <h4>${vulnerability.affected_entity}</h4>
                             <p>${vulnerability.vulnerabilities_description}</p>
                             ${createActionButtons(
-                                "vulnerability",
+                                'vulnerability',
                                 vulnerability.id,
-                                `vuln-${vulnerability.id}`
+                                `vuln-${vulnerability.id}`,
                             )}
                         </div>`;
                 }
@@ -510,17 +644,17 @@ function fetchVulnerabilities(targetId) {
         })
         .catch((error) => {
             console.error(
-                "There was a problem with the fetch operation:",
-                error
+                'There was a problem with the fetch operation:',
+                error,
             );
         });
 }
 
 function deleteEntity(entityType, entityId, elementId = null) {
     const entityNames = {
-        vulnerability: "vulnerability",
-        target: "target",
-        test: "test",
+        vulnerability: 'vulnerability',
+        target: 'target',
+        test: 'test',
     };
 
     const entityName = entityNames[entityType] || entityType;
@@ -533,15 +667,15 @@ function deleteEntity(entityType, entityId, elementId = null) {
     const endpoint = `/api/delete?${entityType}_id=${entityId}`;
 
     fetch(endpoint, {
-        method: "DELETE",
-        credentials: "same-origin",
+        method: 'DELETE',
+        credentials: 'same-origin',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("Network response was not ok");
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
@@ -557,14 +691,14 @@ function deleteEntity(entityType, entityId, elementId = null) {
                 alert(
                     `${
                         entityName.charAt(0).toUpperCase() + entityName.slice(1)
-                    } deleted successfully!`
+                    } deleted successfully!`,
                 );
             }
 
             alert(
                 `${
                     entityName.charAt(0).toUpperCase() + entityName.slice(1)
-                } deleted successfully!`
+                } deleted successfully!`,
             );
 
             window.location.reload();
@@ -580,10 +714,10 @@ function createDeleteButton(
     entityType,
     entityId,
     elementId = null,
-    buttonClass = "btn btn-danger"
+    buttonClass = 'btn btn-danger',
 ) {
     return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity('${entityType}', ${entityId}, '${
-        elementId || ""
+        elementId || ''
     }')">Delete</button>`;
 }
 
@@ -605,13 +739,13 @@ function displayForm(formId) {
         return;
     }
 
-    document.querySelectorAll("form").forEach((form) => {
-        form.classList.remove("d-flex");
-        form.classList.add("d-none");
+    document.querySelectorAll('form').forEach((form) => {
+        form.classList.remove('d-flex');
+        form.classList.add('d-none');
     });
 
-    formElement.classList.remove("d-none");
-    formElement.classList.add("d-flex");
+    formElement.classList.remove('d-none');
+    formElement.classList.add('d-flex');
 }
 
 fetchTestTargets();
@@ -619,46 +753,50 @@ populateFormElement();
 
 // Create event listeners for all buttons
 document
-    .getElementById("test-detail-form")
-    .addEventListener("submit", (event) => {
+    .getElementById('test-detail-form')
+    .addEventListener('submit', (event) => {
         event.preventDefault();
         updateTestData();
     });
 
 document
-    .getElementById("edit-test-detail-button")
-    .addEventListener("click", (event) => {
+    .getElementById('edit-test-detail-button')
+    .addEventListener('click', (event) => {
         event.preventDefault();
-        editEntity("test", testId);
+        editEntity('test', testId);
     });
 
 // Add event listener for target form submission
-const targetForm = document.getElementById("target-form");
+const targetForm = document.getElementById('target-form');
 if (targetForm) {
-    targetForm.addEventListener("submit", (event) => {
+    targetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         updateTargetData();
     });
 } else {
-    console.warn("Target form not found - target editing may not work");
+    console.warn('Target form not found - target editing may not work');
 }
 
 // Add event listener for add target button
-const addTargetBtn = document.getElementById("add-target-btn");
+const addTargetBtn = document.getElementById('add-target-btn');
 if (addTargetBtn) {
-    addTargetBtn.addEventListener("click", (event) => {
+    addTargetBtn.addEventListener('click', (event) => {
         event.preventDefault();
         addNewTarget();
     });
 } else {
-    console.warn("Add target button not found");
+    console.warn('Add target button not found');
 }
 
 // Add event listener for vulnerability form submission
-const vulnerabilityForm = document.getElementById("vulnerability-form");
+const vulnerabilityForm = document.getElementById('vulnerability-form');
 if (vulnerabilityForm) {
-    vulnerabilityForm.addEventListener("submit", (event) => {
+    vulnerabilityForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        // !!! SVEN CALL HIER EEN FUNCTIE DIE EEN QUERY STUURT COOL THANKS!
+        updateVulnerabilityData();
     });
+} else {
+    console.warn(
+        'Vulnerability form not found - vulnerability editing may not work',
+    );
 }

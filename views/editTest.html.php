@@ -47,11 +47,11 @@
             <form class="d-none flex-column gap-3" id="test-detail-form">
                 <h1>Test Detail Form</h1>                <div>
                     <label for="test-title-input">Title:</label>
-                    <input type="text" id="test-title-input" name="test-title" value="Loading..." required>
+                    <input type="text" id="test-title-input" name="test-title" value="" required>
                 </div>
                 <div>
                     <label for="test-description-input">Description:</label>
-                    <input type="text" id="test-description-input" name="test-description" value="Loading..." required>
+                    <input type="text" id="test-description-input" name="test-description" value="" required>
                 </div>
                 <div>
                     <button type="submit" id="test-submit">Save Changes</button>
@@ -64,11 +64,11 @@
 
                 <div>
                     <label for="target-title-input">Title:</label>
-                    <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
+                    <input type="text" id="target-title-input" name="target-title" value="" required>
                 </div>
                 <div>
                     <label for="target-description-input">Description:</label>
-                    <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
+                    <input type="text" id="target-description-input" name="target-description" value="" required>
                 </div>
                 <div>
                     <button type="submit" id="target-submit">Save Changes</button>
@@ -80,18 +80,23 @@
                 <h1>Vulnerability Form</h1>           
 
                 <div>
+                    <label for="affected_entity">Vulnerability Name:</label>
+                    <input type="text" id="affected_entity" name="affected_entity" value="" required>
+                </div>
+
+                <div>
                     <label for="identifier">Identifier:</label>
-                    <input type="text" id="identifier" name="identifier" value="Loading..." required>
+                    <input type="text" id="identifier" name="identifier" value="" required>
                 </div>
 
                 <div>
                     <label for="risk_statement">Risk statement:</label>
-                    <input type="text" id="risk_statement" name="risk_statement" value="Loading..." required>
+                    <input type="text" id="risk_statement" name="risk_statement" value="" required>
                 </div>
 
                 <div>
                     <label for="affected_component">Affected Component:</label>
-                    <input type="text" id="affected_component" name="affected_component" value="Loading..." required>
+                    <input type="text" id="affected_component" name="affected_component" value="" required>
                 </div>
 
                 <div>
@@ -100,22 +105,23 @@
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
+                        <option value="Critical">Critical</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="classification">classification:</label>
-                    <input type="text" id="classification" name="classification" value="Loading..." required>
+                    <input type="text" id="classification" name="classification" value="" required>
                 </div>
 
                 <div>
                     <label for="identified_controls">identified Controls:</label>
-                    <input type="text" id="identified_controls" name="identified_controls" value="Loading..." required>
+                    <input type="text" id="identified_controls" name="identified_controls" value="" required>
                 </div>
 
                 <div>
                     <label for="cvss_score">CVSS Score:</label>
-                    <input type="number" id="cvss_score" name="cvss_score" value="Loading..." required>
+                    <input type="number" id="cvss_score" name="cvss_score" step="0.1" min="0" max="10" value="0" required>
                 </div>
 
                 <div>
@@ -124,6 +130,7 @@
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
+                        <option value="Critical">Critical</option>
                     </select>
                 </div>
 
@@ -134,51 +141,51 @@
 
                 <div>
                     <label for="location">Location:</label>
-                    <input type="text" id="location" name="location" value="Loading..." required>
+                    <input type="text" id="location" name="location" value="" required>
                 </div>
 
                 <div>
                     <label for="vulnerabilities_description">Description:</label>
-                    <input type="text" id="vulnerabilities_description" name="vulnerabilities_description" value="Loading..." required>
+                    <textarea id="vulnerabilities_description" name="vulnerabilities_description" rows="3" required></textarea>
                 </div>
 
                 <div>
                     <label for="reproduction_steps">Reproduction Steps:</label>
-                    <input type="text" id="reproduction_steps" name="reproduction_steps" value="Loading..." required>
+                    <textarea id="reproduction_steps" name="reproduction_steps" rows="5" required></textarea>
                 </div>
 
                 <div>
                     <label for="impact">Impact:</label>
-                    <input type="text" id="impact" name="impact" value="Loading..." required>
+                    <textarea id="impact" name="impact" rows="3" required></textarea>
                 </div>
 
                 <div>
                     <label for="remediation_difficulty">Remediation Difficulty:</label>
                     <select name="remediation_difficulty" id="remediation_difficulty">
-                        <option value="Low">Low</option>
+                        <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
-                        <option value="High">High</option>
+                        <option value="Hard">Hard</option>
                     </select>
                 </div>
 
                 <div>
-                    <label for="recommendations">Reccomendations:</label>
-                    <input type="text" id="recommendations" name="recommendations" value="Loading..." required>
+                    <label for="recommendations">Recommendations:</label>
+                    <textarea id="recommendations" name="recommendations" rows="3" required></textarea>
                 </div>
 
                 <div>
-                    <label for="reccomended_reading">Reccomended Reading:</label>
-                    <input type="text" id="reccomended_reading" name="reccomended_reading" value="Loading..." required>
+                    <label for="recommended_reading">Recommended Reading:</label>
+                    <textarea id="recommended_reading" name="recommended_reading" rows="2" required></textarea>
                 </div>
 
                 <div>
                     <label for="vulnerability-response-input">Response:</label>
-                    <input type="text" id="vulnerability-response-input" name="vulnerability-response" value="Loading..." required>
+                    <textarea id="vulnerability-response-input" name="vulnerability-response" rows="2"></textarea>
                 </div>
 
                 <div>
                     <label for="vulnerability-solved-input">Solved?</label>
-                    <input type="radio" id="vulnerability-solved-input" name="vulnerability-solved">
+                    <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
                 </div>
 
                 <div>

@@ -185,6 +185,54 @@ class DataController
     }
 
     //-----------------------------------------------------
+    // Update Vulnerability
+    //-----------------------------------------------------
+    public function updateVulnerability($vulnerability_id, $affected_entity, $identifier, $risk_statement, $affected_component, $residual_risk, $classification, $identified_controls, $cvss_score, $likelihood, $cvssv3_code, $location, $vulnerabilities_description, $reproduction_steps, $impact, $remediation_difficulty, $recommendations, $recommended_reading, $response, $solved)
+    {
+        try {
+            Logger::write('info', 'Updating vulnerability with ID: ' . $vulnerability_id);
+
+            // Prepare and execute the SQL statement to update the vulnerability
+            $stmt = $this->pdo->prepare("UPDATE vulnerabilities SET affected_entity = :affected_entity, identifier = :identifier, risk_statement = :risk_statement, affected_component = :affected_component, residual_risk = :residual_risk, classification = :classification, identified_controls = :identified_controls, cvss_score = :cvss_score, likelihood = :likelihood, cvssv3_code = :cvssv3_code, location = :location, vulnerabilities_description = :vulnerabilities_description, reproduction_steps = :reproduction_steps, impact = :impact, remediation_difficulty = :remediation_difficulty, recommendations = :recommendations, recommended_reading = :recommended_reading, response = :response, solved = :solved WHERE id = :vulnerability_id");
+            
+            // Bind parameters
+            $stmt->bindParam(':vulnerability_id', $vulnerability_id);
+            $stmt->bindParam(':affected_entity', $affected_entity);
+            $stmt->bindParam(':identifier', $identifier);
+            $stmt->bindParam(':risk_statement', $risk_statement);
+            $stmt->bindParam(':affected_component', $affected_component);
+            $stmt->bindParam(':residual_risk', $residual_risk);
+            $stmt->bindParam(':classification', $classification);
+            $stmt->bindParam(':identified_controls', $identified_controls);
+            $stmt->bindParam(':cvss_score', $cvss_score);
+            $stmt->bindParam(':likelihood', $likelihood);
+            $stmt->bindParam(':cvssv3_code', $cvssv3_code);
+            $stmt->bindParam(':location', $location);
+            $stmt->bindParam(':vulnerabilities_description', $vulnerabilities_description);
+            $stmt->bindParam(':reproduction_steps', $reproduction_steps);
+            $stmt->bindParam(':impact', $impact);
+            $stmt->bindParam(':remediation_difficulty', $remediation_difficulty);
+            $stmt->bindParam(':recommendations', $recommendations);
+            $stmt->bindParam(':recommended_reading', $recommended_reading);
+            $stmt->bindParam(':response', $response);
+            $stmt->bindParam(':solved', $solved, \PDO::PARAM_BOOL);
+            $stmt->execute();
+
+            Logger::write('info', 'Updated vulnerability with ID: ' . $vulnerability_id);
+            return [
+                'status' => 200,
+                'data' => ['message' => 'Vulnerability updated successfully']
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Database error']
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
     // Fetch all target data from the database
     //-----------------------------------------------------
     public function getTargets($test_id = null)
