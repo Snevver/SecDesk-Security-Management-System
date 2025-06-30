@@ -37,7 +37,8 @@ try {
         case '/targets':
             $app->handleAuthenticatedRoute('targets.html.php');
             break;
-              case '/edit':
+              
+        case '/edit':
             $app->checkApiAuthorization('pentester');
             $result = $app->useController('AuthenticatorController', 'handleEditRoute');
             if ($result['status'] == 200) {
@@ -176,6 +177,15 @@ try {
                 throw new HTTPException('Test ID is required', 400);
             }
             $app->handleApiRoute('pentester', "TargetController", "addTarget", [$test_id]);
+            break;
+
+        case '/api/add-vulnerability':
+            $app->checkApiAuthentication();
+            $target_id = isset($_GET['target_id']) ? (int)$_GET['target_id'] : null;
+            if (!$target_id) {
+                throw new HTTPException('Target ID is required', 400);
+            }
+            $app->handleApiRoute('pentester', "VulnerabilityController", "addVulnerability", [$target_id]);
             break;
         
         case '/api/delete':

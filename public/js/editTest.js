@@ -422,6 +422,38 @@ function addNewTarget() {
 }
 
 /**
+ * Add a new vulnerability to a specific target
+ */
+function addNewVulnerability(targetId) {
+    console.log('Adding new vulnerability for target ID:', targetId);
+
+    // Make API call to add the vulnerability with empty name and description
+    fetch(`/api/add-vulnerability?target_id=${targetId}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log('Add vulnerability response:', data);
+            // Always reload the page after the API call
+            window.location.reload();
+        })
+        .catch((error) => {
+            console.error('Error adding vulnerability:', error);
+            // Still reload even on error to refresh the page state
+            window.location.reload();
+        });
+}
+
+/**
  * Fetch all vulnerabilty data
  * @param {string} targetId The ID of the target to fetch vulnerabilities for
  */
@@ -438,31 +470,33 @@ function fetchVulnerabilities(targetId) {
             const vulnerabilitiesElement = document.getElementById(
                 `vulnerabilities-${targetId}`,
             );
+
+            let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
+
             if (
                 !data ||
                 !data.vulnerabilities ||
                 data.vulnerabilities.length === 0
             ) {
-                vulnerabilitiesElement.innerHTML =
-                    '<p>No vulnerabilities found.</p>';
-                return;
-            }
-            let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
-            for (let vulnerability of data.vulnerabilities) {
-                vulnerabilityList += `
-                    <div id="vuln-${vulnerability.id}">
-                        <h4>${vulnerability.affected_entity}</h4>
-                        <p>${vulnerability.vulnerabilities_description}</p>
-                        ${createActionButtons(
-                            'vulnerability',
-                            vulnerability.id,
-                            `vuln-${vulnerability.id}`,
-                        )}
-                    </div>`;
+                vulnerabilityList += '<p>No vulnerabilities found.</p>';
+            } else {
+                for (let vulnerability of data.vulnerabilities) {
+                    vulnerabilityList += `
+                        <div id="vuln-${vulnerability.id}">
+                            <h4>${vulnerability.affected_entity}</h4>
+                            <p>${vulnerability.vulnerabilities_description}</p>
+                            ${createActionButtons(
+                                'vulnerability',
+                                vulnerability.id,
+                                `vuln-${vulnerability.id}`,
+                            )}
+                        </div>`;
+                }
             }
 
+            // Always add the "Add Vulnerability" button
             vulnerabilityList += `<div id="add-vuln-${targetId}">
-                <br><br><br><a class="btn btn-success" href="/api/add-vulnerability?target_id=${targetId}">Add Vulnerability</a>
+                <br><br><br><button class="btn btn-success" onclick="addNewVulnerability(${targetId})">Add Vulnerability</button>
             </div></div>`;
 
             vulnerabilitiesElement.innerHTML = vulnerabilityList;
