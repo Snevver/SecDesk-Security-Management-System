@@ -80,78 +80,95 @@
                 <h1>Vulnerability Form</h1>           
 
                 <div>
-                    <label for="vulnerability-title-input">Title:</label>
-                    <input type="text" id="vulnerability-title-input" name="vulnerability-title" value="Loading..." required>
+                    <label for="identifier">Identifier:</label>
+                    <input type="text" id="identifier" name="identifier" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-identifier-input">Identifier:</label>
-                    <input type="text" id="vulnerability-identifier-input" name="vulnerability-identifier" value="Loading..." required>
+                    <label for="risk_statement">Risk statement:</label>
+                    <input type="text" id="risk_statement" name="risk_statement" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-risk-statement-input">Risk statement:</label>
-                    <input type="text" id="vulnerability-risk-statement-input" name="vulnerability-risk-statement" value="Loading..." required>
+                    <label for="affected_component">Affected Component:</label>
+                    <input type="text" id="affected_component" name="affected_component" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-affected-component-input">Affected Component:</label>
-                    <input type="text" id="vulnerability-affected-component-input" name="vulnerability-affected-component" value="Loading..." required>
+                    <label for="residual_risk">Residual Risk:</label>
+                    <select id="residual_risk" name="residual_risk" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                 </div>
 
                 <div>
-                    <label for="vulnerability-residual-risk-input">Residual Risk:</label>
-                    <input type="text" id="vulnerability-residual-risk-input" name="vulnerability-residual-risk" value="Loading..." required>
+                    <label for="classification">classification:</label>
+                    <input type="text" id="classification" name="classification" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-classification-input">classification:</label>
-                    <input type="text" id="vulnerability-classification-input" name="vulnerability-classification" value="Loading..." required>
+                    <label for="identified_controls">identified Controls:</label>
+                    <input type="text" id="identified_controls" name="identified_controls" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-identified-controls-input">identified Controls:</label>
-                    <input type="text" id="vulnerability-identified-controls-input" name="vulnerability-identified-controls" value="Loading..." required>
+                    <label for="cvss_score">CVSS Score:</label>
+                    <input type="number" id="cvss_score" name="cvss_score" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-cvss-score-input">CVSS Score:</label>
-                    <input type="number" id="vulnerability-cvss-score-input" name="vulnerability-cvss-score" value="Loading..." required>
+                    <label for="likelihood">Likelihood:</label>
+                    <select name="likelihood" id="likelihood">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                 </div>
 
                 <div>
-                    <label for="vulnerability-likelihood-input">Likelihood:</label>
-                    <input type="text" id="vulnerability-likelihood-input" name="vulnerability-likelihood" value="Loading..." required>
+                    <label for="cvssv3_code">CVSSV3 Code:</label>
+                    <input type="text" id="cvssv3_code" name="cvssv3_code" value="0" required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-cvssv3-code-input">CVSSV3 Code:</label>
-                    <input type="text" id="vulnerability-cvssv3-code-input" name="vulnerability-cvssv3-code" value="Loading..." required>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-location-input">Location:</label>
-                    <input type="text" id="vulnerability-location-input" name="vulnerability-location" value="Loading..." required>
+                    <label for="vulnerabilities_description">Description:</label>
+                    <input type="text" id="vulnerabilities_description" name="vulnerabilities_description" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-description-input">Description:</label>
-                    <input type="text" id="vulnerability-description-input" name="vulnerability-description" value="Loading..." required>
+                    <label for="reproduction_steps">Reproduction Steps:</label>
+                    <input type="text" id="reproduction_steps" name="reproduction_steps" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-reproduction-steps-input">Reproduction Steps:</label>
-                    <input type="text" id="vulnerability-reproduction-steps-input" name="vulnerability-reproduction-steps" value="Loading..." required>
+                    <label for="impact">Impact:</label>
+                    <input type="text" id="impact" name="impact" value="Loading..." required>
                 </div>
 
                 <div>
-                    <label for="vulnerability-impact-input">Impact:</label>
-                    <input type="text" id="vulnerability-impact-input" name="vulnerability-impact" value="Loading..." required>
+                    <label for="remediation_difficulty">Remediation Difficulty:</label>
+                    <select name="remediation_difficulty" id="remediation_difficulty">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                 </div>
 
                 <div>
-                    <label for="vulnerability-remediation-difficulty-input">Remediation Difficulty:</label>
-                    <input type="text" id="vulnerability-remediation-difficulty-input" name="vulnerability-remediation-difficulty" value="Loading..." required>
+                    <label for="recommendations">Reccomendations:</label>
+                    <input type="text" id="recommendations" name="recommendations" value="Loading..." required>
+                </div>
+
+                <div>
+                    <label for="reccomended_reading">Reccomended Reading:</label>
+                    <input type="text" id="reccomended_reading" name="reccomended_reading" value="Loading..." required>
                 </div>
 
                 <div>
@@ -161,7 +178,7 @@
 
                 <div>
                     <label for="vulnerability-solved-input">Solved?</label>
-                    <input type="radio" id="vulnerability-solved-input" name="vulnerability-solved" value="Loading..." required>
+                    <input type="radio" id="vulnerability-solved-input" name="vulnerability-solved">
                 </div>
 
                 <div>
