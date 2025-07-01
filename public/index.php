@@ -87,7 +87,7 @@ try {
             break;
 
         case '/api/get-all-employee-tests':
-            $app->handleApiRoute('pentester', "EmployeeDashboardController", "getEmployeeTests");
+            $app->handleApiRoute(['admin', 'pentester'], "EmployeeDashboardController", "getEmployeeTests");
             break;
 
         case '/api/update-test-completion':
@@ -126,9 +126,71 @@ try {
             break;
         
         case '/api/get-customer-email':
-            $app->checkApiAuthorization(['pentester']);
+            $app->checkApiAuthorization(['pentester', 'admin']);
             $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
             $result = $app->useController("DataController", "getCustomerEmail", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/customer-tests':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getCustomerTests", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/customer-details':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getCustomerDetails", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/customer-targets':
+            $app->checkApiAuthorization(['pentester', 'customer', 'admin']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            if (!$customer_id) {
+                throw new HTTPException('Customer ID is required', 400);
+            }
+            $result = $app->useController("AdminDashboardController", "getCustomerTargets", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/customer-vulnerabilities':
+            $app->checkApiAuthorization(['pentester', 'customer', 'admin']);
+            $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
+            if (!$customer_id) {
+                throw new HTTPException('Customer ID is required', 400);
+            }
+            $result = $app->useController("AdminDashboardController", "getCustomerVulnerabilities", [$customer_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/pentester-details':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getPentesterDetails", [$pentester_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/pentester-tests':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getPentesterTests", [$pentester_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/pentester-targets':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getPentesterTargets", [$pentester_id]);
+            $app->sendJsonResponse($result['data'], $result['status']);
+            break;
+
+        case '/api/pentester-vulnerabilities':
+            $app->checkApiAuthorization(['pentester', 'admin']);
+            $pentester_id = isset($_GET['pentester_id']) ? (int)$_GET['pentester_id'] : null;
+            $result = $app->useController("AdminDashboardController", "getPentesterVulnerabilities", [$pentester_id]);
             $app->sendJsonResponse($result['data'], $result['status']);
             break;
 
