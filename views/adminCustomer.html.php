@@ -170,6 +170,9 @@
                         <p class="mb-0 opacity-75">Manage customer data, tests, targets, and vulnerabilities</p>
                     </div>
                     <div class="col-md-4 text-end">
+                        <button class="btn btn-danger me-2" onclick="deleteCustomer()">
+                            <i class="bi bi-trash"></i> Delete Customer
+                        </button>
                         <button class="btn btn-light" onclick="window.history.back()">
                             <i class="bi bi-arrow-left"></i> Back to Admin Dashboard
                         </button>

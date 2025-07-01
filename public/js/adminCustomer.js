@@ -367,6 +367,31 @@ function clearVulnerabilitiesFilter() {
     displayVulnerabilities(allVulnerabilities);
 }        
 
+// Delete customer function
+function deleteCustomer() {
+    if (confirm('Are you sure you want to delete this customer? This action cannot be undone and will delete all associated tests, targets, and vulnerabilities.')) {
+        fetch(`/api/delete?user_id=${customerId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Customer deleted successfully');
+                    window.location.href = '/';
+                } else {
+                    alert('Error deleting customer: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting customer:', error);
+                alert('Error deleting customer');
+            });
+    }
+}
+
 // Helper functions
 function escapeHtml(text) {
     if (text === null || text === undefined || text === '') {
@@ -433,5 +458,5 @@ function deleteUser(userId) {
                 alert('Error deleting pentester');
             });
     }
-}   
+}
 
