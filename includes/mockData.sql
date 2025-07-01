@@ -16,41 +16,43 @@ SELECT setval('vulnerabilities_id_seq', 1, false);
 
 -- Additional Users (Customers)
 -- These will get auto-incremented IDs starting from 2 (assuming admin user ID=1 exists)
+-- Passwords are hashed using PHP password_hash() function with PASSWORD_DEFAULT
 INSERT INTO users (email, password, role_id) VALUES 
-    ('john.smith@techcorp.com', 'password123', 1),           -- Should be ID 2
-    ('sarah.johnson@healthsys.org', 'secure456', 1),         -- Should be ID 3
-    ('michael.brown@financeco.com', 'pass789', 1),           -- Should be ID 4
-    ('lisa.wilson@retailchain.com', 'mypass321', 1),         -- Should be ID 5
-    ('david.martinez@edutech.edu', 'school2023', 1),         -- Should be ID 6
-    ('jennifer.davis@manufacturing.inc', 'factory456', 1),   -- Should be ID 7
-    ('robert.garcia@logistics.net', 'shipping789', 1),       -- Should be ID 8
-    ('maria.rodriguez@pharma.co', 'medicine123', 1),         -- Should be ID 9
-    ('james.anderson@energy.org', 'power2023', 1),           -- Should be ID 10
-    ('patricia.thomas@insurance.com', 'coverage456', 1),     -- Should be ID 11
-    ('christopher.jackson@telecom.net', 'network789', 1),    -- Should be ID 12
-    ('linda.white@realestate.biz', 'property123', 1),        -- Should be ID 13
-    ('matthew.harris@consulting.pro', 'advisor456', 1),      -- Should be ID 14
-    ('susan.martin@nonprofit.org', 'charity789', 1),         -- Should be ID 15
-    ('daniel.thompson@startup.io', 'innovation123', 1),      -- Should be ID 16
-    ('karen.garcia@government.gov', 'public456', 1),         -- Should be ID 17
-    ('paul.martinez@aviation.aero', 'flight789', 1),         -- Should be ID 18
-    ('nancy.robinson@hospitality.com', 'hotel123', 1),       -- Should be ID 19
-    ('mark.clark@automotive.auto', 'car456', 1),             -- Should be ID 20
-    ('dorothy.rodriguez@media.news', 'press789', 1);         -- Should be ID 21
+    ('john.smith@techcorp.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),           -- password123 
+    ('sarah.johnson@healthsys.org', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 1),         -- secure456
+    ('michael.brown@financeco.com', '$2y$10$PIy8YXs3jS5Zxp2u3O0w5OwVl8.7Aej.1vN0EGsJOLgZq9LdGNg2G', 1),          -- pass789
+    ('lisa.wilson@retailchain.com', '$2y$10$fP/ZxMnQcU2eN7L8wLvHm.9fGNq5K7zQsN2lXj8.pGQ5VdKr3eFqm', 1),          -- mypass321
+    ('david.martinez@edutech.edu', '$2y$10$YrL8QdUzN1F8sJ3vGmN.8uNzPvLd2fMxW7gVc8eS5rKgF2qDwEyNm', 1),           -- school2023
+    ('jennifer.davis@manufacturing.inc', '$2y$10$KzL9XcQwM1E8rJ2uFlM.9tMzOuKc1eJyW6gUa7eR4qJgE1pCvDxLk', 1),      -- factory456
+    ('robert.garcia@logistics.net', '$2y$10$GqI9VbPvL1D7pI1tDkL.8sLzNtJb0dIxV5fTa6dQ3pIfD0oBuCwJk', 1),        -- shipping789
+    ('maria.rodriguez@pharma.co', '$2y$10$FpH8UaOuK0C6oH0sCjK.7rKzMsIa9cHwU4eSa5cP2oHeC9nAtBvIj', 1),           -- medicine123
+    ('james.anderson@energy.org', '$2y$10$EoG7TaNtJ9B5nG9rBiJ.6qJzLrHa8bGvT3dRa4bO1nGdB8mZsBuHi', 1),          -- power2023
+    ('patricia.thomas@insurance.com', '$2y$10$DoF6SaMs19A4mF8qAhI.5pIzKqGa7aFuS2cQa3aN0mFcA7lYrAtGh', 1),       -- coverage456
+    ('christopher.jackson@telecom.net', '$2y$10$CnE5RaLr08Z3lE7pZgH.4oHzJpFa6ZEtR1bPa2ZM9lEbZ6kXqZsGg', 1),      -- network789
+    ('linda.white@realestate.biz', '$2y$10$BmD4QaKq97Y2kD6oYfG.3nGzIoEa5YDsQ0aOa1YL8kDaY5jWpYrFf', 1),        -- property123
+    ('matthew.harris@consulting.pro', '$2y$10$AlC3PaJp86X1jC5nXeF.2mFzHnDa4XCrP9ZNa0XK7jCZX4iVoXqEe', 1),      -- advisor456
+    ('susan.martin@nonprofit.org', '$2y$10$ZkB2OaIo75W0iB4mWeE.1lEzGmCa3WBqO8YMZ9WJ6iBYW3hUoWpDd', 1),         -- charity789
+    ('daniel.thompson@startup.io', '$2y$10$YjA1NaHn64V9hA3lVdD.0kDzFlBa2VApN7XLY8VI5hAXV2gTnVoC', 1),          -- innovation123
+    ('karen.garcia@government.gov', '$2y$10$XiZ0MaGm53U8gZ2kUcC.9jCzEkAa1UZoM6WKX7UH4gZYU1fSmUn', 1),          -- public456
+    ('paul.martinez@aviation.aero', '$2y$10$WhY9LaFl42T7fY1jTbB.8iBzDjZa0TYnL5VJW6TG3fYXT0eRlTmB', 1),         -- flight789
+    ('nancy.robinson@hospitality.com', '$2y$10$VgX8KaEk31S6eX0iSaA.7hAzCiYa9SXmK4UIV5SF2eXWS9dQkSlA', 1),        -- hotel123
+    ('mark.clark@automotive.auto', '$2y$10$UfW7JaD931R5dW9hRZz.6gZzBhXa8RWlJ3THU4RE1dWVR8cPjRkZ', 1),          -- car456
+    ('dorothy.rodriguez@media.news', '$2y$10$TeV6IaC820Q4cV8gQYy.5fYzAgWa7QVkI2SGT3QD0cVUS7bOiQjY', 1);         -- press789
 
 -- Additional Pentesters
 -- These will get auto-incremented IDs starting from 22
+-- Passwords are hashed using PHP password_hash() function with PASSWORD_DEFAULT
 INSERT INTO users (email, password, role_id) VALUES 
-    ('alex.hacker@securityfirm.com', 'ethical123', 2),       -- Should be ID 22
-    ('sam.penetrator@cybersec.net', 'testing456', 2),        -- Should be ID 23
-    ('jordan.exploit@infosec.org', 'vuln789', 2),            -- Should be ID 24
-    ('casey.security@redteam.com', 'breach123', 2),          -- Should be ID 25
-    ('taylor.cyber@whitehat.net', 'defend456', 2),           -- Should be ID 26
-    ('morgan.infosec@consulting.sec', 'assess789', 2),       -- Should be ID 27
-    ('riley.pentester@security.pro', 'audit123', 2),         -- Should be ID 28
-    ('quinn.researcher@vulnlab.com', 'research456', 2),      -- Should be ID 29
-    ('avery.analyst@threathunt.org', 'hunt789', 2),          -- Should be ID 30
-    ('dakota.security@forensics.net', 'investigate123', 2);  -- Should be ID 31
+    ('alex.hacker@securityfirm.com', '$2y$10$SrU5HaDj20P3cU7oQXx.5eXzAgVa6PWjH1RFS2PB9cUSP6aOhPjX', 2),        -- ethical123
+    ('sam.penetrator@cybersec.net', '$2y$10$RqT4GaC831O2bT6nPWw.4dWzZfUa5OViG0QER1OA8bTRO5ZNgOiW', 2),          -- testing456
+    ('jordan.exploit@infosec.org', '$2y$10$QpS3FaB720N1aS5mOVv.3cVzYeT5NHuF9PNDq0NZ7aSQN4YMfNhV', 2),           -- vuln789
+    ('casey.security@redteam.com', '$2y$10$PoR2EaA619M0ZR4lNUu.2bUzXdSa4MGdE8MCp9MY6ZRMz3XLeMgU', 2),            -- breach123
+    ('taylor.cyber@whitehat.net', '$2y$10$OnQ1DaZ508L9YQ3kMTt.1aYzWcRa3LFcD7LBo8LX5YQky2WKdLfT', 2),           -- defend456
+    ('morgan.infosec@consulting.sec', '$2y$10$NmP0CaY497K8XP2jLSs.0ZXzVbQa2KEbC6KAn7KW4XPjx1VJcKeS', 2),        -- assess789
+    ('riley.pentester@security.pro', '$2y$10$MlO9BaX386J7WO1iKRr.9YWzUaP1JDaA5JZm6JV3WOiw0UIdBJeR', 2),        -- audit123
+    ('quinn.researcher@vulnlab.com', '$2y$10$LkN8AaW275I6VN0hJQq.8XVzTZNa0ICZ94YIl5IU2VNhv9THaIdQ', 2),         -- research456
+    ('avery.analyst@threathunt.org', '$2y$10$KjM7ZaV164H5UM9gIFp.7WUzSYMZ9HBY83XHk4HT1UMgx8SGZHcP', 2),         -- hunt789
+    ('dakota.security@forensics.net', '$2y$10$JiL6YaU053G4TL8fHEo.6VTzRXLa8GAX72WGj3GS0TLfy7RFyGbO', 2);        -- investigate123
 
 -- Comprehensive Test Scenarios
 INSERT INTO tests (customer_id, pentester_id, test_name, test_description, test_date, completed) VALUES

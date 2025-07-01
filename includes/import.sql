@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS vulnerabilities (
 -- 3. admin: User with full access to the system, including user and test management.
 INSERT INTO roles (id, name, description) VALUES (1, 'customer', 'Customers have limited access to the application.'), (2, 'pentester', 'Pentesters have alot more priviledges, but are not almighty.' ), (3, 'admin', 'Admins have full access to the application.' );
 
--- One admin account is created by default.
+-- One admin account is created by default with hashed password.
+-- Password: 'password' hashed using PHP password_hash() function with PASSWORD_DEFAULT
 INSERT INTO users (email, password, role_id)
-VALUES ('email@placeholder.com', 'password', 3);
+VALUES ('email@placeholder.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 3);

@@ -37,7 +37,7 @@ class AuthenticatorController
                 $stmt->execute(['email' => $data['email']]);
                 $user = $stmt->fetch();
 
-                if ($user && $data['password'] === $user['password']) {
+                if ($user && password_verify($data['password'], $user['password'])) {
                     // Make sure session is started
                     if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -71,8 +71,13 @@ class AuthenticatorController
                     Logger::write('error', "Login failed for " . $data['email'] . ": Invalid credentials");
                     throw new HTTPException('Invalid credentials', 401);
                 }
-            } catch (\Exception $dbError) {
+            } catch (HTTPException $httpError) {
+                throw $httpError;
+            } catch (\PDOException $dbError) {
                 Logger::write('error', "Database error: " . $dbError->getMessage());
+                throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
+            } catch (\Exception $dbError) {
+                Logger::write('error', "Unexpected database error: " . $dbError->getMessage());
                 throw new HTTPException('Database connection error. Please try again later.', 500, $dbError->getFile(), $dbError->getLine());
             }
         } catch (HTTPException $httpError) {
@@ -260,8 +265,8 @@ class AuthenticatorController
                 ];
             }
 
-            // Verify current password
-            if ($currentPassword !== $user['password']) {
+            // Verify current password using password_verify for hashed passwords
+            if (!password_verify($currentPassword, $user['password'])) {
                 Logger::write('error', 'Failed password change attempt for user ID ' . $userId . ': Invalid current password');
                 return [
                     'status' => 400,
@@ -269,10 +274,13 @@ class AuthenticatorController
                 ];
             }
 
+            // Hash the new password before storing
+            $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            
             // Update password in database
             $stmt = $this->pdo->prepare("UPDATE users SET password = :new_password WHERE id = :user_id");
             $result = $stmt->execute([
-                'new_password' => $newPassword,
+                'new_password' => $hashedNewPassword,
                 'user_id' => $userId
             ]);
 

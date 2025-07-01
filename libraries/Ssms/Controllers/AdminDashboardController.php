@@ -172,17 +172,18 @@ class AdminDashboardController
 
             // Create user
             $stmt = $this->pdo->prepare("INSERT INTO users (email, password, role_id) VALUES (:email, :password, :role_id)");
-            $password = $this->generatePassword();
+            $plainPassword = $this->generatePassword();
+            $hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
             $stmt->execute([
                 'email' => $email,
-                'password' => $password,
+                'password' => $hashedPassword,
                 'role_id' => $roleId
             ]);
             $userId = $this->pdo->lastInsertId();
             Logger::write('info', 'Account created successfully with ID: ' . $userId);
 
             // Send welcome email with credentials
-            $this->sendEmail($email, $password);            
+            $this->sendEmail($email, $plainPassword);            
             return [
                     'status' => 201,
                     'data' => [
