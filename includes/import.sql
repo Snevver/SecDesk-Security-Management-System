@@ -1,5 +1,7 @@
 -- This file contains the SQL commands to create the database and the tables for the application in Supabase
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- The roles table will store all information about the roles. Each role has a unique ID, a name and a description.
 CREATE TABLE IF NOT EXISTS roles (
     id SERIAL PRIMARY KEY,
@@ -73,6 +75,5 @@ CREATE TABLE IF NOT EXISTS vulnerabilities (
 INSERT INTO roles (id, name, description) VALUES (1, 'customer', 'Customers have limited access to the application.'), (2, 'pentester', 'Pentesters have alot more priviledges, but are not almighty.' ), (3, 'admin', 'Admins have full access to the application.' );
 
 -- One admin account is created by default with hashed password.
--- Password: 'password' hashed using PHP password_hash() function with PASSWORD_DEFAULT
 INSERT INTO users (email, password, role_id)
-VALUES ('email@placeholder.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 3);
+VALUES ('email@placeholder.com', crypt('password123', gen_salt('bf')), 3);

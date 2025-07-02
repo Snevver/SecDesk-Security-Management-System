@@ -37,7 +37,9 @@ class AuthenticatorController
                 $stmt->execute(['email' => $data['email']]);
                 $user = $stmt->fetch();
 
-                if ($user && password_verify($data['password'], $user['password'])) {
+                Logger::write('info', 'password: ' . $data['password'] . ' and ' . $user['password']    );
+
+                if ($user && crypt($data['password'], $user['password']) === $user['password']) {
                     // Make sure session is started
                     if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -265,8 +267,8 @@ class AuthenticatorController
                 ];
             }
 
-            // Verify current password using password_verify for hashed passwords
-            if (!password_verify($currentPassword, $user['password'])) {
+            // Verify current password using crypt for bcrypt hashes
+            if (crypt($currentPassword, $user['password']) !== $user['password']) {
                 Logger::write('error', 'Failed password change attempt for user ID ' . $userId . ': Invalid current password');
                 return [
                     'status' => 400,
@@ -274,8 +276,9 @@ class AuthenticatorController
                 ];
             }
 
-            // Hash the new password before storing
-            $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            // Hash the new password using crypt with bcrypt salt
+            $salt = '$2y$10$' . substr(str_replace('+', '.', base64_encode(random_bytes(16))), 0, 22);
+            $hashedNewPassword = crypt($newPassword, $salt);
             
             // Update password in database
             $stmt = $this->pdo->prepare("UPDATE users SET password = :new_password WHERE id = :user_id");
