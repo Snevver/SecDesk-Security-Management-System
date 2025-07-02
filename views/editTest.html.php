@@ -10,37 +10,123 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/edit.css">
     </head>
-    
-    <body class="p-3 d-flex gap-3">
-        <div class="w-50">
-            <!-- Title and Description -->
-            <header>
-                <h1>
-                    Editing <span class="fw-bold" id="test-title">Loading title...</span>
+
+ <body class="p-0 m-0 w-100">
+		<!-- HEADER -->
+		<header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
+			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
+				<!-- Logo -->
+				<div class="d-none d-md-block">
+					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
+				</div>
+
+				<!-- Title -->
+				<div class="h-100 d-flex align-items-center">
+					<h1 class="fs-2 m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
+                    <span>Security Management System</span>
                 </h1>
 
-                <h3 id="test-description">
-                    Loading description...
-                </h3>
-
-                <button class="btn btn-dark" id="edit-test-detail-button">
-                    Edit Test Detail
-                </button>
-            </header>            
-            
-            <!-- Targets -->
-            <div class="border rounded p-2 mt-3" id="target-container">
-                Loading targets...
+                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
             </div>
-            
+
+            <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
+        </div>
+    </header>
+
+
+    <!-- Target List Header -->
+    <header class="d-flex">
+        <div id="targetSubheader" class="collapse show mb-1 mt-1 ms-1 me-1 targetListHeader rounded subHeader1 d-flex justify-content-between align-items-center">
+            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
+                <a href="/" class="back btn mb-0 ms-1 p-0"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="Back to tests"
+                data-bs-custom-class="custom-tooltip">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+
+                <h3 class="headerTitle d-none d-xl-block text-center m-0">Targets</h3>
+
+                <div style="width: 36px"></div>
+
+            </div>
+        </div>
+
+        <!-- Edit Section Header -->
+        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader rounded flex-grow-1 d-flex justify-content-center align-items-center">
+            <div id="test-title" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center">
+                <div class="d-flex justify-content-center align-items-center py-5 w-100">
+                    Loading title
+                <div class="spinner-border text-primary ms-2" role="status" aria-label="Loading"></div>
+                </div>
+            </div>
+
             <!-- Add Target Button -->
             <div class="mt-3">
                 <button class="btn btn-success" id="add-target-btn">
                     <i class="bi bi-plus-circle"></i> Add Target
                 </button>
             </div>
+
         </div>
+    </header>
+
+
+
+        <!-- Title and Description -->
+        <!-- <header>
+            <h1>
+                Editing <span class="fw-bold" id="test-title">Loading title...</span>
+            </h1>
+
+            <h3 id="test-description">
+                Loading description...
+            </h3>
+
+            <button class="btn btn-dark" id="edit-test-detail-button">
+                Edit Test Detail
+            </button>
+        </header> -->
+
+    <!-- CONTENT -->
+    <div id="targetsMain" class="d-flex h-100 w-100">
+
+        <!-- Left side container for sidebar -->
+        <div class="d-flex me-1 w-100">
+            <!-- Targetlist -->
+            <div id="targetSidebarDesktop" class="targetSidebar flex-grow-1 ms-1 overflow-auto">
+                <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
+            </div>
+
+            <!-- Edit section -->
+            <div id="vulnerabilityDetails" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto">
+                <div class="vulnerability-details d-flex flex-column h-100 w-100 flex-grow-1">
+                    <div id="vulnDetailsPlaceholder" class="placeholder-container d-flex flex-column justify-content-center align-items-center h-100 w-100 flex-grow-1">
+                        <!-- Optional illustration (SVG or image) -->
+                        <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="mb-4" style="max-width: 220px;">
+
+                        <svg width="64" height="64" fill="none" class="mb-3" viewBox="0 0 64 64">
+                        <path d="M48 32H16M32 48L16 32l16-16" stroke="#6862ea" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                        <div class="text-center">
+                            <h4 class="fw-bold mb-2" style="color: #6862ea;">No Vulnerability Selected</h4>
+                            <p class="lead mb-0" style="max-width: 400px;">
+                            To see vulnerability details, first <span class="fw-semibold">click on a target</span> and then <span class="fw-semibold">select a vulnerability</span> from the list.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <div class="w-50 border rounded p-2" id="form-container">
             <!-- Test Detail form -->
@@ -72,6 +158,7 @@
                     <button type="submit" id="target-submit">Save Changes</button>
                 </div>
             </form>
+
         </div>
     </body>
 </html>
