@@ -22,18 +22,18 @@ $uri = $app->getUri();
 //-----------------------------------------------------
 try {
     $app->applyAuthMiddleware();
-    
+
     switch ($uri) {
         // Routes to views
         case '/':
             $app->handleDashboardRoute();
-            break;        
-            
+            break;
+
         case '/login':
             if (session_status() === PHP_SESSION_NONE) session_start();
             include DIR_VIEWS . 'login.html.php';
             break;
-          
+
         case '/targets':
             $app->handleAuthenticatedRoute('targets.html.php');
             break;
@@ -67,8 +67,8 @@ try {
         case '/api/check-login':
             $result = $app->useController("AuthenticatorController", "isLoggedIn");
             $app->sendJsonResponse($result['data'], $result['status']);
-            break;        
-              
+            break;
+
         case '/api/get-all-customers':
             $app->handleApiRoute(['admin', 'pentester'], "AdminDashboardController", "getCustomers");
             break;
@@ -80,7 +80,7 @@ try {
         case '/api/get-all-admins':
             $app->handleApiRoute('admin', "AdminDashboardController", "getAdmins");
             break;
-        
+
         case '/api/get-all-customer-tests':
             $app->handleApiRoute(['admin', 'customer', 'pentester'], "IndexController", "getCustomersTests");
             break;
@@ -92,7 +92,7 @@ try {
         case '/api/update-test-completion':
             $app->handleApiRoute('pentester', "EmployeeDashboardController", "updateTestCompletion");
             break;
-        
+
         case '/api/get-all-targets':
             $app->checkApiAuthorization(['pentester', 'customer']);
             $result = $app->useController("TargetController", "handleApiTargets");
@@ -109,7 +109,7 @@ try {
         case '/api/get-test':
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
-            $app->handleApiRoute('pentester', "DataController", "getTest", [$data['test_id']]);
+            $app->handleApiRoute(['pentester', 'customer'], "DataController", "getTest", [$data['test_id']]);
             break;
 
         case '/api/get-target':
@@ -117,13 +117,13 @@ try {
             $data = json_decode($requestBody, true);
             $app->handleApiRoute('pentester', "DataController", "getTarget", [$data['target_id']]);
             break;
-        
+
         case '/api/get-vulnerability':
             $requestBody = file_get_contents('php://input');
             $data = json_decode($requestBody, true);
             $app->handleApiRoute('pentester', "DataController", "getVulnerability", [$data['vulnerability_id']]);
             break;
-        
+
         case '/api/get-customer-email':
             $app->checkApiAuthorization(['pentester']);
             $customer_id = isset($_GET['customer_id']) ? (int)$_GET['customer_id'] : null;
@@ -147,7 +147,7 @@ try {
             $data = json_decode($requestBody, true);
             Logger::write('info', 'Creating test with data: ' . json_encode($data));
             $app->handleApiRoute('pentester', "EmployeeDashboardController", "createTest", [$data['customer_id']]);
-            break;        
+            break;
 
         case '/update-test':
             $requestBody = file_get_contents('php://input');
@@ -177,7 +177,7 @@ try {
             }
             $app->handleApiRoute('pentester', "TargetController", "addTarget", [$test_id]);
             break;
-        
+
         case '/api/delete':
             $app->checkApiAuthentication();
             if (isset($_GET['test_id'])) {
@@ -196,17 +196,17 @@ try {
                 throw new HTTPException('Invalid request: test_id, target_id or vulnerability_id is required', 400);
             }
             break;
-        
+
         // Routes for styling and scripts
         case '/js/bootstrap.js':
             $app->handleStaticAsset('/node_modules/bootstrap/dist/js/bootstrap.bundle.js', 'application/javascript');
             break;
-        
+
         case '/css/bootstrap.css':
             $app->handleStaticAsset('/node_modules/bootstrap/dist/css/bootstrap.css', 'text/css');
             break;
 
-        default:            
+        default:
             throw new HTTPException('Route not found', 404);
     }
 } catch (HTTPException $e) {

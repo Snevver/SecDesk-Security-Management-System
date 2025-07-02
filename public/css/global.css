@@ -34,6 +34,7 @@
 html,
 body {
   height: 100vh;
+  overflow-x: hidden;
 }
 
 main {
@@ -52,7 +53,12 @@ h3 {
 }
 
 .btn {
-  background-color: var(--header-color);
+  background-color: var(--button-color);
+  color: var(--black-color);
+}
+
+.btn:hover {
+  background-color: #3acb85;
   color: var(--white-color);
 }
 
@@ -63,6 +69,10 @@ svg {
 .logo {
   margin-left: 18.5px;
   height: 28px;
+}
+
+.spinner-border {
+  color: var(--header-color);
 }
 
 /* Custom 'Bootstrap' styles */

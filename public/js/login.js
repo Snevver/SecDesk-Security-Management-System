@@ -7,7 +7,12 @@
  * @param {string} message The message to be displayed
  */
 function showError(message) {
-  document.getElementById("error-message").textContent = message;
+  document.getElementById("error-message").innerHTML = `
+    <div class="alert alert-danger alert-dismissible fade show position-fixed mt-1 text-nowrap" role="alert">
+      ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  `;
 }
 
 document.getElementById("login-form").addEventListener("submit", (event) => {
@@ -50,12 +55,17 @@ document.getElementById("login-form").addEventListener("submit", (event) => {
       if (response.redirect) {
         window.location.href = response.redirect;
         // return Promise.reject(new Error("Redirect"));
+      } else if (response.error) {
+        // Login failed, show error and reset button
+        showError(response.error);
+        resetLoginButton();
       }
     })
     .catch((error) => {
       // Only show error if not a redirect
       if (error.message !== "Redirected") {
         showError(error.message || "An error occurred. Please try again.");
+        resetLoginButton();
       }
     });
 });
@@ -87,3 +97,13 @@ function equalizeLoginAndDesc() {
 
 document.addEventListener("DOMContentLoaded", equalizeLoginAndDesc);
 window.addEventListener("resize", equalizeLoginAndDesc);
+
+function resetLoginButton() {
+  const loginBtn = document.getElementById("login");
+  const spinner = document.getElementById("loginSpinner");
+  const btnText = document.getElementById("loginBtnText");
+  if (loginBtn && spinner && btnText) {
+    spinner.classList.add("d-none");
+    btnText.textContent = "Login";
+  }
+}

@@ -6,13 +6,21 @@
  * Fetch customer tests
  */
 function fetchCustomerTests() {
+  const testListElement = document.querySelector(".accordion");
+  if (testListElement) {
+    testListElement.innerHTML = `
+      <div class="d-flex justify-content-center align-items-center py-5 w-100">
+      <strong>Loading tests...  </strong>
+        <div class="spinner-border text-primary ms-2" role="status" aria-label="Loading"></div>
+      </div>
+    `;
+  }
   fetch(`/api/get-all-customer-tests`, {
     credentials: "same-origin",
   })
     .then((response) => response.json())
     .then((data) => displayCustomerTests(data))
     .catch((error) => {
-      const testListElement = document.getElementById("testListContent");
       if (testListElement) {
         testListElement.classList.remove("loading");
         testListElement.innerHTML =
@@ -75,6 +83,8 @@ function displayCustomerTests(data) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
       const testId = this.id.replace("test-", "");
+      const pageSpinner = document.getElementById("pageSpinner");
+      pageSpinner.style.setProperty("display", "flex", "important");
       window.location.href = `/targets?test_id=${testId}`;
     });
   });

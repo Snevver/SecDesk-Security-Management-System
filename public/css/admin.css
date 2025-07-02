@@ -1,77 +1,18 @@
 @import url(global.css);
 @import url(index.css);
+@import url(employee.css);
 
 #testListHeader {
-  height: 5vh;
+  height: 60px;
 }
 
-.user-info {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  display: inline-block;
-}
-
-.dashboard-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  border: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.dashboard-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-header-styling {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid var(--logo-color);
-  font-weight: 600;
-  color: var(--logo-color);
+.card-header {
+  background: var(--header-color);
 }
 
 .user-list {
-  max-height: 400px;
+  max-height: 75vh;
   overflow-y: auto;
-}
-
-.user-item {
-  background: linear-gradient(to bottom, #e1dbf1c4, #f1f1f1) !important;
-  border-left: 4px solid var(--header-color);
-  margin-bottom: 0.5rem;
-  padding: 1rem;
-  border-radius: 0 8px 8px 0;
-  transition: all 0.2s ease;
-}
-
-.user-item:hover {
-  background: #e9ecef;
-  transform: translateX(4px);
-}
-
-.user-email {
-  font-weight: 600;
-  color: var(--logo-color);
-  font-size: 1.1rem;
-}
-
-.user-id {
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 2rem;
-  color: #6c757d;
-}
-
-.empty-state i {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  opacity: 0.5;
 }
 
 @media (max-width: 768px) {

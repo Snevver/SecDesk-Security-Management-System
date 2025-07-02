@@ -8,8 +8,9 @@
 		<title>Dashboard</title>
 
 		<!-- CSS -->
-		<link rel="stylesheet" href="/css/index.css">
 		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/index.css">
+
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
 		<!-- JS -->
@@ -24,7 +25,7 @@
 	<body class="p-0 m-0 w-100">
 		<!-- HEADER -->
 		<header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
-			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center w-100">
+			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
 					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
@@ -32,14 +33,14 @@
 
 				<!-- Title -->
 				<div class="h-100 d-flex align-items-center">
-					<h1 class="m-0 d-none d-lg-block text-center h-100">
+					<h1 class="m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
 						<span>Security Management System</span>
 					</h1>
 
 					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none">
-
-  					<div class="d-none d-md-block" style="min-width: 101.4px;"></div>
 				</div>
+
+  				<div class="d-none d-md-block" style="min-width: 101.4px;"></div>
 			</div>
 		</header>
 
@@ -63,12 +64,22 @@
 						</a>
 					</li>
 
-					<!-- Settings Button -->
+					<!-- Change Password Button -->
 					<li>
 						<a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
 							<path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
 							<path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+							</svg>
+						</a>
+					</li>
+
+					<!-- Contact Us Button -->
+					<li>
+						<a href="https://secdesk.com/contact-us/" target="_blank" class="nav-link py-3 border-bottom rounded-0" title="Contact Us">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+							<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+							<path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
 							</svg>
 						</a>
 					</li>
@@ -81,34 +92,6 @@
 						<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
 					</svg>
 				</a>
-
-				<!-- Logout Modal -->
-				<div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h2 class="modal-title fs-5" id="logoutModalLabel">
-									You're logging out
-								</h2>
-
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-
-							<div class="modal-body">
-								<p>Are you sure you want to log out?</p>
-							</div>
-
-							<div class="modal-footer">
-								<button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn text-white" data-bs-dismiss="modal">
-									No
-								</button>
-								<button id="logout-btn" type="button"class="btn text-white" data-bs-dismiss="modal">
-									Yes
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 
 			<!-- DASHBOARD -->
@@ -129,45 +112,71 @@
 			</main>		</div>
 
 		<!-- Change Password Modal -->
-		<div class="modal fade" id="changePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+		<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h2 class="modal-title fs-5" id="changePasswordModalLabel">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-key-fill me-2" viewBox="0 0 16 16">
-								<path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5h1.837a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5v-1h-1a.5.5 0 0 1-.5-.5z"/>
-								<path d="M12 10.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-							</svg>
-							Change Password
-						</h2>
+						<h5 class="modal-title" id="changePasswordModalLabel">
+							<i class="bi bi-key"></i> Change Password
+						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-
-					<form id="changePasswordForm">
-						<div class="modal-body">
+					<div class="modal-body">
+						<form id="changePasswordForm">
 							<div class="mb-3">
 								<label for="currentPassword" class="form-label text-white">Current Password</label>
-								<input type="password" class="form-control" id="currentPassword" required>
+								<input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
 							</div>
 							<div class="mb-3">
 								<label for="newPassword" class="form-label text-white">New Password</label>
-								<input type="password" class="form-control" id="newPassword" required>
+								<input type="password" class="form-control" id="newPassword" name="newPassword" required>
+								<div class="form-text">Password must be at least 8 characters long and contain uppercase, lowercase, and numbers.</div>
 							</div>
 							<div class="mb-3">
 								<label for="confirmPassword" class="form-label text-white">Confirm New Password</label>
-								<input type="password" class="form-control" id="confirmPassword" required>
+								<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
 							</div>
-							<div id="passwordError" class="text-danger d-none"></div>
-							<div id="passwordSuccess" class="text-success d-none"></div>
-						</div>
-
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary" id="changePasswordSubmit">Change Password</button>
-						</div>
-					</form>
+							<div id="changePasswordMessage"></div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" form="changePasswordForm" class="btn btn-modal-submit">Change Password</button>
+					</div>
 				</div>
 			</div>
+		</div>
+
+		<!-- Logout Modal -->
+		<div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h2 class="modal-title fs-5" id="logoutModalLabel">
+							You're logging out
+						</h2>
+
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+						<p>Are you sure you want to log out?</p>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn" data-bs-dismiss="modal">
+							No
+						</button>
+						<button id="logout-btn" type="button"class="btn" data-bs-dismiss="modal">
+							Yes
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="pageSpinner" class="position-fixed d-none top-0 start-0 w-100 h-100 justify-content-center align-items-center bg-white bg-opacity-50" style="z-index: 2000;">
+			<div class="spinner-border spinner-lg text-primary" role="status" aria-label="Loading"></div>
 		</div>
 
 		<script src="/js/changePassword.js"></script>

@@ -26,7 +26,6 @@
 
         <!-- Debugging !!! NOT TO BE USED IN PRODUCTION !!! -->
         <div id="debug" style="display: none;"></div>
-        <div id="error-message"></div>
 
         <!-- LOGIN SECTION -->
         <main id="loginMain" class="container-fluid d-flex flex-column">
@@ -34,10 +33,10 @@
                 <div class="col-12 col-md-4 d-flex ps-xl-5 ps-3 pe-md-0 pb-3 pb-md-0">
                     <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
                         <section id="loginSection" class="w-100 p-0 p-sm-4 p-xxl-5">
-                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center">
+                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center position-relative">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-0 mb-0">
 
-                                <form id="login-form" class="w-75 pb-lg-3">
+                                <form id="login-form" class="w-75 pb-lg-3 position-relative">
                                     <div class="form-group mb-2">
                                         <label class="text-white" for="email">Email address</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
@@ -48,10 +47,12 @@
                                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     </div>
 
-                                    <button type="submit" id="login" class="btn w-100 mt-1">
+                                    <button type="submit" id="login" class="btn w-100 mt-1 text-black">
                                     <span id="loginSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
                                     <span id="loginBtnText">Login</span>
                                     </button>
+                                                                    <div id="error-message"></div>
+
                                 </form>
                             </div>
                         </section>

@@ -17,10 +17,19 @@
   background-color: var(--button-color);
 }
 
+#login:hover {
+  background-color: #3bbe7f;
+  color: var(--white-color) !important;
+}
+
 #login:focus-visible,
 input:focus {
   outline: 2px solid var(--logo-color);
   outline-offset: 2px;
+}
+
+#error-message {
+  transform: translateX(-10%) !important;
 }
 
 /* RESPONSIVITY */
