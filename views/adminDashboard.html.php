@@ -18,21 +18,23 @@
 
 <body class="p-0 m-0 w-100">
     <!-- HEADER -->
-    <header id="mainHeader" class="container-fluid text-white d-flex w-100 p-0">
-        <div class="d-flex flex-nowrap justify-content-center align-items-center text-center w-100">
+    <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
+        <div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
-                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto m-2 position-absolute top-0 start-0">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
             </div>
 
             <!-- Title -->
             <div class="h-100 d-flex align-items-center">
-                <h1 class="m-0 d-none d-lg-block text-center h-100">
+                <h1 class="m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
                     <span>Security Management System</span>
                 </h1>
 
-                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
+                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none">
             </div>
+
+            <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
         </div>
     </header>
 
@@ -54,13 +56,22 @@
                     </a>
                 </li>
 
-                <!-- Settings Button -->
+                <!-- Change Password Button -->
                 <li>
                     <a href="#" class="nav-link py-3 border-bottom rounded-0" title="Settings" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                        <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                        </svg>
+                    </a>
+                </li>
 
-                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                <!-- Create New Account Button -->
+                <li>
+                    <a href="#" id="create-account-btn" class="nav-link py-3 border-bottom rounded-0" title="Create New Account" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                        <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
                         </svg>
                     </a>
                 </li>
@@ -74,103 +85,75 @@
                 </svg>
             </a>
 
-            <!-- Logout Modal -->
-            <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2 class="modal-title fs-5" id="logoutModalLabel">
-                                You're logging out
-                            </h2>
-
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-
-                        <div class="modal-body">
-                            <p>Are you sure you want to log out?</p>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn text-white" data-bs-dismiss="modal">
-                                No
-                            </button>
-                            <button id="logout-btn" type="button"class="btn text-white" data-bs-dismiss="modal">
-                                Yes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- DASHBOARD -->
         <main class="d-flex justify-content-center w-100 align-items-start">
-            <section id="userDashboard">
+            <section id="userDashboard" class="w-100">
                 <div class="row d-flex text-align-center justify-content-center align-items-center">
                     <div id="testList" class="container-fluid p-0">
-                        <header id="testListHeader" class="d-flex justify-content-center align-items-center position-relative mb-2 mt-2 ms-xxl-0 me-xxl-0 ms-3 me-3">
+                        <header id="testListHeader" class="d-flex justify-content-center align-items-center position-relative mb-3 mt-3 ms-xxl-0 me-xxl-0 ms-3 me-3 rounded">
                             <div class="h-100 fs-2 d-flex flex-nowrap align-items-center">
                                 <h2 class="mb-0 flex-grow-1 text-center" >Admin Dashboard</h2>
                             </div>
                         </header>
 
                         <div class="container">
-                            <div class="card mb-3 border-0">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0 col-6">
-                                        <i class="bi bi-person-circle"></i>
-                                        Logged in as <span id="email" class="text-primary"><?=$_SESSION['email'] ?? "Unknown"?></span>
-                                    </h5>
-
-
-                                    <div class="col-6 m-0 ps-5 w-25">
-                                        <button id="create-account-btn" class="btn w-100">
-                                            <i class="bi bi-person-plus"></i> Create New Account
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
                                 <!-- Dashboard Cards -->
                                 <div class="row h-100">
                                     <!-- Customers Card -->
-                                    <div class="col-lg-4 mb-4">
-                                        <div class="card dashboard-card">
-                                            <div class="card-header card-header-styling">
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header text-white">
                                                 <h5 class="mb-0">
                                                     <i class="bi bi-people-fill"></i> Customers
                                                 </h5>
                                             </div>
                                             <div class="card-body">
-                                                <div id="customers-list" class="user-list overflow-x-hidden"></div>
+                                                <div id="customers-list" class="user-list overflow-x-hidden">
+                                                    <div class="d-flex justify-content-center align-items-center py-5 w-100">
+                                                        <strong>Loading customers...  </strong>
+                                                        <div class="spinner-border ms-2" role="status" aria-label="Loading"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Employees Card -->
-                                    <div class="col-lg-4 mb-4">
-                                        <div class="card dashboard-card h-100">
-                                            <div class="card-header card-header-styling">
+                                    <div class="col-lg-4">
+                                        <div class="card h-100">
+                                            <div class="card-header text-white">
                                                 <h5 class="mb-0">
                                                     <i class="bi bi-person-badge-fill"></i> Employees
                                                 </h5>
                                             </div>
-                                            <div class="card-body">
-                                                <div id="employees-list" class="user-list overflow-x-hidden"></div>
+                                            <div class="card-body h-100">
+                                                <div id="employees-list" class="user-list h-100 overflow-x-hidden">
+                                                    <div class="d-flex justify-content-center align-items-center py-5 w-100">
+                                                        <strong>Loading employees...  </strong>
+                                                        <div class="spinner-border ms-2" role="status" aria-label="Loading"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Admins Card -->
-                                    <div class="col-lg-4 mb-4">
-                                        <div class="card dashboard-card h-100">
-                                            <div class="card-header card-header-styling">
+                                    <div class="col-lg-4">
+                                        <div class="card h-100">
+                                            <div class="card-header text-white">
                                                 <h5 class="mb-0">
                                                     <i class="bi bi-person-badge-fill"></i> Admins
                                                 </h5>
                                             </div>
                                             <div class="card-body">
-                                                <div id="admins-list" class="user-list overflow-x-hidden"></div>
+                                                <div id="admins-list" class="user-list overflow-x-hidden">
+                                                    <div class="d-flex justify-content-center align-items-center py-5 w-100">
+                                                        <strong>Loading admins...  </strong>
+                                                        <div class="spinner-border ms-2" role="status" aria-label="Loading"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -205,8 +188,36 @@
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                                             <button type="submit" form="changePasswordForm" class="btn btn-modal-submit">Change Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Logout Modal -->
+                            <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title fs-5" id="logoutModalLabel">
+                                                You're logging out
+                                            </h2>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to log out?</p>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn" data-bs-dismiss="modal">
+                                                No
+                                            </button>
+                                            <button id="logout-btn" type="button"class="btn" data-bs-dismiss="modal">
+                                                Yes
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

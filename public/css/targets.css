@@ -8,6 +8,7 @@
 }
 
 .targetSidebar {
+  background: linear-gradient(225deg, #f8f9fa 60%, #e1dbf1 100%);
   min-width: 15vw;
   max-width: 15vw;
   border-radius: 0.5rem;
@@ -45,6 +46,7 @@
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: width 0.3s, flex-basis 0.3s;
+  width: 100%;
 }
 
 .vuln-button {
@@ -87,6 +89,11 @@
 
 .vulnerability-list .vuln-button.active {
   background: #6962ea7b !important;
+}
+
+.vulnerability-list .vuln-button:hover {
+  background: #6962ea7b !important;
+  color: white;
 }
 
 .custom-tooltip {
@@ -155,13 +162,88 @@
   opacity: 1;
 }
 
-.arrow-icon {
+.button-toggle {
   transition: transform 0.3s;
 }
-.arrow-icon.rotated {
-  transform: rotate(180deg);
+.button-toggle.toggled {
+  transform: scale(1.2);
 }
 
 .offcanvas-header {
   color: var(--black-color);
+}
+
+.modern-table {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e1dbf1;
+}
+.divTableCell {
+  vertical-align: middle;
+}
+
+.placeholder-container {
+  min-height: 350px;
+  opacity: 0.85;
+  background: linear-gradient(135deg, #f8f9fa 60%, #e1dbf1 100%);
+  border-radius: 18px;
+  box-shadow: 0 2px 24px rgba(104, 98, 234, 0.07);
+}
+
+#sidebarHint {
+  min-width: 15vw;
+  max-width: 15vw;
+  background: linear-gradient(225deg, #f8f9fa 60%, #e1dbf1 100%);
+}
+
+/* Sidebar Icon Animation */
+
+.hamburger-icon {
+  height: 36px;
+  width: 36px;
+  transition: all 0.2s ease-in-out;
+}
+
+.icon-1,
+.icon-2,
+.icon-3 {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 3px;
+  background-color: black;
+  transition: all 400ms cubic-bezier(0.84, 0.06, 0.52, 1.8);
+  border-radius: 2px;
+  transform: translate(-50%, 0);
+}
+
+.icon-1 {
+  top: 10px;
+}
+.icon-2 {
+  top: 16.5px;
+}
+.icon-3 {
+  top: 23px;
+}
+
+.icon-1.a {
+  transform: translate(-50%, 0) rotate(40deg);
+  top: 16.5px;
+}
+.icon-2.c {
+  opacity: 0;
+}
+.icon-3.b {
+  transform: translate(-50%, 0) rotate(-40deg);
+  top: 16.5px;
+}
+
+.clear {
+  clear: both;
+}
+
+#desktopSidebarToggleBtn {
+  height: 36px;
+  background: none;
 }

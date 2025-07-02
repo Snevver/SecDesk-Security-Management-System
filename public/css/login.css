@@ -3,7 +3,7 @@
 /* LOGIN PAGE */
 
 #mainFlexWrapper {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 80px);
   padding-top: 15vh;
 }
 
@@ -17,17 +17,50 @@
   background-color: var(--button-color);
 }
 
+#login:hover {
+  background-color: #3bbe7f;
+  color: var(--white-color) !important;
+}
+
 #login:focus-visible,
 input:focus {
   outline: 2px solid var(--logo-color);
   outline-offset: 2px;
 }
 
+#error-message {
+  transform: translateX(-10%) !important;
+}
+
 /* RESPONSIVITY */
+
+@media screen and (max-width: 1400px) {
+  .contentCardText > h2 {
+    font-size: 2rem !important;
+  }
+  .contentCardText > p {
+    font-size: 1rem !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .contentCardText > h2 {
+    font-size: 1.5rem !important;
+  }
+}
 
 @media screen and (max-width: 768px) {
   #mainFlexWrapper {
     padding-top: 1rem;
+  }
+  .contentCardText > h2 {
+    font-size: 2rem !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .pe-6 {
+    padding-right: 4rem !important;
   }
 }
 
@@ -42,17 +75,32 @@ input:focus {
   #fadeCarousel {
     height: 100% !important;
   }
-  /* #loginSection {
-    width: 90%;
-  }
+}
 
-  #homeContent {
-    width: 90% !important;
+@media screen and (min-width: 2500px) {
+  #login-form {
+    padding-bottom: 2rem !important;
   }
-
+  .contentCardText > h2 {
+    font-size: 4rem !important;
+  }
+  #contentHeader h2 {
+    font-size: 3rem !important;
+  }
+  .contentCardText > p {
+    font-size: 2rem !important;
+  }
   .contentCard {
-    width: auto !important;
-  } */
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  #loginSection {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  #loginContainer {
+    transform: scale(1.2);
+  }
 }
 
 /* LOGIN CONTENT */
@@ -68,13 +116,13 @@ input:focus {
 }
 
 .contentCard {
-  width: 80%;
+  width: 85%;
 }
-
+/*
 .contentCardText {
   color: var(--white-color);
   font-family: "Roboto", sans-serif;
-}
+} */
 
 .highlight {
   color: var(--button-color);

@@ -34,6 +34,7 @@
 html,
 body {
   height: 100vh;
+  overflow-x: hidden;
 }
 
 main {
@@ -42,11 +43,22 @@ main {
 
 #mainHeader {
   background-color: var(--dark-background-color);
-  height: 60px;
+  height: 65px !important;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Roboto", sans-serif;
 }
 
 .btn {
-  background-color: var(--header-color);
+  background-color: var(--button-color);
+  color: var(--black-color);
+}
+
+.btn:hover {
+  background-color: #3acb85;
   color: var(--white-color);
 }
 
@@ -55,7 +67,17 @@ svg {
 }
 
 .logo {
-  height: 43px;
+  margin-left: 18.5px;
+  height: 28px;
+}
+
+.spinner-border {
+  color: var(--header-color);
+}
+
+/* Custom 'Bootstrap' styles */
+.fs-7 {
+  font-size: 0.85rem !important;
 }
 
 /* Scrollbar */
