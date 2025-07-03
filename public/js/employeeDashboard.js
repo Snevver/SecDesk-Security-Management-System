@@ -2,105 +2,147 @@
 const selectElement = document.getElementById("customer-select");
 
 async function getEmployeesTests() {
-  try {
-    const response = await fetch(`/api/get-all-employee-tests`, {
-      credentials: "same-origin",
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+        const response = await fetch(`/api/get-all-employee-tests`, {
+            credentials: 'same-origin',
+        });
+        const data = await response.json();
+        console.log(data);
 
-    const completedTestsContainer = document.getElementById("completed-tests");
-    const inProgressTestsContainer =
-      document.getElementById("tests-in-progress");
+        const completedTestsContainer =
+            document.getElementById('completed-tests');
+        const inProgressTestsContainer =
+            document.getElementById('tests-in-progress');
 
-    // Clear existing content
-    // completedTestsContainer.innerHTML = '';
-    // inProgressTestsContainer.innerHTML = '';
+        // Clear existing content
+        // completedTestsContainer.innerHTML = '';
+        // inProgressTestsContainer.innerHTML = '';
 
-    // Display completed tests
-    if (data.completedTests && data.completedTests.length > 0) {
-      let completedHTML = "";
-      for (const test of data.completedTests) {
-        const testDate = new Date(test.test_date).toLocaleDateString();
-        const customerEmail = await getCustomerEmail(test.customer_id);
-        completedHTML += `
+        // Display completed tests
+        if (data.completedTests && data.completedTests.length > 0) {
+            let completedHTML = '';
+            for (const test of data.completedTests) {
+                const testDate = new Date(test.test_date).toLocaleDateString();
+                const customerEmail = await getCustomerEmail(test.customer_id);
+                completedHTML += `
                     <div id="test-${test.id}" class="test-item p-0 pb-3">
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
                                 <div class="fw-bold fs-5">${test.test_name}</div>
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
                             </div>
-                            <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm" onclick="toggleTestCompletion(${test.id}, false)"><i class="bi bi-arrow-repeat ps-1"></i></button>
+                            <div class="d-flex flex-column gap-2 align-items-end" style="min-width: 60px;">
+                                <button class="btn btn-sm btn-secondary" onclick="toggleTestCompletion(${test.id}, false)" title="Mark as In Progress"><i class="bi bi-arrow-repeat"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteTest(${test.id})" title="Delete Test"><i class="bi bi-trash"></i></button>
                             </div>
                         </div>
                     </div>
                 `;
-      }
-      completedTestsContainer.innerHTML = completedHTML;
-    } else {
-      completedTestsContainer.innerHTML = "<p>No completed tests found.</p>";
-    }
+            }
+            console.log('Completed tests HTML:', completedHTML);
+            completedTestsContainer.innerHTML = completedHTML;
+        } else {
+            completedTestsContainer.innerHTML =
+                '<p>No completed tests found.</p>';
+        }
 
-    // Display non-completed tests
-    if (data.nonCompletedTests && data.nonCompletedTests.length > 0) {
-      let inProgressHTML = "";
-      for (const test of data.nonCompletedTests) {
-        const testDate = new Date(test.test_date).toLocaleDateString();
-        const customerEmail = await getCustomerEmail(test.customer_id);
-        inProgressHTML += `
+        // Display non-completed tests
+        if (data.nonCompletedTests && data.nonCompletedTests.length > 0) {
+            let inProgressHTML = '';
+            for (const test of data.nonCompletedTests) {
+                const testDate = new Date(test.test_date).toLocaleDateString();
+                const customerEmail = await getCustomerEmail(test.customer_id);
+                inProgressHTML += `
                     <div id="test-${test.id}" class="test-item p-0 pb-3">
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
                                 <div class="fw-bold fs-5">${test.test_name}</div>
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
                             </div>
-                            <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)"><i class="bi bi-check-lg ps-1"></i></button>
-                                <button class="btn btn-sm" onclick='window.location.href = "/edit?test_id=${test.id}"'><i class="bi bi-pencil-fill ps-1"></i></button>
+                            <div class="d-flex flex-column gap-2 align-items-end" style="min-width: 60px;">
+                                <button class="btn btn-sm btn-success text-nowrap" onclick="toggleTestCompletion(${test.id}, true)" title="Mark as Completed"><i class="bi bi-check-lg"></i></button>
+                                <button class="btn btn-sm btn-primary" onclick='window.location.href = "/edit?test_id=${test.id}"' title="Edit Test"><i class="bi bi-pencil-fill"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteTest(${test.id})" title="Delete Test"><i class="bi bi-trash"></i></button>
                             </div>
                         </div>
                     </div>
                 `;
-      }
-      inProgressTestsContainer.innerHTML = inProgressHTML;
-    } else {
-      inProgressTestsContainer.innerHTML = "<p>No tests in progress.</p>";
+            }
+            console.log('Non-completed tests HTML:', inProgressHTML);
+            inProgressTestsContainer.innerHTML = inProgressHTML;
+        } else {
+            inProgressTestsContainer.innerHTML = '<p>No tests in progress.</p>';
+        }
+    } catch (error) {
+        console.error('Error fetching tests:', error);
+        document.getElementById('completed-tests').innerHTML =
+            '<p>Error loading tests: ' + error.message + '</p>';
+        document.getElementById('tests-in-progress').innerHTML =
+            '<p>Error loading tests: ' + error.message + '</p>';
     }
-  } catch (error) {
-    console.error("Error fetching tests:", error);
-    document.getElementById("completed-tests").innerHTML =
-      "<p>Error loading tests: " + error.message + "</p>";
-    document.getElementById("tests-in-progress").innerHTML =
-      "<p>Error loading tests: " + error.message + "</p>";
-  }
 }
 
 // Function to toggle test completion status
 function toggleTestCompletion(testId, completed) {
-  fetch("/api/update-test-completion", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      test_id: testId,
-      completed: completed,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        getEmployeesTests();
-      } else {
-        alert("Error updating test status: " + (data.error || "Unknown error"));
-      }
+    fetch('/api/update-test-completion', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            test_id: testId,
+            completed: completed,
+        }),
     })
-    .catch((error) => {
-      console.error("Error updating test completion:", error);
-      alert("Error updating test status: " + error.message);
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                getEmployeesTests();
+            } else {
+                alert(
+                    'Error updating test status: ' +
+                        (data.error || 'Unknown error'),
+                );
+            }
+        })
+        .catch((error) => {
+            console.error('Error updating test completion:', error);
+            alert('Error updating test status: ' + error.message);
+        });
+}
+
+// Function to delete a test
+function deleteTest(testId) {
+    if (
+        confirm(
+            'Are you sure you want to delete this test? This action cannot be undone.',
+        )
+    ) {
+        fetch(`/api/delete?test_id=${testId}`, {
+            method: 'DELETE',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    // Refresh the page to show updated data
+                    window.location.reload();
+                } else {
+                    alert(
+                        'Error deleting test: ' +
+                            (data.error || 'Unknown error'),
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting test:', error);
+                alert('Error deleting test: ' + error.message);
+            });
+    }
 }
 
 // Populate the select element with customer emails

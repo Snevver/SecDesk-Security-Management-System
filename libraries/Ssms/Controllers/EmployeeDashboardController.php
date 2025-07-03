@@ -178,6 +178,9 @@ class EmployeeDashboardController
             ];
     }
 
+    //-----------------------------------------------------
+    // Delete a vulnerability
+    //-----------------------------------------------------
     public function deleteVulnerability($vulnerabilityID) {
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -247,6 +250,60 @@ class EmployeeDashboardController
             return [
                 'status' => 200,
                 'data' => ['success' => true, 'message' => 'Vulnerability deleted successfully']
+            ];
+        } catch (\PDOException $e) {
+            Logger::write('error', 'Database error: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['success' => false, 'error' => 'Database error: ' . $e->getMessage()]
+            ];
+        }
+    }
+
+    //-----------------------------------------------------
+    // Delete a test
+    //-----------------------------------------------------
+    public function deleteTest($testID) {
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        // Check if user_id is set in the session
+        if (!isset($_SESSION['user_id'])) {
+            return [
+                'status' => 400,
+                'data' => ['error' => 'User ID is required']
+            ];
+        }
+
+        $user_id = (int)$_SESSION['user_id'];
+
+        try {
+            // Verify that the test belongs to this pentester
+            $stmt = $this->pdo->prepare("SELECT pentester_id FROM tests WHERE id = :test_id");
+            $stmt->bindParam(':test_id', $testID, \PDO::PARAM_INT);
+            $stmt->execute();
+            $test = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$test || $test['pentester_id'] !== $user_id) {
+                Logger::write('error', 'Unauthorized test deletion attempt for test ID ' . $testID . ' by user ID ' . $user_id);
+                return [
+                    'status' => 403,
+                    'data' => ['error' => 'Forbidden: You do not have access to this test']
+                ];
+            }
+
+            // Delete the test
+            $stmt = $this->pdo->prepare("DELETE FROM tests WHERE id = :test_id");
+            $stmt->bindParam(':test_id', $testID, \PDO::PARAM_INT);
+            $stmt->execute();
+            Logger::write('info', 'Test ID ' . $testID . ' deleted successfully by user ID ' . $user_id);
+
+            // Redirect to the employee dashboard
+            header('Location: /employee-dashboard');
+            
+            return [
+                'status' => 200,
+                'data' => ['success' => true, 'message' => 'Test deleted successfully']
             ];
         } catch (\PDOException $e) {
             Logger::write('error', 'Database error: ' . $e->getMessage());
