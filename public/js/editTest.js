@@ -301,7 +301,9 @@ function fetchTestTargets() {
       return response.json();
     })
     .then((data) => {
-      const targetListElement = document.getElementById("target-container");
+      const targetListElement = document.getElementById(
+        "targetAccordionDesktop"
+      );
       if (!data || !data.targets || data.targets.length === 0) {
         targetListElement.innerHTML = "<p>No targets found.</p>";
         return;
@@ -309,42 +311,73 @@ function fetchTestTargets() {
       let targetList = "";
       for (let target of data.targets) {
         targetList += `
-                    <div id="target-${target.id}">
-                        <div data-target-id="${target.id}">
-                            <h3>
-                                ${target.target_name}
-                                <span>▼</span>
-                            </h3>
-                            <p>${target.target_description}</p>
-                            <button class="btn btn-dark edit-target-button-${
-                              target.id
-                            }">Edit Target</button>
-                            ${createDeleteButton(
-                              "target",
-                              target.id,
-                              `target-${target.id}`
-                            )}
+                    <div class="accordion-item w-100">
+                    <h2
+                        class="accordion-header"
+                        data-bs-toggle="tooltip"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-placement="right"
+                        title="${target.target_description}"
+                        id="target-${target.id}"
+                    >
+                        <button
+                        class="accordion-button button-size collapsed p-4 pe-2 ps-1"
+                        type="button"
+                        data-target-id="${target.id}"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse-${target.id}"
+                        aria-expanded="false"
+                        aria-controls="collapse-${target.id}"
+                        >
+                        <span class="ps-1 text-nowrap text-truncate">${
+                          target.target_name
+                        }</span>
+                        <button
+                            class="btn btn-dark edit-target-button-${target.id}"
+                        >
+                            Edit Target
+                        </button>
+                        ${createDeleteButton(
+                          "target",
+                          target.id,
+                          `target-${target.id}`
+                        )}
+                        </button>
+                    </h2>
+                    <div
+                        id="collapse-${target.id}"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="heading-${target.id}"
+                        data-bs-parent="#targetAccordionDesktop"
+                    >
+                        <div
+                        class="accordion-body p-0 vulnerability-list"
+                        id="vulnerabilities-${target.id}"
+                        >
+                        <div class="d-flex align-items-center">
+                            <p role="status">Loading vulnerabilities...</p>
+                            <div
+                            class="spinner-border spinner-border-sm ms-auto"
+                            aria-hidden="true"
+                            ></div>
                         </div>
-                        <div id="vulnerabilities-${
-                          target.id
-                        }" style="display: none;">
-                            <div>Loading vulnerabilities...</div>
                         </div>
-                        <br><br>
-                    </div>`;
+                    </div>
+                    </div>;
+                    `;
       }
 
+      // After rendering the target list
       targetListElement.innerHTML = targetList;
 
-      // Add event listeners for the edit buttons
+      // Attach event listeners to load vulnerabilities when a target is expanded
       data.targets.forEach((target) => {
-        document
-          .querySelector(`.edit-target-button-${target.id}`)
-          .addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation(); // Prevent dropdown toggle
-            editEntity("target", target.id);
+        const collapseEl = document.getElementById(`collapse-${target.id}`);
+        if (collapseEl) {
+          collapseEl.addEventListener("show.bs.collapse", function () {
+            fetchVulnerabilities(target.id);
           });
+        }
       });
 
       // Add event listeners for dropdown functionality
@@ -440,15 +473,21 @@ function fetchVulnerabilities(targetId) {
       let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
       for (let vulnerability of data.vulnerabilities) {
         vulnerabilityList += `
-                    <div id="vuln-${vulnerability.id}">
-                        <h4>${vulnerability.affected_entity}</h4>
-                        <p>${vulnerability.vulnerabilities_description}</p>
+              <button id="vuln-${
+                vulnerability.id
+              }" class="d-flex target-button vuln-button p-1 align-items-center">
+                <p class="m-0 ps-2 text-nowrap text-truncate">
+                  ${vulnerability.affected_entity}
+                </p>
+                                        <p>${
+                                          vulnerability.vulnerabilities_description
+                                        }</p>
                         ${createActionButtons(
                           "vulnerability",
                           vulnerability.id,
                           `vuln-${vulnerability.id}`
                         )}
-                    </div>`;
+              </button>`;
       }
 
       vulnerabilityList += `<div id="add-vuln-${targetId}">

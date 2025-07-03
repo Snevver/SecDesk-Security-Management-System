@@ -74,6 +74,11 @@
                 </button>
             </div>
 
+
+            <button class="btn btn-dark" id="edit-test-detail-button">
+                Edit Test Detail
+            </button>
+
         </div>
     </header>
 
@@ -107,8 +112,39 @@
             <!-- Edit section -->
             <div id="vulnerabilityDetails" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto">
                 <div class="vulnerability-details d-flex flex-column h-100 w-100 flex-grow-1">
-                    <div id="vulnDetailsPlaceholder" class="placeholder-container d-flex flex-column justify-content-center align-items-center h-100 w-100 flex-grow-1">
-                        <!-- Optional illustration (SVG or image) -->
+
+                    <div class="w-50 border rounded p-2" id="form-container">
+                        <!-- Test Detail form -->
+                        <form class="d-none flex-column gap-3" id="test-detail-form">
+                            <h1>Test Detail Form</h1>                <div>
+                                <label for="test-title-input">Title:</label>
+                                <input type="text" id="test-title-input" name="test-title" value="Loading..." required>
+                            </div>
+                            <div>
+                                <label for="test-description-input">Description:</label>
+                                <input type="text" id="test-description-input" name="test-description" value="Loading..." required>
+                            </div>
+                            <div>
+                                <button type="submit" id="test-submit">Save Changes</button>
+                            </div>
+                        </form>
+
+                        <!-- Target form -->
+                        <form class="d-none flex-column gap-3" id="target-form">
+                            <h1>Target Form</h1>                <div>
+                                <label for="target-title-input">Title:</label>
+                                <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
+                            </div>
+                            <div>
+                                <label for="target-description-input">Description:</label>
+                                <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
+                            </div>
+                            <div>
+                                <button type="submit" id="target-submit">Save Changes</button>
+                            </div>
+                        </form>
+
+                    <!-- <div id="vulnDetailsPlaceholder" class="placeholder-container d-flex flex-column justify-content-center align-items-center h-100 w-100 flex-grow-1">
                         <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="mb-4" style="max-width: 220px;">
 
                         <svg width="64" height="64" fill="none" class="mb-3" viewBox="0 0 64 64">
@@ -116,48 +152,20 @@
                         </svg>
 
                         <div class="text-center">
-                            <h4 class="fw-bold mb-2" style="color: #6862ea;">No Vulnerability Selected</h4>
+                            <h4 class="fw-bold mb-2" style="color: #6862ea;">No Item Selected</h4>
                             <p class="lead mb-0" style="max-width: 400px;">
-                            To see vulnerability details, first <span class="fw-semibold">click on a target</span> and then <span class="fw-semibold">select a vulnerability</span> from the list.
+                            To edit a target or vulnerability, first <span class="fw-semibold">click on a target or vulnerability</span> and then <span class="fw-semibold">edit it</span> or whatever.
                             </p>
                         </div>
 
-                    </div>
+                    </div> -->
+
                 </div>
             </div>
         </div>
     </div>
 
-        <div class="w-50 border rounded p-2" id="form-container">
-            <!-- Test Detail form -->
-            <form class="d-none flex-column gap-3" id="test-detail-form">
-                <h1>Test Detail Form</h1>                <div>
-                    <label for="test-title-input">Title:</label>
-                    <input type="text" id="test-title-input" name="test-title" value="Loading..." required>
-                </div>
-                <div>
-                    <label for="test-description-input">Description:</label>
-                    <input type="text" id="test-description-input" name="test-description" value="Loading..." required>
-                </div>
-                <div>
-                    <button type="submit" id="test-submit">Save Changes</button>
-                </div>
-            </form>
 
-            <!-- Target form -->
-            <form class="d-none flex-column gap-3" id="target-form">
-                <h1>Target Form</h1>                <div>
-                    <label for="target-title-input">Title:</label>
-                    <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
-                </div>
-                <div>
-                    <label for="target-description-input">Description:</label>
-                    <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
-                </div>
-                <div>
-                    <button type="submit" id="target-submit">Save Changes</button>
-                </div>
-            </form>
 
         </div>
     </body>
