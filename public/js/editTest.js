@@ -1,10 +1,63 @@
+/**
+ * Safely set text content to prevent XSS
+ */
+function safeSetTextContent(element, value) {
+    if (!element) return;
+
+    // Always use textContent (never innerHTML) for user data
+    element.textContent = value || 'Empty';
+}
+
+/**
+ * Safely set input value with basic validation
+ */
+function safeSetInputValue(element, value) {
+    if (!element) return;
+
+    // Limit input length and sanitize
+    let sanitizedValue = (value || '').toString();
+
+    // Remove any null bytes
+    sanitizedValue = sanitizedValue.replace(/\0/g, '');
+
+    // Limit length based on input type
+    const maxLength = element.maxLength > 0 ? element.maxLength : 1000;
+    if (sanitizedValue.length > maxLength) {
+        sanitizedValue = sanitizedValue.substring(0, maxLength);
+    }
+
+    element.value = sanitizedValue || 'Empty';
+}
+
+/**
+ * Validate input before sending to server
+ */
+function validateInput(value, fieldName, maxLength = 1000) {
+    if (typeof value !== 'string') {
+        value = String(value || '');
+    }
+
+    // Remove null bytes
+    value = value.replace(/\0/g, '');
+
+    // Check length
+    if (value.length > maxLength) {
+        console.warn(
+            `${fieldName} exceeds maximum length of ${maxLength} characters`,
+        );
+        return value.substring(0, maxLength);
+    }
+
+    return value;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
-const testId = urlParams.get("test_id");
+const testId = urlParams.get('test_id');
 
 // Get DOM elements
-const titleInputElement = document.getElementById("test-title-input");
+const titleInputElement = document.getElementById('test-title-input');
 const descriptionInputElement = document.getElementById(
-    "test-description-input"
+    'test-description-input',
 );
 
 /**
@@ -218,13 +271,13 @@ function populateEntityForm(entityType, data) {
                 element.tagName === 'INPUT' ||
                 element.tagName === 'TEXTAREA'
             ) {
-                // Use "Empty" as default for null/undefined values in text inputs
-                element.value = value || 'Empty';
+                // Use safe input value setting
+                safeSetInputValue(element, value);
             } else if (element.tagName === 'SELECT') {
                 element.value = value || '';
             } else {
-                // Use "Empty" as default for null/undefined values in display elements
-                element.textContent = value || 'Empty';
+                // Use safe text content setting
+                safeSetTextContent(element, value);
             }
         }
     });
@@ -262,12 +315,11 @@ function populateFormElement() {
                 document.getElementById('test-description');
 
             if (displayTitle) {
-                displayTitle.textContent = data.test_name || 'Empty';
+                safeSetTextContent(displayTitle, data.test_name);
             }
 
             if (displayDescription) {
-                displayDescription.textContent =
-                    data.test_description || 'Empty';
+                safeSetTextContent(displayDescription, data.test_description);
             }
 
             // Use the same population logic as editEntity for form inputs
@@ -292,6 +344,14 @@ function updateTestData() {
     const titleInput = document.getElementById('test-title-input');
     const descriptionInput = document.getElementById('test-description-input');
 
+    // Validate inputs
+    const validatedTitle = validateInput(titleInput.value, 'Test Title', 255);
+    const validatedDescription = validateInput(
+        descriptionInput.value,
+        'Test Description',
+        2000,
+    );
+
     fetch(`/update-test`, {
         method: 'POST',
         credentials: 'same-origin',
@@ -300,8 +360,8 @@ function updateTestData() {
         },
         body: JSON.stringify({
             test_id: testId,
-            test_name: titleInput.value,
-            test_description: descriptionInput.value,
+            test_name: validatedTitle,
+            test_description: validatedDescription,
         }),
     })
         .then((response) => response.json())
@@ -309,6 +369,8 @@ function updateTestData() {
             if (data.success) {
                 // Refresh all page content
                 refreshPageContent();
+            } else if (data.error) {
+                console.error('Server validation error:', data.error);
             }
         })
         .catch((error) => {

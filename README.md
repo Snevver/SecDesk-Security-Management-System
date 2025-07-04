@@ -75,6 +75,76 @@ This project requires these packages in order to function:
 
 Refer to step 4 of the 🔧 Setup section for information on how to install these packages.
 
+
+
+## 🔒 Security
+
+### How We Secured Our App
+
+Since we're dealing with penetration testing data and vulnerability information, we knew security was super important. But honestly, none of us (Sven, Son, or Don) are cybersecurity experts yet, so we got a lot of help from AI to make sure we did this right.
+
+### 🛡️ What We Built
+
+**Protecting Against Bad Input**
+- We made sure all user input gets checked and cleaned before it goes into our database
+- Added JavaScript functions that prevent nasty scripts from running in the browser
+- Set limits on how long text can be so nobody can crash our app
+- Made sure HTML tags just show up as text instead of actually running
+
+**Stopping XSS Attacks**
+- All user data gets encoded properly before we show it on the page
+- Our JavaScript code uses safe methods that won't execute malicious scripts
+- Added Content Security Policy headers to stop the browser from running unauthorized scripts
+- Different encoding depending on where we're showing the data
+
+**Preventing Injection Attacks**
+- **SQL Injection**: We use PDO prepared statements (this was already working)
+- **HTML Injection**: HTML tags just show up as text now
+- **Script Injection**: Malicious JavaScript gets neutralized 
+- **Other weird stuff**: We strip out dangerous characters
+
+**Access Control**
+- Different roles (Admin, Pentester, Customer) can only see what they're supposed to
+- Proper login system with sessions
+- API endpoints check if you're allowed to access them
+- Passwords are handled securely
+
+**Browser Protection**
+- Content Security Policy tells the browser what's allowed to run
+- Safe JavaScript practices that don't open security holes
+
+### 🔧 How We Did It
+
+We built security in layers so if one thing fails, others still protect the app:
+
+1. **Client-side**: Basic checks in the browser
+2. **Server-side**: Serious validation and cleaning of all data
+3. **Database**: Safe queries that can't be hacked
+4. **Browser**: Security policies that block bad stuff
+
+### 📋 What We Tested
+
+We tried to break our own app with:
+- ✅ Script injection attempts
+- ✅ HTML injection 
+- ✅ SQL injection (already protected by PDO)
+- ✅ Trying to bypass our input validation
+- ✅ Sending super long inputs
+- ✅ Weird characters and symbols
+
+### 📚 More Info
+
+If you want the technical details, check out:
+- `libraries/Ssms/InputValidator.php` - How we clean user input
+- `libraries/Ssms/OutputSanitizer.php` - How we safely display data
+
+### ⚠️ Real Talk About Security
+
+**Important**: We implemented all this security with a lot of help from AI (mainly Claude), since we're still learning about cybersecurity. We followed best practices and tested everything we could think of, but we're not security experts.
+
+---
+
+
 ## 🧑‍💻 Authors
 
 ### Son Bram van der Burg
@@ -94,3 +164,4 @@ Sven is a back-end developer and was in charge of managing the database during t
 Don is a front-end web developer who designed and wrote the front-end of the application.
 
 [GitHub](https://github.com/donbithub) | dorkinat@gmail.com
+
