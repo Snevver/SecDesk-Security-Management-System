@@ -81,30 +81,44 @@ async function getEmployeesTests() {
 }
 
 // Function to toggle test completion status
-function toggleTestCompletion(testId, completed) {
-  fetch("/api/update-test-completion", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      test_id: testId,
-      completed: completed,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        getEmployeesTests();
-      } else {
-        alert("Error updating test status: " + (data.error || "Unknown error"));
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating test completion:", error);
-      alert("Error updating test status: " + error.message);
+async function toggleTestCompletion(testId, completed) {
+  const spinner = document.getElementById("pageSpinner");
+  if (spinner) {
+    spinner.classList.add("d-flex");
+    spinner.classList.remove("d-none");
+  }
+
+  try {
+    const response = await fetch("/api/update-test-completion", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        test_id: testId,
+        completed: completed,
+      }),
     });
+
+    const data = await response.json();
+
+    if (data.success) {
+      if (typeof getEmployeesTests === "function") {
+        await getEmployeesTests();
+      }
+    } else {
+      alert("Error updating test status: " + (data.error || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Error updating test completion:", error);
+    alert("Error updating test status: " + error.message);
+  } finally {
+    if (spinner) {
+      spinner.classList.remove("d-flex");
+      spinner.classList.add("d-none");
+    }
+  }
 }
 
 // Function to delete a test
