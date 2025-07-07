@@ -20,7 +20,7 @@
 <body class="p-0 m-0 w-100">
     <!-- HEADER -->
     <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
-        <div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
+        <div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-center h-100 w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
                 <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
@@ -32,7 +32,7 @@
                     <span>Security Management System</span>
                 </h1>
 
-                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none">
+                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="h-100 img-fluid d-lg-none pt-2 pb-2">
             </div>
 
             <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
@@ -68,13 +68,22 @@
                 </li>
 
                 <!-- Create New Test Button -->
-                <li>
-                    <a href="#" id="create-test-btn" class="nav-link py-3 border-bottom rounded-0" title="Create New Test">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
-                        <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                <li class="nav-item dropdown dropend">
+                <a href="#" id="create-test-btn" class="nav-link py-3 border-bottom rounded-0 dropdown-toggle" title="Create New Test" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
+                    </svg>
+                    <span class="dropdown-caret position-absolute top-0 end-0 translate-middle-x" style="font-size: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                            class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14l-4.796-5.481C1.451 5.223 1.889 4.5 2.653 4.5h10.694c.764 0 1.202.723.202 1.159l-4.796 5.481a1 1 0 0 1-1.506 0z"/>
                         </svg>
-                    </a>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" id="customer-dropdown">
+                    <li><span class="dropdown-item-text text-muted">Loading...</span></li>
+                </ul>
                 </li>
             </ul>
 
@@ -104,10 +113,6 @@
                     </header>
 
             <div class="container mt-0">
-                <select id="customer-select" class="form-select w-25 m-0 col-6 d-none">
-                    <option value="" selected disabled>Select a customer</option>
-                    <!-- Options will be populated by JavaScript -->
-                </select>
                 <div class="row">
                     <div class="col-md-12">
 
@@ -135,7 +140,7 @@
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header completed text-white">
-                                        <h5 class="mb-0">
+                                        <h5 class="mb-0 text-black">
                                             <i class="bi bi-check-circle"></i>
                                             Completed Tests
                                         </h5>
@@ -223,7 +228,9 @@
     </section>
 </main>
 
-
+    <div id="pageSpinner" class="position-fixed d-none top-0 start-0 w-100 h-100 justify-content-center align-items-center bg-white bg-opacity-50" style="z-index: 2000;">
+        <div class="spinner-border spinner-lg text-primary" role="status" aria-label="Loading"></div>
+    </div>
 
     <script src="/js/logout.js"></script>
     <script src="/js/changePassword.js"></script>

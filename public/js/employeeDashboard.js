@@ -31,7 +31,7 @@ async function getEmployeesTests() {
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
                             </div>
                             <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm" onclick="toggleTestCompletion(${test.id}, false)"><i class="bi bi-arrow-repeat ps-1"></i></button>
+                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, false)"><span>Mark as in progress</span><i class="bi bi-arrow-repeat ps-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -56,8 +56,8 @@ async function getEmployeesTests() {
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
                             </div>
                             <div class="d-flex flex-column gap-2 align-items-end">
-                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)"><i class="bi bi-check-lg ps-1"></i></button>
-                                <button class="btn btn-sm" onclick='window.location.href = "/edit?test_id=${test.id}"'><i class="bi bi-pencil-fill ps-1"></i></button>
+                                <button class="btn btn-sm text-nowrap" onclick="toggleTestCompletion(${test.id}, true)"><span>Mark as completed</span><i class="bi bi-check-lg ps-1"></i></button>
+                                <button class="btn btn-sm text-nowrap" onclick='window.location.href = "/edit?test_id=${test.id}"'><span>Edit test</span><i class="bi bi-pencil-fill ps-1"></i></button>
                             </div>
                         </div>
                     </div>
@@ -77,34 +77,48 @@ async function getEmployeesTests() {
 }
 
 // Function to toggle test completion status
-function toggleTestCompletion(testId, completed) {
-  fetch("/api/update-test-completion", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      test_id: testId,
-      completed: completed,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        getEmployeesTests();
-      } else {
-        alert("Error updating test status: " + (data.error || "Unknown error"));
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating test completion:", error);
-      alert("Error updating test status: " + error.message);
+async function toggleTestCompletion(testId, completed) {
+  const spinner = document.getElementById("pageSpinner");
+  if (spinner) {
+    spinner.classList.add("d-flex");
+    spinner.classList.remove("d-none");
+  }
+
+  try {
+    const response = await fetch("/api/update-test-completion", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        test_id: testId,
+        completed: completed,
+      }),
     });
+
+    const data = await response.json();
+
+    if (data.success) {
+      if (typeof getEmployeesTests === "function") {
+        await getEmployeesTests();
+      }
+    } else {
+      alert("Error updating test status: " + (data.error || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Error updating test completion:", error);
+    alert("Error updating test status: " + error.message);
+  } finally {
+    if (spinner) {
+      spinner.classList.remove("d-flex");
+      spinner.classList.add("d-none");
+    }
+  }
 }
 
-// Populate the select element with customer emails
-function populateSelectElement() {
+// Populate the Bootstrap dropdown with customer emails
+function populateCustomerDropdown() {
   fetch("/api/get-all-customers", {
     credentials: "same-origin",
     headers: {
@@ -113,11 +127,22 @@ function populateSelectElement() {
   })
     .then((response) => response.json())
     .then((data) => {
-      for (const user of data.users) {
-        const optionElement = document.createElement("option");
-        optionElement.value = user.id;
-        optionElement.textContent = user.email;
-        selectElement.appendChild(optionElement);
+      const dropdown = document.getElementById("customer-dropdown");
+      dropdown.innerHTML = ""; // Clear loading text
+      if (data.users && data.users.length > 0) {
+        data.users.forEach((user) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.className = "dropdown-item";
+          a.href = "#";
+          a.textContent = user.email;
+          a.dataset.customerId = user.id;
+          li.appendChild(a);
+          dropdown.appendChild(li);
+        });
+      } else {
+        dropdown.innerHTML =
+          '<li><span class="dropdown-item-text text-muted">No customers found</span></li>';
       }
     });
 }
@@ -140,7 +165,7 @@ async function getCustomerEmail(customerID) {
 }
 
 getEmployeesTests();
-populateSelectElement();
+populateCustomerDropdown();
 
 // Event listener for the "Create test" button
 const createTestBtn = document.getElementById("create-test-btn");
@@ -158,33 +183,40 @@ if (createTestBtn) {
   console.error("create-test-btn element not found");
 }
 
-// Event listener for the select element
-if (selectElement) {
-  selectElement.addEventListener("change", (event) => {
-    const selectedCustomerID = parseInt(event.target.value);
+// Handle click on dropdown items
+document
+  .getElementById("customer-dropdown")
+  .addEventListener("click", function (e) {
+    if (
+      e.target.classList.contains("dropdown-item") &&
+      e.target.dataset.customerId
+    ) {
+      // Show the page spinner
+      const spinner = document.getElementById("pageSpinner");
+      if (spinner) {
+        spinner.classList.add("d-flex");
+        spinner.classList.remove("d-none");
+      }
 
-    console.log("Customer selected:", selectedCustomerID); // Debug log
-
-    fetch("/create-test", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        customer_id: selectedCustomerID,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Test created:", data); // Debug log
-        window.location.href = `/edit?test_id=${data.new_test_id}`;
+      const selectedCustomerID = parseInt(e.target.dataset.customerId);
+      fetch("/create-test", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: selectedCustomerID,
+        }),
       })
-      .catch((error) => {
-        console.error("Error creating test:", error);
-        alert("Error creating test: " + error.message);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          window.location.href = `/edit?test_id=${data.new_test_id}`;
+        })
+        .catch((error) => {
+          if (spinner) spinner.classList.add("d-none");
+          console.error("Error creating test:", error);
+          alert("Error creating test: " + error.message);
+        });
+    }
   });
-} else {
-  console.error("customer-select element not found");
-}
