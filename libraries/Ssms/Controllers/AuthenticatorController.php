@@ -37,9 +37,9 @@ class AuthenticatorController
                 $stmt->execute(['email' => $data['email']]);
                 $user = $stmt->fetch();
 
-                Logger::write('info', 'password: ' . $data['password'] . ' and ' . $user['password']    );
+                Logger::write('info', 'Login attempt for email: ' . $data['email']);
 
-                if ($user && crypt($data['password'], $user['password']) === $user['password']) {
+                if ($user && is_array($user) && isset($user['password']) && crypt($data['password'], $user['password']) === $user['password']) {
                     // Make sure session is started
                     if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -47,7 +47,7 @@ class AuthenticatorController
                     $role_stmt = $this->pdo->prepare("SELECT name FROM roles WHERE id = :role_id");
                     $role_stmt->execute(['role_id' => $user['role_id']]);
                     $role = $role_stmt->fetch();
-                    $role_name = $role ? $role['name'] : 'Unknown';
+                    $role_name = ($role && is_array($role) && isset($role['name'])) ? $role['name'] : 'Unknown';
                     
                     // Set session variables
                     $_SESSION['user_id'] = $user['id'];
