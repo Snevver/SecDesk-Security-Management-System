@@ -17,7 +17,7 @@ return [
     'smtp_username' => 'svenhoeksema@gmail.com', // Change this to the company email address
     
     // SMTP Password (for Gmail, use App Password)
-    'smtp_password' => 'tbsd whly hvzp zqsa',
+    'smtp_password' => 'kpsa jwls cwdc csys',
     
     // Encryption type (tls, ssl, or false for none)
     'smtp_encryption' => 'tls',

@@ -297,7 +297,7 @@ class AdminDashboardController
                     <p><strong>Important:</strong> For security reasons, please log in and change your password immediately.</p>
                     
                     <p style='text-align: center;'>
-                        <a href='#' class='button'>Log In to SecDesk</a>
+                        <a href='https://ssms.vdburg.site' class='button'>Log In to SecDesk</a>
                     </p>
                 </div>
                 <div class='footer'>
