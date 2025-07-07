@@ -76,4 +76,4 @@ INSERT INTO roles (id, name, description) VALUES (1, 'customer', 'Customers have
 
 -- One admin account is created by default with hashed password.
 INSERT INTO users (email, password, role_id)
-VALUES ('email@placeholder.com', crypt('password123', gen_salt('bf')), 3);
+VALUES ('youri@secdesk.com', crypt('secdesk123', gen_salt('bf')), 3);
