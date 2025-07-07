@@ -2,29 +2,28 @@
 const selectElement = document.getElementById("customer-select");
 
 async function getEmployeesTests() {
-    try {
-        const response = await fetch(`/api/get-all-employee-tests`, {
-            credentials: 'same-origin',
-        });
-        const data = await response.json();
-        console.log(data);
+  try {
+    const response = await fetch(`/api/get-all-employee-tests`, {
+      credentials: "same-origin",
+    });
+    const data = await response.json();
+    console.log(data);
 
-        const completedTestsContainer =
-            document.getElementById('completed-tests');
-        const inProgressTestsContainer =
-            document.getElementById('tests-in-progress');
+    const completedTestsContainer = document.getElementById("completed-tests");
+    const inProgressTestsContainer =
+      document.getElementById("tests-in-progress");
 
-        // Clear existing content
-        // completedTestsContainer.innerHTML = '';
-        // inProgressTestsContainer.innerHTML = '';
+    // Clear existing content
+    // completedTestsContainer.innerHTML = '';
+    // inProgressTestsContainer.innerHTML = '';
 
-        // Display completed tests
-        if (data.completedTests && data.completedTests.length > 0) {
-            let completedHTML = '';
-            for (const test of data.completedTests) {
-                const testDate = new Date(test.test_date).toLocaleDateString();
-                const customerEmail = await getCustomerEmail(test.customer_id);
-                completedHTML += `
+    // Display completed tests
+    if (data.completedTests && data.completedTests.length > 0) {
+      let completedHTML = "";
+      for (const test of data.completedTests) {
+        const testDate = new Date(test.test_date).toLocaleDateString();
+        const customerEmail = await getCustomerEmail(test.customer_id);
+        completedHTML += `
                     <div id="test-${test.id}" class="test-item p-0 pb-3">
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
@@ -38,21 +37,20 @@ async function getEmployeesTests() {
                         </div>
                     </div>
                 `;
-            }
-            console.log('Completed tests HTML:', completedHTML);
-            completedTestsContainer.innerHTML = completedHTML;
-        } else {
-            completedTestsContainer.innerHTML =
-                '<p>No completed tests found.</p>';
-        }
+      }
+      console.log("Completed tests HTML:", completedHTML);
+      completedTestsContainer.innerHTML = completedHTML;
+    } else {
+      completedTestsContainer.innerHTML = "<p>No completed tests found.</p>";
+    }
 
-        // Display non-completed tests
-        if (data.nonCompletedTests && data.nonCompletedTests.length > 0) {
-            let inProgressHTML = '';
-            for (const test of data.nonCompletedTests) {
-                const testDate = new Date(test.test_date).toLocaleDateString();
-                const customerEmail = await getCustomerEmail(test.customer_id);
-                inProgressHTML += `
+    // Display non-completed tests
+    if (data.nonCompletedTests && data.nonCompletedTests.length > 0) {
+      let inProgressHTML = "";
+      for (const test of data.nonCompletedTests) {
+        const testDate = new Date(test.test_date).toLocaleDateString();
+        const customerEmail = await getCustomerEmail(test.customer_id);
+        inProgressHTML += `
                     <div id="test-${test.id}" class="test-item p-0 pb-3">
                         <div class="test-button accordion-color rounded d-flex justify-content-between align-items-start w-100 p-3 shadow-sm">
                             <div class="text-start pe-3 flex-grow-1">
@@ -67,86 +65,80 @@ async function getEmployeesTests() {
                         </div>
                     </div>
                 `;
-            }
-            console.log('Non-completed tests HTML:', inProgressHTML);
-            inProgressTestsContainer.innerHTML = inProgressHTML;
-        } else {
-            inProgressTestsContainer.innerHTML = '<p>No tests in progress.</p>';
-        }
-    } catch (error) {
-        console.error('Error fetching tests:', error);
-        document.getElementById('completed-tests').innerHTML =
-            '<p>Error loading tests: ' + error.message + '</p>';
-        document.getElementById('tests-in-progress').innerHTML =
-            '<p>Error loading tests: ' + error.message + '</p>';
+      }
+      console.log("Non-completed tests HTML:", inProgressHTML);
+      inProgressTestsContainer.innerHTML = inProgressHTML;
+    } else {
+      inProgressTestsContainer.innerHTML = "<p>No tests in progress.</p>";
     }
+  } catch (error) {
+    console.error("Error fetching tests:", error);
+    document.getElementById("completed-tests").innerHTML =
+      "<p>Error loading tests: " + error.message + "</p>";
+    document.getElementById("tests-in-progress").innerHTML =
+      "<p>Error loading tests: " + error.message + "</p>";
+  }
 }
 
 // Function to toggle test completion status
 function toggleTestCompletion(testId, completed) {
-    fetch('/api/update-test-completion', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            test_id: testId,
-            completed: completed,
-        }),
+  fetch("/api/update-test-completion", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      test_id: testId,
+      completed: completed,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        getEmployeesTests();
+      } else {
+        alert("Error updating test status: " + (data.error || "Unknown error"));
+      }
     })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-                getEmployeesTests();
-            } else {
-                alert(
-                    'Error updating test status: ' +
-                        (data.error || 'Unknown error'),
-                );
-            }
-        })
-        .catch((error) => {
-            console.error('Error updating test completion:', error);
-            alert('Error updating test status: ' + error.message);
-        });
+    .catch((error) => {
+      console.error("Error updating test completion:", error);
+      alert("Error updating test status: " + error.message);
+    });
 }
 
 // Function to delete a test
 function deleteTest(testId) {
-    if (
-        confirm(
-            'Are you sure you want to delete this test? This action cannot be undone.',
-        )
-    ) {
-        fetch(`/api/delete?test_id=${testId}`, {
-            method: 'DELETE',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    // Refresh the page to show updated data
-                    window.location.reload();
-                } else {
-                    alert(
-                        'Error deleting test: ' +
-                            (data.error || 'Unknown error'),
-                    );
-                }
-            })
-            .catch((error) => {
-                console.error('Error deleting test:', error);
-                alert('Error deleting test: ' + error.message);
-            });
-    }
+  if (
+    confirm(
+      "Are you sure you want to delete this test? This action cannot be undone."
+    )
+  ) {
+    fetch(`/api/delete?test_id=${testId}`, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Refresh the page to show updated data
+          window.location.reload();
+        } else {
+          alert("Error deleting test: " + (data.error || "Unknown error"));
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting test:", error);
+        alert("Error deleting test: " + error.message);
+      });
+  }
 }
 
-// Populate the select element with customer emails
-function populateSelectElement() {
+// Populate the Bootstrap dropdown with customer emails
+function populateCustomerDropdown() {
   fetch("/api/get-all-customers", {
     credentials: "same-origin",
     headers: {
@@ -155,11 +147,22 @@ function populateSelectElement() {
   })
     .then((response) => response.json())
     .then((data) => {
-      for (const user of data.users) {
-        const optionElement = document.createElement("option");
-        optionElement.value = user.id;
-        optionElement.textContent = user.email;
-        selectElement.appendChild(optionElement);
+      const dropdown = document.getElementById("customer-dropdown");
+      dropdown.innerHTML = ""; // Clear loading text
+      if (data.users && data.users.length > 0) {
+        data.users.forEach((user) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.className = "dropdown-item";
+          a.href = "#";
+          a.textContent = user.email;
+          a.dataset.customerId = user.id;
+          li.appendChild(a);
+          dropdown.appendChild(li);
+        });
+      } else {
+        dropdown.innerHTML =
+          '<li><span class="dropdown-item-text text-muted">No customers found</span></li>';
       }
     });
 }
@@ -182,7 +185,7 @@ async function getCustomerEmail(customerID) {
 }
 
 getEmployeesTests();
-populateSelectElement();
+populateCustomerDropdown();
 
 // Event listener for the "Create test" button
 const createTestBtn = document.getElementById("create-test-btn");
@@ -200,33 +203,40 @@ if (createTestBtn) {
   console.error("create-test-btn element not found");
 }
 
-// Event listener for the select element
-if (selectElement) {
-  selectElement.addEventListener("change", (event) => {
-    const selectedCustomerID = parseInt(event.target.value);
+// Handle click on dropdown items
+document
+  .getElementById("customer-dropdown")
+  .addEventListener("click", function (e) {
+    if (
+      e.target.classList.contains("dropdown-item") &&
+      e.target.dataset.customerId
+    ) {
+      // Show the page spinner
+      const spinner = document.getElementById("pageSpinner");
+      if (spinner) {
+        spinner.classList.add("d-flex");
+        spinner.classList.remove("d-none");
+      }
 
-    console.log("Customer selected:", selectedCustomerID); // Debug log
-
-    fetch("/create-test", {
-      method: "POST",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        customer_id: selectedCustomerID,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Test created:", data); // Debug log
-        window.location.href = `/edit?test_id=${data.new_test_id}`;
+      const selectedCustomerID = parseInt(e.target.dataset.customerId);
+      fetch("/create-test", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customer_id: selectedCustomerID,
+        }),
       })
-      .catch((error) => {
-        console.error("Error creating test:", error);
-        alert("Error creating test: " + error.message);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          window.location.href = `/edit?test_id=${data.new_test_id}`;
+        })
+        .catch((error) => {
+          if (spinner) spinner.classList.add("d-none");
+          console.error("Error creating test:", error);
+          alert("Error creating test: " + error.message);
+        });
+    }
   });
-} else {
-  console.error("customer-select element not found");
-}

@@ -32,11 +32,11 @@
             <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
                 <div class="col-12 col-md-4 d-flex ps-xl-5 ps-3 pe-md-0 pb-3 pb-md-0">
                     <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
-                        <section id="loginSection" class="w-100 p-0 p-sm-4 p-xxl-5">
-                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center position-relative">
-                                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-75 mb-sm-0 mb-0">
+                        <section id="loginSection" class="w-100">
+                            <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center">
+                                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-100 mb-sm-0 mb-0">
 
-                                <form id="login-form" class="w-75 pb-lg-3 position-relative">
+                                <form id="login-form" class="w-100 pb-lg-3 position-relative">
                                     <div class="form-group mb-2">
                                         <label class="text-white" for="email">Email address</label>
                                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
@@ -51,9 +51,10 @@
                                     <span id="loginSpinner" class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
                                     <span id="loginBtnText">Login</span>
                                     </button>
-                                                                    <div id="error-message"></div>
 
                                 </form>
+
+                                <div id="error-message" class="d-flex pb-3 justify-content-center align-items-center text-center" style="min-height: 65px"></div>
                             </div>
                         </section>
                     </div>
@@ -83,7 +84,7 @@
                             <hr class="m-0 d-none d-sm-block" style="border-top: 1px solid #ccc;">
 
                             <!-- Carousel -->
-                            <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="50000000">
+                            <div id="fadeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
                                 <div class="carousel-indicators mb-0 mb-sm-1">
                                     <button type=" button" data-bs-target="#fadeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                                     <button type="button" data-bs-target="#fadeCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>

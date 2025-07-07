@@ -11,6 +11,7 @@
   background-color: var(--dark-background-color);
   width: 80%;
   border-radius: 24px;
+  padding: 65px 65px 0px 65px;
 }
 
 #login {
@@ -28,9 +29,9 @@ input:focus {
   outline-offset: 2px;
 }
 
-#error-message {
+/* #error-message {
   transform: translateX(-10%) !important;
-}
+} */
 
 /* RESPONSIVITY */
 

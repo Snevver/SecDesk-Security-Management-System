@@ -91,6 +91,10 @@ h1 span,
   border-top: 1px solid #dee2e6;
 }
 
+li:hover {
+  background-color: #cccccc4d;
+}
+
 /* Accordion & Test/Target buttons styling */
 
 .accordion-item,

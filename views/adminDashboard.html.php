@@ -68,7 +68,7 @@
 
                 <!-- Create New Account Button -->
                 <li>
-                    <a href="#" id="create-account-btn" class="nav-link py-3 border-bottom rounded-0" title="Create New Account" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    <a href="#" id="create-account-btn" class="nav-link py-3 border-bottom rounded-0" title="Create New Account" data-bs-toggle="modal" data-bs-target="#emailModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
                         <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
                         <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
@@ -122,13 +122,13 @@
 
                                     <!-- Employees Card -->
                                     <div class="col-lg-4">
-                                        <div class="card h-100">
+                                        <div class="card">
                                             <div class="card-header text-white">
                                                 <h5 class="mb-0">
                                                     <i class="bi bi-person-badge-fill"></i> Employees
                                                 </h5>
                                             </div>
-                                            <div class="card-body h-100">
+                                            <div class="card-body">
                                                 <div id="employees-list" class="user-list h-100 overflow-x-hidden">
                                                     <div class="d-flex justify-content-center align-items-center py-5 w-100">
                                                         <strong>Loading employees...  </strong>
@@ -141,7 +141,7 @@
 
                                     <!-- Admins Card -->
                                     <div class="col-lg-4">
-                                        <div class="card h-100">
+                                        <div class="card">
                                             <div class="card-header text-white">
                                                 <h5 class="mb-0">
                                                     <i class="bi bi-person-badge-fill"></i> Admins

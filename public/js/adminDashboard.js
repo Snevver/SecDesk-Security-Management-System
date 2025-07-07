@@ -296,3 +296,10 @@ document.addEventListener("DOMContentLoaded", function () {
     console.error("Create account button not found!");
   }
 });
+
+// Hides shadow when modal closes
+const emailModal = document.getElementById("emailModal");
+emailModal.addEventListener("hidden.bs.modal", () => {
+  document.body.classList.remove("modal-open");
+  document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
+});
