@@ -154,12 +154,18 @@ function fetchVulnerabilities(target_id, listId) {
             }
             let vulnerabilityList = "";
             for (let vulnerability of data.vulnerabilities) {
+                const solvedStatus = vulnerability.solved ? 'checked' : '';
                 vulnerabilityList += `
-              <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-1 align-items-center">
-                <p class="m-0 ps-2 text-nowrap text-truncate">
-                  ${vulnerability.affected_entity}
-                </p>
-              </button>`;
+              <div style="display: flex; align-items: center;">
+                <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-1 align-items-center" style="flex-grow: 1; border: none; background: transparent;">
+                  <p class="m-0 ps-2 text-nowrap text-truncate">
+                    ${vulnerability.affected_entity}
+                  </p>
+                </button>
+                <input type="checkbox" id="solved-${vulnerability.id}" ${solvedStatus} 
+                       onchange="toggleVulnerabilitySolved(${vulnerability.id}, this.checked)"
+                       style="margin-left: 8px;" title="Mark as solved">
+              </div>`;
             }
             vulnerabilityListElement.innerHTML = vulnerabilityList;
 
@@ -500,3 +506,46 @@ icon.addEventListener("click", () => {
     nav.classList.toggle("show");
     blue.classList.toggle("slide");
 });
+
+/**
+ * Toggle the solved status of a vulnerability
+ * @param {number} vulnerabilityId - The ID of the vulnerability
+ * @param {boolean} solved - Whether the vulnerability is solved
+ */
+function toggleVulnerabilitySolved(vulnerabilityId, solved) {
+    fetch('/api/update-vulnerability-solved', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+            vulnerability_id: vulnerabilityId,
+            solved: solved
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(`Vulnerability ${vulnerabilityId} solved status updated to: ${solved}`);
+            // Optionally show a success message or update UI
+        } else {
+            console.error('Error updating vulnerability solved status:', data.error);
+            // Revert the checkbox state on error
+            const checkbox = document.getElementById(`solved-${vulnerabilityId}`);
+            if (checkbox) {
+                checkbox.checked = !solved;
+            }
+            alert('Error updating vulnerability status: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error updating vulnerability solved status:', error);
+        // Revert the checkbox state on error
+        const checkbox = document.getElementById(`solved-${vulnerabilityId}`);
+        if (checkbox) {
+            checkbox.checked = !solved;
+        }
+        alert('Error updating vulnerability status: ' + error.message);
+    });
+}

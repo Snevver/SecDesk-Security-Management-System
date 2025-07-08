@@ -185,11 +185,6 @@
                 </div>
 
                 <div>
-                    <label for="vulnerability-solved-input">Solved?</label>
-                    <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
-                </div>
-
-                <div>
                     <button type="submit" id="vulnerability-submit">Save Changes</button>
                 </div>
             </form>

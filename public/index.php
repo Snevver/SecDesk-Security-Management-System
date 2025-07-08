@@ -247,9 +247,12 @@ try {
                 $data['remediation_difficulty'],
                 $data['recommendations'],
                 $data['recommended_reading'],
-                $data['response'],
-                $data['solved']
+                $data['response']
             ]);
+            break;
+
+        case '/api/update-vulnerability-solved':
+            $app->handleApiRoute('customer', "DataController", "updateVulnerabilitySolved");
             break;
 
         case '/api/change-password':

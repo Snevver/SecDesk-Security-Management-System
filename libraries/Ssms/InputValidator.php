@@ -104,4 +104,37 @@ class InputValidator
         
         return ['valid' => true, 'value' => (int)$id];
     }
+    
+    /**
+     * Validate and return integer value
+     */
+    public static function validateInteger($value): ?int
+    {
+        if (!is_numeric($value) || $value <= 0) {
+            return null;
+        }
+        
+        return (int)$value;
+    }
+    
+    /**
+     * Validate and return boolean value
+     */
+    public static function validateBoolean($value): bool
+    {
+        if (is_bool($value)) {
+            return $value;
+        }
+        
+        if (is_string($value)) {
+            $value = strtolower($value);
+            return in_array($value, ['true', '1', 'yes', 'on']);
+        }
+        
+        if (is_numeric($value)) {
+            return (bool)$value;
+        }
+        
+        return false;
+    }
 }
