@@ -137,3 +137,7 @@ footer {
   background-color: var(--light-background-color);
   padding: 0% 10% 0% 10%;
 }
+
+.pb-15 {
+  padding-bottom: 15rem !important;
+}

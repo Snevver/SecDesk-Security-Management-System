@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="/css/edit.css">
     </head>
 
- <body class="p-0 m-0 w-100">
+<body class="p-0 m-0 vh-100 d-flex flex-column overflow-hidden">
     <!-- HEADER -->
     <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
         <div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
@@ -71,14 +71,14 @@
     </header>
 
      <!-- CONTENT -->
-    <div id="targetsMain" class="d-flex h-100 w-100">
+    <div id="targetsMain" class="d-flex flex-grow-1 overflow-hidden">
 
         <!-- Left side container for sidebar -->
         <div class="d-flex me-1 w-100">
             <!-- Targetlist -->
-            <div id="targetSidebarDesktop" class="targetSidebar flex-grow-1 ms-1 overflow-auto">
-                <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
-                    <div class="form-submit-footer position-sticky bottom-0 border-top p-2 d-flex justify-content-end">
+            <div id="targetSidebarDesktop" class="targetSidebar ms-1 d-flex flex-column">
+                <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list flex-grow-1 overflow-auto"></div>
+                <div class="form-submit-footer border-top p-2 d-flex justify-content-end">
 
                 <!-- Add Target Button -->
                 <button class="btn me-3" id="add-target-btn">
@@ -95,7 +95,7 @@
             <div id="editSection" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto rounded">
                 <div class="d-flex flex-column h-100 w-100 flex-grow-1">
 
-                    <div class="p-1" id="form-container">
+                    <div class="pt-2 ps-2 pe-2" id="form-container">
                         <!-- Test Detail form -->
                         <form class="d-none flex-column gap-3" id="test-detail-form">
                             <div class="divTable modern-table rounded shadow-sm mb-4">
@@ -254,7 +254,7 @@
                                 <textarea class="form-control" id="vulnerability-response-input" name="vulnerability-response" rows="2"></textarea>
                             </div>
 
-                            <div class="mt-3">
+                            <div class="mt-3 mb-3">
                                 <label for="vulnerability-solved-input"><strong>Solved?</strong></label>
                                 <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
                             </div>

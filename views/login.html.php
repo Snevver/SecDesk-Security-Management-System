@@ -25,7 +25,7 @@
         </header>
 
         <!-- LOGIN SECTION -->
-        <main id="loginMain" class="container-fluid d-flex flex-column">
+        <main id="loginMain" class="container-fluid d-flex flex-column pb-15">
             <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
                 <div class="col-12 col-md-4 d-flex ps-xl-5 ps-3 pe-md-0 pb-3 pb-md-0">
                     <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">

@@ -132,6 +132,10 @@ li:hover {
   height: 4vh !important;
 }
 
+.z-1030 {
+  z-index: 1030 !important;
+}
+
 /* .collapsed {
   height: 3vh !important;
 } */
