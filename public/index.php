@@ -17,9 +17,7 @@ $app = new Ssms\Application();
 $app->init();
 $uri = $app->getUri();
 
-//-----------------------------------------------------
-// Route Requests
-//-----------------------------------------------------
+// Route requests
 try {
     $app->applyAuthMiddleware();
 

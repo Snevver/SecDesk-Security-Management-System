@@ -23,7 +23,7 @@ return [
     'smtp_encryption' => 'tls',
     
     // From email address
-    'from_email' => 'svenhoeksema@gmail.com', // Once again, change this to the company email address
+    'from_email' => 'svenhoeksema@gmail.com', // Change this to the company email address
     
     // From name
     'from_name' => 'SecDesk Security Management',

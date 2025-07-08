@@ -103,14 +103,14 @@
         </div>
     </div>
 
-        <!-- Left side container for sidebar -->
-        <div class="d-flex me-1 w-100">
-            <!-- Desktop Sidebar (visible ≥xl) -->
-            <div id="targetSidebarDesktop" class="targetSidebar collapse show flex-grow-1 ms-1 overflow-auto">
-                <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
-            </div>
+    <!-- Left side container for sidebar -->
+    <div class="d-flex me-1 w-100">
+        <!-- Desktop Sidebar (visible ≥xl) -->
+        <div id="targetSidebarDesktop" class="targetSidebar collapse show flex-grow-1 ms-1 overflow-auto">
+            <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
+        </div>
 
-            <!-- Offcanvas Sidebar (visible <xl) -->
+        <!-- Offcanvas Sidebar (visible <xl) -->
         <div id="targetSidebarMobile" class="targetSidebar offcanvas offcanvas-start d-xl-none"
             tabindex="-1" aria-labelledby="targetSidebarMobileLabel">
                 <div class="offcanvas-header">
@@ -139,10 +139,9 @@
                         To see vulnerability details, first <span class="fw-semibold">click on a target</span> and then <span class="fw-semibold">select a vulnerability</span> from the list.
                         </p>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
-</div>
-
+    </div>
 </body>
 </html>

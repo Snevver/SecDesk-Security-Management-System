@@ -156,14 +156,3 @@ input:focus,
 .form-control:focus {
   box-shadow: 0 0 0 0.15rem var(--header-color) !important;
 }
-
-/* .btn {
-  background-color: var(--header-color) !important;
-  color: var(--white-color) !important;
-  border: 1px solid black;
-}
-
-.btn:hover {
-  border: 1px solid var(--button-color);
-  color: var(--button-color) !important;
-} */

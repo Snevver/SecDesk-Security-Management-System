@@ -1,6 +1,3 @@
-//======================================================================
-// EMPLOYEE DASHBOARD SCRIPT
-//======================================================================
 function fetchAccounts(accountType) {
   console.log(`Fetching accounts of type: ${accountType}`);
   fetch(`/api/get-all-${accountType}s`, {

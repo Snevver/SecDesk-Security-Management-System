@@ -29,10 +29,6 @@ input:focus {
   outline-offset: 2px;
 }
 
-/* #error-message {
-  transform: translateX(-10%) !important;
-} */
-
 /* RESPONSIVITY */
 
 @media screen and (max-width: 1400px) {
@@ -119,11 +115,6 @@ input:focus {
 .contentCard {
   width: 85%;
 }
-/*
-.contentCardText {
-  color: var(--white-color);
-  font-family: "Roboto", sans-serif;
-} */
 
 .highlight {
   color: var(--button-color);

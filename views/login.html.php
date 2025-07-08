@@ -24,9 +24,6 @@
             <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
         </header>
 
-        <!-- Debugging !!! NOT TO BE USED IN PRODUCTION !!! -->
-        <div id="debug" style="display: none;"></div>
-
         <!-- LOGIN SECTION -->
         <main id="loginMain" class="container-fluid d-flex flex-column">
             <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
