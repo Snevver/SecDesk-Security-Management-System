@@ -81,7 +81,6 @@ function setEqualHeight(selector1, selector2) {
     // Get the tallest height
     const h1 = el1.offsetHeight;
     const h2 = el2.offsetHeight;
-    console.log(h1, h2);
     const maxHeight = Math.max(h1, h2);
 
     // Set both to the tallest

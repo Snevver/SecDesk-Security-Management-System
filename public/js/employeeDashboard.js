@@ -10,16 +10,11 @@ async function getEmployeesTests() {
             credentials: "same-origin",
         });
         const data = await response.json();
-        console.log(data);
 
         const completedTestsContainer =
             document.getElementById("completed-tests");
         const inProgressTestsContainer =
             document.getElementById("tests-in-progress");
-
-        // Clear existing content
-        // completedTestsContainer.innerHTML = '';
-        // inProgressTestsContainer.innerHTML = '';
 
         // Display completed tests
         if (data.completedTests && data.completedTests.length > 0) {
@@ -42,7 +37,6 @@ async function getEmployeesTests() {
                     </div>
                 `;
             }
-            console.log("Completed tests HTML:", completedHTML);
             completedTestsContainer.innerHTML = completedHTML;
         } else {
             completedTestsContainer.innerHTML =
@@ -71,7 +65,6 @@ async function getEmployeesTests() {
                     </div>
                 `;
             }
-            console.log("Non-completed tests HTML:", inProgressHTML);
             inProgressTestsContainer.innerHTML = inProgressHTML;
         } else {
             inProgressTestsContainer.innerHTML = "<p>No tests in progress.</p>";
