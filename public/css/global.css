@@ -55,6 +55,7 @@ h3 {
 .btn {
   background-color: var(--button-color);
   color: var(--black-color);
+  border: var(--black-color) 1px solid;
 }
 
 .btn:hover {
@@ -69,6 +70,10 @@ svg {
 .logo {
   margin-left: 17px;
   height: 31px;
+}
+
+.back {
+  border: none !important;
 }
 
 .spinner-border {

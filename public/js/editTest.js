@@ -1,3 +1,56 @@
+/**
+ * Safely set text content to prevent XSS
+ */
+function safeSetTextContent(element, value) {
+  if (!element) return;
+
+  // Always use textContent (never innerHTML) for user data
+  element.textContent = value || "Empty";
+}
+
+/**
+ * Safely set input value with basic validation
+ */
+function safeSetInputValue(element, value) {
+  if (!element) return;
+
+  // Limit input length and sanitize
+  let sanitizedValue = (value || "").toString();
+
+  // Remove any null bytes
+  sanitizedValue = sanitizedValue.replace(/\0/g, "");
+
+  // Limit length based on input type
+  const maxLength = element.maxLength > 0 ? element.maxLength : 1000;
+  if (sanitizedValue.length > maxLength) {
+    sanitizedValue = sanitizedValue.substring(0, maxLength);
+  }
+
+  element.value = sanitizedValue || "Empty";
+}
+
+/**
+ * Validate input before sending to server
+ */
+function validateInput(value, fieldName, maxLength = 1000) {
+  if (typeof value !== "string") {
+    value = String(value || "");
+  }
+
+  // Remove null bytes
+  value = value.replace(/\0/g, "");
+
+  // Check length
+  if (value.length > maxLength) {
+    console.warn(
+      `${fieldName} exceeds maximum length of ${maxLength} characters`
+    );
+    return value.substring(0, maxLength);
+  }
+
+  return value;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get("test_id");
 
@@ -9,7 +62,7 @@ const descriptionInputElement = document.getElementById(
 
 /**
  * Dynamic function to edit any entity (test, target, or vulnerability)
- * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
+ * @param {string} entityType - The type of entity ("test", "target", "vulnerability")
  * @param {number} entityId - The ID of the entity to edit
  */
 function editEntity(entityType, entityId) {
@@ -20,6 +73,8 @@ function editEntity(entityType, entityId) {
   window.currentEditingEntityId = entityId;
   if (entityType === "target") {
     window.currentEditingTargetId = entityId;
+  } else if (entityType === "vulnerability") {
+    window.currentEditingVulnerabilityId = entityId;
   }
 
   const apiEndpoints = {
@@ -76,18 +131,16 @@ function editEntity(entityType, entityId) {
         populateEntityForm(entityType, data);
       } else {
         console.warn(`No form ID mapping found for entity type: ${entityType}`);
-        alert(`Form not available for ${entityType} editing`);
       }
     })
     .catch((error) => {
       console.error(`Error fetching ${entityType}:`, error);
-      alert(`Error loading ${entityType}: ` + error.message);
     });
 }
 
 /**
  * Populate form fields with entity data
- * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
+ * @param {string} entityType - The type of entity ("test", "target", "vulnerability")
  * @param {object} data - The entity data received from the API
  */
 function populateEntityForm(entityType, data) {
@@ -118,14 +171,81 @@ function populateEntityForm(entityType, data) {
     },
 
     vulnerability: {
-      name: {
-        element: "vulnerability-title",
+      affected_entity: {
+        element: "affected_entity",
         dataField: "affected_entity",
       },
-
+      identifier: {
+        element: "identifier",
+        dataField: "identifier",
+      },
+      risk_statement: {
+        element: "risk_statement",
+        dataField: "risk_statement",
+      },
+      affected_component: {
+        element: "affected_component",
+        dataField: "affected_component",
+      },
+      residual_risk: {
+        element: "residual_risk",
+        dataField: "residual_risk",
+      },
+      classification: {
+        element: "classification",
+        dataField: "classification",
+      },
+      identified_controls: {
+        element: "identified_controls",
+        dataField: "identified_controls",
+      },
+      cvss_score: {
+        element: "cvss_score",
+        dataField: "cvss_score",
+      },
+      likelihood: {
+        element: "likelihood",
+        dataField: "likelihood",
+      },
+      cvssv3_code: {
+        element: "cvssv3_code",
+        dataField: "cvssv3_code",
+      },
+      location: {
+        element: "location",
+        dataField: "location",
+      },
       description: {
-        element: "vulnerability-description",
+        element: "vulnerabilities_description",
         dataField: "vulnerabilities_description",
+      },
+      reproduction_steps: {
+        element: "reproduction_steps",
+        dataField: "reproduction_steps",
+      },
+      impact: {
+        element: "impact",
+        dataField: "impact",
+      },
+      remediation_difficulty: {
+        element: "remediation_difficulty",
+        dataField: "remediation_difficulty",
+      },
+      recommendations: {
+        element: "recommendations",
+        dataField: "recommendations",
+      },
+      recommended_reading: {
+        element: "recommended_reading",
+        dataField: "recommended_reading",
+      },
+      response: {
+        element: "vulnerability-response-input",
+        dataField: "response",
+      },
+      solved: {
+        element: "vulnerability-solved-input",
+        dataField: "solved",
       },
     },
   };
@@ -142,11 +262,20 @@ function populateEntityForm(entityType, data) {
     const element = document.getElementById(config.element);
     const value = data[config.dataField];
 
-    if (element && value !== undefined) {
-      if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-        element.value = value;
+    if (element) {
+      if (element.type === "checkbox") {
+        element.checked = Boolean(value);
+      } else if (
+        element.tagName === "INPUT" ||
+        element.tagName === "TEXTAREA"
+      ) {
+        // Use safe input value setting
+        safeSetInputValue(element, value);
+      } else if (element.tagName === "SELECT") {
+        element.value = value || "";
       } else {
-        element.textContent = value;
+        // Use safe text content setting
+        safeSetTextContent(element, value);
       }
     }
   });
@@ -182,12 +311,12 @@ function populateFormElement() {
       const displayTitle = document.getElementById("test-title");
       const displayDescription = document.getElementById("test-description");
 
-      if (displayTitle && data.test_name) {
-        displayTitle.textContent = data.test_name;
+      if (displayTitle) {
+        safeSetTextContent(displayTitle, data.test_name);
       }
 
-      if (displayDescription && data.test_description) {
-        displayDescription.textContent = data.test_description;
+      if (displayDescription) {
+        safeSetTextContent(displayDescription, data.test_description);
       }
 
       // Use the same population logic as editEntity for form inputs
@@ -209,6 +338,17 @@ function populateFormElement() {
  * Update the test with the new data
  */
 function updateTestData() {
+  const titleInput = document.getElementById("test-title-input");
+  const descriptionInput = document.getElementById("test-description-input");
+
+  // Validate inputs
+  const validatedTitle = validateInput(titleInput.value, "Test Title", 255);
+  const validatedDescription = validateInput(
+    descriptionInput.value,
+    "Test Description",
+    2000
+  );
+
   fetch(`/update-test`, {
     method: "POST",
     credentials: "same-origin",
@@ -217,21 +357,21 @@ function updateTestData() {
     },
     body: JSON.stringify({
       test_id: testId,
-      test_name: document.getElementById("test-title-input").value,
-      test_description: document.getElementById("test-description-input").value,
+      test_name: validatedTitle,
+      test_description: validatedDescription,
     }),
   })
     .then((response) => response.json())
     .then((data) => {
-      if (!data.success) {
-        alert("Error updating test: " + (data.error || "Unknown error"));
-      } else {
-        window.location.reload();
+      if (data.success) {
+        // Refresh all page content
+        refreshPageContent();
+      } else if (data.error) {
+        console.error("Server validation error:", data.error);
       }
     })
     .catch((error) => {
       console.error("Error updating test:", error);
-      alert("Error updating test: " + error.message);
     });
 }
 
@@ -245,7 +385,7 @@ function updateTargetData() {
   );
 
   if (!targetTitleElement || !targetDescriptionElement) {
-    alert("Error: Target form fields not found");
+    console.error("Error: Target form fields not found");
     return;
   }
 
@@ -253,7 +393,7 @@ function updateTargetData() {
   const targetId = window.currentEditingTargetId;
 
   if (!targetId) {
-    alert("Error: No target ID found for update");
+    console.error("Error: No target ID found for update");
     return;
   }
 
@@ -277,14 +417,79 @@ function updateTargetData() {
     })
     .then((data) => {
       if (!data.success) {
-        alert("Error updating target: " + (data.error || "Unknown error"));
+        console.error("Error updating target:", data.error);
       } else {
-        window.location.reload();
+        // Refresh all page content
+        refreshPageContent();
       }
     })
     .catch((error) => {
       console.error("Error updating target:", error);
-      alert("Error updating target: " + error.message);
+    });
+}
+
+/**
+ * Update the vulnerability with the new data
+ */
+function updateVulnerabilityData() {
+  const vulnerabilityId = window.currentEditingVulnerabilityId;
+
+  if (!vulnerabilityId) {
+    console.error("Error: No vulnerability ID found for update");
+    return;
+  }
+
+  // Collect all form data
+  const formData = {
+    vulnerability_id: vulnerabilityId,
+    affected_entity: document.getElementById("affected_entity")?.value,
+    identifier: document.getElementById("identifier")?.value,
+    risk_statement: document.getElementById("risk_statement")?.value,
+    affected_component: document.getElementById("affected_component")?.value,
+    residual_risk: document.getElementById("residual_risk")?.value,
+    classification: document.getElementById("classification")?.value,
+    identified_controls: document.getElementById("identified_controls")?.value,
+    cvss_score: document.getElementById("cvss_score")?.value,
+    likelihood: document.getElementById("likelihood")?.value,
+    cvssv3_code: document.getElementById("cvssv3_code")?.value,
+    location: document.getElementById("location")?.value,
+    vulnerabilities_description: document.getElementById(
+      "vulnerabilities_description"
+    )?.value,
+    reproduction_steps: document.getElementById("reproduction_steps")?.value,
+    impact: document.getElementById("impact")?.value,
+    remediation_difficulty: document.getElementById("remediation_difficulty")
+      ?.value,
+    recommendations: document.getElementById("recommendations")?.value,
+    recommended_reading: document.getElementById("recommended_reading")?.value,
+    response: document.getElementById("vulnerability-response-input")?.value,
+    solved: document.getElementById("vulnerability-solved-input")?.checked,
+  };
+
+  fetch(`/update-vulnerability`, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (!data.success) {
+        console.error("Error updating vulnerability:", data.error);
+      } else {
+        // Refresh all page content
+        refreshPageContent();
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating vulnerability:", error);
     });
 }
 
@@ -345,12 +550,12 @@ function fetchTestTargets() {
                 </div>
             </div>
             <!-- Action buttons column -->
-            <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
-                <button class="btn btn-sm btn-primary edit-target-button-${target.id}"
+            <div class="d-flex align-items-start gap-2 p-2 button-background" style="min-width: 90px;">
+                <button class="btn btn-sm edit-target-button-${target.id}"
                     onclick="editEntity('target', ${target.id})">
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-danger"
+                <button class="btn btn-sm"
                     onclick="deleteEntity('target', ${target.id}, 'target-${target.id}')">
                     <i class="bi bi-trash"></i>
                 </button>
@@ -431,13 +636,71 @@ function addNewTarget() {
     })
     .then((data) => {
       console.log("Add target response:", data);
-      // Always reload the page after the API call
-      window.location.reload();
+      // Refresh all page content
+      refreshPageContent();
     })
     .catch((error) => {
       console.error("Error adding target:", error);
-      // Still reload even on error to refresh the page state
-      window.location.reload();
+    });
+}
+
+/**
+ * Add a new vulnerability to a specific target
+ */
+function addNewVulnerability(targetId) {
+  console.log("Adding new vulnerability for target ID:", targetId);
+
+  // Make API call to add the vulnerability with empty name and description
+  fetch(`/api/add-vulnerability?target_id=${targetId}`, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Add vulnerability response:", data);
+      if (
+        data.message === "Vulnerability added successfully" ||
+        (data.success && data.vulnerability_id)
+      ) {
+        console.log(
+          "Vulnerability added successfully, opening dropdown and fetching updated vulnerabilities..."
+        );
+
+        // First, ensure the dropdown is open
+        const dropdown = document.getElementById(`vulnerabilities-${targetId}`);
+        const arrow = document.querySelector(
+          `[data-target-id="${targetId}"] span`
+        );
+
+        if (dropdown && arrow) {
+          dropdown.style.display = "block";
+          arrow.textContent = "▲";
+          console.log(`Dropdown opened for target ${targetId}`);
+
+          // Now fetch vulnerabilities for this target to show the new one
+          fetchVulnerabilities(targetId);
+        } else {
+          console.error(
+            `Could not find dropdown elements for target ${targetId}`
+          );
+        }
+      } else {
+        console.error(
+          "Error adding vulnerability:",
+          data.error || "Unknown error"
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Error adding vulnerability:", error);
     });
 }
 
@@ -475,12 +738,12 @@ function fetchVulnerabilities(targetId) {
                 </p>
             </div>
             <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
-                <button class="btn btn-sm btn-primary"
+                <button class="btn btn-sm"
                     onclick="editEntity('vulnerability', ${vulnerability.id})">
                     Edit
                     <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm btn-danger"
+                <button class="btn btn-sm"
                     onclick="deleteEntity('vulnerability', ${vulnerability.id}, 'vuln-${vulnerability.id}')">
                     Delete
                     <i class="bi bi-trash"></i>
@@ -494,7 +757,7 @@ function fetchVulnerabilities(targetId) {
     <div class="d-flex">
         <div class="flex-grow-1"></div>
         <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
-            <button class="btn btn-sm btn-success w-100" onclick="addNewVulnerability(${targetId})">
+            <button class="btn btn-sm w-100" onclick="addNewVulnerability(${targetId})">
                 Add Vulnerability
                 <i class="bi bi-plus-lg"></i>
             </button>
@@ -521,6 +784,11 @@ function deleteEntity(entityType, entityId, elementId = null) {
     return;
   }
 
+  console.log(`Deleting ${entityName} with ID: ${entityId}`);
+
+  // Refresh page content immediately after confirmation
+  refreshPageContent();
+
   // Construct the API endpoint dynamically
   const endpoint = `/api/delete?${entityType}_id=${entityId}`;
 
@@ -532,38 +800,26 @@ function deleteEntity(entityType, entityId, elementId = null) {
     },
   })
     .then((response) => {
+      console.log(`Delete ${entityName} response status:`, response.status);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       return response.json();
     })
     .then((data) => {
+      console.log(`Delete ${entityName} response data:`, data);
       if (data.success) {
-        // Remove the element from the DOM if elementId is provided
-        if (elementId) {
-          const element = document.getElementById(elementId);
-          if (element) {
-            element.remove();
-          }
-        }
-        alert(
-          `${
-            entityName.charAt(0).toUpperCase() + entityName.slice(1)
-          } deleted successfully!`
-        );
+        console.log(`${entityName} deleted successfully`);
+      } else {
+        console.error(`Error deleting ${entityName}:`, data.error);
+        // If deletion failed, refresh again to restore correct state
+        refreshPageContent();
       }
-
-      alert(
-        `${
-          entityName.charAt(0).toUpperCase() + entityName.slice(1)
-        } deleted successfully!`
-      );
-
-      window.location.reload();
     })
     .catch((error) => {
       console.error(`Error deleting ${entityName}:`, error);
-      alert(`Error deleting ${entityName}: ` + error.message);
+      // If deletion failed, refresh again to restore correct state
+      refreshPageContent();
     });
 }
 
@@ -574,15 +830,15 @@ function createDeleteButton(
   elementId = null,
   buttonClass = "btn btn-danger"
 ) {
-  return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity('${entityType}', ${entityId}, '${
+  return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity(\"${entityType}\", ${entityId}, \"${
     elementId || ""
-  }')">Delete</button>`;
+  }\")">Delete</button>`;
 }
 
 // Helper function to create action buttons (edit + delete)
 function createActionButtons(entityType, entityId, elementId = null) {
   return `
-        <button class="btn btn-dark" onclick="event.stopPropagation(); editEntity('${entityType}', ${entityId})">
+        <button class="btn btn-dark" onclick="event.stopPropagation(); editEntity(\"${entityType}\", ${entityId})">
             Edit ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}
         </button>
         ${createDeleteButton(entityType, entityId, elementId)}
@@ -590,20 +846,73 @@ function createActionButtons(entityType, entityId, elementId = null) {
 }
 
 function displayForm(formId) {
-  const formElement = document.getElementById(formId);
-
-  if (!formElement) {
-    console.warn(`Form with ID '${formId}' not found in DOM`);
-    return;
-  }
-
+  // Hide all forms first
   document.querySelectorAll("form").forEach((form) => {
     form.classList.remove("d-flex");
     form.classList.add("d-none");
   });
 
+  // If formId is empty or null, just hide all forms and return
+  if (!formId) {
+    return;
+  }
+
+  const formElement = document.getElementById(formId);
+
+  if (!formElement) {
+    console.warn(`Form with ID \"${formId}\" not found in DOM`);
+    return;
+  }
+
   formElement.classList.remove("d-none");
   formElement.classList.add("d-flex");
+}
+
+/**
+ * Refresh all page content without actually reloading the page
+ */
+function refreshPageContent() {
+  console.log("Starting page content refresh...");
+
+  // Store currently opened vulnerability dropdowns
+  const openDropdowns = [];
+  document.querySelectorAll('[id^="vulnerabilities-"]').forEach((dropdown) => {
+    if (dropdown.style.display === "block") {
+      const targetId = dropdown.id.replace("vulnerabilities-", "");
+      openDropdowns.push(targetId);
+    }
+  });
+
+  // Refresh the main test data
+  console.log("Refreshing test data...");
+  populateFormElement();
+
+  // Refresh all targets and their vulnerabilities
+  console.log("Refreshing targets...");
+  fetchTestTargets();
+
+  // Restore opened dropdowns after a brief delay to allow targets to render
+  if (openDropdowns.length > 0) {
+    setTimeout(() => {
+      openDropdowns.forEach((targetId) => {
+        const dropdown = document.getElementById(`vulnerabilities-${targetId}`);
+        const arrow = document.querySelector(
+          `[data-target-id="${targetId}"] span`
+        );
+
+        if (dropdown && arrow) {
+          dropdown.style.display = "block";
+          arrow.textContent = "▲";
+          fetchVulnerabilities(targetId);
+        }
+      });
+    }, 100);
+  }
+
+  // Hide any open forms
+  displayForm("");
+
+  console.log("Page content refresh completed");
 }
 
 fetchTestTargets();
@@ -644,4 +953,17 @@ if (addTargetBtn) {
   });
 } else {
   console.warn("Add target button not found");
+}
+
+// Add event listener for vulnerability form submission
+const vulnerabilityForm = document.getElementById("vulnerability-form");
+if (vulnerabilityForm) {
+  vulnerabilityForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updateVulnerabilityData();
+  });
+} else {
+  console.warn(
+    "Vulnerability form not found - vulnerability editing may not work"
+  );
 }
