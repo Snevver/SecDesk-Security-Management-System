@@ -44,6 +44,13 @@ input:focus {
   .contentCardText > h2 {
     font-size: 1.5rem !important;
   }
+  #loginContainer {
+    width: 100% !important;
+  }
+  #loginSection {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -91,12 +98,9 @@ input:focus {
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
   }
-  #loginSection {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
   #loginContainer {
     transform: scale(1.2);
+    width: 60% !important;
   }
 }
 
