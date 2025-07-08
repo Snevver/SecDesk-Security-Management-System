@@ -1,7 +1,5 @@
 /**
  * Safely set text content to prevent XSS
- * @param {HTMLElement} element - The DOM element to set text content for
- * @param {string} value - The text content to set
  */
 function safeSetTextContent(element, value) {
     if (!element) return;
@@ -12,8 +10,6 @@ function safeSetTextContent(element, value) {
 
 /**
  * Safely set input value with basic validation
- * @param {HTMLInputElement} element - The input element to set value for
- * @param {string} value - The value to set
  */
 function safeSetInputValue(element, value) {
     if (!element) return;
@@ -35,9 +31,6 @@ function safeSetInputValue(element, value) {
 
 /**
  * Validate input before sending to server
- * @param {string} value - The input value to validate
- * @param {string} fieldName - The name of the field for error messages
- * @param {number} maxLength - The maximum allowed length for the input
  */
 function validateInput(value, fieldName, maxLength = 1000) {
     if (typeof value !== "string") {
@@ -50,7 +43,7 @@ function validateInput(value, fieldName, maxLength = 1000) {
     // Check length
     if (value.length > maxLength) {
         console.warn(
-            `${fieldName} exceeds maximum length of ${maxLength} characters`
+            `${fieldName} exceeds maximum length of ${maxLength} characters`,
         );
         return value.substring(0, maxLength);
     }
@@ -64,12 +57,12 @@ const testId = urlParams.get("test_id");
 // Get DOM elements
 const titleInputElement = document.getElementById("test-title-input");
 const descriptionInputElement = document.getElementById(
-    "test-description-input"
+    "test-description-input",
 );
 
 /**
  * Dynamic function to edit any entity (test, target, or vulnerability)
- * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
+ * @param {string} entityType - The type of entity ("test", "target", "vulnerability")
  * @param {number} entityId - The ID of the entity to edit
  */
 function editEntity(entityType, entityId) {
@@ -138,7 +131,7 @@ function editEntity(entityType, entityId) {
                 populateEntityForm(entityType, data);
             } else {
                 console.warn(
-                    `No form ID mapping found for entity type: ${entityType}`
+                    `No form ID mapping found for entity type: ${entityType}`,
                 );
             }
         })
@@ -149,7 +142,7 @@ function editEntity(entityType, entityId) {
 
 /**
  * Populate form fields with entity data
- * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
+ * @param {string} entityType - The type of entity ("test", "target", "vulnerability")
  * @param {object} data - The entity data received from the API
  */
 function populateEntityForm(entityType, data) {
@@ -356,7 +349,7 @@ function updateTestData() {
     const validatedDescription = validateInput(
         descriptionInput.value,
         "Test Description",
-        2000
+        2000,
     );
 
     fetch(`/update-test`, {
@@ -391,7 +384,7 @@ function updateTestData() {
 function updateTargetData() {
     const targetTitleElement = document.getElementById("target-title-input");
     const targetDescriptionElement = document.getElementById(
-        "target-description-input"
+        "target-description-input",
     );
 
     if (!targetTitleElement || !targetDescriptionElement) {
@@ -466,13 +459,13 @@ function updateVulnerabilityData() {
         cvssv3_code: document.getElementById("cvssv3_code")?.value,
         location: document.getElementById("location")?.value,
         vulnerabilities_description: document.getElementById(
-            "vulnerabilities_description"
+            "vulnerabilities_description",
         )?.value,
         reproduction_steps:
             document.getElementById("reproduction_steps")?.value,
         impact: document.getElementById("impact")?.value,
         remediation_difficulty: document.getElementById(
-            "remediation_difficulty"
+            "remediation_difficulty",
         )?.value,
         recommendations: document.getElementById("recommendations")?.value,
         recommended_reading: document.getElementById("recommended_reading")
@@ -546,7 +539,7 @@ function fetchTestTargets() {
                             ${createDeleteButton(
                                 "target",
                                 target.id,
-                                `target-${target.id}`
+                                `target-${target.id}`,
                             )}
                         </div>
                         <div id="vulnerabilities-${
@@ -574,14 +567,14 @@ function fetchTestTargets() {
 
             // Add event listeners for dropdown functionality
             const targetHeaders = targetListElement.querySelectorAll(
-                "div[data-target-id]"
+                "div[data-target-id]",
             );
             targetHeaders.forEach((header) => {
                 header.addEventListener("click", function (e) {
                     e.preventDefault();
                     const targetId = this.dataset.targetId;
                     const dropdown = document.getElementById(
-                        `vulnerabilities-${targetId}`
+                        `vulnerabilities-${targetId}`,
                     );
                     const arrow = this.querySelector("span");
 
@@ -608,7 +601,7 @@ function fetchTestTargets() {
         .catch((error) => {
             console.error(
                 "There was a problem with the fetch operation:",
-                error
+                error,
             );
         });
 }
@@ -645,7 +638,6 @@ function addNewTarget() {
 
 /**
  * Add a new vulnerability to a specific target
- * @param {string} targetId The ID of the target to add the vulnerability to
  */
 function addNewVulnerability(targetId) {
     console.log("Adding new vulnerability for target ID:", targetId);
@@ -671,15 +663,15 @@ function addNewVulnerability(targetId) {
                 (data.success && data.vulnerability_id)
             ) {
                 console.log(
-                    "Vulnerability added successfully, opening dropdown and fetching updated vulnerabilities..."
+                    "Vulnerability added successfully, opening dropdown and fetching updated vulnerabilities...",
                 );
 
                 // First, ensure the dropdown is open
                 const dropdown = document.getElementById(
-                    `vulnerabilities-${targetId}`
+                    `vulnerabilities-${targetId}`,
                 );
                 const arrow = document.querySelector(
-                    `[data-target-id="${targetId}"] span`
+                    `[data-target-id="${targetId}"] span`,
                 );
 
                 if (dropdown && arrow) {
@@ -691,13 +683,13 @@ function addNewVulnerability(targetId) {
                     fetchVulnerabilities(targetId);
                 } else {
                     console.error(
-                        `Could not find dropdown elements for target ${targetId}`
+                        `Could not find dropdown elements for target ${targetId}`,
                     );
                 }
             } else {
                 console.error(
                     "Error adding vulnerability:",
-                    data.error || "Unknown error"
+                    data.error || "Unknown error",
                 );
             }
         })
@@ -715,23 +707,23 @@ function fetchVulnerabilities(targetId) {
 
     // Check if the vulnerabilities element exists
     const vulnerabilitiesElement = document.getElementById(
-        `vulnerabilities-${targetId}`
+        `vulnerabilities-${targetId}`,
     );
     if (!vulnerabilitiesElement) {
         console.error(
-            `Vulnerabilities element not found for target ${targetId}`
+            `Vulnerabilities element not found for target ${targetId}`,
         );
         return;
     }
 
     console.log(
-        `Making GET request to /api/get-all-vulnerabilities?target_id=${targetId}`
+        `Making GET request to /api/get-all-vulnerabilities?target_id=${targetId}`,
     );
     fetch(`/api/get-all-vulnerabilities?target_id=${targetId}`)
         .then((response) => {
             console.log(
                 `Response received for target ${targetId}:`,
-                response.status
+                response.status,
             );
             if (!response.ok) {
                 console.log(response);
@@ -742,10 +734,10 @@ function fetchVulnerabilities(targetId) {
         .then((data) => {
             console.log(
                 `Vulnerabilities fetched for target ${targetId}:`,
-                data
+                data,
             );
 
-            let vulnerabilityList = '<div class="border border-dark p-3 mb-3">';
+            let vulnerabilityList = "<div class=\"border border-dark p-3 mb-3\">";
 
             if (
                 !data ||
@@ -765,7 +757,7 @@ function fetchVulnerabilities(targetId) {
                             ${createActionButtons(
                                 "vulnerability",
                                 vulnerability.id,
-                                `vuln-${vulnerability.id}`
+                                `vuln-${vulnerability.id}`,
                             )}
                         </div>`;
                 }
@@ -773,7 +765,7 @@ function fetchVulnerabilities(targetId) {
 
             // Always add the "Add Vulnerability" button
             vulnerabilityList += `<div id="add-vuln-${targetId}">
-                <br><br><br><button class="btn btn-success" onclick="addNewVulnerability(${targetId})">Add Vulnerability</button>
+                <br><br><br><button class="btn btn-success" onclick="addNewVulnerability(${targetId})"><i class="bi bi-plus-circle"></i> Add Vulnerability</button>
             </div></div>`;
 
             vulnerabilitiesElement.innerHTML = vulnerabilityList;
@@ -782,18 +774,11 @@ function fetchVulnerabilities(targetId) {
         .catch((error) => {
             console.error(
                 "There was a problem with the fetch operation:",
-                error
+                error,
             );
         });
 }
 
-/**
- * Delete an entity (test, target, or vulnerability)
- * @param {string} entityType - The type of entity ('test', 'target', 'vulnerability')
- * @param {int} entityId - The ID of the entity to delete
- * @param {int} elementId - Optional element ID to remove from DOM after deletion
- * @returns
- */
 function deleteEntity(entityType, entityId, elementId = null) {
     const entityNames = {
         vulnerability: "vulnerability",
@@ -825,7 +810,7 @@ function deleteEntity(entityType, entityId, elementId = null) {
         .then((response) => {
             console.log(
                 `Delete ${entityName} response status:`,
-                response.status
+                response.status,
             );
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -854,27 +839,23 @@ function createDeleteButton(
     entityType,
     entityId,
     elementId = null,
-    buttonClass = "btn btn-danger"
+    buttonClass = "btn btn-danger",
 ) {
-    return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity('${entityType}', ${entityId}, '${
+    return `<button class="${buttonClass}" onclick="event.stopPropagation(); deleteEntity(\"${entityType}\", ${entityId}, \"${
         elementId || ""
-    }')">Delete</button>`;
+    }\")">Delete</button>`;
 }
 
 // Helper function to create action buttons (edit + delete)
 function createActionButtons(entityType, entityId, elementId = null) {
     return `
-        <button class="btn btn-dark" onclick="event.stopPropagation(); editEntity('${entityType}', ${entityId})">
+        <button class="btn btn-dark" onclick="event.stopPropagation(); editEntity(\"${entityType}\", ${entityId})">
             Edit ${entityType.charAt(0).toUpperCase() + entityType.slice(1)}
         </button>
         ${createDeleteButton(entityType, entityId, elementId)}
     `;
 }
 
-/**
- * Display a specific form by its ID
- * @param {int} formId - The ID of the form to display
- */
 function displayForm(formId) {
     // Hide all forms first
     document.querySelectorAll("form").forEach((form) => {
@@ -890,7 +871,7 @@ function displayForm(formId) {
     const formElement = document.getElementById(formId);
 
     if (!formElement) {
-        console.warn(`Form with ID '${formId}' not found in DOM`);
+        console.warn(`Form with ID \"${formId}\" not found in DOM`);
         return;
     }
 
@@ -907,7 +888,7 @@ function refreshPageContent() {
     // Store currently opened vulnerability dropdowns
     const openDropdowns = [];
     document
-        .querySelectorAll('[id^="vulnerabilities-"]')
+        .querySelectorAll("[id^=\"vulnerabilities-\"]")
         .forEach((dropdown) => {
             if (dropdown.style.display === "block") {
                 const targetId = dropdown.id.replace("vulnerabilities-", "");
@@ -928,10 +909,10 @@ function refreshPageContent() {
         setTimeout(() => {
             openDropdowns.forEach((targetId) => {
                 const dropdown = document.getElementById(
-                    `vulnerabilities-${targetId}`
+                    `vulnerabilities-${targetId}`,
                 );
                 const arrow = document.querySelector(
-                    `[data-target-id="${targetId}"] span`
+                    `[data-target-id="${targetId}"] span`,
                 );
 
                 if (dropdown && arrow) {
@@ -998,6 +979,6 @@ if (vulnerabilityForm) {
     });
 } else {
     console.warn(
-        "Vulnerability form not found - vulnerability editing may not work"
+        "Vulnerability form not found - vulnerability editing may not work",
     );
 }

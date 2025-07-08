@@ -236,7 +236,7 @@ class DataController
     //-----------------------------------------------------
     // Update Vulnerability
     //-----------------------------------------------------
-    public function updateVulnerability($vulnerability_id, $affected_entity, $identifier, $risk_statement, $affected_component, $residual_risk, $classification, $identified_controls, $cvss_score, $likelihood, $cvssv3_code, $location, $vulnerabilities_description, $reproduction_steps, $impact, $remediation_difficulty, $recommendations, $recommended_reading, $response, $solved)
+    public function updateVulnerability($vulnerability_id, $affected_entity, $identifier, $risk_statement, $affected_component, $residual_risk, $classification, $identified_controls, $cvss_score, $likelihood, $cvssv3_code, $location, $vulnerabilities_description, $reproduction_steps, $impact, $remediation_difficulty, $recommendations, $recommended_reading, $response)
     {
         try {
             // Validate vulnerability ID
@@ -268,14 +268,13 @@ class DataController
                 'remediation_difficulty' => InputValidator::validateVulnerabilityField($remediation_difficulty, 'Remediation Difficulty', 500)['value'],
                 'recommendations' => InputValidator::validateVulnerabilityField($recommendations, 'Recommendations', 5000)['value'],
                 'recommended_reading' => InputValidator::validateVulnerabilityField($recommended_reading, 'Recommended Reading', 2000)['value'],
-                'response' => InputValidator::validateVulnerabilityField($response, 'Response', 2000)['value'],
-                'solved' => (bool)$solved
+                'response' => InputValidator::validateVulnerabilityField($response, 'Response', 2000)['value']
             ];
             
             Logger::write('info', 'Updating vulnerability with ID: ' . $vulnerability_id);
 
             // Prepare and execute the SQL statement to update the vulnerability
-            $stmt = $this->pdo->prepare("UPDATE vulnerabilities SET affected_entity = :affected_entity, identifier = :identifier, risk_statement = :risk_statement, affected_component = :affected_component, residual_risk = :residual_risk, classification = :classification, identified_controls = :identified_controls, cvss_score = :cvss_score, likelihood = :likelihood, cvssv3_code = :cvssv3_code, location = :location, vulnerabilities_description = :vulnerabilities_description, reproduction_steps = :reproduction_steps, impact = :impact, remediation_difficulty = :remediation_difficulty, recommendations = :recommendations, recommended_reading = :recommended_reading, response = :response, solved = :solved WHERE id = :vulnerability_id");
+            $stmt = $this->pdo->prepare("UPDATE vulnerabilities SET affected_entity = :affected_entity, identifier = :identifier, risk_statement = :risk_statement, affected_component = :affected_component, residual_risk = :residual_risk, classification = :classification, identified_controls = :identified_controls, cvss_score = :cvss_score, likelihood = :likelihood, cvssv3_code = :cvssv3_code, location = :location, vulnerabilities_description = :vulnerabilities_description, reproduction_steps = :reproduction_steps, impact = :impact, remediation_difficulty = :remediation_difficulty, recommendations = :recommendations, recommended_reading = :recommended_reading, response = :response WHERE id = :vulnerability_id");
             
             // Bind parameters with sanitized data
             $stmt->bindParam(':vulnerability_id', $vulnerability_id, \PDO::PARAM_INT);
@@ -297,7 +296,6 @@ class DataController
             $stmt->bindParam(':recommendations', $sanitizedData['recommendations']);
             $stmt->bindParam(':recommended_reading', $sanitizedData['recommended_reading']);
             $stmt->bindParam(':response', $sanitizedData['response']);
-            $stmt->bindParam(':solved', $sanitizedData['solved'], \PDO::PARAM_BOOL);
             $stmt->execute();
 
             Logger::write('info', 'Updated vulnerability with ID: ' . $vulnerability_id);
@@ -310,6 +308,60 @@ class DataController
             return [
                 'status' => 500,
                 'data' => ['error' => 'Database error']
+            ];
+        }
+    }
+
+    /**
+     * Update the solved status of a vulnerability
+     */
+    public function updateVulnerabilitySolved()
+    {
+        try {
+            $requestBody = file_get_contents('php://input');
+            $data = json_decode($requestBody, true);
+
+            if (!isset($data['vulnerability_id']) || !isset($data['solved'])) {
+                return [
+                    'status' => 400,
+                    'data' => ['error' => 'Missing vulnerability_id or solved status']
+                ];
+            }
+
+            $vulnerabilityId = InputValidator::validateInteger($data['vulnerability_id']);
+            $solved = InputValidator::validateBoolean($data['solved']);
+
+            if ($vulnerabilityId === null) {
+                return [
+                    'status' => 400,
+                    'data' => ['error' => 'Invalid vulnerability ID']
+                ];
+            }
+
+            Logger::write('info', "Updating vulnerability {$vulnerabilityId} solved status to: " . ($solved ? 'true' : 'false'));
+
+            $stmt = $this->pdo->prepare("UPDATE vulnerabilities SET solved = :solved WHERE id = :vulnerability_id");
+            $stmt->bindParam(':solved', $solved, \PDO::PARAM_BOOL);
+            $stmt->bindParam(':vulnerability_id', $vulnerabilityId, \PDO::PARAM_INT);
+            
+            if ($stmt->execute()) {
+                Logger::write('info', "Successfully updated vulnerability {$vulnerabilityId} solved status");
+                return [
+                    'status' => 200,
+                    'data' => ['success' => true, 'message' => 'Vulnerability solved status updated successfully']
+                ];
+            } else {
+                Logger::write('error', "Failed to update vulnerability {$vulnerabilityId} solved status");
+                return [
+                    'status' => 500,
+                    'data' => ['error' => 'Failed to update vulnerability solved status']
+                ];
+            }
+        } catch (\Exception $e) {
+            Logger::write('error', 'Error updating vulnerability solved status: ' . $e->getMessage());
+            return [
+                'status' => 500,
+                'data' => ['error' => 'Internal server error']
             ];
         }
     }
