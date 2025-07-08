@@ -38,3 +38,5 @@ improvements.md
 
 # Composer files
 composer.lock
+
+.env
