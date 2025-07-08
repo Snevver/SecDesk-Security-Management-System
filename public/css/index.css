@@ -132,9 +132,9 @@ li:hover {
   height: 4vh !important;
 }
 
-.collapsed {
+/* .collapsed {
   height: 3vh !important;
-}
+} */
 
 .accordion-button:hover,
 .test-button:hover {
