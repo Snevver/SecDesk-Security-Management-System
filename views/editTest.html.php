@@ -11,122 +11,188 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/edit.css">
     </head>
-    
-    <body class="p-3 d-flex gap-3">
-        <div class="w-50">
-            <!-- Title and Description -->
-            <header>
-                <h1>
-                    Editing <span class="fw-bold" id="test-title">Loading title...</span>
-                </h1>
 
-                <h3 id="test-description">
-                    Loading description...
-                </h3>
-
-                <button class="btn btn-dark" id="edit-test-detail-button">
-                    Edit Test Detail
-                </button>
-            </header>            
-            
-            <!-- Targets -->
-            <div class="border rounded p-2 mt-3" id="target-container">
-                Loading targets...
+ <body class="p-0 m-0 w-100">
+    <!-- HEADER -->
+    <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
+        <div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
+            <!-- Logo -->
+            <div class="d-none d-md-block">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
             </div>
-            
+
+            <!-- Title -->
+            <div class="h-100 d-flex align-items-center">
+                <h1 class="fs-2 m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
+                <span>Security Management System</span>
+            </h1>
+
+            <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
+        </div>
+
+        <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
+        </div>
+    </header>
+
+    <!-- Target List Header -->
+    <header class="d-flex">
+        <div id="targetSubheader" class="collapse show mb-1 mt-1 ms-1 me-1 targetListHeader rounded subHeader1 d-flex justify-content-between align-items-center">
+            <div class="h-100 w-100 fs-2 d-flex flex-nowrap justify-content-center align-items-center">
+                <a href="/" class="back btn mb-0 ms-1 p-0"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-title="Back to tests"
+                data-bs-custom-class="custom-tooltip">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+
+                <h3 class="headerTitle d-none d-xl-block text-center m-0">Targets</h3>
+
+                <div style="width: 36px"></div>
+
+            </div>
+        </div>
+
+        <!-- Edit Section Header -->
+        <div class="mb-1 mt-1 ms-0 me-1 targetListHeader rounded flex-grow-1 d-flex justify-content-center align-items-center">
+            <div id="test-title" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center">
+                <div class="d-flex justify-content-center align-items-center py-5 w-100">
+                    Loading title
+                <div class="spinner-border text-primary ms-2" role="status" aria-label="Loading"></div>
+                </div>
+            </div>
+
             <!-- Add Target Button -->
             <div class="mt-3">
                 <button class="btn btn-success" id="add-target-btn">
                     <i class="bi bi-plus-circle"></i> Add Target
                 </button>
             </div>
+
+
+            <button class="btn btn-dark" id="edit-test-detail-button">
+                Edit Test Detail
+            </button>
+
         </div>
+    </header>
 
-        <div class="w-50 border rounded p-2" id="form-container">
-            <!-- Test Detail form -->
-            <form class="d-none flex-column gap-3" id="test-detail-form">
-                <h1>Test Detail Form</h1>                <div>
-                    <label for="test-title-input">Title:</label>
-                    <input type="text" id="test-title-input" name="test-title" value="" required>
-                </div>
-                <div>
-                    <label for="test-description-input">Description:</label>
-                    <input type="text" id="test-description-input" name="test-description" value="" required>
-                </div>
-                <div>
-                    <button type="submit" id="test-submit">Save Changes</button>
-                </div>
-            </form>
+     <!-- CONTENT -->
+    <div id="targetsMain" class="d-flex h-100 w-100">
 
-            <!-- Target form -->
-            <form class="d-none flex-column gap-3" id="target-form">
-                <h1>Target Form</h1> 
+        <!-- Left side container for sidebar -->
+        <div class="d-flex me-1 w-100">
+            <!-- Targetlist -->
+            <div id="targetSidebarDesktop" class="targetSidebar flex-grow-1 ms-1 overflow-auto">
+                <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list h-100 w-100"></div>
+            </div>
 
-                <div>
-                    <label for="target-title-input">Title:</label>
-                    <input type="text" id="target-title-input" name="target-title" value="" required>
-                </div>
-                <div>
-                    <label for="target-description-input">Description:</label>
-                    <input type="text" id="target-description-input" name="target-description" value="" required>
-                </div>
-                <div>
-                    <button type="submit" id="target-submit">Save Changes</button>
-                </div>
-            </form>
+            <!-- Edit section -->
+            <div id="vulnerabilityDetails" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto">
+                <div class="vulnerability-details d-flex flex-column h-100 w-100 flex-grow-1">
 
-            <!-- Vulnerability Form -->
-            <form class="d-none flex-column gap-3" id="vulnerability-form">
-                <h1>Vulnerability Form</h1>           
-
-                <div>
-                    <label for="affected_entity">Vulnerability Name:</label>
-                    <input type="text" id="affected_entity" name="affected_entity" value="" required>
+                    <div class="p-2" id="form-container">
+<!-- Test Detail form -->
+<form class="d-none flex-column gap-3" id="test-detail-form">
+    <h1>Test Detail Form</h1>
+    <div class="divTable modern-table rounded shadow-sm mb-4">
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Title:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="test-title-input" name="test-title" value="Loading..." required>
                 </div>
-
-                <div>
-                    <label for="identifier">Identifier:</label>
-                    <input type="text" id="identifier" name="identifier" value="" required>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Description:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="test-description-input" name="test-description" value="Loading..." required>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="submit" id="test-submit">Save Changes</button>
+    </div>
+</form>
 
-                <div>
-                    <label for="risk_statement">Risk statement:</label>
-                    <input type="text" id="risk_statement" name="risk_statement" value="" required>
+<!-- Target form -->
+<form class="d-none flex-column gap-3" id="target-form">
+    <h1>Target Form</h1>
+    <div class="divTable modern-table rounded shadow-sm mb-4">
+        <div class="divTableBody">
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Title:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
                 </div>
-
-                <div>
-                    <label for="affected_component">Affected Component:</label>
-                    <input type="text" id="affected_component" name="affected_component" value="" required>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Description:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="submit" id="target-submit">Save Changes</button>
+    </div>
+</form>
 
-                <div>
-                    <label for="residual_risk">Residual Risk:</label>
-                    <select id="residual_risk" name="residual_risk" required>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                        <option value="Critical">Critical</option>
-                    </select>
+<!-- Vulnerability Form -->
+<form class="d-none flex-column gap-3" id="vulnerability-form">
+    <h1>Vulnerability Form</h1>
+    <div class="divTable modern-table rounded shadow-sm mb-4">
+        <div class="divTableBody">
+            <div class="divTableRow" style="background: #f8f9fa;">
+                <div class="divTableCell py-2 px-2"><strong>Vulnerability Name:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="affected_entity" name="affected_entity" required>
                 </div>
-
-                <div>
-                    <label for="classification">classification:</label>
-                    <input type="text" id="classification" name="classification" value="" required>
+                <div class="divTableCell py-2 px-2"><strong>Identifier:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="identifier" name="identifier" required>
                 </div>
-
-                <div>
-                    <label for="identified_controls">identified Controls:</label>
-                    <input type="text" id="identified_controls" name="identified_controls" value="" required>
-                </div>
-
-                <div>
-                    <label for="cvss_score">CVSS Score:</label>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>CVSS Score:</strong></div>
+                <div class="divTableCell py-2 px-2">
                     <input type="number" id="cvss_score" name="cvss_score" step="0.1" min="0" max="10" value="0" required>
                 </div>
-
-                <div>
-                    <label for="likelihood">Likelihood:</label>
+                <div class="divTableCell py-2 px-2"><strong>CVSS v3 Code:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="cvssv3_code" name="cvssv3_code" value="0" required>
+                </div>
+            </div>
+            <div class="divTableRow" style="background: #f8f9fa;">
+                <div class="divTableCell py-2 px-2"><strong>Classification:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="classification" name="classification" required>
+                </div>
+                <div class="divTableCell py-2 px-2"><strong>Affected Component:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="affected_component" name="affected_component" required>
+                </div>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Location:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="location" name="location" required>
+                </div>
+                <div class="divTableCell py-2 px-2"><strong>Identified Controls:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="identified_controls" name="identified_controls" required>
+                </div>
+            </div>
+            <div class="divTableRow" style="background: #f8f9fa;">
+                <div class="divTableCell py-2 px-2"><strong>Likelihood:</strong></div>
+                <div class="divTableCell py-2 px-2">
                     <select name="likelihood" id="likelihood">
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
@@ -134,65 +200,79 @@
                         <option value="Critical">Critical</option>
                     </select>
                 </div>
-
-                <div>
-                    <label for="cvssv3_code">CVSSV3 Code:</label>
-                    <input type="text" id="cvssv3_code" name="cvssv3_code" value="0" required>
+                <div class="divTableCell py-2 px-2"><strong>Residual Risk:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <select id="residual_risk" name="residual_risk" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
                 </div>
-
-                <div>
-                    <label for="location">Location:</label>
-                    <input type="text" id="location" name="location" value="" required>
+            </div>
+            <div class="divTableRow">
+                <div class="divTableCell py-2 px-2"><strong>Risk Statement:</strong></div>
+                <div class="divTableCell py-2 px-2">
+                    <input type="text" id="risk_statement" name="risk_statement" required>
                 </div>
-
-                <div>
-                    <label for="vulnerabilities_description">Description:</label>
-                    <textarea id="vulnerabilities_description" name="vulnerabilities_description" rows="3" required></textarea>
-                </div>
-
-                <div>
-                    <label for="reproduction_steps">Reproduction Steps:</label>
-                    <textarea id="reproduction_steps" name="reproduction_steps" rows="5" required></textarea>
-                </div>
-
-                <div>
-                    <label for="impact">Impact:</label>
-                    <textarea id="impact" name="impact" rows="3" required></textarea>
-                </div>
-
-                <div>
-                    <label for="remediation_difficulty">Remediation Difficulty:</label>
+                <div class="divTableCell py-2 px-2"><strong>Remediation Difficulty:</strong></div>
+                <div class="divTableCell py-2 px-2">
                     <select name="remediation_difficulty" id="remediation_difficulty">
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
                 </div>
-
-                <div>
-                    <label for="recommendations">Recommendations:</label>
-                    <textarea id="recommendations" name="recommendations" rows="3" required></textarea>
-                </div>
-
-                <div>
-                    <label for="recommended_reading">Recommended Reading:</label>
-                    <textarea id="recommended_reading" name="recommended_reading" rows="2" required></textarea>
-                </div>
-
-                <div>
-                    <label for="vulnerability-response-input">Response:</label>
-                    <textarea id="vulnerability-response-input" name="vulnerability-response" rows="2"></textarea>
-                </div>
-
-                <div>
-                    <label for="vulnerability-solved-input">Solved?</label>
-                    <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
-                </div>
-
-                <div>
-                    <button type="submit" id="vulnerability-submit">Save Changes</button>
-                </div>
-            </form>
+            </div>
         </div>
+    </div>
+
+    <!-- Textareas below the table -->
+    <div class="mt-3">
+        <label for="vulnerabilities_description"><strong>Description:</strong></label>
+        <textarea class="form-control" id="vulnerabilities_description" name="vulnerabilities_description" rows="3" required></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="reproduction_steps"><strong>Reproduction Steps:</strong></label>
+        <textarea class="form-control" id="reproduction_steps" name="reproduction_steps" rows="5" required></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="impact"><strong>Impact:</strong></label>
+        <textarea class="form-control" id="impact" name="impact" rows="3" required></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="recommendations"><strong>Recommendations:</strong></label>
+        <textarea class="form-control" id="recommendations" name="recommendations" rows="3" required></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="recommended_reading"><strong>Recommended Reading:</strong></label>
+        <textarea class="form-control" id="recommended_reading" name="recommended_reading" rows="2" required></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="vulnerability-response-input"><strong>Response:</strong></label>
+        <textarea class="form-control" id="vulnerability-response-input" name="vulnerability-response" rows="2"></textarea>
+    </div>
+
+    <div class="mt-3">
+        <label for="vulnerability-solved-input"><strong>Solved?</strong></label>
+        <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" id="vulnerability-submit">Save Changes</button>
+    </div>
+</form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     </body>
 </html>
