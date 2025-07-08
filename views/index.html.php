@@ -107,7 +107,8 @@
 						<div id="testListAccordion" class="accordion row ms-3 me-3"></div>
 					</div>
 				</section>
-			</main>		</div>
+			</main>		
+		</div>
 
 		<!-- Change Password Modal -->
 		<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
