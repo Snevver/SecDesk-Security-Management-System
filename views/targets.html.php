@@ -18,27 +18,41 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 
-<body class="p-0 m-0 w-100">
-		<!-- HEADER -->
-		<header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
-			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
-				<!-- Logo -->
-				<div class="d-none d-md-block">
-					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
-				</div>
+<body class="p-0 m-0 w-100 vh-100 overflow-hidden">
+    <!-- HEADER -->
+    <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
+        <div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-center h-100 w-100">
+            <!-- Logo -->
+            <div class="d-none d-md-block">
+                <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
+            </div>
 
-				<!-- Title -->
-				<div class="h-100 d-flex align-items-center">
-					<h1 class="m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
+            <!-- Title -->
+            <div class="h-100 d-flex align-items-center">
+                <h1 class="m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
                     <span>Security Management System</span>
                 </h1>
 
-                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
+                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="h-100 img-fluid d-lg-none pt-2 pb-2">
             </div>
 
             <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
         </div>
     </header>
+
+    <!-- Sidebar Toggle Button for Mobile -->
+    <button
+        class="btn btn-light position-fixed top-0 start-0 m-2 d-sm-none z-1030"
+        type="button"
+        style="width: 48px; height: 48px;"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#targetSidebarMobile"
+        aria-controls="targetSidebarMobile"
+        aria-expanded="false"
+        aria-label="Toggle sidebar"
+    >
+        <i class="bi bi-list fs-3"></i>
+    </button>
 
     <!-- Target List Header -->
     <header class="d-flex">
@@ -54,13 +68,14 @@
                     </svg>
                 </a>
 
-                <button id="mobileSidebarToggleBtn" class="back border-0 d-xl-none btn-outline-secondary mb-2 ms-0 mt-2"
+            <button id="mobileSidebarToggleBtn"
+                class="back border-0 d-none d-sm-block d-xl-none btn-outline-secondary mb-2 ms-0 mt-2"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#targetSidebarMobile"
                 aria-controls="targetSidebarMobile">
-                    <i class="bi bi-list fs-1"></i>
-                </button>
+                <i class="bi bi-list fs-1"></i>
+            </button>
 
                 <h3 class="headerTitle d-none d-xl-block text-center m-0">Targets</h3>
 
@@ -77,7 +92,7 @@
 
         <!-- Vulnerability Details Header -->
         <div class="mb-1 mt-1 ms-0 me-1 targetListHeader rounded flex-grow-1 d-flex justify-content-center align-items-center">
-            <div id="vulnerabilityDetailsHeader" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center">
+            <div id="vulnerabilityDetailsHeader" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center text-truncate">
                 <div class="d-flex justify-content-center align-items-center py-5 w-100">
                     Loading test name...
                 <div class="spinner-border text-primary ms-2" role="status" aria-label="Loading"></div>

@@ -39,9 +39,23 @@
         </div>
     </header>
 
+    <!-- Sidebar Toggle Button for Mobile -->
+    <button
+    class="btn btn-light position-fixed top-0 start-0 m-2 d-md-none z-1030"
+    type="button"
+    style="width: 48px; height: 48px;"
+    data-bs-toggle="collapse"
+    data-bs-target="#sidebarCollapse"
+    aria-controls="sidebarCollapse"
+    aria-expanded="false"
+    aria-label="Toggle sidebar"
+    >
+    <i class="bi bi-list fs-3"></i>
+    </button>
+
     <!-- SIDEBAR -->
     <div class="content-wrapper d-flex">
-        <div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
+        <div id="sidebarCollapse" class="collapse d-md-flex flex-column flex-shrink-0 bg-light">
             <!-- Logo only -->
             <a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
                 <img src="images/logo-only.webp" alt="SecDesk Logo" class="logo-only">
@@ -117,7 +131,7 @@
                     <div class="col-md-12">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3 mb-md-0">
                                 <div class="card">
                                     <div class="card-header in-progress text-white">
                                         <h5 class="mb-0">

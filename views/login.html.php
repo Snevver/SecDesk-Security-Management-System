@@ -25,11 +25,11 @@
         </header>
 
         <!-- LOGIN SECTION -->
-        <main id="loginMain" class="container-fluid d-flex flex-column">
+        <main id="loginMain" class="container-fluid d-flex flex-column pb-15">
             <div id="mainFlexWrapper" class="row flex-grow-1 d-flex align-items-start">
                 <div class="col-12 col-md-4 d-flex ps-xl-5 ps-3 pe-md-0 pb-3 pb-md-0">
                     <div id="loginWrapper" class="w-100 d-flex align-items-center justify-content-center">
-                        <section id="loginSection" class="w-100">
+                        <section id="loginSection" class="w-100 d-flex justify-content-center align-items-center">
                             <div id="loginContainer" class="col-12 h-100 h-sm-0 d-flex flex-column justify-content-center w-100 align-items-center">
                                 <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid w-100 mb-sm-0 mb-0">
 

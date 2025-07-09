@@ -23,7 +23,7 @@
 	<body class="p-0 m-0 w-100">
 		<!-- HEADER -->
 		<header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
-			<div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
+			<div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-center h-100 w-100">
 				<!-- Logo -->
 				<div class="d-none d-md-block">
 					<img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
@@ -35,18 +35,30 @@
 						<span>Security Management System</span>
 					</h1>
 
-					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none">
+					<img src="images/sms-simple.webp" alt="SecDesk Logo" class="h-100 img-fluid d-lg-none pt-2 pb-2">
 				</div>
 
-  				<div class="d-none d-md-block" style="min-width: 101.4px;"></div>
+				<div class="d-none d-md-block" style="min-width: 101.4px;"></div>
 			</div>
 		</header>
 
-
+		<!-- Sidebar Toggle Button for Mobile -->
+		<button
+		class="btn btn-light position-fixed top-0 start-0 m-2 d-md-none z-1030"
+		type="button"
+		style="width: 48px; height: 48px;"
+		data-bs-toggle="collapse"
+		data-bs-target="#sidebarCollapse"
+		aria-controls="sidebarCollapse"
+		aria-expanded="false"
+		aria-label="Toggle sidebar"
+		>
+		<i class="bi bi-list fs-3"></i>
+		</button>
 
 		<!-- SIDEBAR -->
 		<div class="content-wrapper d-flex">
-			<div id="sidebar" class="d-flex flex-column flex-shrink-0 bg-light">
+			<div id="sidebarCollapse" class="collapse d-md-flex flex-column flex-shrink-0 bg-light">
 				<!-- Logo only -->
 				<a href="/" class="d-block p-3 link-dark text-decoration-none" title="Icon-only" data-bs-toggle="tooltip" data-bs-placement="right">
 					<img src="images/logo-only.webp" alt="SecDesk Logo" class="logo-only">

@@ -7,15 +7,10 @@ async function getEmployeesTests() {
       credentials: "same-origin",
     });
     const data = await response.json();
-    console.log(data);
 
     const completedTestsContainer = document.getElementById("completed-tests");
     const inProgressTestsContainer =
       document.getElementById("tests-in-progress");
-
-    // Clear existing content
-    // completedTestsContainer.innerHTML = '';
-    // inProgressTestsContainer.innerHTML = '';
 
     // Display completed tests
     if (data.completedTests && data.completedTests.length > 0) {
@@ -38,7 +33,6 @@ async function getEmployeesTests() {
                     </div>
                 `;
       }
-      console.log("Completed tests HTML:", completedHTML);
       completedTestsContainer.innerHTML = completedHTML;
     } else {
       completedTestsContainer.innerHTML = "<p>No completed tests found.</p>";
@@ -57,7 +51,7 @@ async function getEmployeesTests() {
                                 <div class="fw-bold fs-5">${test.test_name && test.test_name !== 'null' ? test.test_name : "Untitled Test"}</div>
                                 <p class="mb-1"><strong>Customer:</strong> ${customerEmail}</p>
                             </div>
-                            <div class="d-flex flex-column gap-2 align-items-end" style="min-width: 60px;">
+                            <div class="d-flex flex-column gap-2 align-items-center align-items-sm-end" style="min-width: 60px;">
                                 <button class="btn btn-sm btn-success text-nowrap" onclick="toggleTestCompletion(${test.id}, true)" title="Mark as Completed"><i class="bi bi-check-lg"></i></button>
                                 <button class="btn btn-sm btn-primary" onclick='window.location.href = "/edit?test_id=${test.id}"' title="Edit Test"><i class="bi bi-pencil-fill"></i></button>
                                 <button class="btn btn-sm btn-danger" onclick="deleteTest(${test.id})" title="Delete Test"><i class="bi bi-trash"></i></button>
@@ -66,7 +60,6 @@ async function getEmployeesTests() {
                     </div>
                 `;
       }
-      console.log("Non-completed tests HTML:", inProgressHTML);
       inProgressTestsContainer.innerHTML = inProgressHTML;
     } else {
       inProgressTestsContainer.innerHTML = "<p>No tests in progress.</p>";
@@ -151,7 +144,9 @@ function deleteTest(testId) {
   }
 }
 
-// Populate the Bootstrap dropdown with customer emails
+/**
+ * Populate the customer dropdown with all customers
+ */
 function populateCustomerDropdown() {
   fetch("/api/get-all-customers", {
     credentials: "same-origin",

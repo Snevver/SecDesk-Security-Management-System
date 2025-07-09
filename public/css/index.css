@@ -132,9 +132,13 @@ li:hover {
   height: 4vh !important;
 }
 
-.collapsed {
-  height: 3vh !important;
+.z-1030 {
+  z-index: 1030 !important;
 }
+
+/* .collapsed {
+  height: 3vh !important;
+} */
 
 .accordion-button:hover,
 .test-button:hover {
