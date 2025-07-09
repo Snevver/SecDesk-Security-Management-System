@@ -152,7 +152,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" form="changePasswordForm" class="btn btn-modal-submit">Change Password</button>
+						<button id="changePasswordSubmit" type="submit" form="changePasswordForm" class="btn btn-modal-submit">Change Password</button>
 					</div>
 				</div>
 			</div>

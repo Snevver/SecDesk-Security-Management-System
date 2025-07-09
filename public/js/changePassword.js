@@ -2,8 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Change password script loaded');
     const changePasswordForm = document.getElementById('changePasswordForm');
-    const passwordError = document.getElementById('passwordError');
-    const passwordSuccess = document.getElementById('passwordSuccess');
+    const changePasswordMessage = document.getElementById('changePasswordMessage');
     const changePasswordModal = document.getElementById('changePasswordModal');
     const changePasswordButtons = document.querySelectorAll(
         '[data-bs-target="#changePasswordModal"]',
@@ -11,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Elements found:', {
         form: !!changePasswordForm,
         modal: !!changePasswordModal,
+        message: !!changePasswordMessage,
         buttons: changePasswordButtons.length,
     });
 
@@ -129,33 +129,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Show error message
     function showError(message) {
-        if (passwordError) {
-            passwordError.textContent = message;
-            passwordError.classList.remove('d-none');
-        }
-        if (passwordSuccess) {
-            passwordSuccess.classList.add('d-none');
+        if (changePasswordMessage) {
+            changePasswordMessage.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`;
         }
     }
 
     // Show success message
     function showSuccess(message) {
-        if (passwordSuccess) {
-            passwordSuccess.textContent = message;
-            passwordSuccess.classList.remove('d-none');
-        }
-        if (passwordError) {
-            passwordError.classList.add('d-none');
+        if (changePasswordMessage) {
+            changePasswordMessage.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`;
         }
     }
 
     // Hide all messages
     function hideMessages() {
-        if (passwordError) {
-            passwordError.classList.add('d-none');
-        }
-        if (passwordSuccess) {
-            passwordSuccess.classList.add('d-none');
+        if (changePasswordMessage) {
+            changePasswordMessage.innerHTML = '';
         }
     }
 
