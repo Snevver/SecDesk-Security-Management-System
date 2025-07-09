@@ -81,8 +81,20 @@
   color: white;
 }
 
-.custom-tooltip {
-  --bs-tooltip-bg: var(--light-background-color);
+/* Override Bootstrap's default tooltip styles with high specificity */
+.tooltip.show.bs-tooltip-auto[data-popper-placement],
+.tooltip.show.bs-tooltip-top,
+.tooltip.show.custom-tooltip {
+  --bs-tooltip-bg: #181328 !important;
+  --bs-tooltip-color: white !important;
+  opacity: 1 !important;
+}
+
+.tooltip.show.custom-tooltip .tooltip-inner,
+.tooltip.show.bs-tooltip-auto[data-popper-placement] .tooltip-inner {
+  background-color: #181328 !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .accordion-button:not(.collapsed)::after {
@@ -93,36 +105,49 @@
   border-right: 0 !important;
 }
 
-.divTable {
+.divTable,
+table.modern-table {
   display: table;
   width: 100%;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
-.divTableRow {
+
+.divTableRow,
+table.modern-table tr {
   display: table-row;
 }
 
-.divTableCell {
+.divTableCell,
+table.modern-table td,
+table.modern-table th {
   border: 2px solid #ccc;
   display: table-cell;
   padding: 3px 10px;
 }
 
-.divTableBody {
+.divTableBody,
+table.modern-table tbody {
   display: table-row-group;
 }
 
-.divTableCell:nth-of-type(odd) {
+.divTableCell:nth-of-type(odd),
+table.modern-table td:nth-of-type(odd),
+table.modern-table th:nth-of-type(odd) {
   background-color: #6962ea7b;
   white-space: nowrap;
 }
 
-.divTableRow:nth-child(odd) .divTableCell:nth-of-type(even) {
+.divTableRow:nth-child(odd) .divTableCell:nth-of-type(even),
+table.modern-table tr:nth-child(odd) td:nth-of-type(even),
+table.modern-table tr:nth-child(odd) th:nth-of-type(even) {
   background-color: var(--light-background-color);
 }
-.divTableRow:nth-child(even) .divTableCell:nth-of-type(even) {
+
+.divTableRow:nth-child(even) .divTableCell:nth-of-type(even),
+table.modern-table tr:nth-child(even) td:nth-of-type(even),
+table.modern-table tr:nth-child(even) th:nth-of-type(even) {
   background-color: #f9f9f9;
 }
 
@@ -236,33 +261,40 @@
 }
 
 @media (max-width: 1024px) {
-  .divTable .divTableRow {
+  .divTable .divTableRow,
+  table.modern-table tr {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
     padding: 0.5rem;
   }
 
-  .divTable .divTableCell {
+  .divTable .divTableCell,
+  table.modern-table td,
+  table.modern-table th {
     padding: 0.5rem !important;
     display: flex;
     align-items: center;
     min-height: 42px;
   }
 
-  .divTable .divTableCell strong {
+  .divTable .divTableCell strong,
+  table.modern-table td strong,
+  table.modern-table th strong {
     margin-right: 0.5rem;
     white-space: nowrap;
   }
 }
 
-/* Mobile optimizations */
 @media (max-width: 576px) {
-  .divTable .divTableRow {
+  .divTable .divTableRow,
+  table.modern-table tr {
     grid-template-columns: 1fr;
   }
 
-  .divTable .divTableCell {
+  .divTable .divTableCell,
+  table.modern-table td,
+  table.modern-table th {
     padding: 0.25rem !important;
   }
 
@@ -275,4 +307,35 @@
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
+}
+
+.form-switch .form-check-input:checked {
+  background-color: var(--header-color) !important;
+  border: #6962ea7b !important;
+}
+
+/* Base header styles */
+.targetListHeader {
+  min-width: 0; /* Allow flex items to shrink below their minimum content size */
+}
+
+#vulnerabilityDetailsHeader {
+  width: 100%;
+  min-width: 0;
+}
+
+#vulnerabilityDetailsHeader > div {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Ensure the text span can shrink */
+#vulnerabilityDetailsHeader .text-truncate {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Ensure the spinner stays visible */
+#vulnerabilityDetailsHeader .spinner-border {
+  flex: 0 0 auto;
 }

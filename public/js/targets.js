@@ -126,43 +126,50 @@ function addTargetListeners(targetListElement) {
  * @param {int} target_id The ID of the target to fetch vulnerabilities for
  * @param {int} listId The ID of the list element to populate with vulnerabilities
  */
-function fetchVulnerabilities(target_id, listId) {
-    console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
-    fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
-        .then((response) => {
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.json();
-        })
-        .then((data) => {
-            // Find the correct vulnerability list element in the correct sidebar
-            const vulnListSelector = `#vulns-for-${target_id}`;
-            const vulnerabilityListElement = document.querySelector(
-                `#${listId} ${vulnListSelector}`
-            );
-            if (
-                !data ||
-                !data.vulnerabilities ||
-                data.vulnerabilities.length === 0
-            ) {
-                vulnerabilityListElement.innerHTML = `<p class="p-2 ps-2 fs-7 text-muted m-0">No vulnerabilities found.</p>`;
-                return;
-            }
-            let vulnerabilityList = "";
-            for (let vulnerability of data.vulnerabilities) {
-                const solvedStatus = vulnerability.solved ? 'checked' : '';
-                vulnerabilityList += `
-              <div style="display: flex; align-items: center;">
+function fetchVulnerabilities(target_id, listId, selectedVulnId = null) {
+  let activeVulnId = selectedVulnId || null;
+  // Only check for active button if no selectedVulnId was passed
+  if (!activeVulnId) {
+    const activeVulnButton = document.querySelector(".vuln-button.active");
+    if (activeVulnButton) {
+      activeVulnId = activeVulnButton.id.replace("vulnerability-", "");
+    }
+  }
+  console.log(`Fetching vulnerabilities for target ID: ${target_id}`);
+  fetch(`/api/get-all-vulnerabilities?target_id=${target_id}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
+    .then((data) => {
+      // Find the correct vulnerability list element in the correct sidebar
+      const vulnListSelector = `#vulns-for-${target_id}`;
+      const vulnerabilityListElement = document.querySelector(
+        `#${listId} ${vulnListSelector}`
+      );
+      if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
+        vulnerabilityListElement.innerHTML = `<p class="p-2 ps-2 fs-7 text-muted m-0">No vulnerabilities found.</p>`;
+        return;
+      }
+      let vulnerabilityList = "";
+      for (let vulnerability of data.vulnerabilities) {
+        const solvedStatus = vulnerability.solved ? "checked" : "";
+        vulnerabilityList += `
+              <div class="d-flex align-items-center">
                 <button id="vulnerability-${vulnerability.id}" class="d-flex target-button vuln-button p-1 align-items-center" style="flex-grow: 1; border: none; background: transparent;">
                   <p class="m-0 ps-2 text-nowrap text-truncate">
                     ${vulnerability.affected_entity}
                   </p>
                 </button>
-                <input type="checkbox" id="solved-${vulnerability.id}" ${solvedStatus} 
-                       onchange="toggleVulnerabilitySolved(${vulnerability.id}, this.checked)"
-                       style="margin-left: 8px;" title="Mark as solved">
+                <div class="form-check form-switch m-0 ms-2">
+                    <input class="form-check-input" type="checkbox" id="solved-${vulnerability.id}" ${solvedStatus}
+                    onchange="toggleVulnerabilitySolved(${vulnerability.id}, this.checked)"
+                    title="Mark as solved">
+                </div>
+
               </div>`;
-            }
-            vulnerabilityListElement.innerHTML = vulnerabilityList;
+      }
+      vulnerabilityListElement.innerHTML = vulnerabilityList;
 
       // Add event listeners for vulnerability clicks
       const vulnerabilityElements = vulnerabilityListElement.querySelectorAll(
@@ -182,7 +189,22 @@ function fetchVulnerabilities(target_id, listId) {
           }
         });
       });
+      if (activeVulnId) {
+        const vulnToReselect = data.vulnerabilities.find(
+          (v) => v.id == activeVulnId
+        );
+        if (vulnToReselect) {
+          const newVulnButton = vulnerabilityListElement.querySelector(
+            `#vulnerability-${activeVulnId}`
+          );
+          if (newVulnButton) {
+            newVulnButton.classList.add("active");
+            showVulnerabilityDetails(vulnToReselect);
+          }
+        }
+      }
     })
+
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);
     });
@@ -462,7 +484,10 @@ fetch(`/api/get-test`, {
     );
 
     if (detailsHeaderElement) {
-      detailsHeaderElement.innerHTML = `${data.test_name}`;
+      detailsHeaderElement.innerHTML = `
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <span class="text-truncate">${data.test_name}</span>
+        </div>`;
     }
   })
   .catch((error) => {
@@ -494,39 +519,55 @@ icon.addEventListener("click", () => {
  * @param {boolean} solved - Whether the vulnerability is solved
  */
 function toggleVulnerabilitySolved(vulnerabilityId, solved) {
-    fetch('/api/update-vulnerability-solved', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({
-            vulnerability_id: vulnerabilityId,
-            solved: solved
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log(`Vulnerability ${vulnerabilityId} solved status updated to: ${solved}`);
-            // Optionally show a success message or update UI
-        } else {
-            console.error('Error updating vulnerability solved status:', data.error);
-            // Revert the checkbox state on error
-            const checkbox = document.getElementById(`solved-${vulnerabilityId}`);
-            if (checkbox) {
-                checkbox.checked = !solved;
-            }
-            alert('Error updating vulnerability status: ' + (data.error || 'Unknown error'));
+  fetch("/api/update-vulnerability-solved", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      vulnerability_id: vulnerabilityId,
+      solved: solved,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        // Find the active target to refresh its vulnerabilities
+        const activeTargetButton = document.querySelector(
+          ".accordion-button.active"
+        );
+        if (activeTargetButton) {
+          const targetId = activeTargetButton.id.replace("target-", "");
+          const listId = activeTargetButton.closest(".accordion").id;
+          // Store currently selected vulnerability ID from the clicked toggle
+          const currentVulnId = vulnerabilityId;
+          // Refresh the vulnerability list and reselect current vulnerability
+          fetchVulnerabilities(targetId, listId, currentVulnId);
         }
-    })
-    .catch(error => {
-        console.error('Error updating vulnerability solved status:', error);
+      } else {
+        console.error(
+          "Error updating vulnerability solved status:",
+          data.error
+        );
         // Revert the checkbox state on error
         const checkbox = document.getElementById(`solved-${vulnerabilityId}`);
         if (checkbox) {
-            checkbox.checked = !solved;
+          checkbox.checked = !solved;
         }
-        alert('Error updating vulnerability status: ' + error.message);
+        alert(
+          "Error updating vulnerability status: " +
+            (data.error || "Unknown error")
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating vulnerability solved status:", error);
+      // Revert the checkbox state on error
+      const checkbox = document.getElementById(`solved-${vulnerabilityId}`);
+      if (checkbox) {
+        checkbox.checked = !solved;
+      }
+      alert("Error updating vulnerability status: " + error.message);
     });
 }

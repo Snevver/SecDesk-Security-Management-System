@@ -13,8 +13,8 @@ $statusMessages = [
     503 => 'Service Unavailable'
 ];
 
-$friendlyTitle = isset($statusMessages[$statusCode]) ? 
-    "{$statusMessages[$statusCode]}" : 
+$friendlyTitle = isset($statusMessages[$statusCode]) ?
+    "{$statusMessages[$statusCode]}" :
     "Error";
 
 // Descriptions
@@ -27,8 +27,8 @@ $descriptions = [
     503 => 'The service is temporarily unavailable. Please try again later.'
 ];
 
-$description = isset($descriptions[$statusCode]) ? 
-    $descriptions[$statusCode] : 
+$description = isset($descriptions[$statusCode]) ?
+    $descriptions[$statusCode] :
     'An unexpected error occurred. Please try again later.';
 ?>
 <!DOCTYPE html>
@@ -49,9 +49,9 @@ $description = isset($descriptions[$statusCode]) ?
             align-items: center;
             justify-content: center;
         }
-        
+
         .error-container {
-            background: white;
+            background: #e1dbf1;
             padding: 3rem;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -59,28 +59,28 @@ $description = isset($descriptions[$statusCode]) ?
             max-width: 500px;
             width: 90%;
         }
-        
+
         .error-code {
             font-size: 6rem;
             font-weight: bold;
-            color: #e74c3c;
+            color: #6862ea;
             margin: 0;
             line-height: 1;
         }
-        
+
         .error-title {
             font-size: 1.5rem;
             color: #2c3e50;
             margin: 1rem 0;
             font-weight: 600;
         }
-        
+
         .error-description {
             color: #7f8c8d;
             margin: 1.5rem 0;
             line-height: 1.6;
         }
-        
+
         .action-buttons {
             margin-top: 2rem;
             display: flex;
@@ -88,7 +88,7 @@ $description = isset($descriptions[$statusCode]) ?
             justify-content: center;
             flex-wrap: wrap;
         }
-        
+
         .btn {
             padding: 12px 24px;
             border: none;
@@ -99,46 +99,46 @@ $description = isset($descriptions[$statusCode]) ?
             transition: all 0.3s ease;
             display: inline-block;
         }
-        
+
         .btn-primary {
             background-color: #6862ea;
             color: white;
         }
-        
+
         .btn-primary:hover {
             background-color: #5a54d6;
             transform: translateY(-2px);
         }
-        
+
         .btn-secondary {
             background-color: #55e5a0;
             color: #333;
         }
-        
+
         .btn-secondary:hover {
             background-color: #4dd394;
             transform: translateY(-2px);
         }
-        
+
         .logo {
             max-width: 200px;
             margin-bottom: 1rem;
         }
-        
+
         @media (max-width: 480px) {
             .error-container {
                 padding: 2rem 1.5rem;
             }
-            
+
             .error-code {
                 font-size: 4rem;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .btn {
                 width: 200px;
             }
@@ -146,11 +146,13 @@ $description = isset($descriptions[$statusCode]) ?
     </style>
 </head>
 <body>
-    <div class="error-container">        
+    <div class="error-container">
+        <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
+
         <div class="error-code"><?= $statusCode ?></div>
         <h1 class="error-title"><?= htmlspecialchars($friendlyTitle) ?></h1>
         <p class="error-description"><?= htmlspecialchars($description) ?></p>
-        
+
         <div class="action-buttons">
             <a href="/" class="btn btn-primary">Go Home</a>
             <button class="btn btn-secondary" onclick="window.history.back()">Go Back</button>

@@ -42,7 +42,7 @@
 
     <!-- Sidebar Toggle Button for Mobile -->
     <button
-        class="btn btn-light position-fixed top-0 start-0 m-2 d-sm-none z-1030"
+        class="btn btn-light position-fixed top-0 start-0 m-2 d-md-none z-1030"
         type="button"
         style="width: 48px; height: 48px;"
         data-bs-toggle="offcanvas"
@@ -69,7 +69,7 @@
                 </a>
 
             <button id="mobileSidebarToggleBtn"
-                class="back border-0 d-none d-sm-block d-xl-none btn-outline-secondary mb-2 ms-0 mt-2"
+                class="back border-0 d-none d-md-block d-xl-none btn-outline-secondary mb-2 ms-0 mt-2"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#targetSidebarMobile"
@@ -92,7 +92,7 @@
 
         <!-- Vulnerability Details Header -->
         <div class="mb-1 mt-1 ms-0 me-1 targetListHeader rounded flex-grow-1 d-flex justify-content-center align-items-center">
-            <div id="vulnerabilityDetailsHeader" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center text-truncate">
+            <div id="vulnerabilityDetailsHeader" class="h-100 fs-2 d-flex flex-nowrap justify-content-start align-items-center text-center">
                 <div class="d-flex justify-content-center align-items-center py-5 w-100">
                     Loading test name...
                 <div class="spinner-border text-primary ms-2" role="status" aria-label="Loading"></div>
@@ -141,7 +141,6 @@
         <div id="vulnerabilityDetails" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto">
             <div class="vulnerability-details d-flex flex-column h-100 w-100 flex-grow-1">
                 <div id="vulnDetailsPlaceholder" class="placeholder-container d-flex flex-column justify-content-center align-items-center h-100 w-100 flex-grow-1">
-                    <!-- Optional illustration (SVG or image) -->
                     <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="mb-4" style="max-width: 220px;">
 
                     <svg width="64" height="64" fill="none" class="mb-3" viewBox="0 0 64 64">
