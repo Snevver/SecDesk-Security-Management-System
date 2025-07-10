@@ -57,7 +57,7 @@ const testId = urlParams.get("test_id");
 // Get DOM elements
 const titleInputElement = document.getElementById("test-title-input");
 const descriptionInputElement = document.getElementById(
-    "test-description-input",
+  "test-description-input"
 );
 
 /**
@@ -71,10 +71,22 @@ function editEntity(entityType, entityId) {
   // Store the current editing entity information for save operations
   window.currentEditingEntityType = entityType;
   window.currentEditingEntityId = entityId;
+
   if (entityType === "target") {
     window.currentEditingTargetId = entityId;
   } else if (entityType === "vulnerability") {
     window.currentEditingVulnerabilityId = entityId;
+    // Remove active state from all vulnerability items
+    document.querySelectorAll(".vulnerability-item").forEach((item) => {
+      item.classList.remove("active");
+    });
+    // Add active state to the clicked vulnerability
+    const vulnerabilityItem = document.querySelector(
+      `.vulnerability-item[data-vulnerability-id="${entityId}"]`
+    );
+    if (vulnerabilityItem) {
+      vulnerabilityItem.classList.add("active");
+    }
   }
 
   const apiEndpoints = {
@@ -344,9 +356,9 @@ function updateTestData() {
   // Validate inputs
   const validatedTitle = validateInput(titleInput.value, "Test Title", 255);
   const validatedDescription = validateInput(
-      descriptionInput.value,
-      "Test Description",
-      2000,
+    descriptionInput.value,
+    "Test Description",
+    2000
   );
 
   fetch(`/update-test`, {
@@ -379,10 +391,10 @@ function updateTestData() {
  * Update the target with the new data
  */
 function updateTargetData() {
-    const targetTitleElement = document.getElementById("target-title-input");
-    const targetDescriptionElement = document.getElementById(
-        "target-description-input",
-    );
+  const targetTitleElement = document.getElementById("target-title-input");
+  const targetDescriptionElement = document.getElementById(
+    "target-description-input"
+  );
 
   if (!targetTitleElement || !targetDescriptionElement) {
     console.error("Error: Target form fields not found");
@@ -517,12 +529,11 @@ function fetchTestTargets() {
       for (let target of data.targets) {
         targetList += `
     <div class="accordion-item w-100">
-        <div class="d-flex">
+        <div class="d-xl-flex flex-column flex-xl-row">
             <!-- Main accordion section -->
             <div class="flex-grow-1">
                 <h2 class="accordion-header"
                     data-bs-toggle="tooltip"
-                    data-bs-custom-class="custom-tooltip"
                     data-bs-placement="right"
                     title="${target.target_description}"
                     id="target-${target.id}">
@@ -547,16 +558,36 @@ function fetchTestTargets() {
                             <div class="spinner-border spinner-border-sm ms-auto" aria-hidden="true"></div>
                         </div>
                     </div>
+                    <!-- Action buttons for small screens, shown only when expanded -->
+                    <div class="d-flex d-xl-none gap-2 p-2 button-background w-100 border-top mt-2">
+                        <div class="w-100 d-flex justify-content-end gap-2">
+                            <button class="btn btn-sm edit-target-button-${target.id} w-50 d-flex align-items-center justify-content-center gap-2"
+                                onclick="editEntity('target', ${target.id})">
+                                Edit Target <span class="d-xxs-none"><i class="bi bi-pencil"></i></span>
+                            </button>
+                            <button class="btn btn-sm w-50 d-flex align-items-center justify-content-center gap-2"
+                                onclick="deleteEntity('target', ${target.id}, 'target-${target.id}')">
+                                Delete Target <span class="d-xxs-none"><i class="bi bi-trash"></i></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Action buttons column -->
-            <div class="d-flex align-items-start gap-2 p-2 button-background" style="min-width: 90px;">
+
+            <!-- Action buttons for large screens -->
+            <div class="d-none d-xl-flex align-items-start gap-2 p-2 button-background" style="min-width: 90px;">
                 <button class="btn btn-sm edit-target-button-${target.id}"
-                    onclick="editEntity('target', ${target.id})">
+                    onclick="editEntity('target', ${target.id})"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Edit Target">
                     <i class="bi bi-pencil"></i>
                 </button>
                 <button class="btn btn-sm"
-                    onclick="deleteEntity('target', ${target.id}, 'target-${target.id}')">
+                    onclick="deleteEntity('target', ${target.id}, 'target-${target.id}')"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Delete Target">
                     <i class="bi bi-trash"></i>
                 </button>
             </div>
@@ -567,12 +598,37 @@ function fetchTestTargets() {
       // After rendering the target list
       targetListElement.innerHTML = targetList;
 
-      // Attach event listeners to load vulnerabilities when a target is expanded
+      // Initialize tooltips
+      const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltips.forEach((tooltip) => {
+        new bootstrap.Tooltip(tooltip, {
+          delay: { show: 500, hide: 200 },
+          trigger: "hover",
+        });
+      });
+
+      // Attach event listeners for collapse and active states
       data.targets.forEach((target) => {
         const collapseEl = document.getElementById(`collapse-${target.id}`);
         if (collapseEl) {
+          // Load vulnerabilities when expanded
           collapseEl.addEventListener("show.bs.collapse", function () {
+            const button =
+              this.previousElementSibling.querySelector(".accordion-button");
+            // Remove active from all other buttons
+            document.querySelectorAll(".accordion-button").forEach((btn) => {
+              if (btn !== button) btn.classList.remove("active");
+            });
+            // Add active to this button
+            button.classList.add("active");
             fetchVulnerabilities(target.id);
+          });
+
+          // Remove active state when collapsed
+          collapseEl.addEventListener("hide.bs.collapse", function () {
+            this.previousElementSibling
+              .querySelector(".accordion-button")
+              .classList.remove("active");
           });
         }
       });
@@ -709,6 +765,10 @@ function addNewVulnerability(targetId) {
  * @param {string} targetId The ID of the target to fetch vulnerabilities for
  */
 function fetchVulnerabilities(targetId) {
+  let vulnerabilityList = "";
+  const vulnerabilitiesElement = document.getElementById(
+    `vulnerabilities-${targetId}`
+  );
   fetch(`/api/get-all-vulnerabilities?target_id=${targetId}`)
     .then((response) => {
       if (!response.ok) {
@@ -718,53 +778,76 @@ function fetchVulnerabilities(targetId) {
       return response.json();
     })
     .then((data) => {
-      const vulnerabilitiesElement = document.getElementById(
-        `vulnerabilities-${targetId}`
-      );
       if (!data || !data.vulnerabilities || data.vulnerabilities.length === 0) {
         vulnerabilitiesElement.innerHTML = "<p>No vulnerabilities found.</p>";
         return;
       }
-      let vulnerabilityList = "";
       for (let vulnerability of data.vulnerabilities) {
         vulnerabilityList += `
-        <div class="d-flex border-bottom">
-            <div class="flex-grow-1 p-2">
-                <p class="m-0 ps-2 text-nowrap text-truncate">
-                    ${vulnerability.affected_entity}
-                </p>
-                <p class="m-0 ps-2 small text-muted">
-                    ${vulnerability.vulnerabilities_description}
-                </p>
-            </div>
-            <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
-                <button class="btn btn-sm"
+        <div class="vulnerability-item border-bottom" data-vulnerability-id="${vulnerability.id}">
+            <!-- Action buttons for small/medium screens -->
+            <div class="d-flex d-xl-none gap-2 p-2 button-background w-100 border-bottom">
+                <button class="btn btn-sm w-50 d-flex align-items-center justify-content-center gap-2"
                     onclick="editEntity('vulnerability', ${vulnerability.id})">
-                    Edit
-                    <i class="bi bi-pencil"></i>
+                    <span class="d-none d-md-inline">Edit Vulnerability</span> <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn btn-sm"
+                <button class="btn btn-sm w-50 d-flex align-items-center justify-content-center gap-2"
                     onclick="deleteEntity('vulnerability', ${vulnerability.id}, 'vuln-${vulnerability.id}')">
-                    Delete
-                    <i class="bi bi-trash"></i>
+                    <span class="d-none d-md-inline">Delete Vulnerability</span> <i class="bi bi-trash"></i>
                 </button>
+            </div>
+
+            <!-- Vulnerability content -->
+            <div class="d-flex vulnerability-content" role="button" onclick="editEntity('vulnerability', ${vulnerability.id})">
+                <div class="flex-grow-1 p-2">
+                    <p class="m-0 ps-2 text-nowrap text-truncate">
+                        ${vulnerability.affected_entity}
+                    </p>
+                    <p class="m-0 ps-2 small text-muted">
+                        ${vulnerability.vulnerabilities_description}
+                    </p>
+                </div>
+                <!-- Action buttons for large screens -->
+                <div class="d-none d-xl-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
+                    <button class="btn btn-sm"
+                        onclick="event.stopPropagation(); editEntity('vulnerability', ${vulnerability.id})"
+                        title="Edit Vulnerability">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm"
+                        onclick="event.stopPropagation(); deleteEntity('vulnerability', ${vulnerability.id}, 'vuln-${vulnerability.id}')"
+                        title="Delete Vulnerability">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>`;
       }
-
+    })
+    .finally(() => {
       // Add vulnerability button at the bottom
       vulnerabilityList += `
-    <div class="d-flex">
-        <div class="flex-grow-1"></div>
-        <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
-            <button class="btn btn-sm w-100" onclick="addNewVulnerability(${targetId})">
-                Add Vulnerability
-                <i class="bi bi-plus-lg"></i>
-            </button>
-        </div>
-    </div>`;
+      <div class="d-flex">
+          <div class="flex-grow-1"></div>
+          <div class="d-flex align-items-center gap-2 p-2 border-start" style="min-width: 90px;">
+              <button class="btn btn-sm w-100" onclick="addNewVulnerability(${targetId})">
+                  Add Vulnerability
+                  <span class="d-xxs-none"><i class="bi bi-trash"></i></span>
+              </button>
+          </div>
+      </div>`;
 
       vulnerabilitiesElement.innerHTML = vulnerabilityList;
+
+      // Restore active state for currently edited vulnerability (if any)
+      if (window.currentEditingVulnerabilityId) {
+        const vulnItem = document.querySelector(
+          `.vulnerability-item[data-vulnerability-id="${window.currentEditingVulnerabilityId}"]`
+        );
+        if (vulnItem) {
+          vulnItem.classList.add("active");
+        }
+      }
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);

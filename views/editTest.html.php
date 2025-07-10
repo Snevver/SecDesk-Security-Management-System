@@ -18,7 +18,7 @@
 <body class="p-0 m-0 vh-100 d-flex flex-column overflow-hidden">
     <!-- HEADER -->
     <header id="mainHeader" class="d-flex align-items-center justify-content-start justify-content-sm-start">
-        <div class="d-flex flex-nowrap justify-content-between align-items-center text-center h-100 w-100">
+        <div class="d-flex flex-nowrap justify-content-center justify-content-md-between align-items-center text-center h-100 w-100">
             <!-- Logo -->
             <div class="d-none d-md-block">
                 <img src="images/secdesk-logo.webp" alt="SecDesk Logo" class="logo p-0 w-auto">
@@ -26,14 +26,14 @@
 
             <!-- Title -->
             <div class="h-100 d-flex align-items-center">
-                <h1 class="fs-2 m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
-                <span>Security Management System</span>
-            </h1>
+                <h1 class="m-0 d-none d-lg-flex text-center h-100 d-flex align-items-center">
+                    <span>Security Management System</span>
+                </h1>
 
-            <img src="images/sms-simple.webp" alt="SecDesk Logo" class="img-fluid d-lg-none" style="max-height: 60px;">
-        </div>
+                <img src="images/sms-simple.webp" alt="SecDesk Logo" class="h-100 img-fluid d-lg-none pt-2 pb-2">
+            </div>
 
-        <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
+            <div class="d-none d-md-block" style="min-width: 101.4px;"></div>
         </div>
     </header>
 
@@ -78,22 +78,37 @@
             <!-- Targetlist -->
             <div id="targetSidebarDesktop" class="targetSidebar ms-1 d-flex flex-column">
                 <div id="targetAccordionDesktop" class="accordion accordion-flush p-0 m-0 target-list flex-grow-1 overflow-auto"></div>
-                <div class="form-submit-footer border-top p-2 d-flex justify-content-end">
+                    <div class="form-submit-footer border-top p-2 d-flex flex-sm-row flex-column gap-2 justify-content-end">
 
-                <!-- Add Target Button -->
-                <button class="btn me-3" id="add-target-btn">
-                    <i class="bi bi-plus-circle"></i> Add Target
-                </button>
-                <!-- Edit Test Detail Button -->
-                <button class="btn" id="edit-test-detail-button">
-                    Edit Test Detail
-                </button>
-            </div>
-        </div>
+                        <!-- Add Target Button -->
+                        <button class="btn btn-sm btn-sm-block w-100 w-sm-auto" id="add-target-btn">
+                            <i class="bi bi-plus-circle pe-1"></i><span class="d-none d-sm-inline">Add Target</span><span class="d-sm-none">Target</span>
+                        </button>
+                        <!-- Edit Test Detail Button -->
+                        <button class="btn btn-sm btn-sm-block w-100 w-sm-auto" id="edit-test-detail-button">
+                            <i class="bi bi-file-earmark-text pe-1"></i><span class="d-none d-sm-inline">Edit Test Detail</span><span class="d-sm-none">Details</span>
+                        </button>
+                    </div>
+                </div>
 
-            <!-- Edit section -->
-            <div id="editSection" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto rounded">
-                <div class="d-flex flex-column h-100 w-100 flex-grow-1">
+                <!-- Edit section -->
+                <div id="editSection" class="h-100 d-flex w-100 ms-1 me-0 flex-grow-1 overflow-auto rounded">
+                    <div class="d-flex flex-column h-100 w-100 flex-grow-1">
+
+                    <!-- <div id="editSectionPlaceholder" class="placeholder-container d-flex flex-column justify-content-center align-items-center h-100 w-100 flex-grow-1">
+                        <img src="images/contentcard-dashboard-grey.webp" alt="Dashboard" class="mb-4" style="max-width: 220px;">
+
+                        <svg width="64" height="64" fill="none" class="mb-3" viewBox="0 0 64 64">
+                        <path d="M48 32H16M32 48L16 32l16-16" stroke="#6862ea" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+                        <div class="text-center">
+                            <h4 class="fw-bold mb-2" style="color: #6862ea;">No Vulnerability Selected</h4>
+                            <p class="lead mb-0" style="max-width: 400px;">
+                            To see vulnerability details, first <span class="fw-semibold">click on a target</span> and then <span class="fw-semibold">select a vulnerability</span> from the list.
+                            </p>
+                        </div>
+                    </div> -->
 
                     <div class="pt-2 ps-2 pe-2" id="form-container">
                         <!-- Test Detail form -->
@@ -101,15 +116,15 @@
                             <div class="divTable modern-table rounded shadow-sm mb-4">
                                 <div class="divTableBody">
                                     <div class="divTableRow">
-                                        <div class="divTableCell py-2 px-2"><strong>Title:</strong></div>
+                                        <div class="divTableCell py-2 px-2"><strong>Test title:</strong></div>
                                         <div class="divTableCell py-2 px-2">
                                             <input class="w-100" type="text" id="test-title-input" name="test-title" value="Loading..." required>
                                         </div>
                                     </div>
                                     <div class="divTableRow">
-                                        <div class="divTableCell py-2 px-2"><strong>Description:</strong></div>
+                                        <div class="divTableCell py-2 px-2"><strong>Test description:</strong></div>
                                         <div class="divTableCell py-2 px-2">
-                                            <input class="w-100" type="text" id="test-description-input" name="test-description" value="Loading..." required>
+                                            <textarea class="w-100" rows="4" type="text" id="test-description-input" name="test-description" value="Loading..." required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -124,15 +139,15 @@
                             <div class="divTable modern-table rounded shadow-sm mb-4">
                                 <div class="divTableBody">
                                     <div class="divTableRow">
-                                        <div class="divTableCell py-2 px-2"><strong>Title:</strong></div>
+                                        <div class="divTableCell py-2 px-2"><strong>Target title:</strong></div>
                                         <div class="divTableCell py-2 px-2">
-                                            <input type="text" id="target-title-input" name="target-title" value="Loading..." required>
+                                            <input class="w-100" type="text" id="target-title-input" name="target-title" value="Loading..." required>
                                         </div>
                                     </div>
                                     <div class="divTableRow">
-                                        <div class="divTableCell py-2 px-2"><strong>Description:</strong></div>
+                                        <div class="divTableCell py-2 px-2"><strong>Target description:</strong></div>
                                         <div class="divTableCell py-2 px-2">
-                                            <input type="text" id="target-description-input" name="target-description" value="Loading..." required>
+                                            <textarea class="w-100" rows="4" type="text" id="target-description-input" name="target-description" value="Loading..." required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -252,11 +267,6 @@
                             <div class="mt-3">
                                 <label for="vulnerability-response-input"><strong>Response:</strong></label>
                                 <textarea class="form-control" id="vulnerability-response-input" name="vulnerability-response" rows="2"></textarea>
-                            </div>
-
-                            <div class="mt-3 mb-3">
-                                <label for="vulnerability-solved-input"><strong>Solved?</strong></label>
-                                <input type="checkbox" id="vulnerability-solved-input" name="vulnerability-solved">
                             </div>
 
                             <div class="form-submit-footer position-sticky bottom-0 bg-white border-top p-2 d-flex justify-content-end">
