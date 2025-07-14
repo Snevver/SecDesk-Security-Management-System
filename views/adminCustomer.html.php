@@ -110,6 +110,9 @@
                                                             <small>Customer ID: <span id="customer-id">-</span> |
                                                             Joined: <span id="customer-joined">-</span></small>
                                                         </p>
+                                                        <button class="btn btn-danger me-2" onclick="deleteCustomer()">
+                                                            <i class="bi bi-trash"></i> Delete Customer
+                                                        </button>
                                                     </div>
                                                     <div class="col-md-4 col-sm-5 col-12">
                                                         <div class="row text-center">
